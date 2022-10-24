@@ -107,6 +107,9 @@
     <ClCompile Include="debug_proc.cpp">
       <Filter>Main\Application</Filter>
     </ClCompile>
+    <ClCompile Include="meshfield.cpp">
+      <Filter>Main\Object\Mesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h">
@@ -177,6 +180,9 @@
     </ClInclude>
     <ClInclude Include="debug_proc.h">
       <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="meshfield.h">
+      <Filter>Main\Object\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

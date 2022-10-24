@@ -17,6 +17,7 @@
 #include "input_joypad.h"
 #include "sound.h"
 #include "player.h"
+#include "meshfield.h"
 #include "debug_proc.h"
 
 //------------------------
@@ -49,6 +50,8 @@ CGame::~CGame()
 HRESULT CGame::Init()
 {
 	pPlayer = CPlayer::Create();
+
+	pMeshField = CMeshField::Create();
 
 	return S_OK;
 }
