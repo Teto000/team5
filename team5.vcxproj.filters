@@ -1,17 +1,182 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ソース ファイル">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="リソース ファイル">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Main\Application">
+      <UniqueIdentifier>{b494ee58-c02c-4844-a21c-89a6c7ec4724}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Application\Scene">
+      <UniqueIdentifier>{57dfd659-9714-45b8-8494-ee606ac9f018}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Application\Input">
+      <UniqueIdentifier>{451ba86c-1d68-41e7-9dbd-f017c6155cab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object">
+      <UniqueIdentifier>{3838a7b7-1c17-47ed-96bf-d5ba85021346}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object\Object2D">
+      <UniqueIdentifier>{e12c788f-2069-45f7-bcac-b96db0d8976a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object\Object3D">
+      <UniqueIdentifier>{cfe76b93-09b4-4d81-8c09-785eec0c951b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object\ObjectX">
+      <UniqueIdentifier>{6efa2a57-ed82-4675-a3c3-7267c7db9c47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object\Billboard">
+      <UniqueIdentifier>{96d49455-d266-495c-872f-ff51b40a7fb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object\Mesh">
+      <UniqueIdentifier>{77ef4761-1324-42c7-adec-1ca091daa026}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="application.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="billboard.cpp">
+      <Filter>Main\Object\Billboard</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="fade.cpp">
+      <Filter>Main\Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>Main\Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>Main\Application\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="input_joypad.cpp">
+      <Filter>Main\Application\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="input_keybord.cpp">
+      <Filter>Main\Application\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="light.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh.cpp">
+      <Filter>Main\Object\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="model.cpp">
+      <Filter>Main\Object\ObjectX</Filter>
+    </ClCompile>
+    <ClCompile Include="object.cpp">
+      <Filter>Main\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="object2D.cpp">
+      <Filter>Main\Object\Object2D</Filter>
+    </ClCompile>
+    <ClCompile Include="object3d.cpp">
+      <Filter>Main\Object\Object3D</Filter>
+    </ClCompile>
+    <ClCompile Include="objectX.cpp">
+      <Filter>Main\Object\ObjectX</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="result.cpp">
+      <Filter>Main\Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="sound.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="texture.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="title.cpp">
+      <Filter>Main\Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Main\Object\ObjectX</Filter>
+    </ClCompile>
+    <ClCompile Include="debug_proc.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="application.h">
+      <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="billboard.h">
+      <Filter>Main\Object\Billboard</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="fade.h">
+      <Filter>Main\Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>Main\Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>Main\Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="input_joypad.h">
+      <Filter>Main\Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="input_keybord.h">
+      <Filter>Main\Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh.h">
+      <Filter>Main\Object\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="model.h">
+      <Filter>Main\Object\ObjectX</Filter>
+    </ClInclude>
+    <ClInclude Include="object.h">
+      <Filter>Main\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="object2D.h">
+      <Filter>Main\Object\Object2D</Filter>
+    </ClInclude>
+    <ClInclude Include="object3d.h">
+      <Filter>Main\Object\Object3D</Filter>
+    </ClInclude>
+    <ClInclude Include="objectX.h">
+      <Filter>Main\Object\ObjectX</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer.h">
+      <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="result.h">
+      <Filter>Main\Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="sound.h">
+      <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="title.h">
+      <Filter>Main\Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Main\Object\ObjectX</Filter>
+    </ClInclude>
+    <ClInclude Include="debug_proc.h">
+      <Filter>Main\Application</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
