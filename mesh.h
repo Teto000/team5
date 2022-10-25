@@ -31,7 +31,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
-	void CollisionMesh();	//メッシュフィールドの当たり判定
+	//void CollisionMesh();	//メッシュフィールドの当たり判定
+	bool Collision(D3DXVECTOR3 *pos);		//メッシュフィールドの当たり判定
 
 	void SetMeshSize(int nDivision, float fWidth);	//最大幅の設定
 	void SetTexture(CTexture::TEXTURE texture);		//テクスチャの設定
@@ -45,6 +46,7 @@ public:
 
 private:
 	void SetVtxNor(VERTEX_3D* pVtx, WORD* pIdx);	//頂点の法線を設定
+	D3DXVECTOR3	WorldCastVtx(D3DXVECTOR3 vtx, D3DXVECTOR3 FormerPos, D3DXVECTOR3 FormerRot);	//ワールド座標の変換
 
 private:
 	//------------------

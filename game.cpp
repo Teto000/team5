@@ -25,7 +25,7 @@
 //------------------------
 CPolygon* CGame::pPolygon = nullptr;
 CPolygon2d* CGame::pPolygon2d = nullptr;
-CPlayer*  CGame::pPlayer = nullptr;
+CPlayer*  CGame::pPlayer[MAX_PLAYER] = {};
 CMeshField* CGame::pMeshField = nullptr;
 
 //===========================
@@ -49,8 +49,10 @@ CGame::~CGame()
 //===========================
 HRESULT CGame::Init()
 {
-	pPlayer = CPlayer::Create(0);
-
+	for (int nCnt = 0; nCnt < MAX_PLAYER; nCnt++)
+	{
+		pPlayer[nCnt] = CPlayer::Create(nCnt);
+	}
 	pMeshField = CMeshField::Create();
 
 	return S_OK;
@@ -75,7 +77,7 @@ void CGame::Update()
 //===========================
 // ƒvƒŒƒCƒ„[‚ÌŽæ“¾
 //===========================
-CPlayer* CGame::GetPlayer()
+CPlayer* CGame::GetPlayer(int NumPlayer)
 {
-	return pPlayer;
+	return pPlayer[NumPlayer];
 }

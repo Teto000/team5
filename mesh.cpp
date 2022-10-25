@@ -198,10 +198,10 @@ void CMesh::Uninit()
 //=======================
 void CMesh::Update()
 {
-	//-------------------------
-	// メッシュの当たり判定
-	//-------------------------
-	CollisionMesh();
+	////-------------------------
+	//// メッシュの当たり判定
+	////-------------------------
+	//CollisionMesh();
 }
 
 //=======================
@@ -263,110 +263,193 @@ void CMesh::Draw()
 	pDevice->SetTexture(0, NULL);
 }
 
-//==================================
-// メッシュフィールドの当たり判定
-//==================================
-void CMesh::CollisionMesh()
-{
+////==================================
+//// メッシュフィールドの当たり判定
+////==================================
+//void CMesh::CollisionMesh()
+//{
+//	bool bCollison = false;
+//	//インデックスバッファのロック
+//	WORD* pIdx;
+//	m_pIdxBuff->Lock(0, 0, (void**)&pIdx, 0);
+//
+//	//頂点バッファをロックし、頂点情報へのポインタを取得
+//	VERTEX_3D*pVtx;
+//	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+//
+//	//--------------------------
+//	// 頂点の位置を取得
+//	//--------------------------
+//	for (int nCnt = 0; nCnt < m_nNumIndex; nCnt++)
+//	{//インデックス数分回す
+//		m_VtxPos[nCnt] = pVtx[pIdx[nCnt]].pos;
+//	}
+//
+//	//--------------------------
+//	// 色の初期化
+//	//--------------------------
+//	for (int nCnt = 0; nCnt < m_nNumVtx; nCnt++)
+//	{//頂点数分回す
+//		//通常の色にする
+//		pVtx[nCnt].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+//	}
+//
+//	for (int nNumIdx = 0; nNumIdx < (m_nNumIndex - 2); nNumIdx++)
+//	{
+//		//ポリゴンの頂点の位置を取得
+//		D3DXVECTOR3 P1 = m_VtxPos[nNumIdx + 0];
+//		D3DXVECTOR3 P2 = m_VtxPos[nNumIdx + 1];
+//		D3DXVECTOR3 P3 = m_VtxPos[nNumIdx + 2];
+//
+//		//縮退ポリゴンの除外
+//		if (P1 == P2 || P2 == P3 || P3 == P1)
+//		{
+//			nNumIdx++;
+//			continue;
+//		}
+//
+//		//ポリゴンの頂点同士のベクトルの計算
+//		D3DXVECTOR3 vecA = P2 - P1;
+//		D3DXVECTOR3 vecB = P3 - P2;
+//		D3DXVECTOR3 vecC = P1 - P3;
+//
+//		//------------------------------------
+//		// プレイヤーがいるポリゴンを求める
+//		//------------------------------------
+//		//プレイヤーの位置を取得
+//		D3DXVECTOR3 playerPos = CGame::GetPlayer()->GetPosition();
+//
+//		//プレイヤーと頂点のベクトルの計算
+//		D3DXVECTOR3 vec1 = playerPos - P1;
+//		D3DXVECTOR3 vec2 = playerPos - P2;
+//		D3DXVECTOR3 vec3 = playerPos - P3;
+//
+//		//外積計算の式変数
+//		float a = vecA.x * vec1.z - vecA.z * vec1.x;
+//		float b = vecB.x * vec2.z - vecB.z * vec2.x;
+//		float c = vecC.x * vec3.z - vecC.z * vec3.x;
+//
+//		//外積計算(2次元)
+//		if ((a * b >= 0) && (b * c >= 0) && (c * a >= 0))
+//		{//3つのベクトルの内側にある(外積が全て+)なら
+//			//赤色にする
+//			/*pVtx[pIdx[nNumIdx + 0]].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+//			pVtx[pIdx[nNumIdx + 1]].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+//			pVtx[pIdx[nNumIdx + 2]].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);*/
+//
+//			//-------------------------
+//			// 面法線ベクトルを計算
+//			//-------------------------
+//			D3DXVECTOR3 V1 = P2 - P1;
+//			D3DXVECTOR3 V2 = P3 - P2;
+//
+//			//外積計算(3次元)
+//			D3DXVec3Cross(&m_Normal, &V1, &V2);
+//
+//			//ベクトルの正規化
+//			D3DXVec3Normalize(&m_Normal, &m_Normal);
+//
+//			//-----------------------------
+//			// プレイヤーのY座標を求める
+//			//-----------------------------
+//			playerPos.y = P1.y - ((playerPos.x - P1.x) * m_Normal.x
+//						   + (playerPos.z - P1.z) * m_Normal.z)
+//						   / m_Normal.y;
+//
+//			//プレイヤーの位置の設定
+//			CGame::GetPlayer()->SetPosition(playerPos);
+//			CGame::GetPlayer()->SetGravity();
+//		}
+//	}
+//
+//	//インデックスバッファのアンロック
+//	m_pIdxBuff->Unlock();
+//
+//	//頂点バッファをアンロックする
+//	m_pVtxBuff->Unlock();
+//}
+
+//=========================================
+//オブジェクトの判定処理
+//=========================================
+bool CMesh::Collision(D3DXVECTOR3 *pos)
+{// 当たり判定
 	bool bCollison = false;
+
+	// 頂点情報の取得
+	VERTEX_3D *pVtx = NULL;
+
 	//インデックスバッファのロック
 	WORD* pIdx;
 	m_pIdxBuff->Lock(0, 0, (void**)&pIdx, 0);
 
 	//頂点バッファをロックし、頂点情報へのポインタを取得
-	VERTEX_3D*pVtx;
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	//--------------------------
-	// 頂点の位置を取得
-	//--------------------------
-	for (int nCnt = 0; nCnt < m_nNumIndex; nCnt++)
-	{//インデックス数分回す
-		m_VtxPos[nCnt] = pVtx[pIdx[nCnt]].pos;
-	}
+	// ターゲット情報の宣言
+	D3DXVECTOR3 posTarget = *pos;
 
-	//--------------------------
-	// 色の初期化
-	//--------------------------
-	for (int nCnt = 0; nCnt < m_nNumVtx; nCnt++)
-	{//頂点数分回す
-		//通常の色にする
-		pVtx[nCnt].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	}
-
-	//------------------------------------
-	// プレイヤーがいるポリゴンを求める
-	//------------------------------------
-	//プレイヤーの位置を取得
-	D3DXVECTOR3 playerPos = CGame::GetPlayer()->GetPosition();
-
-	for (int nNumIdx = 0; nNumIdx < (m_nNumIndex - 2); nNumIdx++)
+	for (int nCntPolygon = 0; nCntPolygon < m_nNumPolygon; nCntPolygon++)
 	{
-		//ポリゴンの頂点の位置を取得
-		D3DXVECTOR3 P1 = m_VtxPos[nNumIdx + 0];
-		D3DXVECTOR3 P2 = m_VtxPos[nNumIdx + 1];
-		D3DXVECTOR3 P3 = m_VtxPos[nNumIdx + 2];
+		// 変数宣言
+		D3DXVECTOR3 V1 = pVtx[pIdx[nCntPolygon]].pos;
+		D3DXVECTOR3 V2 = pVtx[pIdx[nCntPolygon + 1]].pos;
+		D3DXVECTOR3 V3 = pVtx[pIdx[nCntPolygon + 2]].pos;
 
-		//縮退ポリゴンの除外
-		if (P1 == P2 || P2 == P3 || P3 == P1)
-		{
-			nNumIdx++;
+		V1 = WorldCastVtx(V1, m_pos, m_rot);
+		V2 = WorldCastVtx(V2, m_pos, m_rot);
+		V3 = WorldCastVtx(V3, m_pos, m_rot);
+
+		if (V1 == V2
+			|| V1 == V3
+			|| V2 == V3)
+		{// 縮退ポリゴンの場合
 			continue;
 		}
 
-		//ポリゴンの頂点同士のベクトルの計算
-		D3DXVECTOR3 vecA = P2 - P1;
-		D3DXVECTOR3 vecB = P3 - P2;
-		D3DXVECTOR3 vecC = P1 - P3;
+		// ポリゴンの辺ベクトル
+		D3DXVECTOR3 P1 = V2 - V1;
+		D3DXVECTOR3 P2 = V3 - V2;
+		D3DXVECTOR3 P3 = V1 - V3;
 
-		//プレイヤーと頂点のベクトルの計算
-		D3DXVECTOR3 vec1 = playerPos - P1;
-		D3DXVECTOR3 vec2 = playerPos - P2;
-		D3DXVECTOR3 vec3 = playerPos - P3;
+		// 頂点とターゲットのベクトル
+		D3DXVECTOR3 VecA = posTarget - V1;
+		D3DXVECTOR3 VecB = posTarget - V2;
+		D3DXVECTOR3 VecC = posTarget - V3;
 
-		//外積計算の式変数
-		float a = vecA.x * vec1.z - vecA.z * vec1.x;
-		float b = vecB.x * vec2.z - vecB.z * vec2.x;
-		float c = vecC.x * vec3.z - vecC.z * vec3.x;
+		// 比較演算用の変数の定義と代入
+		float fA = (P1.x * VecA.z) - (P1.z * VecA.x);
+		float fB = (P2.x * VecB.z) - (P2.z * VecB.x);
+		float fC = (P3.x * VecC.z) - (P3.z * VecC.x);
 
-		//外積計算(2次元)
-		if ((a * b >= 0) && (b * c >= 0) && (c * a >= 0))
-		{//3つのベクトルの内側にある(外積が全て+)なら
-			//赤色にする
-			/*pVtx[pIdx[nNumIdx + 0]].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
-			pVtx[pIdx[nNumIdx + 1]].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
-			pVtx[pIdx[nNumIdx + 2]].col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);*/
+		if ((0.0f <= fA && 0.0f <= fB && 0.0f <= fC)
+			|| (0.0f >= fA && 0.0f >= fB && 0.0f >= fC))
+		{// 判定の設定
+			bCollison = true;
 
-			//-------------------------
-			// 面法線ベクトルを計算
-			//-------------------------
-			D3DXVECTOR3 V1 = P2 - P1;
-			D3DXVECTOR3 V2 = P3 - P2;
+			// 面法線ベクトル
+			D3DXVECTOR3 norVec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-			//外積計算(3次元)
-			D3DXVec3Cross(&m_Normal, &V1, &V2);
+			// 面法線ベクトル
+			D3DXVec3Cross(&norVec, &P1, &P2);
 
-			//ベクトルの正規化
-			D3DXVec3Normalize(&m_Normal, &m_Normal);
+			//正規化
+			D3DXVec3Normalize(&norVec, &norVec);
 
-			//-----------------------------
-			// プレイヤーのY座標を求める
-			//-----------------------------
-			playerPos.y = P1.y - ((playerPos.x - P1.x) * m_Normal.x
-						   + (playerPos.z - P1.z) * m_Normal.z)
-						   / m_Normal.y;
+			// 位置の設定
+			pos->y = V1.y - ((posTarget.x - V1.x) * norVec.x + (posTarget.z - V1.z) * norVec.z) / norVec.y;
 
-			//プレイヤーの位置の設定
-			CGame::GetPlayer()->SetPosition(playerPos);
-			CGame::GetPlayer()->SetGravity();
+			break;
 		}
 	}
 
-	//インデックスバッファのアンロック
+	// インデックスバッファのアンロック
 	m_pIdxBuff->Unlock();
 
-	//頂点バッファをアンロックする
+	// 頂点バッファのアンロック
 	m_pVtxBuff->Unlock();
+
+	return bCollison;
 }
 
 //===========================
@@ -484,4 +567,38 @@ float CMesh::GetWidth()
 float CMesh::GetHeight()
 {
 	return 0.0f;
+}
+
+//=============================================================================
+// ワールド座標へのキャスト処理
+// 概要 : pos,rotの行列計算を行い、ローカル座標をワールド座標に変換する
+//=============================================================================
+D3DXVECTOR3	CMesh::WorldCastVtx(D3DXVECTOR3 vtx, D3DXVECTOR3 FormerPos, D3DXVECTOR3 FormerRot)
+{
+	// 変数宣言
+	D3DXMATRIX		mtxWorldVtx;				// ワールドマトリックス
+	D3DXMATRIX		mtxRot, mtxTrans;			// 計算用マトリックス
+
+	// ワールドマトリックスの初期化
+	// 行列初期化関数(第一引数の[行列]を[単位行列]に初期化)
+	D3DXMatrixIdentity(&mtxWorldVtx);
+
+	// 位置を反映
+	// 行列移動関数 (第一引数にX,Y,Z方向の移動行列を作成)
+	D3DXMatrixTranslation(&mtxTrans, vtx.x, vtx.y, vtx.z);
+	D3DXMatrixMultiply(&mtxWorldVtx, &mtxWorldVtx, &mtxTrans);		// 行列掛け算関数
+
+	// 向きの反映
+	// 行列回転関数 (第一引数に[ヨー(y)ピッチ(x)ロール(z)]方向の回転行列を作成)
+	D3DXMatrixRotationYawPitchRoll(&mtxRot, FormerRot.y, FormerRot.x, FormerRot.z);
+
+	// 行列掛け算関数 (第二引数 * 第三引数を第一引数に格納)
+	D3DXMatrixMultiply(&mtxWorldVtx, &mtxWorldVtx, &mtxRot);
+
+	// 位置を反映
+	// 行列移動関数 (第一引数にX,Y,Z方向の移動行列を作成)
+	D3DXMatrixTranslation(&mtxTrans, FormerPos.x, FormerPos.y, FormerPos.z);
+	D3DXMatrixMultiply(&mtxWorldVtx, &mtxWorldVtx, &mtxTrans);		// 行列掛け算関数
+
+	return D3DXVECTOR3(mtxWorldVtx._41, mtxWorldVtx._42, mtxWorldVtx._43);
 }
