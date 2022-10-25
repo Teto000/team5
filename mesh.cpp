@@ -113,8 +113,8 @@ HRESULT CMesh::Init(D3DXVECTOR3 pos)
 				//ランダムな位置の設定
 				int nRand = rand() % 80;
 
-				D3DXVECTOR3 pos(-(m_fMaxWidth / 2) + (m_fMeshWidth * x), (float)nRand, (m_fMaxWidth / 2) - (m_fMeshWidth * z));
-				pVtx[x + (z * (m_nCntVtx))].pos = pos;
+				D3DXVECTOR3 vtxpos(-(m_fMaxWidth / 2) + (m_fMeshWidth * x), (float)nRand, (m_fMaxWidth / 2) - (m_fMeshWidth * z));
+				pVtx[x + (z * (m_nCntVtx))].pos = vtxpos;
 			}
 
 			//各頂点の法線の設定(※ベクトルの大きさは必ず1にする必要がある)
