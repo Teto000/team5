@@ -16,6 +16,7 @@
 #include "application.h"
 #include "sound.h"
 #include "game.h"
+#include "fade.h"
 
 //===========================
 // コンストラクタ
@@ -38,6 +39,7 @@ CTitle::~CTitle()
 //===========================
 HRESULT CTitle::Init()
 {
+
 	return S_OK;
 }
 
@@ -54,5 +56,9 @@ void CTitle::Uninit()
 //===========================
 void CTitle::Update()
 {
-	
+	if (CInputKeyboard::Trigger(DIK_RETURN) == true && CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
+	{
+		CApplication::GetFade()->SetFade(CApplication::MODE_GAME);
+		//CApplication::SetMode(CApplication::MODE_GAME);
+	}
 }

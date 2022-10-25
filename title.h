@@ -27,6 +27,7 @@ public:
 	HRESULT Init();
 	void Uninit();
 	void Update();
+
 };
 
 #endif
