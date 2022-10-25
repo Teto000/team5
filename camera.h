@@ -51,7 +51,7 @@ private:
 	//------------------
 	// 定数
 	//------------------
-	static const int nMaxCamera = 2;	//カメラの最大数
+	static const int nMaxCamera = 4;	//カメラの最大数
 	static const float fTurnSpeed;		//旋回速度
 	static const float fMoveSpeed;		//移動速度
 

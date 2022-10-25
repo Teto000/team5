@@ -84,7 +84,7 @@ private:
 	//-----------------
 	// ’è”
 	//-----------------
-	static const int nMaxCamera = 2;	//ƒJƒƒ‰‚ÌÅ‘å”
+	static const int nMaxCamera = 4;	//ƒJƒƒ‰‚ÌÅ‘å”
 
 	//-----------------
 	// ƒƒ“ƒo•Ï”

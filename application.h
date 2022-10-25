@@ -82,7 +82,7 @@ private:
 	//------------------
 	// 定数
 	//------------------
-	static const int nMaxCamera = 2;	//カメラの最大数
+	static const int nMaxCamera = 4;	//カメラの最大数
 
 	//------------------
 	// 静的メンバ変数

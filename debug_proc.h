@@ -32,7 +32,7 @@ public:
 	// Ã“Iƒƒ“ƒoŠÖ”
 	//------------------
 	static void Print(const char* pFormat, ...);
-	static void Draw(LPDIRECT3DDEVICE9 m_pD3DDevice);
+	static void Draw();
 
 private:
 	//------------------
