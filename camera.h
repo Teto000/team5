@@ -41,7 +41,6 @@ public:
 	// 静的メンバ関数
 	//------------------
 	static CCamera* Create(DWORD X, DWORD Y, DWORD Width, DWORD Height);
-	static const int GetMaxCamera();	//最大数の取得
 
 private:
 	void Turn();	//旋回
@@ -51,7 +50,6 @@ private:
 	//------------------
 	// 定数
 	//------------------
-	static const int nMaxCamera = 4;	//カメラの最大数
 	static const float fTurnSpeed;		//旋回速度
 	static const float fMoveSpeed;		//移動速度
 

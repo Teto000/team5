@@ -33,6 +33,8 @@ namespace
 const int SCREEN_WIDTH = 1280;
 // スクリーンの高さ
 const int SCREEN_HEIGHT = 720;
+//カメラの最大数
+const int MAX_CAMERA = 1;	//1か2か4にすること
 // 頂点フォーマット
 const DWORD FVF_VERTEX_2D = (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 const DWORD FVF_VERTEX_3D = (D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1);
@@ -82,11 +84,6 @@ private:
 
 private:
 	//-----------------
-	// 定数
-	//-----------------
-	static const int nMaxCamera = 4;	//カメラの最大数
-
-	//-----------------
 	// メンバ変数
 	//-----------------
 	LPDIRECT3D9 m_pD3D;					// Direct3Dオブジェクト
@@ -97,7 +94,7 @@ private:
 	//-------------------
 	// 静的メンバ変数
 	//-------------------
-	static CCamera*	m_pCamera[nMaxCamera];	//カメラクラス
+	static CCamera*	m_pCamera[MAX_CAMERA];	//カメラクラス
 };
 
 #endif // !_RENDERER_H_
