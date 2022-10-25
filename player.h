@@ -87,13 +87,15 @@ public:
 	//----------------
 	// 静的メンバ関数
 	//----------------
-	static CPlayer* Create();
+	static CPlayer* Create(int PlayerNum);
 
 private:
 	void SetModel();			//モデルの設定
 	void SetMotion(bool bLoop);	//モーションの設定
 	void Move();				//移動
 	void Jump();				//ジャンプ
+	void P1MoveKey();			//プレイヤー1のキー操作設定
+	void P2MoveKey();			//プレイヤー2のキー操作設定
 
 private:
 	//----------------
@@ -117,6 +119,9 @@ private:
 	int m_nCurrentKey;			//現在のキー番号
 	int m_nCntMotion;			//モーションカウンター
 	int m_nJumpCount;			//ジャンプカウント
+
+	/* ↓ プレイヤー管理情報 */
+	int m_nPlayerNum;			//プレイヤーの操作番号
 
 	/* ↓ クラス情報 ↓ */
 	static CShadow* m_pShadow;	//影
