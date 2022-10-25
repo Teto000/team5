@@ -373,11 +373,3 @@ D3DVIEWPORT9 CCamera::GetVieport()
 {
 	return m_viewport;
 }
-
-//========================
-// �ő吔�̎擾
-//========================
-const int CCamera::GetMaxCamera()
-{
-	return nMaxCamera;
-}

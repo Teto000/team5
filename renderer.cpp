@@ -24,7 +24,7 @@
 //-----------------------
 // 静的メンバ変数宣言
 //-----------------------
-CCamera* CRenderer::m_pCamera[nMaxCamera] = {};	//カメラ
+CCamera* CRenderer::m_pCamera[MAX_CAMERA] = {};	//カメラ
 
 //=========================
 // コンストラクタ
@@ -182,7 +182,7 @@ void CRenderer::Update()
 //=============================================================================
 void CRenderer::Draw()
 {
-	for (int i = 0; i < nMaxCamera; i++)
+	for (int i = 0; i < MAX_CAMERA; i++)
 	{
 		//カメラの取得
 		m_pCamera[i] = CApplication::GetCamera(i);

@@ -11,6 +11,7 @@
 // インクルード
 //------------------------------
 #include <d3dx9.h>
+#include "renderer.h"
 
 //------------------------------
 // 前方宣言
@@ -80,11 +81,6 @@ public:
 
 private:
 	//------------------
-	// 定数
-	//------------------
-	static const int nMaxCamera = 4;	//カメラの最大数
-
-	//------------------
 	// 静的メンバ変数
 	//------------------
 	static CGame*		m_pGame;		//ゲームクラス
@@ -99,7 +95,7 @@ private:
 	static CInput*		m_pInput;				//インプットクラス
 	static CTexture*	m_pTexture;				//テクスチャクラス
 	static CSound*		m_pSound;				//サウンドクラス
-	static CCamera*		m_pCamera[nMaxCamera];	//カメラクラス
+	static CCamera*		m_pCamera[MAX_CAMERA];	//カメラクラス
 	static CLight*		m_pLight;				//ライトクラス
 };
 
