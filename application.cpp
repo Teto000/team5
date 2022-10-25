@@ -123,8 +123,8 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//----------------------------
 
 	m_pFade = new CFade;
-	SetMode(MODE_TITLE);
-	m_pFade->Init(MODE_TITLE);
+	SetMode(MODE_GAME);
+	m_pFade->Init(MODE_GAME);
 	return S_OK;
 }
 
