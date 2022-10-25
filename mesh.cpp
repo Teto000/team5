@@ -268,6 +268,7 @@ void CMesh::Draw()
 //==================================
 void CMesh::CollisionMesh()
 {
+	bool bCollison = false;
 	//インデックスバッファのロック
 	WORD* pIdx;
 	m_pIdxBuff->Lock(0, 0, (void**)&pIdx, 0);
@@ -357,6 +358,7 @@ void CMesh::CollisionMesh()
 
 			//プレイヤーの位置の設定
 			CGame::GetPlayer()->SetPosition(playerPos);
+			CGame::GetPlayer()->SetGravity();
 		}
 	}
 
