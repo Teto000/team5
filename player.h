@@ -24,6 +24,7 @@ class CModel;	//モデル
 //--------------------------------
 #define MAX_PARTS	(7)		//モデルパーツの最大数
 #define MAX_KEY		(2)		//キーの最大数
+#define MAX_SPEED	(3.0f)	//最大速度
 
 //================================
 // プレイヤークラスの定義
@@ -49,6 +50,14 @@ public:
 		KEY aKey[MAX_PARTS];
 	};
 
+	//プレイヤーの状態
+	enum STATE
+	{
+		IDOL_STATE = 0,
+		JUMP_STATE,
+		MAX_STATE
+	};
+
 	CPlayer();				//コンストラクタ
 	~CPlayer() override;	//デストラクタ
 
@@ -64,6 +73,7 @@ public:
 	// セッター
 	//----------------
 	void SetPosition(D3DXVECTOR3 pos);
+	void SetGravity() { m_move.y = 0; }
 
 	//----------------
 	// ゲッター
@@ -83,12 +93,14 @@ private:
 	void SetModel();			//モデルの設定
 	void SetMotion(bool bLoop);	//モーションの設定
 	void Move();				//移動
+	void Jump();				//ジャンプ
 
 private:
 	//----------------
 	// 定数
 	//----------------
 	static const float fPlayerSpeed;	//プレイヤーの速度
+	static const float fGravity;		//重力
 
 	//----------------
 	// メンバ変数
@@ -98,10 +110,13 @@ private:
 	D3DXVECTOR3 m_move;			//移動量
 	D3DXVECTOR3 m_rot;			//向き
 	D3DXVECTOR3 m_rotDest;		//目的の向き
+	STATE		m_state;		//プレイヤーの状態
+	bool		m_bJump;		//ジャンプしたかしていないか
 
 	/* ↓ モーション情報 ↓ */
 	int m_nCurrentKey;			//現在のキー番号
 	int m_nCntMotion;			//モーションカウンター
+	int m_nJumpCount;			//ジャンプカウント
 
 	/* ↓ クラス情報 ↓ */
 	static CShadow* m_pShadow;	//影

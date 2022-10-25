@@ -55,14 +55,6 @@ void CCamera::Init(void)
 	//---------------------------------
 	m_posV = D3DXVECTOR3(0.0f, 200.0f, -400.0f);	//視点
 	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);			//上方向
-
-	//--------------------------
-	// ビューポート構成の保存
-	//--------------------------
-	m_viewport.X = 0;						//ビューポートの開始位置(X)
-	m_viewport.Y = 0;						//ビューポートの開始位置(Y)
-	m_viewport.Width = SCREEN_WIDTH / 2;	//ビューポートの幅
-	m_viewport.Height = SCREEN_HEIGHT;		//ビューポートの高さ
 	m_viewport.MinZ = 0.0f;
 	m_viewport.MaxZ = 1.0f;
 
@@ -163,10 +155,11 @@ void CCamera::SetCamera(LPDIRECT3DDEVICE9 pDevice)
 	pDevice->SetTransform(D3DTS_PROJECTION, &m_mtxProjection);
 }
 
-//========================
+//========================================
 // カメラの生成
-//========================
-CCamera* CCamera::Create()
+// (開始位置 X, 開始位置 Y, 幅, 高さ)
+//========================================
+CCamera* CCamera::Create(DWORD X, DWORD Y, DWORD Width, DWORD Height)
 {
 	CCamera *pCamera = nullptr;
 
@@ -177,6 +170,12 @@ CCamera* CCamera::Create()
 
 	if (pCamera != nullptr)
 	{//NULLチェック
+		//ビューポート構成の保存
+		pCamera->m_viewport.X = X;				//開始位置(X)
+		pCamera->m_viewport.Y = Y;				//開始位置(Y)
+		pCamera->m_viewport.Width = Width;		//幅
+		pCamera->m_viewport.Height = Height;	//高さ
+
 		//初期化
 		pCamera->Init();
 	}

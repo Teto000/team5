@@ -43,6 +43,12 @@ CDebugProc::~CDebugProc()
 //===========================
 HRESULT CDebugProc::Init()
 {
+	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
+
+	// デバッグ情報表示用フォントの生成
+	D3DXCreateFont(pDevice, 18, 0, 0, 0, FALSE, SHIFTJIS_CHARSET,
+		OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("Terminal"), &m_pFont);
+
 	return S_OK;
 }
 
@@ -98,17 +104,16 @@ void CDebugProc::Print(const char* pFormat, ...)
 //===========================
 // 描画
 //===========================
-void CDebugProc::Draw(LPDIRECT3DDEVICE9 m_pD3DDevice)
+void CDebugProc::Draw()
 {
-	// デバッグ情報表示用フォントの生成
-	D3DXCreateFont(m_pD3DDevice, 18, 0, 0, 0, FALSE, SHIFTJIS_CHARSET,
-		OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("Terminal"), &m_pFont);
-
 	RECT rect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	TCHAR str[256];
 
 	wsprintf(str, &m_Str[0]);
 
 	// テキスト描画
-	m_pFont->DrawText(NULL, str, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
+	if (m_pFont != nullptr)
+	{
+		m_pFont->DrawText(NULL, str, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
+	}
 }
