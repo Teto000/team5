@@ -15,6 +15,7 @@
 #include "input_joypad.h"
 #include "application.h"
 #include "sound.h"
+#include "fade.h"
 
 //===========================
 // コンストラクタ
@@ -53,5 +54,8 @@ void CResult::Uninit()
 //===========================
 void CResult::Update()
 {
-
+	if (CInputKeyboard::Trigger(DIK_RETURN) == true && CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
+	{//Enterで次の画面に遷移する
+		CApplication::GetFade()->SetFade(CApplication::MODE_TITLE);
+	}
 }

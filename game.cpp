@@ -19,6 +19,7 @@
 #include "player.h"
 #include "meshfield.h"
 #include "debug_proc.h"
+#include "fade.h"
 
 //------------------------
 // Ã“Iƒƒ“ƒo•Ï”éŒ¾
@@ -69,7 +70,10 @@ void CGame::Uninit()
 //===========================
 void CGame::Update()
 {
-
+	if (CInputKeyboard::Trigger(DIK_RETURN) == true && CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
+	{//Enter‚ÅŽŸ‚Ì‰æ–Ê‚É‘JˆÚ‚·‚é
+		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
+	}
 }
 
 //===========================
