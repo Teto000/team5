@@ -49,7 +49,7 @@ CGame::~CGame()
 //===========================
 HRESULT CGame::Init()
 {
-	pPlayer = CPlayer::Create();
+	pPlayer = CPlayer::Create(0);
 
 	pMeshField = CMeshField::Create();
 
