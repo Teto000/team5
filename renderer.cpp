@@ -196,11 +196,17 @@ void CRenderer::Draw()
 		//カメラの取得
 		m_pCamera = CApplication::GetCamera();
 
+		//ビューポートの最大数の取得
+		//int nMaxCamera = m_pCamera->GetMaxCamera();
+
 		//カメラの設定
 		m_pCamera->SetCamera(m_pD3DDevice);
 
 		//オブジェクトの描画
 		CObject::DrawAll();
+
+		//ビューポートの設定
+		//m_pD3DDevice->SetViewport(&m_pCamera->GetVieport());
 
 #ifdef _DEBUG
 		// FPS表示

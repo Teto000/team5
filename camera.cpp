@@ -13,22 +13,28 @@
 #include "input_keybord.h"
 #include "renderer.h"
 
+//----------------------
+// 静的メンバ変数宣言
+//----------------------
+const float CCamera::fTurnSpeed = 0.02f;	//旋回速度
+const float CCamera::fMoveSpeed = 3.0f;		//移動速度
+
 //===========================
 // コンストラクタ
 //===========================
 CCamera::CCamera()
 {
-	m_posV = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_posVDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_posRDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_vecU = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_fDistance = 0.0f;
-	m_TSPEED = 0.0f;
-	m_MSPEED = 0.0f;
-	POLOR_X = 0.0f;
-	POLOR_Y = 0.0f;
-	POLOR_Z = 0.0f;
+	m_posV = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//視点
+	m_posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//注視点
+	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//向き
+	m_posVDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//目的の視点
+	m_posRDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//目的の注視点
+	m_rotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);;	//目的の角度
+	m_vecU = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//上方向ベクトル
+	m_fDistance = 0.0f;		//距離
+	POLOR_X = 0.0f;			//極座標のX
+	POLOR_Y = 0.0f;			//極座標のY
+	POLOR_Z = 0.0f;			//極座標のZ
 }
 
 //===========================
@@ -45,23 +51,18 @@ CCamera::~CCamera()
 void CCamera::Init(void)
 {
 	//---------------------------------
-	// 視点・注視点・上方向を設定する
+	// 初期値の設定
 	//---------------------------------
-	m_posV = D3DXVECTOR3(0.0f, 200.0f, -400.0f);
-	m_posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_posVDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_posRDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	m_TSPEED = 0.02f;		//カメラの回転速度(Turn)
-	m_MSPEED = 3.0f;		//カメラの移動速度(Move)
+	m_posV = D3DXVECTOR3(0.0f, 200.0f, -400.0f);	//視点
+	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);			//上方向
 
 	//--------------------------
 	// ビューポート構成の保存
 	//--------------------------
-	m_viewport.X = 0;			//ビューポートの開始位置(X)
-	m_viewport.Y = 0;			//ビューポートの開始位置(Y)
-	m_viewport.Width = 1280;	//ビューポートの幅
-	m_viewport.Height = 720;	//ビューポートの高さ
+	m_viewport.X = 0;						//ビューポートの開始位置(X)
+	m_viewport.Y = 0;						//ビューポートの開始位置(Y)
+	m_viewport.Width = SCREEN_WIDTH / 2;	//ビューポートの幅
+	m_viewport.Height = SCREEN_HEIGHT;		//ビューポートの高さ
 	m_viewport.MinZ = 0.0f;
 	m_viewport.MaxZ = 1.0f;
 
@@ -163,6 +164,27 @@ void CCamera::SetCamera(LPDIRECT3DDEVICE9 pDevice)
 }
 
 //========================
+// カメラの生成
+//========================
+CCamera* CCamera::Create()
+{
+	CCamera *pCamera = nullptr;
+
+	//----------------------------------
+	// ポリゴンの生成と初期化
+	//----------------------------------
+	pCamera = new CCamera;	//生成
+
+	if (pCamera != nullptr)
+	{//NULLチェック
+		//初期化
+		pCamera->Init();
+	}
+
+	return pCamera;
+}
+
+//========================
 // カメラの旋回
 //========================
 void CCamera::Turn()
@@ -172,28 +194,28 @@ void CCamera::Turn()
 	//------------------
 	if (CInputKeyboard::Press(DIK_Q))	//左回転
 	{//Qキーが押された
-		m_rot.y -= m_TSPEED;			//回転量の増加
+		m_rot.y -= fTurnSpeed;			//回転量の増加
 		m_posR.x = m_posV.x + POLOR_X;	//xの距離
 		m_posR.y = m_posV.y + POLOR_Y;	//yの距離
 		m_posR.z = m_posV.z + POLOR_Z;	//zの距離
 	}
 	else if (CInputKeyboard::Press(DIK_E))	//右回転
 	{//Eキーが押された
-		m_rot.y += m_TSPEED;
+		m_rot.y += fTurnSpeed;
 		m_posR.x = m_posV.x + POLOR_X;
 		m_posR.y = m_posV.y + POLOR_Y;
 		m_posR.z = m_posV.z + POLOR_Z;
 	}
 	if (CInputKeyboard::Press(DIK_Y))	//上回転
 	{//Yキーが押された
-		m_rot.x -= m_TSPEED;
+		m_rot.x -= fTurnSpeed;
 		m_posR.x = m_posV.x + POLOR_X;
 		m_posR.y = m_posV.y + POLOR_Y;
 		m_posR.z = m_posV.z + POLOR_Z;
 	}
 	else if (CInputKeyboard::Press(DIK_B))	//下回転
 	{//Bキーが押された
-		m_rot.x += m_TSPEED;
+		m_rot.x += fTurnSpeed;
 		m_posR.x = m_posV.x + POLOR_X;
 		m_posR.y = m_posV.y + POLOR_Y;
 		m_posR.z = m_posV.z + POLOR_Z;
@@ -204,14 +226,14 @@ void CCamera::Turn()
 	//------------------
 	if (CInputKeyboard::Press(DIK_LEFT))	//左回転
 	{//左キーが押された
-		m_rot.y += m_TSPEED;			//回転量の増加
+		m_rot.y += fTurnSpeed;			//回転量の増加
 		m_posV.x = m_posR.x - POLOR_X;	//xの距離
 		m_posV.y = m_posR.y - POLOR_Y;	//yの距離
 		m_posV.z = m_posR.z - POLOR_Z;	//zの距離
 	}
 	else if (CInputKeyboard::Press(DIK_RIGHT))	//右回転
 	{//右キーが押された
-		m_rot.y -= m_TSPEED;
+		m_rot.y -= fTurnSpeed;
 		m_posV.x = m_posR.x - POLOR_X;
 		m_posV.y = m_posR.y - POLOR_Y;
 		m_posV.z = m_posR.z - POLOR_Z;
@@ -220,7 +242,7 @@ void CCamera::Turn()
 	{//上キーが押された
 		if (m_rot.x <= 3.0f)
 		{
-			m_rot.x += m_TSPEED;
+			m_rot.x += fTurnSpeed;
 			m_posV.x = m_posR.x - POLOR_X;
 			m_posV.y = m_posR.y - POLOR_Y;
 			m_posV.z = m_posR.z - POLOR_Z;
@@ -230,7 +252,7 @@ void CCamera::Turn()
 	{//下キーが押された
 		if (m_rot.x >= 1.7f)
 		{
-			m_rot.x -= m_TSPEED;
+			m_rot.x -= fTurnSpeed;
 			m_posV.x = m_posR.x - POLOR_X;
 			m_posV.y = m_posR.y - POLOR_Y;
 			m_posV.z = m_posR.z - POLOR_Z;
@@ -247,24 +269,24 @@ void CCamera::Move()
 	{//Aキーが押された
 		if (CInputKeyboard::Press(DIK_W))
 		{//Wキーが押された
-			m_posV.x += sinf(m_rot.y - D3DX_PI * 0.25f) * m_MSPEED;	//左奥移動
-			m_posV.z += cosf(m_rot.y - D3DX_PI * 0.25f) * m_MSPEED;
+			m_posV.x += sinf(m_rot.y - D3DX_PI * 0.25f) * fMoveSpeed;	//左奥移動
+			m_posV.z += cosf(m_rot.y - D3DX_PI * 0.25f) * fMoveSpeed;
 			m_posR.x = m_posV.x + POLOR_X;
 			m_posR.y = m_posV.y + POLOR_Y;
 			m_posR.z = m_posV.z + POLOR_Z;
 		}
 		else if (CInputKeyboard::Press(DIK_S))
 		{//Sキーが押された
-			m_posV.x += sinf(m_rot.y - D3DX_PI * 0.75f) * m_MSPEED;	//左前移動
-			m_posV.z += cosf(m_rot.y - D3DX_PI * 0.75f) * m_MSPEED;
+			m_posV.x += sinf(m_rot.y - D3DX_PI * 0.75f) * fMoveSpeed;	//左前移動
+			m_posV.z += cosf(m_rot.y - D3DX_PI * 0.75f) * fMoveSpeed;
 			m_posR.x = m_posV.x + POLOR_X;
 			m_posR.y = m_posV.y + POLOR_Y;
 			m_posR.z = m_posV.z + POLOR_Z;
 		}
 		else
 		{
-			m_posV.x -= sinf(m_rot.y + D3DX_PI * 0.5f) * m_MSPEED;	//左移動
-			m_posV.z -= cosf(m_rot.y + D3DX_PI * 0.5f) * m_MSPEED;
+			m_posV.x -= sinf(m_rot.y + D3DX_PI * 0.5f) * fMoveSpeed;	//左移動
+			m_posV.z -= cosf(m_rot.y + D3DX_PI * 0.5f) * fMoveSpeed;
 			m_posR.x = m_posV.x + POLOR_X;
 			m_posR.y = m_posV.y + POLOR_Y;
 			m_posR.z = m_posV.z + POLOR_Z;
@@ -274,24 +296,24 @@ void CCamera::Move()
 	{//Dキーが押された
 		if (CInputKeyboard::Press(DIK_W))
 		{//Wキーが押された
-			m_posV.x += sinf(m_rot.y + D3DX_PI * 0.25f) * m_MSPEED;	//右奥移動
-			m_posV.z += cosf(m_rot.y + D3DX_PI * 0.25f) * m_MSPEED;
+			m_posV.x += sinf(m_rot.y + D3DX_PI * 0.25f) * fMoveSpeed;	//右奥移動
+			m_posV.z += cosf(m_rot.y + D3DX_PI * 0.25f) * fMoveSpeed;
 			m_posR.x = m_posV.x + POLOR_X;
 			m_posR.y = m_posV.y + POLOR_Y;
 			m_posR.z = m_posV.z + POLOR_Z;
 		}
 		else if (CInputKeyboard::Press(DIK_S))
 		{//Sキーが押された
-			m_posV.x += sinf(m_rot.y + D3DX_PI * 0.75f) * m_MSPEED;	//右前移動
-			m_posV.z += cosf(m_rot.y + D3DX_PI * 0.75f) * m_MSPEED;
+			m_posV.x += sinf(m_rot.y + D3DX_PI * 0.75f) * fMoveSpeed;	//右前移動
+			m_posV.z += cosf(m_rot.y + D3DX_PI * 0.75f) * fMoveSpeed;
 			m_posR.x = m_posV.x + POLOR_X;
 			m_posR.y = m_posV.y + POLOR_Y;
 			m_posR.z = m_posV.z + POLOR_Z;
 		}
 		else
 		{
-			m_posV.x += sinf(m_rot.y + D3DX_PI * 0.5f) * m_MSPEED;	//右移動
-			m_posV.z += cosf(m_rot.y + D3DX_PI * 0.5f) * m_MSPEED;
+			m_posV.x += sinf(m_rot.y + D3DX_PI * 0.5f) * fMoveSpeed;	//右移動
+			m_posV.z += cosf(m_rot.y + D3DX_PI * 0.5f) * fMoveSpeed;
 			m_posR.x = m_posV.x + POLOR_X;
 			m_posR.y = m_posV.y + POLOR_Y;
 			m_posR.z = m_posV.z + POLOR_Z;
@@ -299,30 +321,30 @@ void CCamera::Move()
 	}
 	else if (CInputKeyboard::Press(DIK_W))
 	{//Wキーが押された
-		m_posV.x -= sinf(m_rot.y + D3DX_PI * 1.0f) * m_MSPEED;	//奥移動
-		m_posV.z -= cosf(m_rot.y + D3DX_PI * 1.0f) * m_MSPEED;
+		m_posV.x -= sinf(m_rot.y + D3DX_PI * 1.0f) * fMoveSpeed;	//奥移動
+		m_posV.z -= cosf(m_rot.y + D3DX_PI * 1.0f) * fMoveSpeed;
 		m_posR.x = m_posV.x + POLOR_X;
 		m_posR.y = m_posV.y + POLOR_Y;
 		m_posR.z = m_posV.z + POLOR_Z;
 	}
 	else if (CInputKeyboard::Press(DIK_S))
 	{//Sキーが押された
-		m_posV.x -= sinf(m_rot.y + D3DX_PI * 0.0f) * m_MSPEED;	//前移動
-		m_posV.z -= cosf(m_rot.y + D3DX_PI * 0.0f) * m_MSPEED;
+		m_posV.x -= sinf(m_rot.y + D3DX_PI * 0.0f) * fMoveSpeed;	//前移動
+		m_posV.z -= cosf(m_rot.y + D3DX_PI * 0.0f) * fMoveSpeed;
 		m_posR.x = m_posV.x + POLOR_X;
 		m_posR.y = m_posV.y + POLOR_Y;
 		m_posR.z = m_posV.z + POLOR_Z;
 	}
 	if (CInputKeyboard::Press(DIK_O))	//上昇
 	{//Oキーが押された
-		m_posV.y -= tanf(m_rot.x + D3DX_PI * 1.0f) * m_MSPEED;	//上移動
+		m_posV.y -= tanf(m_rot.x + D3DX_PI * 1.0f) * fMoveSpeed;	//上移動
 		m_posR.x = m_posV.x + POLOR_X;
 		m_posR.y = m_posV.y + POLOR_Y;
 		m_posR.z = m_posV.z + POLOR_Z;
 	}
 	else if (CInputKeyboard::Press(DIK_L))	//下降
 	{//Lキーが押された
-		m_posV.y += tanf(m_rot.x + D3DX_PI * 0.0f) * m_MSPEED;	//上移動
+		m_posV.y += tanf(m_rot.x + D3DX_PI * 0.0f) * fMoveSpeed;	//上移動
 		m_posR.x = m_posV.x + POLOR_X;
 		m_posR.y = m_posV.y + POLOR_Y;
 		m_posR.z = m_posV.z + POLOR_Z;
@@ -343,4 +365,20 @@ D3DXVECTOR3 CCamera::GetPosV()
 D3DXVECTOR3 CCamera::GetRot()
 {
 	return m_rot;
+}
+
+//========================
+// ビューポートの取得
+//========================
+D3DVIEWPORT9 CCamera::GetVieport()
+{
+	return m_viewport;
+}
+
+//========================
+// 最大数の取得
+//========================
+const int CCamera::GetMaxCamera()
+{
+	return nMaxCamera;
 }
