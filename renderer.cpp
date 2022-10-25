@@ -24,7 +24,7 @@
 //-----------------------
 // 静的メンバ変数宣言
 //-----------------------
-CCamera* CRenderer::m_pCamera = nullptr;	//カメラ
+CCamera* CRenderer::m_pCamera[nMaxCamera] = {};	//カメラ
 
 //=========================
 // コンストラクタ
@@ -182,41 +182,44 @@ void CRenderer::Update()
 //=============================================================================
 void CRenderer::Draw()
 {
-	// バックバッファ＆Ｚバッファのクリア
-	m_pD3DDevice->Clear(0,
-						NULL,
-						(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),
-						D3DCOLOR_RGBA(0, 0, 0, 0),
-						1.0f,
-						0);
-
-	// Direct3Dによる描画の開始
-	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
+	for (int i = 0; i < nMaxCamera; i++)
 	{
 		//カメラの取得
-		m_pCamera = CApplication::GetCamera();
-
-		//ビューポートの最大数の取得
-		//int nMaxCamera = m_pCamera->GetMaxCamera();
+		m_pCamera[i] = CApplication::GetCamera(i);
 
 		//カメラの設定
-		m_pCamera->SetCamera(m_pD3DDevice);
-
-		//オブジェクトの描画
-		CObject::DrawAll();
+		m_pCamera[i]->SetCamera(m_pD3DDevice);
 
 		//ビューポートの設定
-		m_pD3DDevice->SetViewport(&m_pCamera->GetVieport());
+		{
+			D3DVIEWPORT9 view = m_pCamera[i]->GetVieport();
+			m_pD3DDevice->SetViewport(&view);
+		}
+
+		// バックバッファ＆Ｚバッファのクリア
+		m_pD3DDevice->Clear(0,
+			NULL,
+			(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),
+			D3DCOLOR_RGBA(0, 0, 0, 0),
+			1.0f,
+			0);
+
+		// Direct3Dによる描画の開始
+		if (SUCCEEDED(m_pD3DDevice->BeginScene()))
+		{
+			//オブジェクトの描画
+			CObject::DrawAll();
 
 #ifdef _DEBUG
-		// FPS表示
-		DrawFPS();
+			// FPS表示
+			DrawFPS();
 
-		CDebugProc::Draw(m_pD3DDevice);
+			CDebugProc::Draw(m_pD3DDevice);
 #endif // _DEBUG
 
-		// Direct3Dによる描画の終了
-		m_pD3DDevice->EndScene();
+			// Direct3Dによる描画の終了
+			m_pD3DDevice->EndScene();
+		}
 	}
 
 	// バックバッファとフロントバッファの入れ替え

@@ -345,7 +345,7 @@ void CPlayer::SetMotion(bool bLoop)
 void CPlayer::Move()
 {
 	//カメラの情報取得
-	D3DXVECTOR3 cameraRot(CApplication::GetCamera()->GetRot());
+	D3DXVECTOR3 cameraRot(CApplication::GetCamera(0)->GetRot());
 
 	//-------------------------------
 	// プレイヤーの操作

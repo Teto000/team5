@@ -70,15 +70,20 @@ public:
 	static void SetMode(MODE mode);		//モードの設定
 	static MODE GetMode();				//モードの取得
 
-	static CRenderer *GetRenderer();	//レンダラーの取得
-	static CInput	 *GetInput();		//インプットの取得
-	static CTexture  *GetTexture();		//テクスチャの取得
-	static CSound	 *GetSound();		//サウンドの取得
-	static CCamera	 *GetCamera();		//カメラの取得
-	static CLight	 *GetLight();		//ライトの取得
-	static CFade	 *GetFade();		//フェードの取得
+	static CRenderer *GetRenderer();		//レンダラーの取得
+	static CInput	 *GetInput();			//インプットの取得
+	static CTexture  *GetTexture();			//テクスチャの取得
+	static CSound	 *GetSound();			//サウンドの取得
+	static CCamera	 *GetCamera(int nCnt);	//カメラの取得
+	static CLight	 *GetLight();			//ライトの取得
+	static CFade	 *GetFade();			//フェードの取得
 
 private:
+	//------------------
+	// 定数
+	//------------------
+	static const int nMaxCamera = 2;	//カメラの最大数
+
 	//------------------
 	// 静的メンバ変数
 	//------------------
@@ -90,12 +95,12 @@ private:
 	static MODE			m_mode;			//モード
 	static GAMEMODE		m_gameMode;		//ゲームモード
 
-	static CRenderer*	m_pRenderer;	//レンダラークラス
-	static CInput*		m_pInput;		//インプットクラス
-	static CTexture*	m_pTexture;		//テクスチャクラス
-	static CSound*		m_pSound;		//サウンドクラス
-	static CCamera*		m_pCamera;		//カメラクラス
-	static CLight*		m_pLight;		//ライトクラス
+	static CRenderer*	m_pRenderer;			//レンダラークラス
+	static CInput*		m_pInput;				//インプットクラス
+	static CTexture*	m_pTexture;				//テクスチャクラス
+	static CSound*		m_pSound;				//サウンドクラス
+	static CCamera*		m_pCamera[nMaxCamera];	//カメラクラス
+	static CLight*		m_pLight;				//ライトクラス
 };
 
 #endif // !_APPLICATION_H_
