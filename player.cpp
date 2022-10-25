@@ -494,7 +494,7 @@ D3DXMATRIX CPlayer::GetmtxWorld()
 void CPlayer::P1MoveKey()
 {
 	// カメラの角度情報取得
-	D3DXVECTOR3 CameraRot = CApplication::GetCamera()->GetRot();;
+	D3DXVECTOR3 CameraRot = CApplication::GetCamera(0)->GetRot();;
 
 	//-------------------------------
 	// プレイヤーの操作
@@ -566,7 +566,7 @@ void CPlayer::P1MoveKey()
 void CPlayer::P2MoveKey()
 {
 	//カメラの情報取得
-	D3DXVECTOR3 cameraRot(CApplication::GetCamera()->GetRot());
+	D3DXVECTOR3 cameraRot(CApplication::GetCamera(0)->GetRot());
 
 	//-------------------------------
 	// プレイヤーの操作
