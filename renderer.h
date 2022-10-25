@@ -80,6 +80,12 @@ public:
 private:
 	void DrawFPS();
 
+private:
+	//-----------------
+	// 定数
+	//-----------------
+	static const int nMaxCamera = 4;	//カメラの最大数
+
 	//-----------------
 	// メンバ変数
 	//-----------------
@@ -91,7 +97,7 @@ private:
 	//-------------------
 	// 静的メンバ変数
 	//-------------------
-	static CCamera*	m_pCamera;	//カメラクラス
+	static CCamera*	m_pCamera[nMaxCamera];	//カメラクラス
 };
 
 #endif // !_RENDERER_H_

@@ -33,12 +33,12 @@ CTutorial*			CApplication::m_pTutorial = nullptr;	//チュートリアルクラス
 CFade*				CApplication::m_pFade = nullptr;		//フェードクラス
 CApplication::MODE	CApplication::m_mode = MODE_MAX;		//ゲームモード
 
-CRenderer*	CApplication::m_pRenderer = nullptr;//レンダラー
-CInput*		CApplication::m_pInput = nullptr;	//インプット
-CTexture*	CApplication::m_pTexture = nullptr;	//テクスチャ
-CSound*		CApplication::m_pSound = nullptr;	//サウンド
-CCamera*	CApplication::m_pCamera = nullptr;	//カメラ
-CLight*		CApplication::m_pLight = nullptr;	//ライト
+CRenderer*	CApplication::m_pRenderer = nullptr;		//レンダラー
+CInput*		CApplication::m_pInput = nullptr;			//インプット
+CTexture*	CApplication::m_pTexture = nullptr;			//テクスチャ
+CSound*		CApplication::m_pSound = nullptr;			//サウンド
+CCamera*	CApplication::m_pCamera[nMaxCamera] = {};	//カメラ
+CLight*		CApplication::m_pLight = nullptr;			//ライト
 
 //===========================
 // コンストラクタ
@@ -90,7 +90,15 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//----------------------------
 	// カメラの生成と初期化
 	//----------------------------
-	m_pCamera = CCamera::Create();
+	{
+		DWORD fWidth = SCREEN_WIDTH / 2;
+		DWORD fHeight = SCREEN_HEIGHT / 2;
+
+		m_pCamera[0] = CCamera::Create(0, 0, fWidth, fHeight);				//左上
+		m_pCamera[1] = CCamera::Create(fWidth, 0, fWidth, fHeight);			//右上
+		m_pCamera[2] = CCamera::Create(0, fHeight, fWidth, fHeight);		//左下
+		m_pCamera[3] = CCamera::Create(fWidth, fHeight, fWidth, fHeight);	//右下
+	}
 
 	//----------------------------
 	// ライトの生成と初期化
@@ -147,11 +155,14 @@ void CApplication::Uninit()
 	}*/
 
 	//カメラの終了
-	if (m_pCamera != nullptr)
+	for (int i = 0; i < nMaxCamera; i++)
 	{
-		m_pCamera->Uninit();
-		delete m_pCamera;
-		m_pCamera = nullptr;
+		if (m_pCamera[i] != nullptr)
+		{
+			m_pCamera[i]->Uninit();
+			delete m_pCamera[i];
+			m_pCamera[i] = nullptr;
+		}
 	}
 
 	//ライトの終了
@@ -175,7 +186,10 @@ void CApplication::Update()
 	m_pRenderer->Update();
 
 	//カメラの更新
-	m_pCamera->Update();
+	for (int i = 0; i < nMaxCamera; i++)
+	{
+		m_pCamera[i]->Update();
+	}
 
 	//モードごとの更新
 	switch (m_mode)
@@ -316,9 +330,9 @@ CSound *CApplication::GetSound()
 //===========================
 // カメラの取得
 //===========================
-CCamera *CApplication::GetCamera()
+CCamera *CApplication::GetCamera(int nCnt)
 {
-	return m_pCamera;
+	return m_pCamera[nCnt];
 }
 
 //===========================
