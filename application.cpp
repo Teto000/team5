@@ -90,7 +90,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	m_pLight->Init(GetRenderer()->GetDevice());
 
 	//モードの設定
-	SetMode(MODE_GAME);
+	SetMode(MODE_TITLE);
 
 	return S_OK;
 }
@@ -226,7 +226,7 @@ void CApplication::SetMode(MODE mode)
 	}
 
 	//オブジェクトの全解放
-	CObject::ReleaseAll(false);
+	CObject::ReleaseAll(true);
 
 	//モードの切り替え
 	m_mode = mode;
@@ -316,4 +316,12 @@ CCamera *CApplication::GetCamera()
 CLight *CApplication::GetLight()
 {
 	return m_pLight;
+}
+
+//===========================
+// フェードの取得
+//===========================
+CFade *CApplication::GetFade()
+{
+	return m_pFade;
 }

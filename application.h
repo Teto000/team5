@@ -76,6 +76,7 @@ public:
 	static CSound	 *GetSound();		//サウンドの取得
 	static CCamera	 *GetCamera();		//カメラの取得
 	static CLight	 *GetLight();		//ライトの取得
+	static CFade	 *GetFade();		//フェードの取得
 
 private:
 	//------------------
