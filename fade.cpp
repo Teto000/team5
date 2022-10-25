@@ -42,13 +42,15 @@ HRESULT CFade::Init(CApplication::MODE modeNext)
 	m_modeNext = modeNext;	//次の画面(モード)を設定
 	m_col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f);	//黒いポリゴン(不透明)にしておく
 
-	CObject2D::Init(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+	m_pObject = new CObject2D;
 
-	//CObject2D::SetSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
+	m_pObject->Init(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
 
-	//CObject2D::SetColor(m_col);
+	m_pObject->SetSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
 
-	//CObject2D::SetTexture(CTexture::TEXTURE_NONE);	//テクスチャの設定
+	m_pObject->SetColor(m_col);
+
+	m_pObject->SetTexture(CTexture::TEXTURE_NONE);	//テクスチャの設定
 
 	return S_OK;
 }
@@ -58,7 +60,7 @@ HRESULT CFade::Init(CApplication::MODE modeNext)
 //===========================
 void CFade::Uninit()
 {
-	CObject2D::Uninit();
+	m_pObject->Uninit();
 }
 
 //===========================
@@ -66,7 +68,6 @@ void CFade::Uninit()
 //===========================
 void CFade::Update()
 {
-	CObject2D::Update();
 
 	if (m_fade != FADE_NONE)
 	{
@@ -90,10 +91,20 @@ void CFade::Update()
 				m_fade = FADE_IN;	//フェードイン状態に
 
 				CApplication::SetMode(m_modeNext);
+				m_pObject = new CObject2D;
+
+				m_pObject->Init(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+
+				m_pObject->SetSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
+
+				m_pObject->SetColor(m_col);
+
+				m_pObject->SetTexture(CTexture::TEXTURE_NONE);	//テクスチャの設定
 			}
 		}
-		//CObject2D::SetColor(m_col);
 	}
+	m_pObject->SetColor(m_col);
+	m_pObject->Update();		//後ろに置かないと生成された一瞬だけ透明のままになってしまう
 }
 
 //===========================
@@ -101,7 +112,7 @@ void CFade::Update()
 //===========================
 void CFade::Draw()
 {
-	CObject2D::Draw();
+	m_pObject->Draw();
 }
 
 //===========================

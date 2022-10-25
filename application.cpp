@@ -121,8 +121,10 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//----------------------------
 	// モードの設定
 	//----------------------------
-	SetMode(MODE_GAME);
 
+	m_pFade = new CFade;
+	SetMode(MODE_GAME);
+	m_pFade->Init(MODE_GAME);
 	return S_OK;
 }
 
@@ -264,6 +266,7 @@ void CApplication::SetMode(MODE mode)
 
 	//オブジェクトの全解放
 	CObject::ReleaseAll(true);
+	//m_pFade->Create2DObject();
 
 	//モードの切り替え
 	m_mode = mode;
@@ -294,9 +297,9 @@ void CApplication::SetMode(MODE mode)
 	}
 
 	//フェードの生成
-	m_pFade = nullptr;
+	/*m_pFade = nullptr;
 	m_pFade = new CFade;
-	m_pFade->Init(m_mode);
+	m_pFade->Init(m_mode);*/
 }
 
 //===========================
