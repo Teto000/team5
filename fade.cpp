@@ -92,11 +92,7 @@ void CFade::Update()
 				m_fade = FADE_IN;	//フェードイン状態に
 
 				CApplication::SetMode(m_modeNext);
-
-				m_pObject = new CObject2D;
-				m_pObject->Init(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
-				m_pObject->SetSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
-
+				Create2DObject();
 			}
 		}
 	}
@@ -127,4 +123,14 @@ void CFade::SetFade(CApplication::MODE modeNext)
 CFade::FADE CFade::GetFade(void)
 {
 	return m_fade;
+}
+
+//===========================
+//　2Dポリゴンの生成
+//===========================
+void CFade::Create2DObject()
+{
+	m_pObject = new CObject2D;
+	m_pObject->Init(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+	m_pObject->SetSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
 }

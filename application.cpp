@@ -109,9 +109,9 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//----------------------------
 	// ƒ‚[ƒh‚ÌÝ’è
 	//----------------------------
-	SetMode(MODE_TITLE);
 
 	m_pFade = new CFade;
+	SetMode(MODE_TITLE);
 	m_pFade->Init(MODE_TITLE);
 	return S_OK;
 }
