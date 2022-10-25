@@ -90,7 +90,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//----------------------------
 	// ƒJƒƒ‰‚Ì¶¬‚Æ‰Šú‰»
 	//----------------------------
-	m_pCamera = CCamera::Create();
+	m_pCamera = CCamera::Create(0, 0, SCREEN_WIDTH / 2, SCREEN_HEIGHT);
 
 	//----------------------------
 	// ƒ‰ƒCƒg‚Ì¶¬‚Æ‰Šú‰»

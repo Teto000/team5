@@ -40,7 +40,7 @@ public:
 	//------------------
 	// Ã“Iƒƒ“ƒoŠÖ”
 	//------------------
-	static CCamera* Create();
+	static CCamera* Create(DWORD X, DWORD Y, DWORD Width, DWORD Height);
 	static const int GetMaxCamera();	//Å‘å”‚Ìæ“¾
 
 private:

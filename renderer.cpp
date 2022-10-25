@@ -206,7 +206,7 @@ void CRenderer::Draw()
 		CObject::DrawAll();
 
 		//ビューポートの設定
-		//m_pD3DDevice->SetViewport(&m_pCamera->GetVieport());
+		m_pD3DDevice->SetViewport(&m_pCamera->GetVieport());
 
 #ifdef _DEBUG
 		// FPS表示
