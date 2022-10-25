@@ -358,11 +358,11 @@ void CPlayer::Move()
 	{
 	case 0:
 		//プレイヤー1の操作
-		P1MoveKey();
+		MoveKey(DIK_W, DIK_A, DIK_S, DIK_D,DIK_SPACE);
 		break;
 	case 1:
 		//プレイヤー2の操作
-		P2MoveKey();
+		MoveKey(DIK_T, DIK_F, DIK_G, DIK_H, DIK_BACKSPACE);
 		break;
 	}
 
@@ -505,10 +505,11 @@ D3DXMATRIX CPlayer::GetmtxWorld()
 	return m_mtxWorld;
 }
 
-//===========================
-// プレイヤー1のキー操作設定
-//===========================
-void CPlayer::P1MoveKey()
+//=====================================================
+// 移動キーの設定
+// 引数 : 上キー、左キー、下キー、右キー、ジャンプキー
+//=====================================================
+void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey)
 {
 	// カメラの角度情報取得
 	D3DXVECTOR3 CameraRot = CApplication::GetCamera(0)->GetRot();;
@@ -524,22 +525,22 @@ void CPlayer::P1MoveKey()
 	moveInput.y = 0.0f;
 
 	// モデルの移動
-	if (CInputKeyboard::Press(DIK_W))
+	if (CInputKeyboard::Press(UPKey))
 	{
 		moveInput.y += 1.0f;
 		moveLength = 1.0f;
 	}
-	if (CInputKeyboard::Press(DIK_A))
+	if (CInputKeyboard::Press(LEFTKey))
 	{
 		moveInput.x -= 1.0f;
 		moveLength = 1.0f;
 	}
-	if (CInputKeyboard::Press(DIK_S))
+	if (CInputKeyboard::Press(DOWNKey))
 	{
 		moveInput.y -= 1.0f;
 		moveLength = 1.0f;
 	}
-	if (CInputKeyboard::Press(DIK_D))
+	if (CInputKeyboard::Press(RIGHTKey))
 	{
 		moveInput.x += 1.0f;
 		moveLength = 1.0f;
@@ -548,7 +549,7 @@ void CPlayer::P1MoveKey()
 	//ジャンプ状態ではないときに
 	if (m_state == IDOL_STATE)
 	{
-		if (CInputKeyboard::Trigger(DIK_SPACE) && !m_bJump)
+		if (CInputKeyboard::Trigger(JUMPKey) && !m_bJump)
 		{
 			// ジャンプ状態に移行
 			m_state = JUMP_STATE;
@@ -573,77 +574,5 @@ void CPlayer::P1MoveKey()
 	else
 	{ // 入力されていない。
 		return;
-	}
-}
-
-//===========================
-// プレイヤー2の移動キー設定
-//===========================
-void CPlayer::P2MoveKey()
-{
-	// カメラの角度情報取得
-	D3DXVECTOR3 CameraRot = CApplication::GetCamera(0)->GetRot();;
-
-	//-------------------------------
-	// プレイヤーの操作
-	//-------------------------------
-	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);            // 移動量の初期化
-	float moveLength = 0.0f;
-	D3DXVECTOR2 moveInput;
-
-	moveInput.x = 0.0f;
-	moveInput.y = 0.0f;
-
-	// モデルの移動
-	if (CInputKeyboard::Press(DIK_T))
-	{
-		moveInput.y += 1.0f;
-		moveLength = 1.0f;
-	}
-	if (CInputKeyboard::Press(DIK_F))
-	{
-		moveInput.x -= 1.0f;
-		moveLength = 1.0f;
-	}
-	if (CInputKeyboard::Press(DIK_G))
-	{
-		moveInput.y -= 1.0f;
-		moveLength = 1.0f;
-	}
-	if (CInputKeyboard::Press(DIK_H))
-	{
-		moveInput.x += 1.0f;
-		moveLength = 1.0f;
-	}
-
-
-	if (moveLength > 0.0f)
-	{
-
-		D3DXVec2Normalize(&moveInput, &moveInput);
-
-		float c = cosf(-CameraRot.y);
-		float s = sinf(-CameraRot.y);
-
-		// move の長さは 1 になる。
-		m_move.x = moveInput.x * c - moveInput.y * s;
-		m_move.z = moveInput.x * s + moveInput.y * c;
-
-		m_move.x *= 3.0f;
-		m_move.z *= 3.0f;
-	}
-	else
-	{ // 入力されていない。
-		return;
-	}
-
-	//ジャンプ状態ではないときに
-	if (m_state == IDOL_STATE)
-	{
-		if (CInputKeyboard::Trigger(DIK_RETURN) && !m_bJump)
-		{
-			// ジャンプ状態に移行
-			m_state = JUMP_STATE;
-		}
 	}
 }
