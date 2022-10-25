@@ -42,7 +42,6 @@ public:
 	void Draw();
 	void SetFade(CApplication::MODE modeNext);
 	FADE GetFade(void);
-	void Create2DObject();
 
 private:
 	//------------------

@@ -68,7 +68,6 @@ void CFade::Uninit()
 //===========================
 void CFade::Update()
 {
-	m_pObject->Update();
 
 	if (m_fade != FADE_NONE)
 	{
@@ -92,11 +91,20 @@ void CFade::Update()
 				m_fade = FADE_IN;	//フェードイン状態に
 
 				CApplication::SetMode(m_modeNext);
-				Create2DObject();
+				m_pObject = new CObject2D;
+
+				m_pObject->Init(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+
+				m_pObject->SetSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
+
+				m_pObject->SetColor(m_col);
+
+				m_pObject->SetTexture(CTexture::TEXTURE_NONE);	//テクスチャの設定
 			}
 		}
 	}
 	m_pObject->SetColor(m_col);
+	m_pObject->Update();		//後ろに置かないと生成された一瞬だけ透明のままになってしまう
 }
 
 //===========================
@@ -123,14 +131,4 @@ void CFade::SetFade(CApplication::MODE modeNext)
 CFade::FADE CFade::GetFade(void)
 {
 	return m_fade;
-}
-
-//===========================
-//　2Dポリゴンの生成
-//===========================
-void CFade::Create2DObject()
-{
-	m_pObject = new CObject2D;
-	m_pObject->Init(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
-	m_pObject->SetSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
 }
