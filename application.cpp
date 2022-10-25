@@ -61,35 +61,46 @@ CApplication::~CApplication()
 //===========================
 HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 {
-	//--------------------------
-	// インスタンスの生成
-	//--------------------------
-	m_pRenderer = new CRenderer;	//レンダリング
-	m_pInput = new CInput;			//インプット
-	m_pTexture = new CTexture;		//テクスチャ
-	m_pSound = new CSound;			//サウンド
-	m_pCamera = new CCamera;		//カメラ
-	m_pLight = new CLight;			//ライト
-
-	//レンダリングの初期化
+	//----------------------------
+	// レンダリングの生成と初期化
+	//----------------------------
+	m_pRenderer = new CRenderer;
 	if (FAILED(m_pRenderer->Init(hWnd, TRUE)))
 	{//初期化処理が失敗した場合
 		return -1;
 	}
 
-	//インプットの初期化
+	//----------------------------
+	// インプットの生成と初期化
+	//----------------------------
+	m_pInput = new CInput;
 	m_pInput->Init(hInstance, hWnd);
 
-	//サウンドの初期化
+	//----------------------------
+	// テクスチャの生成
+	//----------------------------
+	m_pTexture = new CTexture;
+
+	//----------------------------
+	// サウンドの生成と初期化
+	//----------------------------
+	//m_pSound = new CSound;
 	//m_pSound->Init(hWnd);
 
-	//カメラの初期化
-	m_pCamera->Init();
+	//----------------------------
+	// カメラの生成と初期化
+	//----------------------------
+	m_pCamera = CCamera::Create();
 
-	//ライトの初期化
+	//----------------------------
+	// ライトの生成と初期化
+	//----------------------------
+	m_pLight = new CLight;
 	m_pLight->Init(GetRenderer()->GetDevice());
 
-	//モードの設定
+	//----------------------------
+	// モードの設定
+	//----------------------------
 	SetMode(MODE_GAME);
 
 	return S_OK;
@@ -226,7 +237,7 @@ void CApplication::SetMode(MODE mode)
 	}
 
 	//オブジェクトの全解放
-	CObject::ReleaseAll(false);
+	CObject::ReleaseAll(true);
 
 	//モードの切り替え
 	m_mode = mode;
@@ -316,4 +327,12 @@ CCamera *CApplication::GetCamera()
 CLight *CApplication::GetLight()
 {
 	return m_pLight;
+}
+
+//===========================
+// フェードの取得
+//===========================
+CFade *CApplication::GetFade()
+{
+	return m_pFade;
 }
