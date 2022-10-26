@@ -17,6 +17,8 @@
 #include "camera.h"
 #include "debug_proc.h"
 #include "model.h"
+#include "meshfield.h"
+#include "game.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -144,6 +146,12 @@ void CPlayer::Update()
 	// モーション
 	//-------------------
 	SetMotion(true);
+
+	//-------------------
+	//当たり判定
+	//-------------------
+	CMeshField *m_pMesh = CGame::GetMesh();
+	m_pMesh->Collision(&m_pos);
 }
 
 //========================
@@ -346,8 +354,17 @@ void CPlayer::SetMotion(bool bLoop)
 //========================
 void CPlayer::Move()
 {
-	//プレイヤー1の操作
-	P1MoveKey();
+	switch (m_nPlayerNum)
+	{
+	case 0:
+		//プレイヤー1の操作
+		MoveKey(DIK_W, DIK_A, DIK_S, DIK_D,DIK_SPACE);
+		break;
+	case 1:
+		//プレイヤー2の操作
+		MoveKey(DIK_T, DIK_F, DIK_G, DIK_H, DIK_BACKSPACE);
+		break;
+	}
 
 	//位置を更新
 	m_pos += m_move;
@@ -488,10 +505,11 @@ D3DXMATRIX CPlayer::GetmtxWorld()
 	return m_mtxWorld;
 }
 
-//===========================
-// プレイヤー1のキー操作設定
-//===========================
-void CPlayer::P1MoveKey()
+//=====================================================
+// 移動キーの設定
+// 引数 : 上キー、左キー、下キー、右キー、ジャンプキー
+//=====================================================
+void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey)
 {
 	// カメラの角度情報取得
 	D3DXVECTOR3 CameraRot = CApplication::GetCamera(0)->GetRot();;
@@ -507,27 +525,36 @@ void CPlayer::P1MoveKey()
 	moveInput.y = 0.0f;
 
 	// モデルの移動
-	if (CInputKeyboard::Press(DIK_W))
+	if (CInputKeyboard::Press(UPKey))
 	{
 		moveInput.y += 1.0f;
 		moveLength = 1.0f;
 	}
-	if (CInputKeyboard::Press(DIK_A))
+	if (CInputKeyboard::Press(LEFTKey))
 	{
 		moveInput.x -= 1.0f;
 		moveLength = 1.0f;
 	}
-	if (CInputKeyboard::Press(DIK_S))
+	if (CInputKeyboard::Press(DOWNKey))
 	{
 		moveInput.y -= 1.0f;
 		moveLength = 1.0f;
 	}
-	if (CInputKeyboard::Press(DIK_D))
+	if (CInputKeyboard::Press(RIGHTKey))
 	{
 		moveInput.x += 1.0f;
 		moveLength = 1.0f;
 	}
 
+	//ジャンプ状態ではないときに
+	if (m_state == IDOL_STATE)
+	{
+		if (CInputKeyboard::Trigger(JUMPKey) && !m_bJump)
+		{
+			// ジャンプ状態に移行
+			m_state = JUMP_STATE;
+		}
+	}
 
 	if (moveLength > 0.0f)
 	{
@@ -547,92 +574,5 @@ void CPlayer::P1MoveKey()
 	else
 	{ // 入力されていない。
 		return;
-	}
-
-	//ジャンプ状態ではないときに
-	if (m_state == IDOL_STATE)
-	{
-		if (CInputKeyboard::Trigger(DIK_SPACE) && !m_bJump)
-		{
-			// ジャンプ状態に移行
-			m_state = JUMP_STATE;
-		}
-	}
-}
-
-//===========================
-// プレイヤー2の移動キー設定
-//===========================
-void CPlayer::P2MoveKey()
-{
-	//カメラの情報取得
-	D3DXVECTOR3 cameraRot(CApplication::GetCamera(0)->GetRot());
-
-	//-------------------------------
-	// プレイヤーの操作
-	//-------------------------------
-	if (CInputKeyboard::Press(DIK_A))
-	{//Aキーが押された
-		if (CInputKeyboard::Press(DIK_W))
-		{//Wキーが押された
-			m_move.x += sinf(cameraRot.y - D3DX_PI * 0.25f) * fPlayerSpeed;	//左奥移動
-			m_move.z += cosf(cameraRot.y - D3DX_PI * 0.25f) * fPlayerSpeed;
-			m_rotDest.y = cameraRot.y + D3DX_PI * 0.75f;	//向きの切り替え
-		}
-		else if (CInputKeyboard::Press(DIK_S))
-		{//Sキーが押された
-			m_move.x += sinf(cameraRot.y - D3DX_PI * 0.75f) * fPlayerSpeed;	//左前移動
-			m_move.z += cosf(cameraRot.y - D3DX_PI * 0.75f) * fPlayerSpeed;
-			m_rotDest.y = cameraRot.y + D3DX_PI * 0.25f;
-		}
-		else
-		{
-			m_move.x -= sinf(cameraRot.y + D3DX_PI * 0.5f) * fPlayerSpeed;	//左移動
-			m_move.z -= cosf(cameraRot.y + D3DX_PI * 0.5f) * fPlayerSpeed;
-			m_rotDest.y = cameraRot.y + D3DX_PI * 0.5f;
-		}
-	}
-	else if (CInputKeyboard::Press(DIK_D))
-	{//Dキーが押された
-		if (CInputKeyboard::Press(DIK_W))
-		{//Wキーが押された
-			m_move.x += sinf(cameraRot.y + D3DX_PI * 0.25f) * fPlayerSpeed;	//右奥移動
-			m_move.z += cosf(cameraRot.y + D3DX_PI * 0.25f) * fPlayerSpeed;
-			m_rotDest.y = cameraRot.y - D3DX_PI * 0.75f;
-		}
-		else if (CInputKeyboard::Press(DIK_S))
-		{//Sキーが押された
-			m_move.x += sinf(cameraRot.y + D3DX_PI * 0.75f) * fPlayerSpeed;	//右前移動
-			m_move.z += cosf(cameraRot.y + D3DX_PI * 0.75f) * fPlayerSpeed;
-			m_rotDest.y = cameraRot.y - D3DX_PI * 0.25f;
-		}
-		else
-		{
-			m_move.x += sinf(cameraRot.y + D3DX_PI * 0.5f) * fPlayerSpeed;	//右移動
-			m_move.z += cosf(cameraRot.y + D3DX_PI * 0.5f) * fPlayerSpeed;
-			m_rotDest.y = cameraRot.y - D3DX_PI * 0.5f;
-		}
-	}
-	else if (CInputKeyboard::Press(DIK_W))
-	{//Wキーが押された
-		m_move.x -= sinf(cameraRot.y + D3DX_PI * 1.0f) * fPlayerSpeed;	//奥移動
-		m_move.z -= cosf(cameraRot.y + D3DX_PI * 1.0f) * fPlayerSpeed;
-		m_rotDest.y = cameraRot.y + D3DX_PI * 1.0f;
-	}
-	else if (CInputKeyboard::Press(DIK_S))
-	{//Sキーが押された
-		m_move.x -= sinf(cameraRot.y + D3DX_PI * 0.0f) * fPlayerSpeed;	//前移動
-		m_move.z -= cosf(cameraRot.y + D3DX_PI * 0.0f) * fPlayerSpeed;
-		m_rotDest.y = cameraRot.y + D3DX_PI * 0.0f;
-	}
-
-	//ジャンプ状態ではないときに
-	if (m_state == IDOL_STATE)
-	{
-		if (CInputKeyboard::Trigger(DIK_SPACE) && !m_bJump)
-		{
-			// ジャンプ状態に移行
-			m_state = JUMP_STATE;
-		}
 	}
 }

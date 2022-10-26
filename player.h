@@ -97,6 +97,10 @@ private:
 	void P1MoveKey();			//プレイヤー1のキー操作設定
 	void P2MoveKey();			//プレイヤー2のキー操作設定
 
+	// 移動キー
+	// 引数 : 上のキー、左のキー、下のキー、右のキー
+	void MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey);
+
 private:
 	//----------------
 	// 定数

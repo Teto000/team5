@@ -18,7 +18,7 @@
 //================================
 // フェードクラスの定義
 //================================
-class CFade : public CObject2D
+class CFade
 {
 public:
 	//フェードの状態
@@ -50,6 +50,8 @@ private:
 	FADE	  m_fade;	//フェードの状態
 	D3DXCOLOR m_col;	//ポリゴン(フェード)の色
 	CApplication::MODE m_modeNext;	//次の画面(モード)
+	CObject2D*m_pObject;							//フェード用ポリゴン
+
 };
 
 #endif

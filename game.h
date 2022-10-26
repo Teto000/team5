@@ -7,6 +7,7 @@
 #ifndef _GAME_H_
 #define _GAME_H_	
 
+#define MAX_PLAYER (2)
 //--------------------------------
 // インクルード
 //--------------------------------
@@ -40,7 +41,8 @@ public:
 	//------------------
 	// ゲッター
 	//------------------
-	static CPlayer*	GetPlayer();	//プレイヤーの取得
+	static CPlayer*	GetPlayer(int NumPlayer);	//プレイヤーの取得
+	static CMeshField* GetMesh() { return pMeshField; }	//メッシュフィールドの取得
 
 private:
 	//-------------------
@@ -48,7 +50,7 @@ private:
 	//-------------------
 	static CPolygon* pPolygon;
 	static CPolygon2d* pPolygon2d;
-	static CPlayer*	 pPlayer;
+	static CPlayer*	 pPlayer[MAX_PLAYER];
 	static CMeshField* pMeshField;
 };
 
