@@ -23,6 +23,7 @@
 #include "fade.h"
 #include "camera.h"
 #include "light.h"
+#include "player.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -95,7 +96,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//----------------------------
 	{
 		//カメラの最大数の設定
-		int nNumCamera = CRenderer::SetMaxCamera(1);
+		int nNumCamera = CRenderer::SetMaxCamera(2);
 
 		DWORD fWidth = SCREEN_WIDTH / 2;
 		DWORD fHeight = SCREEN_HEIGHT / 2;
@@ -227,6 +228,9 @@ void CApplication::Update()
 		for (int i = 0; i < nNumCamera; i++)
 		{
 			m_pCamera[i]->Update();
+
+			//カメラの位置を設定
+			m_pCamera[i]->SetPos(CGame::GetPlayer(i)->GetPosition());
 		}
 	}
 

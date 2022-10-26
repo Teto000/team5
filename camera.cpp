@@ -12,6 +12,7 @@
 #include "input.h"
 #include "input_keybord.h"
 #include "renderer.h"
+#include "game.h"
 
 //----------------------
 // 静的メンバ変数宣言
@@ -53,7 +54,6 @@ void CCamera::Init(void)
 	//---------------------------------
 	// 初期値の設定
 	//---------------------------------
-	m_posV = D3DXVECTOR3(0.0f, 200.0f, -400.0f);	//視点
 	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);			//上方向
 	m_viewport.MinZ = 0.0f;
 	m_viewport.MaxZ = 1.0f;
@@ -348,6 +348,15 @@ void CCamera::Move()
 		m_posR.y = m_posV.y + POLOR_Y;
 		m_posR.z = m_posV.z + POLOR_Z;
 	}
+}
+
+//========================
+// 視点・注視点の設定
+//========================
+void CCamera::SetPos(D3DXVECTOR3 pos)
+{
+	m_posR = pos;	//注視点
+	m_posV = m_posR + D3DXVECTOR3(0.0f, 200.0f, -400.0f);	//視点
 }
 
 //========================

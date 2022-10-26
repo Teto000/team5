@@ -31,6 +31,11 @@ public:
 	void SetCamera(LPDIRECT3DDEVICE9 pDevice);
 
 	//------------------
+	// セッター
+	//------------------
+	void SetPos(D3DXVECTOR3 pos);	//視点・注視点の設定
+
+	//------------------
 	// ゲッター
 	//------------------
 	D3DXVECTOR3 GetPosV();		//視点の取得
