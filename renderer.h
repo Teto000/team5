@@ -33,8 +33,8 @@ namespace
 const int SCREEN_WIDTH = 1280;
 // スクリーンの高さ
 const int SCREEN_HEIGHT = 720;
-//カメラの最大数
-const int MAX_CAMERA = 3;	//1か2か4にすること
+//カメラの最大数の初期値
+const int nDefaultMaxCamera = 4;
 // 頂点フォーマット
 const DWORD FVF_VERTEX_2D = (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 const DWORD FVF_VERTEX_3D = (D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1);
@@ -79,6 +79,12 @@ public:
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 GetDevice() { return m_pD3DDevice; }
 
+	//-----------------
+	// 静的メンバ関数
+	//-----------------
+	static int SetMaxCamera(int nNumCamera);
+	static int GetMaxCamera();
+
 private:
 	void DrawFPS();
 
@@ -94,7 +100,8 @@ private:
 	//-------------------
 	// 静的メンバ変数
 	//-------------------
-	static CCamera*	m_pCamera[MAX_CAMERA];	//カメラクラス
+	static int m_nMaxCamera;
+	static CCamera*	m_pCamera[nDefaultMaxCamera];	//カメラクラス
 };
 
 #endif // !_RENDERER_H_

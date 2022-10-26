@@ -54,6 +54,17 @@ public:
 		GAMEMODE_MAX
 	};
 
+	//カメラの最大数
+	enum NUMCAMERA
+	{
+		NUMCAMERA_NONE = 0,
+		NUMCAMERA_ONE,
+		NUMCAMERA_TWO,
+		NUMCAMERA_THREE,
+		NUMCAMERA_FOUR,
+		NUMCAMERA_MAX
+	};
+
 	CApplication();		//コンストラクタ
 	~CApplication();	//デストラクタ
 
@@ -91,14 +102,14 @@ private:
 	static MODE			m_mode;					//モード
 	static GAMEMODE		m_gameMode;				//ゲームモード
 
-	static CRenderer*	m_pRenderer;			//レンダラークラス
-	static CInput*		m_pInput;				//インプットクラス
-	static CTexture*	m_pTexture;				//テクスチャクラス
-	static CSound*		m_pSound;				//サウンドクラス
-	static CCamera*		m_pCamera[MAX_CAMERA];	//カメラクラス
-	static CLight*		m_pLight;				//ライトクラス
+	static CRenderer*	m_pRenderer;					//レンダラークラス
+	static CInput*		m_pInput;						//インプットクラス
+	static CTexture*	m_pTexture;						//テクスチャクラス
+	static CSound*		m_pSound;						//サウンドクラス
+	static CCamera*		m_pCamera[nDefaultMaxCamera];	//カメラクラス
+	static CLight*		m_pLight;						//ライトクラス
 
-	static bool m_bCamera;	//カメラを使用するかどうか
+	static bool m_bStop;	//プログラムを停止する
 };
 
 #endif // !_APPLICATION_H_

@@ -24,7 +24,8 @@
 //-----------------------
 // 静的メンバ変数宣言
 //-----------------------
-CCamera* CRenderer::m_pCamera[MAX_CAMERA] = {};	//カメラ
+int CRenderer::m_nMaxCamera = nDefaultMaxCamera;	//カメラの最大数
+CCamera* CRenderer::m_pCamera[nDefaultMaxCamera] = {};	//カメラ
 
 //=========================
 // コンストラクタ
@@ -182,7 +183,7 @@ void CRenderer::Update()
 //=============================================================================
 void CRenderer::Draw()
 {
-	for (int i = 0; i < MAX_CAMERA; i++)
+	for (int i = 0; i < m_nMaxCamera; i++)
 	{
 		//カメラの取得
 		m_pCamera[i] = CApplication::GetCamera(i);
@@ -224,6 +225,24 @@ void CRenderer::Draw()
 
 	// バックバッファとフロントバッファの入れ替え
 	m_pD3DDevice->Present(NULL, NULL, NULL, NULL);
+}
+
+//=============================================================================
+// カメラの最大数の設定・取得
+//=============================================================================
+int CRenderer::SetMaxCamera(int nNumCamera)
+{
+	m_nMaxCamera = nNumCamera;
+
+	return m_nMaxCamera;
+}
+
+//=============================================================================
+// カメラの最大数の取得
+//=============================================================================
+int CRenderer::GetMaxCamera()
+{
+	return m_nMaxCamera;
 }
 
 #ifdef _DEBUG
