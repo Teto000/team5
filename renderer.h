@@ -34,7 +34,7 @@ const int SCREEN_WIDTH = 1280;
 // スクリーンの高さ
 const int SCREEN_HEIGHT = 720;
 //カメラの最大数
-const int MAX_CAMERA = 1;	//1か2か4にすること
+const int MAX_CAMERA = 3;	//1か2か4にすること
 // 頂点フォーマット
 const DWORD FVF_VERTEX_2D = (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 const DWORD FVF_VERTEX_3D = (D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1);

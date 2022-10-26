@@ -8,6 +8,7 @@
 //------------------------
 // インクルード
 //------------------------
+#include <stdlib.h>
 #include "application.h"
 #include "renderer.h"
 #include "object3d.h"
@@ -33,12 +34,14 @@ CTutorial*			CApplication::m_pTutorial = nullptr;	//チュートリアルクラス
 CFade*				CApplication::m_pFade = nullptr;		//フェードクラス
 CApplication::MODE	CApplication::m_mode = MODE_MAX;		//ゲームモード
 
-CRenderer*	CApplication::m_pRenderer = nullptr;		//レンダラー
-CInput*		CApplication::m_pInput = nullptr;			//インプット
-CTexture*	CApplication::m_pTexture = nullptr;			//テクスチャ
-CSound*		CApplication::m_pSound = nullptr;			//サウンド
-CCamera*	CApplication::m_pCamera[MAX_CAMERA] = {};	//カメラ
-CLight*		CApplication::m_pLight = nullptr;			//ライト
+CRenderer*	CApplication::m_pRenderer = nullptr;			//レンダラー
+CInput*		CApplication::m_pInput = nullptr;				//インプット
+CTexture*	CApplication::m_pTexture = nullptr;				//テクスチャ
+CSound*		CApplication::m_pSound = nullptr;				//サウンド
+CCamera*	CApplication::m_pCamera[MAX_CAMERA] = {};		//カメラ
+CLight*		CApplication::m_pLight = nullptr;				//ライト
+
+bool CApplication::m_bCamera = true;	//カメラを使用するかどうか
 
 //===========================
 // コンストラクタ
@@ -110,6 +113,14 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 			m_pCamera[2] = CCamera::Create(0, fHeight, fWidth, fHeight);		//左下
 			m_pCamera[3] = CCamera::Create(fWidth, fHeight, fWidth, fHeight);	//右下
 		}
+		else
+		{
+			//ビューポートを使用しない
+			m_bCamera = false;
+
+			MessageBox(hWnd, "カメラの分割数が正常ではありません", "警告！", MB_ICONWARNING);
+			exit(!m_bCamera);	//カメラを使用しないならプログラムを停止する
+		}
 	}
 
 	//----------------------------
@@ -172,7 +183,7 @@ void CApplication::Uninit()
 	for (int i = 0; i < MAX_CAMERA; i++)
 	{
 		if (m_pCamera[i] != nullptr)
-		{
+		{//カメラがnullじゃないなら 
 			m_pCamera[i]->Uninit();
 			delete m_pCamera[i];
 			m_pCamera[i] = nullptr;
@@ -347,7 +358,12 @@ CSound *CApplication::GetSound()
 //===========================
 CCamera *CApplication::GetCamera(int nCnt)
 {
-	return m_pCamera[nCnt];
+	if (m_bCamera)
+	{//カメラを使用するなら
+		return m_pCamera[nCnt];
+	}
+
+	return nullptr;
 }
 
 //===========================

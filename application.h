@@ -68,8 +68,8 @@ public:
 	//------------------
 	// 静的メンバ関数
 	//------------------
-	static void SetMode(MODE mode);		//モードの設定
-	static MODE GetMode();				//モードの取得
+	static void SetMode(MODE mode);			//モードの設定
+	static MODE GetMode();					//モードの取得
 
 	static CRenderer *GetRenderer();		//レンダラーの取得
 	static CInput	 *GetInput();			//インプットの取得
@@ -83,13 +83,13 @@ private:
 	//------------------
 	// 静的メンバ変数
 	//------------------
-	static CGame*		m_pGame;		//ゲームクラス
-	static CTitle*		m_pTitle;		//タイトルクラス
-	static CResult*		m_pResult;		//リザルトクラス
-	static CTutorial*	m_pTutorial;	//チュートリアル
-	static CFade*		m_pFade;		//フェードクラス
-	static MODE			m_mode;			//モード
-	static GAMEMODE		m_gameMode;		//ゲームモード
+	static CGame*		m_pGame;				//ゲームクラス
+	static CTitle*		m_pTitle;				//タイトルクラス
+	static CResult*		m_pResult;				//リザルトクラス
+	static CTutorial*	m_pTutorial;			//チュートリアル
+	static CFade*		m_pFade;				//フェードクラス
+	static MODE			m_mode;					//モード
+	static GAMEMODE		m_gameMode;				//ゲームモード
 
 	static CRenderer*	m_pRenderer;			//レンダラークラス
 	static CInput*		m_pInput;				//インプットクラス
@@ -97,6 +97,8 @@ private:
 	static CSound*		m_pSound;				//サウンドクラス
 	static CCamera*		m_pCamera[MAX_CAMERA];	//カメラクラス
 	static CLight*		m_pLight;				//ライトクラス
+
+	static bool m_bCamera;	//カメラを使用するかどうか
 };
 
 #endif // !_APPLICATION_H_
