@@ -230,7 +230,7 @@ void CRenderer::Draw()
 //=============================================================================
 // ƒJƒƒ‰‚ÌÅ‘å”‚Ìİ’èEæ“¾
 //=============================================================================
-int CRenderer::SetMaxCamera(int nNumCamera)
+int CRenderer::SetMaxCamera(CApplication::NUMCAMERA nNumCamera)
 {
 	m_nMaxCamera = nNumCamera;
 
