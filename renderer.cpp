@@ -232,9 +232,28 @@ void CRenderer::Draw()
 //=============================================================================
 int CRenderer::SetMaxCamera(CApplication::NUMCAMERA nNumCamera)
 {
-	m_nMaxCamera = nNumCamera;
+	switch (nNumCamera)
+	{
+	case CApplication::NUMCAMERA_ONE:
+		//ƒJƒƒ‰‚ÌÅ‘å”‚ğ1‚É‚·‚é
+		m_nMaxCamera = 1;
+		break;
 
-	return m_nMaxCamera;
+	case CApplication::NUMCAMERA_TWO:
+		//ƒJƒƒ‰‚ÌÅ‘å”‚ğ2‚É‚·‚é
+		m_nMaxCamera = 2;
+		break;
+
+	case CApplication::NUMCAMERA_FOUR:
+		//ƒJƒƒ‰‚ÌÅ‘å”‚ğ4‚É‚·‚é
+		m_nMaxCamera = 4;
+		break;
+
+	default:
+		break;
+	}
+
+	return nNumCamera;
 }
 
 //=============================================================================
