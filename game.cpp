@@ -50,10 +50,17 @@ CGame::~CGame()
 //===========================
 HRESULT CGame::Init()
 {
-	for (int nCnt = 0; nCnt < MAX_PLAYER; nCnt++)
+	//カメラの最大数の設定
 	{
-		pPlayer[nCnt] = CPlayer::Create(nCnt);
+		int nNumCamera = CRenderer::GetMaxCamera();
+
+		//カメラの最大数分プレイヤーを生成
+		for (int nCnt = 0; nCnt < nNumCamera; nCnt++)
+		{
+			pPlayer[nCnt] = CPlayer::Create(nCnt);
+		}
 	}
+
 	pMeshField = CMeshField::Create();
 
 	return S_OK;

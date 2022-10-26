@@ -96,7 +96,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//----------------------------
 	{
 		//ƒJƒƒ‰‚ÌÅ‘å”‚Ìİ’è
-		int nNumCamera = CRenderer::SetMaxCamera(2);
+		int nNumCamera = CRenderer::SetMaxCamera(NUMCAMERA_FOUR);
 
 		DWORD fWidth = SCREEN_WIDTH / 2;
 		DWORD fHeight = SCREEN_HEIGHT / 2;
