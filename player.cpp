@@ -220,31 +220,31 @@ CPlayer* CPlayer::Create(int PlayerNum)
 void CPlayer::SetModel()
 {
 	//モデル0
-	m_pModel[0] = CModel::Create("data\\MODEL\\body.x", D3DXVECTOR3(0.0f, 5.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	m_pModel[0] = CModel::Create("data\\MODEL\\X_File\\body.x", D3DXVECTOR3(0.0f, 5.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	m_pModel[0]->SetParent(nullptr);
 
 	//モデル1
-	m_pModel[1] = CModel::Create("data\\MODEL\\head.x", D3DXVECTOR3(0.0f, 40.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	m_pModel[1] = CModel::Create("data\\MODEL\\X_File\\head.x", D3DXVECTOR3(0.0f, 40.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	m_pModel[1]->SetParent(m_pModel[0]);
 
 	//モデル2
-	m_pModel[2] = CModel::Create("data\\MODEL\\armR.x", D3DXVECTOR3(-20.0f, 40.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	m_pModel[2] = CModel::Create("data\\MODEL\\X_File\\armR.x", D3DXVECTOR3(-20.0f, 40.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	m_pModel[2]->SetParent(m_pModel[0]);
 
 	//モデル3
-	m_pModel[3] = CModel::Create("data\\MODEL\\armL.x", D3DXVECTOR3(20.0f, 40.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	m_pModel[3] = CModel::Create("data\\MODEL\\X_File\\armL.x", D3DXVECTOR3(20.0f, 40.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	m_pModel[3]->SetParent(m_pModel[0]);
 
 	//モデル4
-	m_pModel[4] = CModel::Create("data\\MODEL\\legR.x", D3DXVECTOR3(-7.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	m_pModel[4] = CModel::Create("data\\MODEL\\X_File\\legR.x", D3DXVECTOR3(-7.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	m_pModel[4]->SetParent(m_pModel[0]);
 
 	//モデル5
-	m_pModel[5] = CModel::Create("data\\MODEL\\legL.x", D3DXVECTOR3(7.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	m_pModel[5] = CModel::Create("data\\MODEL\\X_File\\legL.x", D3DXVECTOR3(7.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	m_pModel[5]->SetParent(m_pModel[0]);
 
 	//モデル6
-	m_pModel[6] = CModel::Create("data\\MODEL\\sword.x", D3DXVECTOR3(-22.0f, -14.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	m_pModel[6] = CModel::Create("data\\MODEL\\X_File\\sword.x", D3DXVECTOR3(-22.0f, -14.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	m_pModel[6]->SetParent(m_pModel[2]);
 }
 
