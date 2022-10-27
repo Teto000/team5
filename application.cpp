@@ -233,7 +233,10 @@ void CApplication::Update()
 		//-------------------------------
 		// 1位のビューポートを拡大する
 		//-------------------------------
-		if (CInputKeyboard::Press(DIK_Z))
+
+		/* 1位のプレイヤー番号を取得 */
+
+		if (CInputKeyboard::Press(DIK_Z) /* 1位がnullじゃないなら */)
 		{//Zが押されているなら
 			//ビューポートを拡大
 			m_pCamera[0]->AddViewSize(0, 0, 9, 5);

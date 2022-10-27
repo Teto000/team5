@@ -204,13 +204,16 @@ void CRenderer::Draw()
 			//-------------------------------
 			// 1位のビューポートを前面に出す
 			//-------------------------------
-			if (CInputKeyboard::Press(DIK_Z))
+
+			/* 1位のプレイヤー番号を取得 */
+
+			if (CInputKeyboard::Press(DIK_Z) /* 1位がnullじゃないなら */)
 			{//Zが押されているなら
 				//0番目のビューポートを拡大
 				viewport = m_pCamera[0]->GetVieport();
 				m_pD3DDevice->SetViewport(&viewport);
 			}
-			else if (CInputKeyboard::Release(DIK_Z))
+			else if (CInputKeyboard::Release(DIK_Z) /* 全画面に達したら */)
 			{//Zを離したなら
 				//フラグを立てる
 				m_nFinish = true;
