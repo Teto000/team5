@@ -19,6 +19,18 @@
 class CCamera
 {
 public:
+	//------------------------------
+	// プレイヤー番号の列挙型
+	//------------------------------
+	enum NUMPLAYER
+	{
+		NUMPLAYER_ONE = 0,
+		NUMPLAYER_TWO,
+		NUMPLAYER_THREE,
+		NUMPLAYER_FOUR,
+		NUMPLAYER_MAX
+	};
+
 	CCamera();	//コンストラクタ
 	~CCamera();	//デストラクタ
 
