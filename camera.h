@@ -61,8 +61,9 @@ public:
 	static CCamera* Create(DWORD X, DWORD Y, DWORD Width, DWORD Height);
 
 private:
-	void Turn();		//ù‰ñ
-	void Move();		//ˆÚ“®
+	void EachPlayer();	//ƒvƒŒƒCƒ„[‚²‚Æ‚Ìˆ—
+	void Turn(int nLeftKey,int nRightKey);	//ù‰ñ
+	void Move(int nUpKey, int nDownKey, int nLeftKey, int nRightKey);	//ˆÚ“®
 	void Following();	//’Ç]
 
 private:
