@@ -64,6 +64,7 @@ HRESULT CGame::Init()
 			//カメラに対応するプレイヤーの番号の設定
 			CApplication::GetCamera(nCnt)->SetNumPlayer(nCnt);
 		}
+	}
 	CTime *pTime = CTime::Create(D3DXVECTOR3(20.0f, 20.0f, 0.0f));
 	for (int nCnt = 0; nCnt < MAX_PLAYER; nCnt++)
 	{
