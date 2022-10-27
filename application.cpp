@@ -96,7 +96,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//----------------------------
 	{
 		//ƒJƒƒ‰‚ÌÅ‘å”‚ÌÝ’è
-		int nNumCamera = CRenderer::SetMaxCamera(NUMCAMERA_ONE);
+		int nNumCamera = CRenderer::SetMaxCamera(NUMCAMERA_TWO);
 
 		DWORD fWidth = SCREEN_WIDTH / 2;
 		DWORD fHeight = SCREEN_HEIGHT / 2;
@@ -230,7 +230,7 @@ void CApplication::Update()
 			m_pCamera[i]->Update();
 
 			//ƒJƒƒ‰‚ÌˆÊ’u‚ðÝ’è
-			m_pCamera[i]->SetPos(CGame::GetPlayer(i)->GetPosition());
+			//m_pCamera[i]->SetPos(CGame::GetPlayer(i)->GetPosition());
 		}
 	}
 

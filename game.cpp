@@ -20,6 +20,7 @@
 #include "meshfield.h"
 #include "debug_proc.h"
 #include "fade.h"
+#include  "camera.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -58,6 +59,9 @@ HRESULT CGame::Init()
 		for (int nCnt = 0; nCnt < nNumCamera; nCnt++)
 		{
 			pPlayer[nCnt] = CPlayer::Create(nCnt);
+
+			//カメラに対応するプレイヤーの番号の設定
+			CApplication::GetCamera(nCnt)->SetNumPlayer(nCnt);
 		}
 	}
 
