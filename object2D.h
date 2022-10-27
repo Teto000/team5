@@ -49,6 +49,7 @@ public:
 	/* ↓テクスチャ↓ */
 	void SetTexCIE(float left, float fRight);	//テクスチャ座標の設定
 	void SetTexture(CTexture::TEXTURE texture);	//テクスチャの設定
+	void SetAnim(const float Num, const int Pattern);	//アニメーションの作成
 
 	/* ↓頂点座標↓ */
 	void SetVtxCIE(D3DXVECTOR3 pos, float fWidth, float fHeight);						//頂点座標の設定

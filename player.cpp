@@ -354,6 +354,7 @@ void CPlayer::SetMotion(bool bLoop)
 //========================
 void CPlayer::Move()
 {
+	// ƒvƒŒƒCƒ„[‚Ì”Ô†‚²‚Æ‚É‘€ì‚ğ•Ï‚¦‚éˆ—
 	switch (m_nPlayerNum)
 	{
 	case 0:

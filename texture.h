@@ -23,6 +23,7 @@ public: /* 定義 */
 		TEXTURE_GROUND = 0,		//地面
 		TEXTURE_SHADOW,			//影
 		TEXTURE_BULLET,			//弾
+		TEXTURE_NUMBER,			//数字テクスチャ
 		TEXTURE_MAX,
 		TEXTURE_NONE,			//使用しない
 	};
