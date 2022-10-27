@@ -227,6 +227,7 @@ void CCamera::EachPlayer()
 
 //========================
 // 旋回
+// (左回転キー,右回転キー)
 //========================
 void CCamera::Turn(int nLeftKey,int nRightKey)
 {
@@ -274,6 +275,7 @@ void CCamera::Turn(int nLeftKey,int nRightKey)
 
 //========================
 // 移動
+// (上下左右の移動キー)
 //========================
 void CCamera::Move(int nUpKey, int nDownKey, int nLeftKey, int nRightKey)
 {
