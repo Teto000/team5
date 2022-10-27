@@ -382,6 +382,11 @@ void CCamera::Move(int nUpKey, int nDownKey, int nLeftKey, int nRightKey)
 //========================
 void CCamera::Following()
 {
+	if (CApplication::GetGame() == nullptr)
+	{
+		return;
+	}
+
 	//----------------------------
 	// ƒvƒŒƒCƒ„[‚Ìî•ñ‚ğæ“¾
 	//----------------------------
@@ -448,10 +453,6 @@ void CCamera::AddViewSize(DWORD X, DWORD Y, int fWidth, int fHeight)
 		{
 			m_viewport.X += X;
 		}
-	}
-	else
-	{
-		int a = 0;
 	}
 
 	//-------------------
