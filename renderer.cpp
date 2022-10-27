@@ -117,6 +117,10 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 	m_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 	m_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
 
+	for (int i = 0; i < 4; i++)
+	{
+		m_viewPortOrder[i] = i;
+	}
 #ifdef _DEBUG
 	// デバッグ情報表示用フォントの生成
 	D3DXCreateFont(m_pD3DDevice, 18, 0, 0, 0, FALSE, SHIFTJIS_CHARSET,
@@ -184,49 +188,38 @@ void CRenderer::Update()
 //=============================================================================
 void CRenderer::Draw()
 {
+	//-------------------------------
+	// 1位のビューポートを前面に出す
+	//-------------------------------
+	/* 1位のプレイヤー番号を取得 */
+	int nFirstNumber = 1;
+
+	if (CInputKeyboard::Press(DIK_Z) /* 1位がnullじゃないなら */)
+	{//Zが押されているなら
+		//-----------------------------
+		// ビューポートを前面に表示
+		//-----------------------------
+		int nviewData = m_viewPortOrder[0];
+		m_viewPortOrder[3] = nFirstNumber;
+		m_viewPortOrder[nFirstNumber] = nviewData;
+	}
+
 	for (int i = 0; i < m_nMaxCamera; i++)
 	{
+		int nOrder = m_viewPortOrder[i];
+
 		//カメラの取得
-		m_pCamera[i] = CApplication::GetCamera(i);
+		m_pCamera[nOrder] = CApplication::GetCamera(nOrder);
 
 		//カメラの設定
-		m_pCamera[i]->SetCamera(m_pD3DDevice);
+		m_pCamera[nOrder]->SetCamera(m_pD3DDevice);
 
 		//-------------------------
 		// ビューポートの処理
 		//-------------------------
-		if(m_nFinish == false)
-		{//終了フラグが立っていないなら
-			//ビューポートの設定
-			D3DVIEWPORT9 viewport = m_pCamera[i]->GetViewport();
-			m_pD3DDevice->SetViewport(&viewport);
-
-			//-------------------------------
-			// 1位のビューポートを前面に出す
-			//-------------------------------
-			/* 1位のプレイヤー番号を取得 */
-			int nFirstNumber = 1;
-
-			if (CInputKeyboard::Press(DIK_Z) /* 1位がnullじゃないなら */)
-			{//Zが押されているなら
-				//-----------------------------
-				// ビューポートを前面に表示
-				//-----------------------------
-				viewport = m_pCamera[nFirstNumber]->GetViewport();
-				m_pD3DDevice->SetViewport(&viewport);
-			}
-			else if (CInputKeyboard::Release(DIK_Z) /* 全画面に達したら */)
-			{//Zを離したなら
-				//-----------------------------
-				// ビューポートを前面に表示
-				//-----------------------------
-				viewport = m_pCamera[nFirstNumber]->GetViewport();
-				m_pD3DDevice->SetViewport(&viewport);
-
-				//フラグを立てる
-				m_nFinish = true;
-			}
-		}
+		//ビューポートの設定
+		D3DVIEWPORT9 viewport = m_pCamera[nOrder]->GetViewport();
+		m_pD3DDevice->SetViewport(&viewport);
 
 		// バックバッファ＆Ｚバッファのクリア
 		m_pD3DDevice->Clear(0,
