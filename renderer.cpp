@@ -37,6 +37,7 @@ CRenderer::CRenderer()
 
 	m_pFont = nullptr;		// フォント
 	m_bWIRE = false;
+	m_nFinish = false;
 }
 
 //=========================
@@ -191,10 +192,29 @@ void CRenderer::Draw()
 		//カメラの設定
 		m_pCamera[i]->SetCamera(m_pD3DDevice);
 
-		//ビューポートの設定
-		{
+		//-------------------------
+		// ビューポートの処理
+		//-------------------------
+		if(m_nFinish == false)
+		{//終了フラグが立っていないなら
+			//ビューポートの設定
 			D3DVIEWPORT9 viewport = m_pCamera[i]->GetVieport();
 			m_pD3DDevice->SetViewport(&viewport);
+
+			//-------------------------------
+			// 1位のビューポートを前面に出す
+			//-------------------------------
+			if (CInputKeyboard::Press(DIK_Z))
+			{//Zが押されているなら
+				//0番目のビューポートを拡大
+				viewport = m_pCamera[0]->GetVieport();
+				m_pD3DDevice->SetViewport(&viewport);
+			}
+			else if (CInputKeyboard::Release(DIK_Z))
+			{//Zを離したなら
+				//フラグを立てる
+				m_nFinish = true;
+			}
 		}
 
 		// バックバッファ＆Ｚバッファのクリア

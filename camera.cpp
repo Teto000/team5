@@ -236,7 +236,7 @@ void CCamera::Turn(int nLeftKey,int nRightKey)
 	//-------------------
 	if (CInputKeyboard::Press(nLeftKey))
 	{//キーが押された
-		m_rot.y -= fTurnSpeed;			//回転量の増加
+		m_rot.y += fTurnSpeed;			//回転量の増加
 		m_posR.x = m_posV.x + POLOR_X;	//xの距離
 		m_posR.y = m_posV.y + POLOR_Y;	//yの距離
 		m_posR.z = m_posV.z + POLOR_Z;	//zの距離
@@ -246,7 +246,7 @@ void CCamera::Turn(int nLeftKey,int nRightKey)
 	//-------------------
 	else if (CInputKeyboard::Press(nRightKey))	//右回転
 	{//キーが押された
-		m_rot.y += fTurnSpeed;
+		m_rot.y -= fTurnSpeed;
 		m_posR.x = m_posV.x + POLOR_X;
 		m_posR.y = m_posV.y + POLOR_Y;
 		m_posR.z = m_posV.z + POLOR_Z;
@@ -430,6 +430,42 @@ void CCamera::SetPos(D3DXVECTOR3 pos)
 void CCamera::SetNumPlayer(int nNum)
 {
 	m_nNumPlayer = nNum;
+}
+
+//========================
+// ビューポートの拡縮
+//========================
+void CCamera::AddViewSize(DWORD X, DWORD Y, int fWidth, int fHeight)
+{
+	//-------------------
+	// 幅の加算
+	//-------------------
+	if (m_viewport.Width < SCREEN_WIDTH - 5)
+	{//幅がスクリーン内なら
+		m_viewport.Width += fWidth;
+
+		if (m_viewport.X > 0)
+		{
+			m_viewport.X += X;
+		}
+	}
+	else
+	{
+		int a = 0;
+	}
+
+	//-------------------
+	// 高さの加算
+	//-------------------
+	if (m_viewport.Height < SCREEN_HEIGHT - 5)
+	{//幅がスクリーン内なら
+		m_viewport.Height += fHeight;
+
+		if (m_viewport.Y > 0)
+		{
+			m_viewport.Y += Y;
+		}
+	}
 }
 
 //========================
