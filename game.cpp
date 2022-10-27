@@ -66,10 +66,6 @@ HRESULT CGame::Init()
 		}
 	}
 	CTime *pTime = CTime::Create(D3DXVECTOR3(20.0f, 20.0f, 0.0f));
-	for (int nCnt = 0; nCnt < MAX_PLAYER; nCnt++)
-	{
-		pPlayer[nCnt] = CPlayer::Create(nCnt);
-	}
 
 	pMeshField = CMeshField::Create();
 

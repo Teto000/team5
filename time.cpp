@@ -57,8 +57,8 @@ void CTime::Update()
 {
 	// 現在のゲーム時間を表示
 	m_Time = timeGetTime() - m_StartGameTime;
-	m_Minutes = m_Time / 6000;					// 分に変換
-	m_Seconds = m_Time - (m_Minutes * 6000);	// 分に変換した分を引いた値を秒に入れる
+	m_Minutes = m_Time / 60000;					// 分に変換
+	m_Seconds = m_Time - (m_Minutes * 60000);	// 分に変換した分を引いた値を秒に入れる
 
 	// 時間設定
 	Set();
