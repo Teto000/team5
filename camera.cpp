@@ -382,9 +382,23 @@ void CCamera::Move(int nUpKey, int nDownKey, int nLeftKey, int nRightKey)
 //========================
 void CCamera::Following()
 {
-	if (CApplication::GetGame() == nullptr)
-	{
+	if (!CApplication::GetGame())
+	{//ゲームが終了してるなら
 		return;
+	}
+
+	/* 1位のプレイヤー番号を取得 */
+	int nFirstNumber = 0;
+
+	if (CInputKeyboard::Trigger(DIK_Z))
+	{
+		nFirstNumber = 1;
+	}
+
+	if (nFirstNumber != 0)
+	{//1位の値が0じゃないなら
+		//1位のプレイヤーを追従する
+		m_nNumPlayer = nFirstNumber;
 	}
 
 	//----------------------------
@@ -488,7 +502,7 @@ D3DXVECTOR3 CCamera::GetRot()
 //========================
 // ビューポートの取得
 //========================
-D3DVIEWPORT9 CCamera::GetVieport()
+D3DVIEWPORT9 CCamera::GetViewport()
 {
 	return m_viewport;
 }

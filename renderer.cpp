@@ -198,23 +198,31 @@ void CRenderer::Draw()
 		if(m_nFinish == false)
 		{//終了フラグが立っていないなら
 			//ビューポートの設定
-			D3DVIEWPORT9 viewport = m_pCamera[i]->GetVieport();
+			D3DVIEWPORT9 viewport = m_pCamera[i]->GetViewport();
 			m_pD3DDevice->SetViewport(&viewport);
 
 			//-------------------------------
 			// 1位のビューポートを前面に出す
 			//-------------------------------
-
 			/* 1位のプレイヤー番号を取得 */
+			int nFirstNumber = 1;
 
 			if (CInputKeyboard::Press(DIK_Z) /* 1位がnullじゃないなら */)
 			{//Zが押されているなら
-				//0番目のビューポートを拡大
-				viewport = m_pCamera[0]->GetVieport();
+				//-----------------------------
+				// ビューポートを前面に表示
+				//-----------------------------
+				viewport = m_pCamera[nFirstNumber]->GetViewport();
 				m_pD3DDevice->SetViewport(&viewport);
 			}
 			else if (CInputKeyboard::Release(DIK_Z) /* 全画面に達したら */)
 			{//Zを離したなら
+				//-----------------------------
+				// ビューポートを前面に表示
+				//-----------------------------
+				viewport = m_pCamera[nFirstNumber]->GetViewport();
+				m_pD3DDevice->SetViewport(&viewport);
+
 				//フラグを立てる
 				m_nFinish = true;
 			}

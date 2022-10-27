@@ -96,7 +96,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//----------------------------
 	{
 		//カメラの最大数の設定
-		int nNumCamera = CRenderer::SetMaxCamera(NUMCAMERA_ONE);
+		int nNumCamera = CRenderer::SetMaxCamera(NUMCAMERA_FOUR);
 
 		DWORD fWidth = SCREEN_WIDTH / 2;
 		DWORD fHeight = SCREEN_HEIGHT / 2;
@@ -230,17 +230,8 @@ void CApplication::Update()
 			m_pCamera[i]->Update();
 		}
 
-		//-------------------------------
-		// 1位のビューポートを拡大する
-		//-------------------------------
-
-		/* 1位のプレイヤー番号を取得 */
-
-		if (CInputKeyboard::Press(DIK_Z) /* 1位がnullじゃないなら */)
-		{//Zが押されているなら
-			//ビューポートを拡大
-			m_pCamera[0]->AddViewSize(0, 0, 9, 5);
-		}
+		//ゲーム終了時の処理
+		FinishGame();
 	}
 
 	//モードごとの更新
@@ -339,6 +330,60 @@ void CApplication::SetMode(MODE mode)
 	/*m_pFade = nullptr;
 	m_pFade = new CFade;
 	m_pFade->Init(m_mode);*/
+}
+
+//===========================
+// ゲーム終了時の処理
+//===========================
+void CApplication::FinishGame()
+{
+	//-------------------------------
+	// 1位のビューポートを拡大する
+	//-------------------------------
+
+	/* 1位のプレイヤー番号を取得 */
+	int nFirstNumber = 1;
+
+	if (CInputKeyboard::Press(DIK_Z) /* 1位がnullじゃないなら */)
+	{//Zが押されているなら
+
+		//-----------------------
+		// ビューポートを拡大
+		//-----------------------
+		switch (nFirstNumber)
+		{
+		//-----------------------
+		// 1人目が勝った
+		//-----------------------
+		case CCamera::NUMPLAYER_ONE:
+			m_pCamera[nFirstNumber]->AddViewSize(0, 0, nSpeed_X, nSpeed_Y);
+			break;
+
+		//-----------------------
+		// 2人目が勝った
+		//-----------------------
+		case CCamera::NUMPLAYER_TWO:
+			m_pCamera[nFirstNumber]->AddViewSize(-nSpeed_X, 0, nSpeed_X, nSpeed_Y);
+			break;
+
+		//-----------------------
+		// 3人目が勝った
+		//-----------------------
+		case CCamera::NUMPLAYER_THREE:
+			m_pCamera[nFirstNumber]->AddViewSize(0, -nSpeed_Y, nSpeed_X, nSpeed_Y);
+			break;
+
+		//-----------------------
+		// 4人目が勝った
+		//-----------------------
+		case CCamera::NUMPLAYER_FOUR:
+			m_pCamera[nFirstNumber]->AddViewSize(-nSpeed_X, -nSpeed_Y, nSpeed_X, nSpeed_Y);
+			break;
+
+		default:
+			break;
+		}
+	}
 }
 
 //===========================

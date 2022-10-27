@@ -54,7 +54,7 @@ public:
 	//------------------
 	D3DXVECTOR3 GetPosV();		//視点の取得
 	D3DXVECTOR3 GetRot();		//向きの取得
-	D3DVIEWPORT9 GetVieport();	//ビューポートの取得
+	D3DVIEWPORT9 GetViewport();	//ビューポートの取得
 
 	//------------------
 	// 静的メンバ関数
