@@ -96,7 +96,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//----------------------------
 	{
 		//カメラの最大数の設定
-		int nNumCamera = CRenderer::SetMaxCamera(NUMCAMERA_ONE);
+		int nNumCamera = CRenderer::SetMaxCamera(NUMCAMERA_FOUR);
 
 		DWORD fWidth = SCREEN_WIDTH / 2;
 		DWORD fHeight = SCREEN_HEIGHT / 2;
@@ -228,9 +228,18 @@ void CApplication::Update()
 		for (int i = 0; i < nNumCamera; i++)
 		{
 			m_pCamera[i]->Update();
+		}
 
-			//カメラの位置を設定
-			//m_pCamera[i]->SetPos(CGame::GetPlayer(i)->GetPosition());
+		//-------------------------------
+		// 1位のビューポートを拡大する
+		//-------------------------------
+
+		/* 1位のプレイヤー番号を取得 */
+
+		if (CInputKeyboard::Press(DIK_Z) /* 1位がnullじゃないなら */)
+		{//Zが押されているなら
+			//ビューポートを拡大
+			m_pCamera[0]->AddViewSize(0, 0, 9, 5);
 		}
 	}
 

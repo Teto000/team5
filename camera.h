@@ -47,6 +47,7 @@ public:
 	//------------------
 	void SetPos(D3DXVECTOR3 pos);	//視点・注視点の設定
 	void SetNumPlayer(int nNum);	//プレイヤー番号の設定
+	void AddViewSize(DWORD X, DWORD Y, int fWidth, int fHeight);	//ビューポートの拡縮
 
 	//------------------
 	// ゲッター
@@ -64,7 +65,7 @@ private:
 	void EachPlayer();	//プレイヤーごとの処理
 	void Turn(int nLeftKey,int nRightKey);	//旋回
 	void Move(int nUpKey, int nDownKey, int nLeftKey, int nRightKey);	//移動
-	void Following();	//追従
+	void Following();				//追従
 
 private:
 	//------------------
