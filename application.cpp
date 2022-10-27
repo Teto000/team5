@@ -96,7 +96,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//----------------------------
 	{
 		//ÉJÉÅÉâÇÃç≈ëÂêîÇÃê›íË
-		int nNumCamera = CRenderer::SetMaxCamera(NUMCAMERA_FOUR);
+		int nNumCamera = CRenderer::SetMaxCamera(NUMCAMERA_ONE);
 
 		DWORD fWidth = SCREEN_WIDTH / 2;
 		DWORD fHeight = SCREEN_HEIGHT / 2;
@@ -292,6 +292,7 @@ void CApplication::SetMode(MODE mode)
 
 	case MODE_GAME:
 		m_pGame->Uninit();
+		m_pGame = nullptr;
 		break;
 
 	case MODE_RESULT:
@@ -346,6 +347,14 @@ void CApplication::SetMode(MODE mode)
 CApplication::MODE CApplication::GetMode()
 {
 	return m_mode;
+}
+
+//===========================
+// ÉQÅ[ÉÄÇÃéÊìæ
+//===========================
+CGame* CApplication::GetGame()
+{
+	return m_pGame;
 }
 
 //===========================

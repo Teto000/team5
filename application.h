@@ -84,6 +84,7 @@ public:
 	static void SetMode(MODE mode);			//モードの設定
 	static MODE GetMode();					//モードの取得
 
+	static CGame*	 GetGame();				//ゲームの取得
 	static CRenderer *GetRenderer();		//レンダラーの取得
 	static CInput	 *GetInput();			//インプットの取得
 	static CTexture  *GetTexture();			//テクスチャの取得
@@ -91,6 +92,9 @@ public:
 	static CCamera	 *GetCamera(int nCnt);	//カメラの取得
 	static CLight	 *GetLight();			//ライトの取得
 	static CFade	 *GetFade();			//フェードの取得
+
+private:
+	//void FinishGame();	//ゲーム終了時の処理
 
 private:
 	//------------------
