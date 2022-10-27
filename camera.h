@@ -19,6 +19,18 @@
 class CCamera
 {
 public:
+	//------------------------------
+	// プレイヤー番号の列挙型
+	//------------------------------
+	enum NUMPLAYER
+	{
+		NUMPLAYER_ONE = 0,
+		NUMPLAYER_TWO,
+		NUMPLAYER_THREE,
+		NUMPLAYER_FOUR,
+		NUMPLAYER_MAX
+	};
+
 	CCamera();	//コンストラクタ
 	~CCamera();	//デストラクタ
 
@@ -29,6 +41,12 @@ public:
 	void Uninit();
 	void Update();
 	void SetCamera(LPDIRECT3DDEVICE9 pDevice);
+
+	//------------------
+	// セッター
+	//------------------
+	void SetPos(D3DXVECTOR3 pos);	//視点・注視点の設定
+	void SetNumPlayer(int nNum);	//プレイヤー番号の設定
 
 	//------------------
 	// ゲッター
@@ -43,8 +61,10 @@ public:
 	static CCamera* Create(DWORD X, DWORD Y, DWORD Width, DWORD Height);
 
 private:
-	void Turn();	//旋回
-	void Move();	//移動
+	void EachPlayer();	//プレイヤーごとの処理
+	void Turn(int nLeftKey,int nRightKey);	//旋回
+	void Move(int nUpKey, int nDownKey, int nLeftKey, int nRightKey);	//移動
+	void Following();	//追従
 
 private:
 	//------------------
@@ -63,6 +83,7 @@ private:
 	D3DXVECTOR3 m_posRDest;		//目的の注視点
 	D3DXVECTOR3 m_rotDest;		//目的の角度
 	D3DXVECTOR3 m_vecU;			//上方向ベクトル
+	int m_nNumPlayer;			//プレイヤー番号
 	float m_fDistance;			//距離
 	float POLOR_X;				//極座標のX
 	float POLOR_Y;				//極座標のY

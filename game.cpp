@@ -20,6 +20,7 @@
 #include "meshfield.h"
 #include "debug_proc.h"
 #include "fade.h"
+#include  "camera.h"
 #include "time.h"
 
 //------------------------
@@ -51,11 +52,24 @@ CGame::~CGame()
 //===========================
 HRESULT CGame::Init()
 {
+	//カメラの最大数の設定
+	{
+		int nNumCamera = CRenderer::GetMaxCamera();
+
+		//カメラの最大数分プレイヤーを生成
+		for (int nCnt = 0; nCnt < nNumCamera; nCnt++)
+		{
+			pPlayer[nCnt] = CPlayer::Create(nCnt);
+
+			//カメラに対応するプレイヤーの番号の設定
+			CApplication::GetCamera(nCnt)->SetNumPlayer(nCnt);
+		}
 	CTime *pTime = CTime::Create(D3DXVECTOR3(20.0f, 20.0f, 0.0f));
 	for (int nCnt = 0; nCnt < MAX_PLAYER; nCnt++)
 	{
 		pPlayer[nCnt] = CPlayer::Create(nCnt);
 	}
+
 	pMeshField = CMeshField::Create();
 
 	return S_OK;

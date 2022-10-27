@@ -11,7 +11,6 @@
 // インクルード
 //------------------------------
 #include <d3dx9.h>
-#include "renderer.h"
 
 //------------------------------
 // 前方宣言
@@ -28,6 +27,11 @@ class CTexture;		//テクスチャ
 class CSound;		//サウンド
 class CCamera;		//カメラ
 class CLight;		//ライト
+
+//--------------------
+// マクロ定義
+//--------------------
+#define nDefaultMaxCamera	(4)
 
 //================================
 // アプリケーションクラスの定義
@@ -54,6 +58,15 @@ public:
 		GAMEMODE_MAX
 	};
 
+	//カメラの最大数
+	enum NUMCAMERA
+	{
+		NUMCAMERA_ONE = 0,
+		NUMCAMERA_TWO,
+		NUMCAMERA_FOUR,
+		NUMCAMERA_MAX
+	};
+
 	CApplication();		//コンストラクタ
 	~CApplication();	//デストラクタ
 
@@ -68,8 +81,8 @@ public:
 	//------------------
 	// 静的メンバ関数
 	//------------------
-	static void SetMode(MODE mode);		//モードの設定
-	static MODE GetMode();				//モードの取得
+	static void SetMode(MODE mode);			//モードの設定
+	static MODE GetMode();					//モードの取得
 
 	static CRenderer *GetRenderer();		//レンダラーの取得
 	static CInput	 *GetInput();			//インプットの取得
@@ -83,20 +96,22 @@ private:
 	//------------------
 	// 静的メンバ変数
 	//------------------
-	static CGame*		m_pGame;		//ゲームクラス
-	static CTitle*		m_pTitle;		//タイトルクラス
-	static CResult*		m_pResult;		//リザルトクラス
-	static CTutorial*	m_pTutorial;	//チュートリアル
-	static CFade*		m_pFade;		//フェードクラス
-	static MODE			m_mode;			//モード
-	static GAMEMODE		m_gameMode;		//ゲームモード
+	static CGame*		m_pGame;				//ゲームクラス
+	static CTitle*		m_pTitle;				//タイトルクラス
+	static CResult*		m_pResult;				//リザルトクラス
+	static CTutorial*	m_pTutorial;			//チュートリアル
+	static CFade*		m_pFade;				//フェードクラス
+	static MODE			m_mode;					//モード
+	static GAMEMODE		m_gameMode;				//ゲームモード
 
-	static CRenderer*	m_pRenderer;			//レンダラークラス
-	static CInput*		m_pInput;				//インプットクラス
-	static CTexture*	m_pTexture;				//テクスチャクラス
-	static CSound*		m_pSound;				//サウンドクラス
-	static CCamera*		m_pCamera[MAX_CAMERA];	//カメラクラス
-	static CLight*		m_pLight;				//ライトクラス
+	static CRenderer*	m_pRenderer;					//レンダラークラス
+	static CInput*		m_pInput;						//インプットクラス
+	static CTexture*	m_pTexture;						//テクスチャクラス
+	static CSound*		m_pSound;						//サウンドクラス
+	static CCamera*		m_pCamera[nDefaultMaxCamera];	//カメラクラス
+	static CLight*		m_pLight;						//ライトクラス
+
+	static bool m_bStop;	//プログラムを停止する
 };
 
 #endif // !_APPLICATION_H_

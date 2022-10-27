@@ -8,6 +8,7 @@
 //------------------------
 // インクルード
 //------------------------
+#include <stdlib.h>
 #include "application.h"
 #include "renderer.h"
 #include "object3d.h"
@@ -22,6 +23,7 @@
 #include "fade.h"
 #include "camera.h"
 #include "light.h"
+#include "player.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -33,12 +35,14 @@ CTutorial*			CApplication::m_pTutorial = nullptr;	//チュートリアルクラス
 CFade*				CApplication::m_pFade = nullptr;		//フェードクラス
 CApplication::MODE	CApplication::m_mode = MODE_MAX;		//ゲームモード
 
-CRenderer*	CApplication::m_pRenderer = nullptr;		//レンダラー
-CInput*		CApplication::m_pInput = nullptr;			//インプット
-CTexture*	CApplication::m_pTexture = nullptr;			//テクスチャ
-CSound*		CApplication::m_pSound = nullptr;			//サウンド
-CCamera*	CApplication::m_pCamera[MAX_CAMERA] = {};	//カメラ
-CLight*		CApplication::m_pLight = nullptr;			//ライト
+CRenderer*	CApplication::m_pRenderer = nullptr;			//レンダラー
+CInput*		CApplication::m_pInput = nullptr;				//インプット
+CTexture*	CApplication::m_pTexture = nullptr;				//テクスチャ
+CSound*		CApplication::m_pSound = nullptr;				//サウンド
+CCamera*	CApplication::m_pCamera[nDefaultMaxCamera] = {};		//カメラ
+CLight*		CApplication::m_pLight = nullptr;				//ライト
+
+bool CApplication::m_bStop = false;	//プログラムを停止する
 
 //===========================
 // コンストラクタ
@@ -91,24 +95,40 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	// カメラの生成と初期化
 	//----------------------------
 	{
+		//カメラの最大数の設定
+		int nNumCamera = CRenderer::SetMaxCamera(NUMCAMERA_ONE);
+
 		DWORD fWidth = SCREEN_WIDTH / 2;
 		DWORD fHeight = SCREEN_HEIGHT / 2;
 
-		if (MAX_CAMERA == 1)
-		{//カメラの数が1つなら
+		switch (nNumCamera)
+		{
+		case NUMCAMERA_ONE:
+			//カメラの数が1つなら
 			m_pCamera[0] = CCamera::Create(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-		}
-		else if (MAX_CAMERA == 2)
-		{//カメラの数が2つなら
+			break;
+			
+		case NUMCAMERA_TWO:
+			//カメラの数が2つなら
 			m_pCamera[0] = CCamera::Create(0, 0, fWidth, SCREEN_HEIGHT);
 			m_pCamera[1] = CCamera::Create(fWidth, 0, fWidth, SCREEN_HEIGHT);
-		}
-		else if (MAX_CAMERA == 4)
-		{//カメラの数が4つなら
+			break;
+
+		case NUMCAMERA_FOUR:
+			//カメラの数が4つなら
 			m_pCamera[0] = CCamera::Create(0, 0, fWidth, fHeight);				//左上
 			m_pCamera[1] = CCamera::Create(fWidth, 0, fWidth, fHeight);			//右上
 			m_pCamera[2] = CCamera::Create(0, fHeight, fWidth, fHeight);		//左下
 			m_pCamera[3] = CCamera::Create(fWidth, fHeight, fWidth, fHeight);	//右下
+			break;
+
+		default:
+			//プログラムを停止する
+			m_bStop = true;
+
+			//警告
+			MessageBox(hWnd, "カメラの分割数が正常ではありません", "警告！", MB_ICONWARNING);
+			exit(m_bStop);	//プログラムを停止する
 		}
 	}
 
@@ -169,13 +189,16 @@ void CApplication::Uninit()
 	}*/
 
 	//カメラの終了
-	for (int i = 0; i < MAX_CAMERA; i++)
 	{
-		if (m_pCamera[i] != nullptr)
+		int nNumCamera = CRenderer::GetMaxCamera();
+		for (int i = 0; i < nNumCamera; i++)
 		{
-			m_pCamera[i]->Uninit();
-			delete m_pCamera[i];
-			m_pCamera[i] = nullptr;
+			if (m_pCamera[i] != nullptr)
+			{//カメラがnullじゃないなら 
+				m_pCamera[i]->Uninit();
+				delete m_pCamera[i];
+				m_pCamera[i] = nullptr;
+			}
 		}
 	}
 
@@ -200,9 +223,15 @@ void CApplication::Update()
 	m_pRenderer->Update();
 
 	//カメラの更新
-	for (int i = 0; i < MAX_CAMERA; i++)
 	{
-		m_pCamera[i]->Update();
+		int nNumCamera = CRenderer::GetMaxCamera();
+		for (int i = 0; i < nNumCamera; i++)
+		{
+			m_pCamera[i]->Update();
+
+			//カメラの位置を設定
+			//m_pCamera[i]->SetPos(CGame::GetPlayer(i)->GetPosition());
+		}
 	}
 
 	//モードごとの更新

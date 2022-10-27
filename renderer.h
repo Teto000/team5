@@ -12,11 +12,13 @@
 //--------------------
 #include <tchar.h> // _T
 #include <d3dx9.h>
+#include "application.h"
 
 //--------------------
 // 前方宣言
 //--------------------
 class CCamera;
+//class CApplication;
 
 //*****************************************************************************
 // 定数定義
@@ -26,15 +28,13 @@ namespace
 	// ウインドウのクラス名
 	LPCTSTR CLASS_NAME = _T("AppClass");
 	// ウインドウのキャプション名
-	LPCTSTR WINDOW_NAME = _T("鳥々戯画");
+	LPCTSTR WINDOW_NAME = _T("光る！鳴る！DXショトカイザー！！");
 }
 
 // スクリーンの幅
 const int SCREEN_WIDTH = 1280;
 // スクリーンの高さ
 const int SCREEN_HEIGHT = 720;
-//カメラの最大数
-const int MAX_CAMERA = 1;	//1か2か4にすること
 // 頂点フォーマット
 const DWORD FVF_VERTEX_2D = (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 const DWORD FVF_VERTEX_3D = (D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1);
@@ -51,13 +51,13 @@ struct VERTEX_2D
 	D3DXVECTOR2 tex;
 };
 
-typedef struct
+struct VERTEX_3D
 {
 	D3DXVECTOR3 pos;	//頂点座標
 	D3DXVECTOR3 nor;	//法線ベクトル
 	D3DCOLOR col;		//頂点カラー
 	D3DXVECTOR2 tex;	//テクスチャへのポインタ
-}VERTEX_3D;
+};
 
 //==============================
 // レンダリングクラスの定義
@@ -79,6 +79,12 @@ public:
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 GetDevice() { return m_pD3DDevice; }
 
+	//-----------------
+	// 静的メンバ関数
+	//-----------------
+	static int SetMaxCamera(CApplication::NUMCAMERA nNumCamera);
+	static int GetMaxCamera();
+
 private:
 	void DrawFPS();
 
@@ -94,7 +100,8 @@ private:
 	//-------------------
 	// 静的メンバ変数
 	//-------------------
-	static CCamera*	m_pCamera[MAX_CAMERA];	//カメラクラス
+	static int m_nMaxCamera;
+	static CCamera*	m_pCamera[nDefaultMaxCamera];	//カメラクラス
 };
 
 #endif // !_RENDERER_H_
