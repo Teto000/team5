@@ -20,6 +20,7 @@
 #include "meshfield.h"
 #include "debug_proc.h"
 #include "fade.h"
+#include "time.h"
 
 //------------------------
 // Ã“Iƒƒ“ƒo•Ï”éŒ¾
@@ -50,6 +51,7 @@ CGame::~CGame()
 //===========================
 HRESULT CGame::Init()
 {
+	CTime *pTime = CTime::Create(D3DXVECTOR3(20.0f, 20.0f, 0.0f));
 	for (int nCnt = 0; nCnt < MAX_PLAYER; nCnt++)
 	{
 		pPlayer[nCnt] = CPlayer::Create(nCnt);

@@ -441,6 +441,29 @@ D3DXVECTOR3 CObject2D::MoveCircle(D3DXVECTOR3 CenterPos, float fAngle, float fLe
 	return m_pos;
 }
 
+
+//=========================================
+//アニメーションの設定
+//=========================================
+void CObject2D::SetAnim(const float Num, const int Pattern)
+{
+	VERTEX_2D *pVtx;	// 頂点情報へのポインタ
+
+	float PatternSize = 1.0f / Pattern;
+
+	// 頂点バッファをロックし、頂点情報へのポインタを取得
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+	//texの設定
+	pVtx[0].tex = D3DXVECTOR2(Num * PatternSize, 0.0f);
+	pVtx[1].tex = D3DXVECTOR2(Num * PatternSize + PatternSize, 0.0f);
+	pVtx[2].tex = D3DXVECTOR2(Num * PatternSize, 1.0f);
+	pVtx[3].tex = D3DXVECTOR2(Num * PatternSize + PatternSize, 1.0f);
+
+	// 頂点をアンロックする
+	m_pVtxBuff->Unlock();
+}
+
 //===========================
 // 位置の取得
 //===========================

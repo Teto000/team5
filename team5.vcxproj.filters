@@ -110,6 +110,12 @@
     <ClCompile Include="meshfield.cpp">
       <Filter>Main\Object\Mesh</Filter>
     </ClCompile>
+    <ClCompile Include="time.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="number.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h">
@@ -183,6 +189,12 @@
     </ClInclude>
     <ClInclude Include="meshfield.h">
       <Filter>Main\Object\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="time.h">
+      <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="number.h">
+      <Filter>Main\Application</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

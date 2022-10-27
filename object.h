@@ -77,7 +77,7 @@ private:
 	CObject* m_pPrev;	//1つ前のオブジェクト
 	CObject* m_pNext;	//1つ後のオブジェクト
 	EObjType m_ObjType;	//オブジェクトの種類
-	bool m_bDeath;		//死亡フラグ
+	bool m_bDeath;		//死 亡フラグ
 
 	//----------------
 	// 静的メンバ変数
