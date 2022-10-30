@@ -68,9 +68,6 @@
     <ClCompile Include="light.cpp">
       <Filter>Main\Application</Filter>
     </ClCompile>
-    <ClCompile Include="mesh.cpp">
-      <Filter>Main\Object\Mesh</Filter>
-    </ClCompile>
     <ClCompile Include="model.cpp">
       <Filter>Main\Object\ObjectX</Filter>
     </ClCompile>
@@ -110,8 +107,14 @@
     <ClCompile Include="meshfield.cpp">
       <Filter>Main\Object\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="GoalFragManager.cpp">
+    <ClCompile Include="time.cpp">
       <Filter>Main\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="number.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh.cpp">
+      <Filter>Main\Object\Billboard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -187,7 +190,10 @@
     <ClInclude Include="meshfield.h">
       <Filter>Main\Object\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="GoalFragManager.h">
+    <ClInclude Include="time.h">
+      <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="number.h">
       <Filter>Main\Application</Filter>
     </ClInclude>
   </ItemGroup>

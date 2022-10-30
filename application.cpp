@@ -228,10 +228,10 @@ void CApplication::Update()
 		for (int i = 0; i < nNumCamera; i++)
 		{
 			m_pCamera[i]->Update();
-
-			//カメラの位置を設定
-			m_pCamera[i]->SetPos(CGame::GetPlayer(i)->GetPosition());
 		}
+
+		//ゲーム終了時の処理
+		FinishGame();
 	}
 
 	//モードごとの更新
@@ -283,6 +283,7 @@ void CApplication::SetMode(MODE mode)
 
 	case MODE_GAME:
 		m_pGame->Uninit();
+		m_pGame = nullptr;
 		break;
 
 	case MODE_RESULT:
@@ -332,11 +333,73 @@ void CApplication::SetMode(MODE mode)
 }
 
 //===========================
+// ゲーム終了時の処理
+//===========================
+void CApplication::FinishGame()
+{
+	//-------------------------------
+	// 1位のビューポートを拡大する
+	//-------------------------------
+
+	/* 1位のプレイヤー番号を取得 */
+	int nFirstNumber = 1;
+
+	if (CInputKeyboard::Press(DIK_Z) /* 1位がnullじゃないなら */)
+	{//Zが押されているなら
+
+		//-----------------------
+		// ビューポートを拡大
+		//-----------------------
+		switch (nFirstNumber)
+		{
+		//-----------------------
+		// 1人目が勝った
+		//-----------------------
+		case CCamera::NUMPLAYER_ONE:
+			m_pCamera[nFirstNumber]->AddViewSize(0, 0, nSpeed_X, nSpeed_Y);
+			break;
+
+		//-----------------------
+		// 2人目が勝った
+		//-----------------------
+		case CCamera::NUMPLAYER_TWO:
+			m_pCamera[nFirstNumber]->AddViewSize(-nSpeed_X, 0, nSpeed_X, nSpeed_Y);
+			break;
+
+		//-----------------------
+		// 3人目が勝った
+		//-----------------------
+		case CCamera::NUMPLAYER_THREE:
+			m_pCamera[nFirstNumber]->AddViewSize(0, -nSpeed_Y, nSpeed_X, nSpeed_Y);
+			break;
+
+		//-----------------------
+		// 4人目が勝った
+		//-----------------------
+		case CCamera::NUMPLAYER_FOUR:
+			m_pCamera[nFirstNumber]->AddViewSize(-nSpeed_X, -nSpeed_Y, nSpeed_X, nSpeed_Y);
+			break;
+
+		default:
+			break;
+		}
+	}
+}
+
+//===========================
 // モードの取得
 //===========================
 CApplication::MODE CApplication::GetMode()
 {
 	return m_mode;
+}
+
+//===========================
+// ゲームの取得
+//===========================
+CGame* CApplication::GetGame()
+{
+	return m_pGame;
 }
 
 //===========================

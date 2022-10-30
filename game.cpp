@@ -20,7 +20,8 @@
 #include "meshfield.h"
 #include "debug_proc.h"
 #include "fade.h"
-#include "GoalFragManager.h"
+#include  "camera.h"
+#include "time.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -59,13 +60,14 @@ HRESULT CGame::Init()
 		for (int nCnt = 0; nCnt < nNumCamera; nCnt++)
 		{
 			pPlayer[nCnt] = CPlayer::Create(nCnt);
+
+			//カメラに対応するプレイヤーの番号の設定
+			CApplication::GetCamera(nCnt)->SetNumPlayer(nCnt);
 		}
 	}
+	CTime *pTime = CTime::Create(D3DXVECTOR3(20.0f, 20.0f, 0.0f));
 
 	pMeshField = CMeshField::Create();
-
-	CGoalFragManager*pGoal = CGoalFragManager::Create(D3DXVECTOR3(30.0f, 5.0f, 30.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-
 
 	return S_OK;
 }

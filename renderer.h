@@ -95,8 +95,9 @@ private:
 	LPDIRECT3D9 m_pD3D;					// Direct3Dオブジェクト
 	LPDIRECT3DDEVICE9 m_pD3DDevice;		// Deviceオブジェクト
 	LPD3DXFONT m_pFont;					// フォント
-	bool m_bWIRE;
-
+	bool m_bWIRE;	//ワイヤーフレーム
+	bool m_nFinish;	//終了フラグ
+	int m_viewPortOrder[4];
 	//-------------------
 	// 静的メンバ変数
 	//-------------------

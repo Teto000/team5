@@ -22,6 +22,7 @@ const char* CTexture::s_FileName[] =
 	"data/TEXTURE/Ground.jpg",		//地面
 	"data/TEXTURE/Shadow.jpg",		//影
 	"data/TEXTURE/Bullet.png",		//弾
+	"data/TEXTURE/number001.png",	//ナンバー
 };
 
 static_assert(sizeof(CTexture::s_FileName) / sizeof(CTexture::s_FileName[0]) == CTexture::TEXTURE_MAX, "aho");
