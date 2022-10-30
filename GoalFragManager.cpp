@@ -20,7 +20,7 @@
 //===========================
 // コンストラクタ
 //===========================
-CGoalFragManager::CGoalFragManager()
+CGoalFragManager::CGoalFragManager() : CObject(0)
 {
 }
 
@@ -34,7 +34,7 @@ CGoalFragManager::~CGoalFragManager()
 //===========================
 // 初期化
 //===========================
-HRESULT CGoalFragManager::Init()
+HRESULT CGoalFragManager::Init(D3DXVECTOR3 pos)
 {
 	//フラグリセット
 	m_bGoal = false;
@@ -47,7 +47,7 @@ HRESULT CGoalFragManager::Init()
 	//-----------------------
 	// Xファイルの読み込み
 	//-----------------------
-	D3DXLoadMeshFromX("data\\MODEL\\X_File\\legL.x",
+	D3DXLoadMeshFromX("data\\MODEL\\X_File\\body.x",
 		D3DXMESH_SYSTEMMEM,
 		pDevice,
 		NULL,
@@ -55,6 +55,58 @@ HRESULT CGoalFragManager::Init()
 		NULL,
 		&m_nNumMat,
 		&m_pMesh);
+
+	//頂点数の取得
+	int nNumVtx = m_pMesh->GetNumVertices();	//頂点数
+	DWORD sizeFVF;								//頂点フォーマットのサイズ
+	BYTE*pVtxBuff;								//頂点バッファへのポインタ
+
+	//頂点フォーマットのサイズを取得
+	sizeFVF = D3DXGetFVFVertexSize(m_pMesh->GetFVF());
+
+	//頂点バッファのロック
+	m_pMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&pVtxBuff);
+	//頂点座標の代入
+	//すべての頂点のposを取得する
+	 m_vtxMax = D3DXVECTOR3(-1000.0f, -1000.0f, -1000.0f);	//最大値の保存用
+	 m_vtxMin = D3DXVECTOR3(1000.0f, 1000.0f, 1000.0f);	//最小値の保存用
+	for (int nCntVtx = 0; nCntVtx < nNumVtx; nCntVtx++)
+	{
+		D3DXVECTOR3 vtx = *(D3DXVECTOR3*)pVtxBuff;
+		//頂点座標を比較してモデルの最小値最大値を取得
+		if (vtx.x > m_vtxMax.x)
+		{//Xの最大値を取得
+			m_vtxMax.x = vtx.x;
+		}
+		if (vtx.x < m_vtxMin.x)
+		{//Xの最小値を取得
+			m_vtxMin.x = vtx.x;
+		}
+		if (vtx.y > m_vtxMax.y)
+		{//Yの最大値を取得
+			m_vtxMax.y = vtx.y;
+		}
+		if (vtx.y < m_vtxMin.y)
+		{//Yの最小値を取得
+			m_vtxMin.y = vtx.y;
+		}
+		if (vtx.z > m_vtxMax.z)
+		{//Zの最大値を取得
+			m_vtxMax.z = vtx.z;
+		}
+		if (vtx.z < m_vtxMin.z)
+		{//Zの最小値を取得
+			m_vtxMin.z = vtx.z;
+		}
+		//頂点フォーマットのサイズ分ポインタを進める
+		pVtxBuff += sizeFVF;
+	}
+	//頂点の最大値と最小値を保存
+	m_vtxMax = m_vtxMax;
+	m_vtxMin = m_vtxMin;
+
+	//頂点バッファのアンロック
+	m_pMesh->UnlockVertexBuffer();
 
 	return S_OK;
 }
@@ -92,6 +144,7 @@ void CGoalFragManager::Update()
 	{
 		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
 	}
+	Collision();
 }
 
 //========================
@@ -103,7 +156,11 @@ void CGoalFragManager::Draw()
 
 	D3DXMATRIX mtxRot, mtxTrans;	//計算用マトリックス
 
-	//モデルのワールドマトリックスの初期化
+	D3DMATERIAL9 matDef;	//現在のマテリアル保存用
+
+	D3DXMATERIAL *pMat;		//マテリアルデータへのポインタ
+
+							//モデルのワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
 
 	//モデルの向きを反映
@@ -116,6 +173,29 @@ void CGoalFragManager::Draw()
 
 	//ワールドマトリックスの設定
 	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
+
+	//---------------------------------
+	// キャラクターの描画
+	//---------------------------------
+	//現在のマテリアルを保持
+	pDevice->GetMaterial(&matDef);
+
+	//マテリアルデータへのポインタを取得
+	pMat = (D3DXMATERIAL*)m_pBuffMat->GetBufferPointer();
+
+	for (int nCntMat = 0; nCntMat < (int)m_nNumMat; nCntMat++)
+	{
+		//D3DXCreateTextureFromFile(pDevice, pMat[nCntMat].pTextureFilename, &pTexture);
+
+		//マテリアルの設定
+		pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
+
+		//プレイヤーパーツの描画
+		m_pMesh->DrawSubset(nCntMat);
+	}
+
+	//保持しているマテリアルを戻す
+	pDevice->SetMaterial(&matDef);
 }
 
 //===========================
@@ -123,23 +203,21 @@ void CGoalFragManager::Draw()
 //===========================
 bool CGoalFragManager::Collision()
 {
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		CPlayer*pPlayer = CGame::GetPlayer(i);
 
 		//横からぶつかった時用
-		//Y軸
-		if (pPlayer->GetPosition().y < m_pos.y + m_vtxMax.y
-			&&pPlayer->GetPosition().y  > m_pos.y - m_vtxMin.y)
-		{
+		////Y軸
+		//if (pPlayer->GetPosition().y < m_pos.y + m_vtxMax.y
+		//	&&pPlayer->GetPosition().y  > m_pos.y - m_vtxMin.y)
+		//{
+		//}
 			//X軸
-			if (pPlayer->GetPosition().z < m_pos.z + m_vtxMax.z
-				&&pPlayer->GetPosition().z  > m_pos.z + m_vtxMin.z)
-			{
-				m_bGoal = true;
-			}
+		if (pPlayer->GetPosition().z < m_pos.z + m_vtxMax.z&&pPlayer->GetPosition().z  > m_pos.z + m_vtxMin.z)
+		{
 			//Z軸
-			else if (pPlayer->GetPosition().x < m_pos.x + m_vtxMax.x
+			if (pPlayer->GetPosition().x < m_pos.x + m_vtxMax.x
 				&&pPlayer->GetPosition().x > m_pos.x + m_vtxMin.x)
 			{
 				m_bGoal = true;
@@ -168,7 +246,7 @@ CGoalFragManager* CGoalFragManager::Create( D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 		pGoal->m_rot = rot;
 
 		//初期化
-		pGoal->Init();
+		pGoal->Init(pos);
 	}
 
 	return pGoal;
@@ -181,4 +259,27 @@ CGoalFragManager* CGoalFragManager::Create( D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 bool CGoalFragManager::GetGoalFrag()
 {
 	return m_bGoal;
+}
+//===========================
+// 位置の取得
+//===========================
+D3DXVECTOR3 CGoalFragManager::GetPosition()
+{
+	return m_pos;
+}
+
+//===========================
+// 幅の取得
+//===========================
+float CGoalFragManager::GetWidth()
+{
+	return 0.0f;
+}
+
+//===========================
+// 高さの取得
+//===========================
+float CGoalFragManager::GetHeight()
+{
+	return 0.0f;
 }

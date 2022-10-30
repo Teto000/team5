@@ -22,7 +22,7 @@ class CShadow;	//影
 //================================
 // フェードクラスの定義
 //================================
-class CGoalFragManager
+class CGoalFragManager : public CObject
 {
 public:
 	CGoalFragManager();	//コンストラクタ
@@ -31,7 +31,7 @@ public:
 	//------------------
 	// メンバ関数
 	//------------------
-	HRESULT Init();
+	HRESULT Init(D3DXVECTOR3 pos)override;
 	void Uninit();
 	void Update();
 	void Draw();
@@ -40,6 +40,9 @@ public:
 
 	//ゲッター
 	bool GetGoalFrag();
+	D3DXVECTOR3 GetPosition()override;
+	float GetWidth()override;
+	float GetHeight()override;
 
 private:
 	//------------------
