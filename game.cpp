@@ -20,6 +20,7 @@
 #include "meshfield.h"
 #include "debug_proc.h"
 #include "fade.h"
+#include "GoalFragManager.h"
 
 //------------------------
 // Ã“Iƒƒ“ƒo•Ï”éŒ¾
@@ -62,6 +63,9 @@ HRESULT CGame::Init()
 	}
 
 	pMeshField = CMeshField::Create();
+
+	CGoalFragManager*pGoal = CGoalFragManager::Create(D3DXVECTOR3(30.0f, 5.0f, 30.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+
 
 	return S_OK;
 }

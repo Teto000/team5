@@ -110,6 +110,9 @@
     <ClCompile Include="meshfield.cpp">
       <Filter>Main\Object\Mesh</Filter>
     </ClCompile>
+    <ClCompile Include="GoalFragManager.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h">
@@ -183,6 +186,9 @@
     </ClInclude>
     <ClInclude Include="meshfield.h">
       <Filter>Main\Object\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="GoalFragManager.h">
+      <Filter>Main\Application</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
