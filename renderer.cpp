@@ -197,7 +197,7 @@ void CRenderer::Draw()
 
 	if (nFirstNumber <= CRenderer::GetMaxCamera() - 1)
 	{//プレイヤー番号が最大数を超えていないなら
-		if (CInputKeyboard::Press(DIK_Z) /* 1位がnullじゃないなら */)
+		if (nFirstNumber >= 0 /* 1位がnullじゃないなら */)
 		{//Zが押されているなら
 			//-----------------------------
 			// 描画順の配列を入れ替える
