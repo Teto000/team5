@@ -37,6 +37,7 @@ public:
 	HRESULT Init();
 	void Uninit();
 	void Update();
+	void SetPlayerPosition(D3DXVECTOR3 pos);
 
 	//------------------
 	// ÉQÉbÉ^Å[
