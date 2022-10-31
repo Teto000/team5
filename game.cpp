@@ -113,7 +113,7 @@ void CGame::SetPlayerPosition(D3DXVECTOR3 pos)
 	//時刻をもとにしたランダムな値を生成
 	srand((unsigned int)time(NULL));
 
-	int PlayerAmount = CApplication::GetAmount();
+	int PlayerAmount = CRenderer::GetMaxCamera();
 
 	// プレイヤーの初期位置の設定
 	D3DXVECTOR3 FirstPos = pos;
