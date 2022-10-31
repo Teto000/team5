@@ -39,23 +39,25 @@ public:
 	static CGoal * Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
 
 	//ゲッター
-	bool GetGoalFrag();
+	static bool GetGoalFrag();
 	D3DXVECTOR3 GetPosition()override;
 	float GetWidth()override;
 	float GetHeight()override;
+	static int GetWinner();	
 
 private:
 	//------------------
 	// メンバ変数
 	//------------------
-	bool m_bGoal;
+	static bool m_bGoal;
 	D3DXMATRIX m_mtxWorld;		//ワールドマトリックス
 	D3DXVECTOR3 m_pos;			//位置
 	D3DXVECTOR3 m_posold;		//1F前の位置
 	D3DXVECTOR3 m_move;			//移動量
 	D3DXVECTOR3 m_rot;			//向き
 	D3DXVECTOR3 m_rotDest;		//目的の向き
-	LPCTSTR m_modelName;		//モデルのパス
+	LPCTSTR		m_modelName;	//モデルのパス
+	static int	m_nWinner;		//優勝したやつの番号
 
 
 	/* ↓ クラス情報 ↓ */
