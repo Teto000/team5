@@ -153,7 +153,7 @@ void CGame::SetPlayerPosition(D3DXVECTOR3 pos)
 			nCnt2++;
 
 			// 全ての箱のチェックが終わったら
-			if (nCnt2 == PlayerAmount)
+			if (nCnt2 == nNumCamera)
 			{
 				break;
 			}
