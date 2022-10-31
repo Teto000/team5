@@ -14,6 +14,7 @@
 #include "renderer.h"
 #include "game.h"
 #include "player.h"
+#include "Goal.h"
 
 //----------------------
 // 静的メンバ変数宣言
@@ -388,7 +389,7 @@ void CCamera::Following()
 	}
 
 	/* 1位のプレイヤー番号を取得 */
-	int nFirstNumber = 0;
+	int nFirstNumber = CGoal::GetWinner();
 
 	if (CInputKeyboard::Trigger(DIK_Z))
 	{

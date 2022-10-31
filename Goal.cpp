@@ -17,11 +17,15 @@
 #include"fade.h"
 #include"renderer.h"
 
+//静的メンバ変数宣言
+ bool CGoal::m_bGoal=nullptr;
+ int	CGoal::m_nWinner = nullptr;		//優勝したやつの番号
 //===========================
 // コンストラクタ
 //===========================
 CGoal::CGoal() : CObject(0)
 {
+	m_nWinner = 100;
 }
 
 //===========================
@@ -203,7 +207,7 @@ void CGoal::Draw()
 //===========================
 bool CGoal::Collision()
 {
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		CPlayer*pPlayer = CGame::GetPlayer(i);
 
@@ -213,14 +217,18 @@ bool CGoal::Collision()
 		//	&&pPlayer->GetPosition().y  > m_pos.y - m_vtxMin.y)
 		//{
 		//}
-			//X軸
-		if (pPlayer->GetPosition().z < m_pos.z + m_vtxMax.z&&pPlayer->GetPosition().z  > m_pos.z + m_vtxMin.z)
+		if (pPlayer != nullptr)
 		{
-			//Z軸
-			if (pPlayer->GetPosition().x < m_pos.x + m_vtxMax.x
-				&&pPlayer->GetPosition().x > m_pos.x + m_vtxMin.x)
+			//X軸
+			if (pPlayer->GetPosition().z < m_pos.z + m_vtxMax.z&&pPlayer->GetPosition().z  > m_pos.z + m_vtxMin.z)
 			{
-				m_bGoal = true;
+				//Z軸
+				if (pPlayer->GetPosition().x < m_pos.x + m_vtxMax.x
+					&&pPlayer->GetPosition().x > m_pos.x + m_vtxMin.x)
+				{
+					m_bGoal = true;
+					m_nWinner = i;
+				}
 			}
 		}
 	}
@@ -282,4 +290,12 @@ float CGoal::GetWidth()
 float CGoal::GetHeight()
 {
 	return 0.0f;
+}
+
+//===========================
+// 優勝者の番号の取得
+//===========================
+int CGoal::GetWinner()
+{
+	return m_nWinner;
 }
