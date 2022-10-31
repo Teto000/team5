@@ -120,9 +120,12 @@ void CFade::Draw()
 //===========================
 void CFade::SetFade(CApplication::MODE modeNext)
 {
-	m_fade = FADE_OUT;		//フェードアウト状態に
-	m_modeNext = modeNext;	//次の画面を設定
-	m_col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
+	if (m_fade != FADE_OUT)
+	{
+		m_fade = FADE_OUT;		//フェードアウト状態に
+		m_modeNext = modeNext;	//次の画面を設定
+		m_col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
+	}
 }
 
 //===========================

@@ -14,6 +14,7 @@
 #include "renderer.h"
 #include "game.h"
 #include "player.h"
+#include "Goal.h"
 
 //----------------------
 // 静的メンバ変数宣言
@@ -382,8 +383,8 @@ void CCamera::Move(int nUpKey, int nDownKey, int nLeftKey, int nRightKey)
 //========================
 void CCamera::Following()
 {
-	if (CApplication::GetGame() == nullptr)
-	{
+	if (!CApplication::GetGame())
+	{//ゲームが終了してるなら
 		return;
 	}
 
@@ -488,7 +489,7 @@ D3DXVECTOR3 CCamera::GetRot()
 //========================
 // ビューポートの取得
 //========================
-D3DVIEWPORT9 CCamera::GetVieport()
+D3DVIEWPORT9 CCamera::GetViewport()
 {
 	return m_viewport;
 }

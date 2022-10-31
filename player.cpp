@@ -140,6 +140,7 @@ void CPlayer::Update()
 	//---------------
 	// ˆÚ“®
 	//---------------
+	m_posold = m_pos;	//ˆÊ’u‚Ì•Û‘¶
 	Move();
 
 	//-------------------
@@ -504,6 +505,14 @@ float CPlayer::GetHeight()
 D3DXMATRIX CPlayer::GetmtxWorld()
 {
 	return m_mtxWorld;
+}
+
+//===========================
+// 1F‘O‚ÌÀ•W‚Ìæ“¾
+//===========================
+D3DXVECTOR3 CPlayer::GetPosOld()
+{
+	return D3DXVECTOR3();
 }
 
 //=====================================================
