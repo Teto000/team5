@@ -20,6 +20,7 @@
 #include "debug_proc.h"
 #include "input.h"
 #include "input_keybord.h"
+#include "Goal.h"
 
 //-----------------------
 // 静的メンバ変数宣言
@@ -192,7 +193,7 @@ void CRenderer::Draw()
 	// 1位のビューポートを前面に出す
 	//-------------------------------
 	/* 1位のプレイヤー番号を取得 */
-	int nFirstNumber = 3;
+	int nFirstNumber = CGoal::GetWinner();
 
 	if (CInputKeyboard::Press(DIK_Z) /* 1位がnullじゃないなら */)
 	{//Zが押されているなら

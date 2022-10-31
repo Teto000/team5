@@ -24,6 +24,7 @@
 #include "camera.h"
 #include "light.h"
 #include "player.h"
+#include"Goal.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -231,7 +232,11 @@ void CApplication::Update()
 		}
 
 		//ゲーム終了時の処理
-		FinishGame();
+		if (CGoal::GetGoalFrag())
+		{
+			FinishGame();
+		}
+		
 	}
 
 	//モードごとの更新
@@ -342,7 +347,7 @@ void CApplication::FinishGame()
 	//-------------------------------
 
 	/* 1位のプレイヤー番号を取得 */
-	int nFirstNumber = 3;
+	int nFirstNumber = CGoal::GetWinner();
 
 	if (CInputKeyboard::Press(DIK_Z) /* 1位がnullじゃないなら */)
 	{//Zが押されているなら
