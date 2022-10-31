@@ -7,7 +7,7 @@
 #ifndef _GAME_H_
 #define _GAME_H_	
 
-#define MAX_PLAYER (2)
+#define MAX_PLAYER (4)
 //--------------------------------
 // インクルード
 //--------------------------------
@@ -37,6 +37,7 @@ public:
 	HRESULT Init();
 	void Uninit();
 	void Update();
+	void SetPlayerPosition(D3DXVECTOR3 pos);
 
 	//------------------
 	// ゲッター

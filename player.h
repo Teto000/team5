@@ -120,6 +120,7 @@ private:
 	D3DXVECTOR3 m_rotDest;		//目的の向き
 	STATE		m_state;		//プレイヤーの状態
 	bool		m_bJump;		//ジャンプしたかしていないか
+	CModel*  m_pModel[MAX_PARTS];	//モデル
 
 	/* ↓ モーション情報 ↓ */
 	int m_nCurrentKey;			//現在のキー番号
@@ -132,7 +133,6 @@ private:
 	/* ↓ クラス情報 ↓ */
 	static CShadow* m_pShadow;	//影
 	static CBullet* m_pBullet;	//弾
-	static CModel*  m_pModel[MAX_PARTS];	//モデル
 };
 
 #endif

@@ -20,9 +20,17 @@
 //========================
 CModel::CModel()
 {
-	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//位置の設定
-	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//向きの設定
-	m_pModel = nullptr;
+	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//位置
+	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//向き
+	m_pModel = nullptr;			//親モデルへのポインタ
+	m_modelName = nullptr;		//モデルのパス
+
+	/* ↓ モデル情報 ↓ */
+	m_pMesh = nullptr;		//メッシュ情報へのポインタ
+	m_pBuffMat = nullptr;	//マテリアル情報へのポインタ
+	m_nNumMat = 0;			//マテリアル情報の数
+	vtxMax = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//モデルの最大座標
+	vtxMin = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//モデルの座標の最小値
 }
 
 //========================

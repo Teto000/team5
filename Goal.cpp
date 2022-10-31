@@ -19,7 +19,7 @@
 
 //静的メンバ変数宣言
  bool CGoal::m_bGoal=nullptr;
- int	CGoal::m_nWinner = NULL;		//優勝したやつの番号
+ int CGoal::m_nWinner = -1;		//優勝したやつの番号
 //===========================
 // コンストラクタ
 //===========================
@@ -144,10 +144,10 @@ void CGoal::Uninit()
 //===========================
 void CGoal::Update()
 {
-	if (m_bGoal == true)
+	/*if (m_bGoal == true)
 	{
 		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
-	}
+	}*/
 	Collision();
 }
 

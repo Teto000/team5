@@ -113,11 +113,11 @@
     <ClCompile Include="number.cpp">
       <Filter>Main\Application</Filter>
     </ClCompile>
-    <ClCompile Include="mesh.cpp">
-      <Filter>Main\Object\Billboard</Filter>
-    </ClCompile>
     <ClCompile Include="Goal.cpp">
       <Filter>Main\Object\ObjectX</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh.cpp">
+      <Filter>Main\Object\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

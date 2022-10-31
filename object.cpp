@@ -78,7 +78,6 @@ void CObject::ReleaseAll(bool bFinish)
 		CObject* pObjNext = pObj->m_pNext;
 
 		//終了処理
-		pObj->Uninit();
 		pObj->Release();
 
 		//次のオブジェクトのアドレスを代入
