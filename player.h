@@ -83,6 +83,7 @@ public:
 	float GetWidth() override;			//幅の取得
 	float GetHeight() override;			//高さの取得
 	D3DXMATRIX GetmtxWorld();			//ワールドマトリックスの取得
+	D3DXVECTOR3 GetPosOld();			//1F前の位置の習得
 
 	//----------------
 	// 静的メンバ関数
@@ -113,6 +114,7 @@ private:
 	//----------------
 	D3DXMATRIX m_mtxWorld;		//ワールドマトリックス
 	D3DXVECTOR3 m_pos;			//位置
+	D3DXVECTOR3 m_posold;		//1F前の位置
 	D3DXVECTOR3 m_move;			//移動量
 	D3DXVECTOR3 m_rot;			//向き
 	D3DXVECTOR3 m_rotDest;		//目的の向き

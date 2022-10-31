@@ -94,9 +94,15 @@ public:
 	static CFade	 *GetFade();			//フェードの取得
 
 private:
-	//void FinishGame();	//ゲーム終了時の処理
+	void FinishGame();	//ゲーム終了時の処理
 
 private:
+	//------------------
+	// 定数
+	//------------------
+	static const int nSpeed_X = 9;
+	static const int nSpeed_Y = 5;
+
 	//------------------
 	// 静的メンバ変数
 	//------------------

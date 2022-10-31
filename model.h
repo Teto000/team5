@@ -63,6 +63,8 @@ private:
 	LPD3DXMESH m_pMesh;			//メッシュ情報へのポインタ
 	LPD3DXBUFFER m_pBuffMat;	//マテリアル情報へのポインタ
 	DWORD m_nNumMat;			//マテリアル情報の数
+	D3DXVECTOR3 vtxMax;			//モデルの最大座標
+	D3DXVECTOR3 vtxMin;			//モデルの座標の最小値
 };
 
 #endif

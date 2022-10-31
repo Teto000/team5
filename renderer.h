@@ -97,7 +97,7 @@ private:
 	LPD3DXFONT m_pFont;					// フォント
 	bool m_bWIRE;	//ワイヤーフレーム
 	bool m_nFinish;	//終了フラグ
-
+	int m_viewPortOrder[nDefaultMaxCamera];
 	//-------------------
 	// 静的メンバ変数
 	//-------------------
