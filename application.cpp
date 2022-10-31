@@ -96,7 +96,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//----------------------------
 	{
 		//カメラの最大数の設定
-		int nNumCamera = CRenderer::SetMaxCamera(NUMCAMERA_ONE);
+		int nNumCamera = CRenderer::SetMaxCamera(NUMCAMERA_TWO);
 
 		DWORD fWidth = SCREEN_WIDTH / 2;
 		DWORD fHeight = SCREEN_HEIGHT / 2;
@@ -342,7 +342,12 @@ void CApplication::FinishGame()
 	//-------------------------------
 
 	/* 1位のプレイヤー番号を取得 */
-	int nFirstNumber = 3;
+	int nFirstNumber = 0;
+
+	if (nFirstNumber > CRenderer::GetMaxCamera() - 1)
+	{//プレイヤー番号が最大数を超えていたら
+		return;
+	}
 
 	if (CInputKeyboard::Press(DIK_Z) /* 1位がnullじゃないなら */)
 	{//Zが押されているなら

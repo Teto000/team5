@@ -192,18 +192,35 @@ void CRenderer::Draw()
 	// 1位のビューポートを前面に出す
 	//-------------------------------
 	/* 1位のプレイヤー番号を取得 */
-	int nFirstNumber = 3;
+	int nFirstNumber = 0;
 
-	if (CInputKeyboard::Press(DIK_Z) /* 1位がnullじゃないなら */)
-	{//Zが押されているなら
-		//-----------------------------
-		// ビューポートを前面に表示
-		//-----------------------------
-		int nviewData = m_viewPortOrder[nFirstNumber];
-		m_viewPortOrder[3] = nFirstNumber;
-		m_viewPortOrder[nFirstNumber] = nviewData;
+	if (nFirstNumber <= CRenderer::GetMaxCamera() - 1)
+	{//プレイヤー番号が最大数を超えていないなら
+		if (CInputKeyboard::Press(DIK_Z) /* 1位がnullじゃないなら */)
+		{//Zが押されているなら
+			//-----------------------------
+			// 描画順の配列を入れ替える
+			//-----------------------------
+			int nviewData = m_viewPortOrder[nFirstNumber];
+
+			if (m_nMaxCamera == 2)
+			{//最大数が2なら
+				//配列の1番目と入れ替える
+				m_viewPortOrder[1] = nFirstNumber;
+			}
+			else if (m_nMaxCamera == 4)
+			{//最大数が4なら
+				//配列の3番目と入れ替える
+				m_viewPortOrder[3] = nFirstNumber;
+			}
+
+			m_viewPortOrder[nFirstNumber] = nviewData;
+		}
 	}
 
+	//-------------------------------
+	// 描画処理
+	//-------------------------------
 	for (int i = 0; i < m_nMaxCamera; i++)
 	{
 		int nOrder = m_viewPortOrder[i];
