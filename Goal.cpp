@@ -8,7 +8,7 @@
 //------------------------
 // インクルード
 //------------------------
-#include "GoalFragManager.h"
+#include "Goal.h"
 #include"player.h"
 #include"game.h"
 #include"application.h"
@@ -20,21 +20,21 @@
 //===========================
 // コンストラクタ
 //===========================
-CGoalFragManager::CGoalFragManager() : CObject(0)
+CGoal::CGoal() : CObject(0)
 {
 }
 
 //===========================
 // デストラクタ
 //===========================
-CGoalFragManager::~CGoalFragManager()
+CGoal::~CGoal()
 {
 }
 
 //===========================
 // 初期化
 //===========================
-HRESULT CGoalFragManager::Init(D3DXVECTOR3 pos)
+HRESULT CGoal::Init(D3DXVECTOR3 pos)
 {
 	//フラグリセット
 	m_bGoal = false;
@@ -114,7 +114,7 @@ HRESULT CGoalFragManager::Init(D3DXVECTOR3 pos)
 //===========================
 // 終了
 //===========================
-void CGoalFragManager::Uninit()
+void CGoal::Uninit()
 {
 	//-----------------------
 	// メッシュの破棄
@@ -138,7 +138,7 @@ void CGoalFragManager::Uninit()
 //===========================
 // 更新
 //===========================
-void CGoalFragManager::Update()
+void CGoal::Update()
 {
 	if (m_bGoal == true)
 	{
@@ -150,7 +150,7 @@ void CGoalFragManager::Update()
 //========================
 // 描画
 //========================
-void CGoalFragManager::Draw()
+void CGoal::Draw()
 {
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();	//デバイスの取得
 
@@ -201,7 +201,7 @@ void CGoalFragManager::Draw()
 //===========================
 // 当たり判定
 //===========================
-bool CGoalFragManager::Collision()
+bool CGoal::Collision()
 {
 	for (int i = 0; i < 1; i++)
 	{
@@ -230,14 +230,14 @@ bool CGoalFragManager::Collision()
 //========================
 // 生成
 //========================
-CGoalFragManager* CGoalFragManager::Create( D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CGoal* CGoal::Create( D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {//モデルのパス , 親モデルから見た位置 , 親モデルから見た向き
 
 	//----------------------------------
 	// 生成と初期化
 	//----------------------------------
-	CGoalFragManager *pGoal = nullptr;
-	pGoal = new CGoalFragManager;	//生成
+	CGoal *pGoal = nullptr;
+	pGoal = new CGoal;	//生成
 
 	if (pGoal != nullptr)
 	{//NULLチェック
@@ -256,14 +256,14 @@ CGoalFragManager* CGoalFragManager::Create( D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 //===========================
 // ゴールフラグの取得
 //===========================
-bool CGoalFragManager::GetGoalFrag()
+bool CGoal::GetGoalFrag()
 {
 	return m_bGoal;
 }
 //===========================
 // 位置の取得
 //===========================
-D3DXVECTOR3 CGoalFragManager::GetPosition()
+D3DXVECTOR3 CGoal::GetPosition()
 {
 	return m_pos;
 }
@@ -271,7 +271,7 @@ D3DXVECTOR3 CGoalFragManager::GetPosition()
 //===========================
 // 幅の取得
 //===========================
-float CGoalFragManager::GetWidth()
+float CGoal::GetWidth()
 {
 	return 0.0f;
 }
@@ -279,7 +279,7 @@ float CGoalFragManager::GetWidth()
 //===========================
 // 高さの取得
 //===========================
-float CGoalFragManager::GetHeight()
+float CGoal::GetHeight()
 {
 	return 0.0f;
 }
