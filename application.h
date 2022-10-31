@@ -84,6 +84,7 @@ public:
 	static void SetMode(MODE mode);			//モードの設定
 	static MODE GetMode();					//モードの取得
 
+	static CGame*	 GetGame();				//ゲームの取得
 	static CRenderer *GetRenderer();		//レンダラーの取得
 	static CInput	 *GetInput();			//インプットの取得
 	static CTexture  *GetTexture();			//テクスチャの取得
@@ -96,6 +97,15 @@ public:
 	static int		GetAmount() { return nDefaultMaxCamera; }
 
 private:
+	void FinishGame();	//ゲーム終了時の処理
+
+private:
+	//------------------
+	// 定数
+	//------------------
+	static const int nSpeed_X = 9;
+	static const int nSpeed_Y = 5;
+
 	//------------------
 	// 静的メンバ変数
 	//------------------

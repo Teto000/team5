@@ -22,6 +22,7 @@
 #include "fade.h"
 #include  "camera.h"
 #include "time.h"
+#include "Goal.h"
 
 //------------------------
 // Ã“Iƒƒ“ƒo•Ï”éŒ¾
@@ -70,6 +71,8 @@ HRESULT CGame::Init()
 
 	pMeshField = CMeshField::Create();
 
+	CGoal*pGoal = CGoal::Create(D3DXVECTOR3(90.0f, 40.0f, 10.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	
 	CTime *pTime = CTime::Create(D3DXVECTOR3(20.0f, 20.0f, 0.0f));
 
 	return S_OK;

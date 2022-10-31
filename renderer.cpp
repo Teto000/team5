@@ -20,6 +20,7 @@
 #include "debug_proc.h"
 #include "input.h"
 #include "input_keybord.h"
+#include "Goal.h"
 
 //-----------------------
 // 静的メンバ変数宣言
@@ -117,6 +118,10 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 	m_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 	m_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
 
+	for (int i = 0; i < m_nMaxCamera; i++)
+	{
+		m_viewPortOrder[i] = i;
+	}
 #ifdef _DEBUG
 	// デバッグ情報表示用フォントの生成
 	D3DXCreateFont(m_pD3DDevice, 18, 0, 0, 0, FALSE, SHIFTJIS_CHARSET,
@@ -184,41 +189,55 @@ void CRenderer::Update()
 //=============================================================================
 void CRenderer::Draw()
 {
+	//-------------------------------
+	// 1位のビューポートを前面に出す
+	//-------------------------------
+	/* 1位のプレイヤー番号を取得 */
+	int nFirstNumber = CGoal::GetWinner();
+
+	if (nFirstNumber <= CRenderer::GetMaxCamera() - 1)
+	{//プレイヤー番号が最大数を超えていないなら
+		if (nFirstNumber >= 0 /* 1位がnullじゃないなら */)
+		{//Zが押されているなら
+			//-----------------------------
+			// 描画順の配列を入れ替える
+			//-----------------------------
+			int nviewData = m_viewPortOrder[nFirstNumber];
+
+			if (m_nMaxCamera == 2)
+			{//最大数が2なら
+				//配列の1番目と入れ替える
+				m_viewPortOrder[1] = nFirstNumber;
+			}
+			else if (m_nMaxCamera == 4)
+			{//最大数が4なら
+				//配列の3番目と入れ替える
+				m_viewPortOrder[3] = nFirstNumber;
+			}
+
+			m_viewPortOrder[nFirstNumber] = nviewData;
+		}
+	}
+
+	//-------------------------------
+	// 描画処理
+	//-------------------------------
 	for (int i = 0; i < m_nMaxCamera; i++)
 	{
+		int nOrder = m_viewPortOrder[i];
+
 		//カメラの取得
-		m_pCamera[i] = CApplication::GetCamera(i);
+		m_pCamera[nOrder] = CApplication::GetCamera(nOrder);
 
 		//カメラの設定
-		m_pCamera[i]->SetCamera(m_pD3DDevice);
+		m_pCamera[nOrder]->SetCamera(m_pD3DDevice);
 
 		//-------------------------
 		// ビューポートの処理
 		//-------------------------
-		if(m_nFinish == false)
-		{//終了フラグが立っていないなら
-			//ビューポートの設定
-			D3DVIEWPORT9 viewport = m_pCamera[i]->GetVieport();
-			m_pD3DDevice->SetViewport(&viewport);
-
-			//-------------------------------
-			// 1位のビューポートを前面に出す
-			//-------------------------------
-
-			/* 1位のプレイヤー番号を取得 */
-
-			if (CInputKeyboard::Press(DIK_Z) /* 1位がnullじゃないなら */)
-			{//Zが押されているなら
-				//0番目のビューポートを拡大
-				viewport = m_pCamera[0]->GetVieport();
-				m_pD3DDevice->SetViewport(&viewport);
-			}
-			else if (CInputKeyboard::Release(DIK_Z) /* 全画面に達したら */)
-			{//Zを離したなら
-				//フラグを立てる
-				m_nFinish = true;
-			}
-		}
+		//ビューポートの設定
+		D3DVIEWPORT9 viewport = m_pCamera[nOrder]->GetViewport();
+		m_pD3DDevice->SetViewport(&viewport);
 
 		// バックバッファ＆Ｚバッファのクリア
 		m_pD3DDevice->Clear(0,
