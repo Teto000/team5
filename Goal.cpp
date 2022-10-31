@@ -19,7 +19,7 @@
 
 //静的メンバ変数宣言
  bool CGoal::m_bGoal=nullptr;
- int	CGoal::m_nWinner = nullptr;		//優勝したやつの番号
+ int	CGoal::m_nWinner = NULL;		//優勝したやつの番号
 //===========================
 // コンストラクタ
 //===========================
