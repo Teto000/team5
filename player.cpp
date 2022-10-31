@@ -27,7 +27,6 @@ const float CPlayer::fPlayerSpeed = 1.0f;
 const float CPlayer::fGravity = 0.6f;
 CShadow* CPlayer::m_pShadow = nullptr;
 CBullet* CPlayer::m_pBullet = nullptr;
-CModel*	 CPlayer::m_pModel[MAX_PARTS] = {};
 
 //------------------------
 // グローバル変数
@@ -55,7 +54,7 @@ CPlayer::KEY_SET g_aKeySet[] =	//キーセット情報
 		//		Pos				Rot
 		{{ 0.0f,0.0f,0.0f , 0.0f,0.0f,0.0f },	//体
 		{ 0.0f,0.0f,0.0f , 0.0f,0.0f,0.0f },	//頭
-		{ 0.0f,0.0f,0.0f , 90.0f,0.0f,0.0f },		//右手
+		{ 0.0f,0.0f,0.0f , 90.0f,0.0f,0.0f },	//右手
 		{ 0.0f,0.0f,0.0f , 0.0f,0.0f,0.0f },	//左手
 		{ 0.0f,0.0f,0.0f , 0.0f,0.0f,0.0f },	//右足
 		{ 0.0f,0.0f,0.0f , 0.0f,0.0f,0.0f },	//左手
@@ -72,6 +71,7 @@ CPlayer::CPlayer() : CObject(0)
 	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//移動量
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//向き
 	m_rotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//目的の向き
+	m_pModel[MAX_PARTS] = {};
 
 	/* ↓ モーション情報 ↓ */
 	m_nCurrentKey = 0;
@@ -116,10 +116,12 @@ void CPlayer::Uninit()
 		if (m_pModel[i])
 		{//モデルがnullじゃないなら
 			m_pModel[i]->Uninit();
+			delete m_pModel[i];
+			m_pModel[i] = nullptr;
 		}
 	}
 
-	CObject::Release();
+	Release();
 }
 
 //========================
@@ -137,6 +139,7 @@ void CPlayer::Update()
 			m_pModel[i]->Update();
 		}
 	}
+
 	//---------------
 	// 移動
 	//---------------

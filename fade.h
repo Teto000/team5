@@ -50,7 +50,7 @@ private:
 	FADE	  m_fade;	//フェードの状態
 	D3DXCOLOR m_col;	//ポリゴン(フェード)の色
 	CApplication::MODE m_modeNext;	//次の画面(モード)
-	CObject2D*m_pObject;							//フェード用ポリゴン
+	CObject2D*m_pObject;			//フェード用ポリゴン
 
 };
 
