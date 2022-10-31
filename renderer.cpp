@@ -117,7 +117,7 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 	m_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 	m_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < m_nMaxCamera; i++)
 	{
 		m_viewPortOrder[i] = i;
 	}
@@ -192,14 +192,14 @@ void CRenderer::Draw()
 	// 1位のビューポートを前面に出す
 	//-------------------------------
 	/* 1位のプレイヤー番号を取得 */
-	int nFirstNumber = 1;
+	int nFirstNumber = 3;
 
 	if (CInputKeyboard::Press(DIK_Z) /* 1位がnullじゃないなら */)
 	{//Zが押されているなら
 		//-----------------------------
 		// ビューポートを前面に表示
 		//-----------------------------
-		int nviewData = m_viewPortOrder[0];
+		int nviewData = m_viewPortOrder[nFirstNumber];
 		m_viewPortOrder[3] = nFirstNumber;
 		m_viewPortOrder[nFirstNumber] = nviewData;
 	}

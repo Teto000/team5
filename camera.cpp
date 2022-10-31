@@ -388,20 +388,6 @@ void CCamera::Following()
 		return;
 	}
 
-	/* 1位のプレイヤー番号を取得 */
-	int nFirstNumber = CGoal::GetWinner();
-
-	if (CInputKeyboard::Trigger(DIK_Z))
-	{
-		nFirstNumber = 1;
-	}
-
-	if (nFirstNumber != 0)
-	{//1位の値が0じゃないなら
-		//1位のプレイヤーを追従する
-		m_nNumPlayer = nFirstNumber;
-	}
-
 	//----------------------------
 	// プレイヤーの情報を取得
 	//----------------------------

@@ -342,7 +342,7 @@ void CApplication::FinishGame()
 	//-------------------------------
 
 	/* 1ˆÊ‚ÌƒvƒŒƒCƒ„[”Ô†‚ğæ“¾ */
-	int nFirstNumber = 1;
+	int nFirstNumber = 3;
 
 	if (CInputKeyboard::Press(DIK_Z) /* 1ˆÊ‚ªnull‚¶‚á‚È‚¢‚È‚ç */)
 	{//Z‚ª‰Ÿ‚³‚ê‚Ä‚¢‚é‚È‚ç
