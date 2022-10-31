@@ -66,7 +66,7 @@ HRESULT CGame::Init()
 			CApplication::GetCamera(nCnt)->SetNumPlayer(nCnt);
 		}
 
-		SetPlayerPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+		/*SetPlayerPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));*/
 	}
 
 	pMeshField = CMeshField::Create();
@@ -113,7 +113,7 @@ void CGame::SetPlayerPosition(D3DXVECTOR3 pos)
 	//時刻をもとにしたランダムな値を生成
 	srand((unsigned int)time(NULL));
 
-	int PlayerAmount = CRenderer::GetMaxCamera();
+	int nNumCamera = CRenderer::GetMaxCamera();
 
 	// プレイヤーの初期位置の設定
 	D3DXVECTOR3 FirstPos = pos;
@@ -121,7 +121,7 @@ void CGame::SetPlayerPosition(D3DXVECTOR3 pos)
 	// FirstPosから等間隔にほかのプレイヤーの座標を設定する。(最大4)
 	D3DXVECTOR3 PlayerPos[4] = {};
 
-	for (int nCnt = 0; nCnt < PlayerAmount; nCnt++)
+	for (int nCnt = 0; nCnt < nNumCamera; nCnt++)
 	{
 		// プレイヤーの座標を設定
 		PlayerPos[nCnt] = D3DXVECTOR3(pos.x + nCnt * 100, pos.y + nCnt,pos.z);
@@ -133,7 +133,7 @@ void CGame::SetPlayerPosition(D3DXVECTOR3 pos)
 	int RandCheck[4] = {99,99,99,99};
 	int nCnt2 = 0;
 
-	for (int nCnt = 0; nCnt < PlayerAmount; nCnt++)
+	for (int nCnt = 0; nCnt < nNumCamera; nCnt++)
 	{
 		// ランダムの値
 		Rand[nCnt] = rand() % 4;
@@ -153,7 +153,7 @@ void CGame::SetPlayerPosition(D3DXVECTOR3 pos)
 			nCnt2++;
 
 			// 全ての箱のチェックが終わったら
-			if (nCnt2 == PlayerAmount)
+			if (nCnt2 == nNumCamera)
 			{
 				break;
 			}
@@ -163,7 +163,7 @@ void CGame::SetPlayerPosition(D3DXVECTOR3 pos)
 		RandCheck[nCnt] = Rand[nCnt];
 	}
 
-	for (int nCnt = 0; nCnt < PlayerAmount; nCnt++)
+	for (int nCnt = 0; nCnt < nNumCamera; nCnt++)
 	{
 		// 設定した座標にランダムなプレイヤーを移動させる。
 		pPlayer[nCnt]->SetPosition(PlayerPos[Rand[nCnt]]);
