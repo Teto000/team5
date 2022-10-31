@@ -4,8 +4,8 @@
 // Author : Arita Meigen
 //
 //===================================================
-#ifndef _GOALFRAGMANAGER_H_
-#define _GOALFRAGMANAGER_H_	
+#ifndef _GOAL_H_
+#define _GOAL_H_	
 
 //-------------------------------
 // インクルード
@@ -22,11 +22,11 @@ class CShadow;	//影
 //================================
 // フェードクラスの定義
 //================================
-class CGoalFragManager : public CObject
+class CGoal : public CObject
 {
 public:
-	CGoalFragManager();	//コンストラクタ
-	~CGoalFragManager();	//デストラクタ
+	CGoal();	//コンストラクタ
+	~CGoal();	//デストラクタ
 
 	//------------------
 	// メンバ関数
@@ -36,7 +36,7 @@ public:
 	void Update();
 	void Draw();
 	bool Collision();
-	static CGoalFragManager * Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
+	static CGoal * Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
 
 	//ゲッター
 	bool GetGoalFrag();
