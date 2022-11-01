@@ -450,9 +450,10 @@ void CCamera::SetViewSize(DWORD X, DWORD Y, int fWidth, int fHeight)
 	m_viewport.Height = fHeight;
 }
 
-//========================
+//======================================
 // ビューポートの拡縮
-//========================
+// (開始位置X、開始位置Y、幅、高さ)
+//======================================
 void CCamera::AddViewSize(DWORD X, DWORD Y, int fWidth, int fHeight)
 {
 	//-------------------

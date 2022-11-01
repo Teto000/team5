@@ -191,6 +191,8 @@ void CGame::FinishGame()
 	if (nFirstNumber >= 0 /* 1位がnullじゃないなら */)
 	{//Zが押されているなら
 
+		LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
+
 	 //-----------------------
 	 // ビューポートを拡大
 	 //-----------------------

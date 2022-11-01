@@ -247,6 +247,13 @@ void CRenderer::Draw()
 					(float)(SCREEN_WIDTH / 2), (float)SCREEN_HEIGHT);
 			}
 
+			if (CInputKeyboard::Press(DIK_Z))
+			{
+				//カメラのアスペクト比を変更
+				m_pCamera[nOrder]->SetAspect(m_pD3DDevice, 60.0f,
+					(float)(SCREEN_WIDTH), (float)SCREEN_HEIGHT);
+			}
+
 			//-------------------------
 			// ビューポートの処理
 			//-------------------------
