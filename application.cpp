@@ -44,7 +44,7 @@ CCamera*	CApplication::m_pCamera[nDefaultMaxCamera] = {};		//カメラ
 CLight*		CApplication::m_pLight = nullptr;				//ライト
 
 bool CApplication::m_bStop = false;	//プログラムを停止する
-
+int	 CApplication::m_Player = 0;	//プレイヤーの数
 //===========================
 // コンストラクタ
 //===========================

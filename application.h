@@ -45,6 +45,7 @@ public:
 	enum MODE
 	{
 		MODE_TITLE = 0,		//タイトル
+		MODE_PSELECT,		//プレイヤーの人数選択画面
 		MODE_GAME,			//ゲーム
 		MODE_RESULT,		//リザルト
 		MODE_FADE,			//フェード
@@ -92,9 +93,9 @@ public:
 	static CCamera	 *GetCamera(int nCnt);	//カメラの取得
 	static CLight	 *GetLight();			//ライトの取得
 	static CFade	 *GetFade();			//フェードの取得
-	
-	//プレイヤー人数の取得
-	static int		GetAmount() { return nDefaultMaxCamera; }
+
+	//プレイヤーの人数の指定
+	static void SetPlayerSelect(int nPlayer) { m_Player = nPlayer; }
 
 private:
 	void FinishGame();	//ゲーム終了時の処理
@@ -124,6 +125,7 @@ private:
 	static CCamera*		m_pCamera[nDefaultMaxCamera];	//カメラクラス
 	static CLight*		m_pLight;						//ライトクラス
 
+	static int	m_Player;	//プレイヤー数
 	static bool m_bStop;	//プログラムを停止する
 };
 

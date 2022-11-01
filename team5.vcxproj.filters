@@ -122,6 +122,9 @@
     <ClCompile Include="Goal.cpp">
       <Filter>Main\Object\ObjectX</Filter>
     </ClCompile>
+    <ClCompile Include="select_player.cpp">
+      <Filter>Main\Application\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h">
@@ -204,6 +207,9 @@
     </ClInclude>
     <ClInclude Include="Goal.h">
       <Filter>Main\Object\ObjectX</Filter>
+    </ClInclude>
+    <ClInclude Include="select_player.h">
+      <Filter>Main\Application\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
