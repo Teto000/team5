@@ -151,7 +151,10 @@ void CPlayer::Update()
 	//-------------------
 	//“–‚½‚è”»’è
 	//-------------------
+	D3DXVECTOR3 aaa = GetPosition();
+
 	CMeshField *m_pMesh = CGame::GetMesh();
+	m_pMesh->Collision(&aaa);
 	m_pMesh->Collision(&m_pos);
 }
 
