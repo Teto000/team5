@@ -86,8 +86,13 @@ public:
 
 private:
 	void DrawFPS();
+	void AddAcpect(int nNumCamera, float fov, float x);	//アスペクト比の加算
 
 private:
+	//-----------------
+	// 定数
+	//-----------------
+
 	//-----------------
 	// メンバ変数
 	//-----------------
@@ -97,10 +102,13 @@ private:
 	bool m_bWIRE;	//ワイヤーフレーム
 	bool m_nFinish;	//終了フラグ
 	int m_viewPortOrder[nDefaultMaxCamera];
+
 	//-------------------
 	// 静的メンバ変数
 	//-------------------
-	static int m_nMaxCamera;
+	static int m_nMaxCamera;	//カメラの最大数
+	static float m_fAspectFov;	//視野角
+	static float m_fAspectX;	//アスペクト比X
 	static CCamera*	m_pCamera[nDefaultMaxCamera];	//カメラクラス
 };
 

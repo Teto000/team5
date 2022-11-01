@@ -26,6 +26,8 @@
 // 静的メンバ変数宣言
 //-----------------------
 int CRenderer::m_nMaxCamera = nDefaultMaxCamera;	//カメラの最大数
+float CRenderer::m_fAspectFov = 0.0f;	//視野角
+float CRenderer::m_fAspectX = 0.0f;		//アスペクト比X
 CCamera* CRenderer::m_pCamera[nDefaultMaxCamera] = {};	//カメラ
 
 //=========================
@@ -58,6 +60,10 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 {
 	D3DPRESENT_PARAMETERS d3dpp;
 	D3DDISPLAYMODE d3ddm;
+
+	//アスペクト比変更用変数の初期化
+	m_fAspectFov = 60.0f;
+	m_fAspectX = (float)(SCREEN_WIDTH / 2);
 
 	// Direct3Dオブジェクトの作成
 	m_pD3D = Direct3DCreate9(D3D_SDK_VERSION);
@@ -252,13 +258,12 @@ void CRenderer::Draw()
 				//カメラのアスペクト比を変更
 				m_pCamera[nOrder]->SetAspect(m_pD3DDevice, 60.0f,
 					(float)(SCREEN_WIDTH / 2), (float)SCREEN_HEIGHT);
-			}
 
-			if (CInputKeyboard::Press(DIK_Z))
-			{
-				//カメラのアスペクト比を変更
-				m_pCamera[nOrder]->SetAspect(m_pD3DDevice, 60.0f,
-					(float)(SCREEN_WIDTH), (float)SCREEN_HEIGHT);
+				if (CGame::GetFinish() == true)
+				{//終了フラグが立っているなら
+					//アスペクト比の加算
+					AddAcpect(nOrder, (15.0f / 60.0f), (640.0f / 60.0f));
+				}
 			}
 
 			//-------------------------
@@ -338,6 +343,27 @@ int CRenderer::SetMaxCamera(CGame::NUMCAMERA nNumCamera)
 	}
 
 	return nNumCamera;
+}
+
+//=============================================================================
+// アスペクト比の加算
+//=============================================================================
+void CRenderer::AddAcpect(int nNumCamera, float fov, float x)
+{
+	if (m_fAspectFov >= 45.0f)
+	{//視野角が45以上なら
+	 //視野角を減少
+		m_fAspectFov -= fov;
+	}
+	if (m_fAspectX <= (float)SCREEN_WIDTH)
+	{//アスペクト比Xがスクリーンの幅以内なら
+	 //アスペクト比Xを加算
+		m_fAspectX += x;
+	}
+
+	//カメラのアスペクト比を変更
+	m_pCamera[nNumCamera]->SetAspect(m_pD3DDevice, m_fAspectFov,
+		m_fAspectX, (float)SCREEN_HEIGHT);
 }
 
 //=============================================================================
