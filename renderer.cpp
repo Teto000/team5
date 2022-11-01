@@ -213,6 +213,13 @@ void CRenderer::Draw()
 				//配列の最後と入れ替える
 				m_viewPortOrder[1] = nFirstNumber;
 			}
+			else if (m_nMaxCamera == 3)
+			{//最大数が2なら
+			 //最後の値を保存
+				nviewData = m_viewPortOrder[2];
+				//配列の最後と入れ替える
+				m_viewPortOrder[2] = nFirstNumber;
+			}
 			else if (m_nMaxCamera == 4)
 			{//最大数が4なら
 				//最後の値を保存
@@ -315,12 +322,18 @@ int CRenderer::SetMaxCamera(CGame::NUMCAMERA nNumCamera)
 		m_nMaxCamera = 2;
 		break;
 
+	case CGame::NUMCAMERA_THREE:
+		//カメラの最大数を3にする
+		m_nMaxCamera = 3;
+		break;
+
 	case CGame::NUMCAMERA_FOUR:
 		//カメラの最大数を4にする
 		m_nMaxCamera = 4;
 		break;
 
 	default:
+		m_nMaxCamera = 0;
 		break;
 	}
 

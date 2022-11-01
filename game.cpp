@@ -59,7 +59,7 @@ CGame::~CGame()
 HRESULT CGame::Init()
 {
 	//カメラの生成
-	CreateCamera(NUMCAMERA_TWO);
+	CreateCamera(NUMCAMERA_THREE);
 
 	//カメラの最大数の設定
 	{
@@ -157,6 +157,13 @@ void CGame::CreateCamera(CGame::NUMCAMERA num)
 			m_pCamera[1] = CCamera::Create(fWidth, 0, fWidth, SCREEN_HEIGHT);
 			break;
 
+		case NUMCAMERA_THREE:
+			//カメラの数が4つなら
+			m_pCamera[0] = CCamera::Create(0, 0, fWidth, fHeight);				//左上
+			m_pCamera[1] = CCamera::Create(fWidth, 0, fWidth, fHeight);			//右上
+			m_pCamera[2] = CCamera::Create(0, fHeight, fWidth, fHeight);		//左下
+			break;
+
 		case NUMCAMERA_FOUR:
 			//カメラの数が4つなら
 			m_pCamera[0] = CCamera::Create(0, 0, fWidth, fHeight);				//左上
@@ -251,6 +258,13 @@ void CGame::ResetCameraSize()
 		//カメラの数が2つなら
 		m_pCamera[0]->SetViewSize(0, 0, fWidth, SCREEN_HEIGHT);
 		m_pCamera[1]->SetViewSize(fWidth, 0, fWidth, SCREEN_HEIGHT);
+		break;
+
+	case NUMCAMERA_THREE:
+		//カメラの数が4つなら
+		m_pCamera[0]->SetViewSize(0, 0, fWidth, fHeight);				//左上
+		m_pCamera[1]->SetViewSize(fWidth, 0, fWidth, fHeight);			//右上
+		m_pCamera[2]->SetViewSize(0, fHeight, fWidth, fHeight);			//左下
 		break;
 
 	case NUMCAMERA_FOUR:
