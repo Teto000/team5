@@ -118,7 +118,7 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 	m_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 	m_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
 
-	//ビューポートの描画順の初期化
+	//ビューポートの描画順を初期化
 	for (int i = 0; i < m_nMaxCamera; i++)
 	{
 		m_viewPortOrder[i] = i;
@@ -200,7 +200,7 @@ void CRenderer::Draw()
 	if (nFirstNumber <= CRenderer::GetMaxCamera() - 1)
 	{//プレイヤー番号が最大数を超えていないなら
 		if (nFirstNumber >= 0 /* 1位がnullじゃないなら */)
-		{
+		{//Zが押されているなら
 			//-----------------------------
 			// 描画順の配列を入れ替える
 			//-----------------------------
