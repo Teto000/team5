@@ -118,10 +118,12 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 	m_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 	m_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
 
+	//ビューポートの描画順の初期化
 	for (int i = 0; i < m_nMaxCamera; i++)
 	{
 		m_viewPortOrder[i] = i;
 	}
+
 #ifdef _DEBUG
 	// デバッグ情報表示用フォントの生成
 	D3DXCreateFont(m_pD3DDevice, 18, 0, 0, 0, FALSE, SHIFTJIS_CHARSET,
@@ -198,20 +200,24 @@ void CRenderer::Draw()
 	if (nFirstNumber <= CRenderer::GetMaxCamera() - 1)
 	{//プレイヤー番号が最大数を超えていないなら
 		if (nFirstNumber >= 0 /* 1位がnullじゃないなら */)
-		{//Zが押されているなら
+		{
 			//-----------------------------
 			// 描画順の配列を入れ替える
 			//-----------------------------
-			int nviewData = m_viewPortOrder[nFirstNumber];
+			int nviewData;	//保存用変数
 
 			if (m_nMaxCamera == 2)
 			{//最大数が2なら
-				//配列の1番目と入れ替える
+				//最後の値を保存
+				nviewData = m_viewPortOrder[1];
+				//配列の最後と入れ替える
 				m_viewPortOrder[1] = nFirstNumber;
 			}
 			else if (m_nMaxCamera == 4)
 			{//最大数が4なら
-				//配列の3番目と入れ替える
+				//最後の値を保存
+				nviewData = m_viewPortOrder[3];
+				//配列の最後と入れ替える
 				m_viewPortOrder[3] = nFirstNumber;
 			}
 

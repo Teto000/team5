@@ -43,7 +43,7 @@ public:
 	//----------------
 	// ê√ìIÉÅÉìÉoä÷êî
 	//----------------
-	static CModel* Create(LPCTSTR text,D3DXVECTOR3 pos, D3DXVECTOR3 rot);
+	static CModel* Create(LPCTSTR text, D3DXVECTOR3 pos, D3DXVECTOR3 rot);
 
 private:
 	void DrawShadow();

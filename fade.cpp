@@ -60,7 +60,7 @@ HRESULT CFade::Init(CApplication::MODE modeNext)
 //===========================
 void CFade::Uninit()
 {
-	m_pObject->Uninit();
+
 }
 
 //===========================
@@ -68,7 +68,6 @@ void CFade::Uninit()
 //===========================
 void CFade::Update()
 {
-
 	if (m_fade != FADE_NONE)
 	{
 		if (m_fade == FADE_IN)

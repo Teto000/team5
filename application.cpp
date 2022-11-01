@@ -97,7 +97,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//----------------------------
 	{
 		//カメラの最大数の設定
-		int nNumCamera = CRenderer::SetMaxCamera(NUMCAMERA_ONE);
+		int nNumCamera = CRenderer::SetMaxCamera(NUMCAMERA_FOUR);
 
 		DWORD fWidth = SCREEN_WIDTH / 2;
 		DWORD fHeight = SCREEN_HEIGHT / 2;
@@ -142,7 +142,6 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//----------------------------
 	// モードの設定
 	//----------------------------
-
 	m_pFade = new CFade;
 	SetMode(MODE_GAME);
 	m_pFade->Init(MODE_GAME);
@@ -209,6 +208,22 @@ void CApplication::Uninit()
 		m_pLight->Uninit();
 		delete m_pLight;
 		m_pLight = nullptr;
+	}
+
+	//ゲームの終了
+	if (m_pGame != nullptr)
+	{
+		m_pGame->Uninit();
+		delete m_pGame;
+		m_pGame = nullptr;
+	}
+
+	//フェードの終了
+	if (m_pFade != nullptr)
+	{
+		m_pFade->Uninit();
+		delete m_pFade;
+		m_pFade = nullptr;
 	}
 }
 
@@ -284,15 +299,20 @@ void CApplication::SetMode(MODE mode)
 	{
 	case MODE_TITLE:
 		m_pTitle->Uninit();
+		delete m_pTitle;
+		m_pTitle = nullptr;
 		break;
 
 	case MODE_GAME:
 		m_pGame->Uninit();
+		delete m_pGame;
 		m_pGame = nullptr;
 		break;
 
 	case MODE_RESULT:
 		m_pResult->Uninit();
+		delete m_pResult;
+		m_pResult = nullptr;
 		break;
 
 	default:
