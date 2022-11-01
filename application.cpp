@@ -40,11 +40,7 @@ CRenderer*	CApplication::m_pRenderer = nullptr;			//レンダラー
 CInput*		CApplication::m_pInput = nullptr;				//インプット
 CTexture*	CApplication::m_pTexture = nullptr;				//テクスチャ
 CSound*		CApplication::m_pSound = nullptr;				//サウンド
-CCamera*	CApplication::m_pCamera[nDefaultMaxCamera] = {};		//カメラ
 CLight*		CApplication::m_pLight = nullptr;				//ライト
-
-int CApplication::m_nNumCamera = -1;
-bool CApplication::m_bStop = false;	//プログラムを停止する
 
 //===========================
 // コンストラクタ
@@ -92,47 +88,6 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//----------------------------
 	//m_pSound = new CSound;
 	//m_pSound->Init(hWnd);
-
-	//----------------------------
-	// カメラの生成と初期化
-	//----------------------------
-	{
-		//カメラの最大数の設定
-		m_nNumCamera = CRenderer::SetMaxCamera(NUMCAMERA_FOUR);
-
-		DWORD fWidth = SCREEN_WIDTH / 2;
-		DWORD fHeight = SCREEN_HEIGHT / 2;
-
-		switch (m_nNumCamera)
-		{
-		case NUMCAMERA_ONE:
-			//カメラの数が1つなら
-			m_pCamera[0] = CCamera::Create(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-			break;
-			
-		case NUMCAMERA_TWO:
-			//カメラの数が2つなら
-			m_pCamera[0] = CCamera::Create(0, 0, fWidth, SCREEN_HEIGHT);
-			m_pCamera[1] = CCamera::Create(fWidth, 0, fWidth, SCREEN_HEIGHT);
-			break;
-
-		case NUMCAMERA_FOUR:
-			//カメラの数が4つなら
-			m_pCamera[0] = CCamera::Create(0, 0, fWidth, fHeight);				//左上
-			m_pCamera[1] = CCamera::Create(fWidth, 0, fWidth, fHeight);			//右上
-			m_pCamera[2] = CCamera::Create(0, fHeight, fWidth, fHeight);		//左下
-			m_pCamera[3] = CCamera::Create(fWidth, fHeight, fWidth, fHeight);	//右下
-			break;
-
-		default:
-			//プログラム停止フラグを立てる
-			m_bStop = true;
-
-			//警告
-			MessageBox(hWnd, "カメラの分割数が正常ではありません", "警告！", MB_ICONWARNING);
-			exit(m_bStop);	//プログラムを停止する
-		}
-	}
 
 	//----------------------------
 	// ライトの生成と初期化
@@ -190,20 +145,6 @@ void CApplication::Uninit()
 		m_pSound = nullptr;
 	}*/
 
-	//カメラの終了
-	{
-		int nNumCamera = CRenderer::GetMaxCamera();
-		for (int i = 0; i < nNumCamera; i++)
-		{
-			if (m_pCamera[i] != nullptr)
-			{//カメラがnullじゃないなら 
-				m_pCamera[i]->Uninit();
-				delete m_pCamera[i];
-				m_pCamera[i] = nullptr;
-			}
-		}
-	}
-
 	//ライトの終了
 	if (m_pLight != nullptr)
 	{
@@ -239,22 +180,6 @@ void CApplication::Update()
 
 	//レンダリングの更新
 	m_pRenderer->Update();
-
-	//カメラの更新
-	{
-		int nNumCamera = CRenderer::GetMaxCamera();
-		for (int i = 0; i < nNumCamera; i++)
-		{
-			m_pCamera[i]->Update();
-		}
-
-		//ゲーム終了時の処理
-		if (CGoal::GetGoalFrag())
-		{
-			FinishGame();
-		}
-		
-	}
 
 	//モードごとの更新
 	switch (m_mode)
@@ -343,7 +268,7 @@ void CApplication::SetMode(MODE mode)
 		m_pGame->Init();
 
 		//カメラの大きさのリセット
-		ResetCameraSize();
+		m_pGame->ResetCameraSize();
 		break;
 
 	case MODE_RESULT:
@@ -360,96 +285,6 @@ void CApplication::SetMode(MODE mode)
 	/*m_pFade = nullptr;
 	m_pFade = new CFade;
 	m_pFade->Init(m_mode);*/
-}
-
-//===========================
-// ゲーム終了時の処理
-//===========================
-void CApplication::FinishGame()
-{
-	//-------------------------------
-	// 1位のビューポートを拡大する
-	//-------------------------------
-
-	/* 1位のプレイヤー番号を取得 */
-	int nFirstNumber = CGoal::GetWinner();
-
-	if (nFirstNumber >= 0 /* 1位がnullじゃないなら */)
-	{//Zが押されているなら
-
-		//-----------------------
-		// ビューポートを拡大
-		//-----------------------
-		switch (nFirstNumber)
-		{
-		//-----------------------
-		// 1人目が勝った
-		//-----------------------
-		case CCamera::NUMPLAYER_ONE:
-			m_pCamera[nFirstNumber]->AddViewSize(0, 0, nSpeed_X, nSpeed_Y);
-			break;
-
-		//-----------------------
-		// 2人目が勝った
-		//-----------------------
-		case CCamera::NUMPLAYER_TWO:
-			m_pCamera[nFirstNumber]->AddViewSize(-nSpeed_X, 0, nSpeed_X, nSpeed_Y);
-			break;
-
-		//-----------------------
-		// 3人目が勝った
-		//-----------------------
-		case CCamera::NUMPLAYER_THREE:
-			m_pCamera[nFirstNumber]->AddViewSize(0, -nSpeed_Y, nSpeed_X, nSpeed_Y);
-			break;
-
-		//-----------------------
-		// 4人目が勝った
-		//-----------------------
-		case CCamera::NUMPLAYER_FOUR:
-			m_pCamera[nFirstNumber]->AddViewSize(-nSpeed_X, -nSpeed_Y, nSpeed_X, nSpeed_Y);
-			break;
-
-		default:
-			break;
-		}
-	}
-}
-
-//===========================
-// カメラの大きさのリセット
-//===========================
-void CApplication::ResetCameraSize()
-{
-	DWORD fWidth = SCREEN_WIDTH / 2;
-	DWORD fHeight = SCREEN_HEIGHT / 2;
-
-	switch (m_nNumCamera)
-	{
-	case NUMCAMERA_ONE:
-		//カメラの数が1つなら
-		m_pCamera[0]->SetViewSize(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-		break;
-
-	case NUMCAMERA_TWO:
-		//カメラの数が2つなら
-		m_pCamera[0]->SetViewSize(0, 0, fWidth, SCREEN_HEIGHT);
-		m_pCamera[1]->SetViewSize(fWidth, 0, fWidth, SCREEN_HEIGHT);
-		break;
-
-	case NUMCAMERA_FOUR:
-		//カメラの数が4つなら
-		m_pCamera[0]->SetViewSize(0, 0, fWidth, fHeight);				//左上
-		m_pCamera[1]->SetViewSize(fWidth, 0, fWidth, fHeight);			//右上
-		m_pCamera[2]->SetViewSize(0, fHeight, fWidth, fHeight);			//左下
-		m_pCamera[3]->SetViewSize(fWidth, fHeight, fWidth, fHeight);	//右下
-		break;
-
-	default:
-		//プログラム停止フラグを立てる
-		m_bStop = true;
-		exit(m_bStop);	//プログラムを停止する
-	}
 }
 
 //===========================
@@ -498,14 +333,6 @@ CTexture *CApplication::GetTexture()
 CSound *CApplication::GetSound()
 {
 	return m_pSound;
-}
-
-//===========================
-// カメラの取得
-//===========================
-CCamera *CApplication::GetCamera(int nCnt)
-{
-	return m_pCamera[nCnt];
 }
 
 //===========================

@@ -12,13 +12,12 @@
 //--------------------
 #include <tchar.h> // _T
 #include <d3dx9.h>
-#include "application.h"
+#include "game.h"
 
 //--------------------
 // 前方宣言
 //--------------------
 class CCamera;
-//class CApplication;
 
 //*****************************************************************************
 // 定数定義
@@ -82,7 +81,7 @@ public:
 	//-----------------
 	// 静的メンバ関数
 	//-----------------
-	static int SetMaxCamera(CApplication::NUMCAMERA nNumCamera);
+	static int SetMaxCamera(CGame::NUMCAMERA nNumCamera);
 	static int GetMaxCamera();
 
 private:
