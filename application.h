@@ -25,13 +25,7 @@ class CRenderer;	//レンダラー
 class CInput;		//インプット
 class CTexture;		//テクスチャ
 class CSound;		//サウンド
-class CCamera;		//カメラ
 class CLight;		//ライト
-
-//--------------------
-// マクロ定義
-//--------------------
-#define nDefaultMaxCamera	(4)
 
 //================================
 // アプリケーションクラスの定義
@@ -59,15 +53,6 @@ public:
 		GAMEMODE_MAX
 	};
 
-	//カメラの最大数
-	enum NUMCAMERA
-	{
-		NUMCAMERA_ONE = 0,
-		NUMCAMERA_TWO,
-		NUMCAMERA_FOUR,
-		NUMCAMERA_MAX
-	};
-
 	CApplication();		//コンストラクタ
 	~CApplication();	//デストラクタ
 
@@ -90,23 +75,10 @@ public:
 	static CInput	 *GetInput();			//インプットの取得
 	static CTexture  *GetTexture();			//テクスチャの取得
 	static CSound	 *GetSound();			//サウンドの取得
-	static CCamera	 *GetCamera(int nCnt);	//カメラの取得
 	static CLight	 *GetLight();			//ライトの取得
 	static CFade	 *GetFade();			//フェードの取得
 
-	//プレイヤーの人数の指定
-	static void SetPlayerSelect(int nPlayer) { m_Player = nPlayer; }
-
 private:
-	void FinishGame();	//ゲーム終了時の処理
-
-private:
-	//------------------
-	// 定数
-	//------------------
-	static const int nSpeed_X = 9;
-	static const int nSpeed_Y = 5;
-
 	//------------------
 	// 静的メンバ変数
 	//------------------
@@ -122,11 +94,7 @@ private:
 	static CInput*		m_pInput;						//インプットクラス
 	static CTexture*	m_pTexture;						//テクスチャクラス
 	static CSound*		m_pSound;						//サウンドクラス
-	static CCamera*		m_pCamera[nDefaultMaxCamera];	//カメラクラス
 	static CLight*		m_pLight;						//ライトクラス
-
-	static int	m_Player;	//プレイヤー数
-	static bool m_bStop;	//プログラムを停止する
 };
 
 #endif // !_APPLICATION_H_

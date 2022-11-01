@@ -118,7 +118,7 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 	m_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 	m_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
 
-	//ビューポートの描画順の初期化
+	//ビューポートの描画順を初期化
 	for (int i = 0; i < m_nMaxCamera; i++)
 	{
 		m_viewPortOrder[i] = i;
@@ -200,11 +200,11 @@ void CRenderer::Draw()
 	if (nFirstNumber <= CRenderer::GetMaxCamera() - 1)
 	{//プレイヤー番号が最大数を超えていないなら
 		if (nFirstNumber >= 0 /* 1位がnullじゃないなら */)
-		{
+		{//Zが押されているなら
 			//-----------------------------
 			// 描画順の配列を入れ替える
 			//-----------------------------
-			int nviewData;	//保存用変数
+			int nviewData = 0;	//保存用変数
 
 			if (m_nMaxCamera == 2)
 			{//最大数が2なら
@@ -233,17 +233,20 @@ void CRenderer::Draw()
 		int nOrder = m_viewPortOrder[i];
 
 		//カメラの取得
-		m_pCamera[nOrder] = CApplication::GetCamera(nOrder);
+		m_pCamera[nOrder] = CGame::GetCamera(nOrder);
 
-		//カメラの設定
-		m_pCamera[nOrder]->SetCamera(m_pD3DDevice);
+		if (m_pCamera[nOrder] != nullptr)
+		{//カメラがnullじゃないなら
+			//カメラの設定
+			m_pCamera[nOrder]->SetCamera(m_pD3DDevice);
 
-		//-------------------------
-		// ビューポートの処理
-		//-------------------------
-		//ビューポートの設定
-		D3DVIEWPORT9 viewport = m_pCamera[nOrder]->GetViewport();
-		m_pD3DDevice->SetViewport(&viewport);
+			//-------------------------
+			// ビューポートの処理
+			//-------------------------
+			//ビューポートの設定
+			D3DVIEWPORT9 viewport = m_pCamera[nOrder]->GetViewport();
+			m_pD3DDevice->SetViewport(&viewport);
+		}
 
 		// バックバッファ＆Ｚバッファのクリア
 		m_pD3DDevice->Clear(0,
@@ -271,6 +274,12 @@ void CRenderer::Draw()
 		}
 	}
 
+	//ビューポートの描画順を初期化
+	for (int i = 0; i < m_nMaxCamera; i++)
+	{
+		m_viewPortOrder[i] = i;
+	}
+
 	// バックバッファとフロントバッファの入れ替え
 	m_pD3DDevice->Present(NULL, NULL, NULL, NULL);
 }
@@ -278,21 +287,21 @@ void CRenderer::Draw()
 //=============================================================================
 // カメラの最大数の設定・取得
 //=============================================================================
-int CRenderer::SetMaxCamera(CApplication::NUMCAMERA nNumCamera)
+int CRenderer::SetMaxCamera(CGame::NUMCAMERA nNumCamera)
 {
 	switch (nNumCamera)
 	{
-	case CApplication::NUMCAMERA_ONE:
+	case CGame::NUMCAMERA_ONE:
 		//カメラの最大数を1にする
 		m_nMaxCamera = 1;
 		break;
 
-	case CApplication::NUMCAMERA_TWO:
+	case CGame::NUMCAMERA_TWO:
 		//カメラの最大数を2にする
 		m_nMaxCamera = 2;
 		break;
 
-	case CApplication::NUMCAMERA_FOUR:
+	case CGame::NUMCAMERA_FOUR:
 		//カメラの最大数を4にする
 		m_nMaxCamera = 4;
 		break;
