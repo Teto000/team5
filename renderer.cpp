@@ -212,27 +212,12 @@ void CRenderer::Draw()
 			//-----------------------------
 			int nviewData = 0;	//保存用変数
 
-			if (m_nMaxCamera == 2)
-			{//最大数が2なら
-				//最後の値を保存
-				nviewData = m_viewPortOrder[1];
-				//配列の最後と入れ替える
-				m_viewPortOrder[1] = nFirstNumber;
-			}
-			else if (m_nMaxCamera == 3)
-			{//最大数が2なら
-			 //最後の値を保存
-				nviewData = m_viewPortOrder[2];
-				//配列の最後と入れ替える
-				m_viewPortOrder[2] = nFirstNumber;
-			}
-			else if (m_nMaxCamera == 4)
-			{//最大数が4なら
-				//最後の値を保存
-				nviewData = m_viewPortOrder[3];
-				//配列の最後と入れ替える
-				m_viewPortOrder[3] = nFirstNumber;
-			}
+			//最後の値を保存
+			nviewData = m_viewPortOrder[m_nMaxCamera - 1];
+
+			//配列の最後と入れ替える
+			m_viewPortOrder[m_nMaxCamera - 1] = nFirstNumber;
+
 			//保存していた値を代入
 			m_viewPortOrder[nFirstNumber] = nviewData;
 		}
@@ -253,12 +238,18 @@ void CRenderer::Draw()
 			//カメラの設定
 			m_pCamera[nOrder]->SetCamera(m_pD3DDevice);
 
+			//-------------------------
+			// カメラが2つの場合
+			//-------------------------
 			if (m_nMaxCamera == 2)
 			{//カメラの数が2つなら
 				//カメラのアスペクト比を変更
 				m_pCamera[nOrder]->SetAspect(m_pD3DDevice, 60.0f,
 					(float)(SCREEN_WIDTH / 2), (float)SCREEN_HEIGHT);
 
+				//-------------------------
+				// 拡大する時の処理
+				//-------------------------
 				if (CGame::GetFinish() == true)
 				{//終了フラグが立っているなら
 					//アスペクト比の加算
