@@ -220,7 +220,7 @@ void CRenderer::Draw()
 				//配列の最後と入れ替える
 				m_viewPortOrder[3] = nFirstNumber;
 			}
-
+			//保存していた値を代入
 			m_viewPortOrder[nFirstNumber] = nviewData;
 		}
 	}
@@ -239,6 +239,13 @@ void CRenderer::Draw()
 		{//カメラがnullじゃないなら
 			//カメラの設定
 			m_pCamera[nOrder]->SetCamera(m_pD3DDevice);
+
+			if (m_nMaxCamera == 2)
+			{//カメラの数が2つなら
+				//カメラのアスペクト比を変更
+				m_pCamera[nOrder]->SetAspect(m_pD3DDevice, 60.0f,
+					(float)(SCREEN_WIDTH / 2), (float)SCREEN_HEIGHT);
+			}
 
 			//-------------------------
 			// ビューポートの処理
