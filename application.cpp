@@ -153,12 +153,28 @@ void CApplication::Uninit()
 		m_pLight = nullptr;
 	}
 
+	//タイトルの終了
+	if (m_pTitle != nullptr)
+	{
+		m_pTitle->Uninit();
+		delete m_pTitle;
+		m_pTitle = nullptr;
+	}
+
 	//ゲームの終了
 	if (m_pGame != nullptr)
 	{
 		m_pGame->Uninit();
 		delete m_pGame;
 		m_pGame = nullptr;
+	}
+
+	//リザルトの終了
+	if (m_pResult != nullptr)
+	{
+		m_pResult->Uninit();
+		delete m_pResult;
+		m_pResult = nullptr;
 	}
 
 	//フェードの終了
