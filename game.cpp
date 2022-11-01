@@ -59,7 +59,7 @@ CGame::~CGame()
 HRESULT CGame::Init()
 {
 	//カメラの生成
-	CreateCamera();
+	CreateCamera(NUMCAMERA_FOUR);
 
 	//カメラの最大数の設定
 	{
@@ -130,15 +130,16 @@ void CGame::Update()
 
 //===========================
 // カメラの生成
+// (カメラの数列挙型)
 //===========================
-void CGame::CreateCamera()
+void CGame::CreateCamera(CGame::NUMCAMERA num)
 {
 	//----------------------------
 	// カメラの生成と初期化
 	//----------------------------
 	{
 		//カメラの最大数の設定
-		m_nNumCamera = CRenderer::SetMaxCamera(NUMCAMERA_FOUR);
+		m_nNumCamera = CRenderer::SetMaxCamera(num);
 
 		DWORD fWidth = SCREEN_WIDTH / 2;
 		DWORD fHeight = SCREEN_HEIGHT / 2;

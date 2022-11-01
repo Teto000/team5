@@ -66,8 +66,8 @@ public:
 	static int GetAmount() { return nDefaultMaxCamera; }
 
 private:
-	void CreateCamera();	//カメラの生成
-	void FinishGame();		//ゲーム終了時の処理
+	void CreateCamera(CGame::NUMCAMERA num);	//カメラの生成
+	void FinishGame();	//ゲーム終了時の処理
 
 private:
 	//------------------
