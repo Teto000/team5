@@ -119,6 +119,9 @@
     <ClCompile Include="mesh.cpp">
       <Filter>Main\Object\Mesh</Filter>
     </ClCompile>
+    <ClCompile Include="Goal.cpp">
+      <Filter>Main\Object\ObjectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h">
