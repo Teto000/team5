@@ -271,6 +271,12 @@ void CRenderer::Draw()
 		}
 	}
 
+	//ビューポートの描画順を初期化
+	for (int i = 0; i < m_nMaxCamera; i++)
+	{
+		m_viewPortOrder[i] = i;
+	}
+
 	// バックバッファとフロントバッファの入れ替え
 	m_pD3DDevice->Present(NULL, NULL, NULL, NULL);
 }

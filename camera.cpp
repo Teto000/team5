@@ -438,6 +438,18 @@ void CCamera::SetNumPlayer(int nNum)
 	m_nNumPlayer = nNum;
 }
 
+//=============================
+// ビューポートの大きさ設定
+//=============================
+void CCamera::SetViewSize(DWORD X, DWORD Y, int fWidth, int fHeight)
+{
+	//引数を代入
+	m_viewport.X = X;
+	m_viewport.Y = Y;
+	m_viewport.Width = fWidth;
+	m_viewport.Height = fHeight;
+}
+
 //========================
 // ビューポートの拡縮
 //========================

@@ -97,7 +97,8 @@ public:
 	static int		GetAmount() { return nDefaultMaxCamera; }
 
 private:
-	void FinishGame();	//ゲーム終了時の処理
+	void FinishGame();		//ゲーム終了時の処理
+	static void ResetCameraSize();	//カメラの大きさのリセット
 
 private:
 	//------------------
@@ -124,7 +125,8 @@ private:
 	static CCamera*		m_pCamera[nDefaultMaxCamera];	//カメラクラス
 	static CLight*		m_pLight;						//ライトクラス
 
-	static bool m_bStop;	//プログラムを停止する
+	static int m_nNumCamera;	//カメラの数
+	static bool m_bStop;		//プログラムを停止する
 };
 
 #endif // !_APPLICATION_H_

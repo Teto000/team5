@@ -43,6 +43,7 @@ CSound*		CApplication::m_pSound = nullptr;				//サウンド
 CCamera*	CApplication::m_pCamera[nDefaultMaxCamera] = {};		//カメラ
 CLight*		CApplication::m_pLight = nullptr;				//ライト
 
+int CApplication::m_nNumCamera = -1;
 bool CApplication::m_bStop = false;	//プログラムを停止する
 
 //===========================
@@ -97,12 +98,12 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//----------------------------
 	{
 		//カメラの最大数の設定
-		int nNumCamera = CRenderer::SetMaxCamera(NUMCAMERA_FOUR);
+		m_nNumCamera = CRenderer::SetMaxCamera(NUMCAMERA_FOUR);
 
 		DWORD fWidth = SCREEN_WIDTH / 2;
 		DWORD fHeight = SCREEN_HEIGHT / 2;
 
-		switch (nNumCamera)
+		switch (m_nNumCamera)
 		{
 		case NUMCAMERA_ONE:
 			//カメラの数が1つなら
@@ -124,7 +125,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 			break;
 
 		default:
-			//プログラムを停止する
+			//プログラム停止フラグを立てる
 			m_bStop = true;
 
 			//警告
@@ -145,6 +146,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	m_pFade = new CFade;
 	SetMode(MODE_GAME);
 	m_pFade->Init(MODE_GAME);
+
 	return S_OK;
 }
 
@@ -339,6 +341,9 @@ void CApplication::SetMode(MODE mode)
 		m_pGame = nullptr;
 		m_pGame = new CGame;
 		m_pGame->Init();
+
+		//カメラの大きさのリセット
+		ResetCameraSize();
 		break;
 
 	case MODE_RESULT:
@@ -408,6 +413,42 @@ void CApplication::FinishGame()
 		default:
 			break;
 		}
+	}
+}
+
+//===========================
+// カメラの大きさのリセット
+//===========================
+void CApplication::ResetCameraSize()
+{
+	DWORD fWidth = SCREEN_WIDTH / 2;
+	DWORD fHeight = SCREEN_HEIGHT / 2;
+
+	switch (m_nNumCamera)
+	{
+	case NUMCAMERA_ONE:
+		//カメラの数が1つなら
+		m_pCamera[0]->SetViewSize(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+		break;
+
+	case NUMCAMERA_TWO:
+		//カメラの数が2つなら
+		m_pCamera[0]->SetViewSize(0, 0, fWidth, SCREEN_HEIGHT);
+		m_pCamera[1]->SetViewSize(fWidth, 0, fWidth, SCREEN_HEIGHT);
+		break;
+
+	case NUMCAMERA_FOUR:
+		//カメラの数が4つなら
+		m_pCamera[0]->SetViewSize(0, 0, fWidth, fHeight);				//左上
+		m_pCamera[1]->SetViewSize(fWidth, 0, fWidth, fHeight);			//右上
+		m_pCamera[2]->SetViewSize(0, fHeight, fWidth, fHeight);			//左下
+		m_pCamera[3]->SetViewSize(fWidth, fHeight, fWidth, fHeight);	//右下
+		break;
+
+	default:
+		//プログラム停止フラグを立てる
+		m_bStop = true;
+		exit(m_bStop);	//プログラムを停止する
 	}
 }
 
