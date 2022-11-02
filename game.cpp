@@ -60,7 +60,7 @@ CGame::~CGame()
 HRESULT CGame::Init()
 {
 	//ƒJƒƒ‰‚Ì¶¬
-	CreateCamera(NUMCAMERA_TWO);
+	CreateCamera(NUMCAMERA_THREE);
 
 	//ƒJƒƒ‰‚ÌÅ‘å”‚Ìİ’è
 	{
