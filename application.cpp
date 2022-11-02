@@ -251,7 +251,6 @@ void CApplication::Update()
 		{
 			FinishGame();
 		}
-		
 	}
 
 	//モードごとの更新
