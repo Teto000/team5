@@ -98,9 +98,9 @@ private:
 	//-----------------
 	// メンバ変数
 	//-----------------
-	LPDIRECT3D9 m_pD3D;					// Direct3Dオブジェクト
+	LPDIRECT3D9		  m_pD3D;			// Direct3Dオブジェクト
 	LPDIRECT3DDEVICE9 m_pD3DDevice;		// Deviceオブジェクト
-	LPD3DXFONT m_pFont;					// フォント
+	LPD3DXFONT		  m_pFont;			// フォント
 	bool m_bWIRE;	//ワイヤーフレーム
 	bool m_nFinish;	//終了フラグ
 	int m_viewPortOrder[nDefaultMaxCamera];
@@ -108,7 +108,7 @@ private:
 	//-------------------
 	// 静的メンバ変数
 	//-------------------
-	static int m_nMaxCamera;	//カメラの最大数
+	static int	 m_nMaxCamera;	//カメラの最大数
 	static float m_fAspectFov;	//視野角
 	static float m_fAspectX;	//アスペクト比X
 	static CCamera*	m_pCamera[nDefaultMaxCamera];	//カメラクラス

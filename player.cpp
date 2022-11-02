@@ -369,6 +369,14 @@ void CPlayer::Move()
 		//プレイヤー2の操作
 		MoveKey(DIK_T, DIK_F, DIK_G, DIK_H, DIK_BACKSPACE);
 		break;
+
+	case 2:
+		//プレイヤー3の操作
+		MoveKey(DIK_I, DIK_J, DIK_K, DIK_L, DIK_P);
+		break;
+
+	default:
+		break;
 	}
 
 	//位置を更新

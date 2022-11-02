@@ -322,10 +322,6 @@ int CRenderer::SetMaxCamera(CGame::NUMCAMERA nNumCamera)
 		break;
 
 	case CGame::NUMCAMERA_THREE:
-		//ƒJƒƒ‰‚ÌÅ‘å”‚ğ3‚É‚·‚é
-		m_nMaxCamera = 3;
-		break;
-
 	case CGame::NUMCAMERA_FOUR:
 		//ƒJƒƒ‰‚ÌÅ‘å”‚ğ4‚É‚·‚é
 		m_nMaxCamera = 4;
