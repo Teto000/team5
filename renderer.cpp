@@ -25,9 +25,12 @@
 //-----------------------
 // 静的メンバ変数宣言
 //-----------------------
-int CRenderer::m_nMaxCamera = nDefaultMaxCamera;	//カメラの最大数
-float CRenderer::m_fAspectFov = 0.0f;	//視野角
-float CRenderer::m_fAspectX = 0.0f;		//アスペクト比X
+const float CRenderer::fDefaultFov = 45.0f;						//基本の視野角
+const float CRenderer::fDefaultAspectX = (float)SCREEN_WIDTH;	//基本のアスペクト比X
+
+int CRenderer::m_nMaxCamera = nDefaultMaxCamera;		//カメラの最大数
+float CRenderer::m_fAspectFov = 0.0f;					//視野角
+float CRenderer::m_fAspectX = 0.0f;						//アスペクト比X
 CCamera* CRenderer::m_pCamera[nDefaultMaxCamera] = {};	//カメラ
 
 //=========================
@@ -253,7 +256,7 @@ void CRenderer::Draw()
 				if (CGame::GetFinish() == true)
 				{//終了フラグが立っているなら
 					//アスペクト比の加算
-					AddAcpect(nOrder, (15.0f / 60.0f), (640.0f / 60.0f));
+					AddAcpect(nOrder, (15.0f / 60.0f), (640.0f / 120.0f));
 				}
 			}
 
@@ -341,14 +344,14 @@ int CRenderer::SetMaxCamera(CGame::NUMCAMERA nNumCamera)
 //=============================================================================
 void CRenderer::AddAcpect(int nNumCamera, float fov, float x)
 {
-	if (m_fAspectFov >= 45.0f)
+	if (m_fAspectFov >= fDefaultFov)
 	{//視野角が45以上なら
-	 //視野角を減少
+		//視野角を減少
 		m_fAspectFov -= fov;
 	}
-	if (m_fAspectX <= (float)SCREEN_WIDTH)
+	if (m_fAspectX <= fDefaultAspectX)
 	{//アスペクト比Xがスクリーンの幅以内なら
-	 //アスペクト比Xを加算
+		//アスペクト比Xを加算
 		m_fAspectX += x;
 	}
 

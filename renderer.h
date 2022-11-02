@@ -92,6 +92,8 @@ private:
 	//-----------------
 	// 定数
 	//-----------------
+	static const float fDefaultFov;		//基本の視野角
+	static const float fDefaultAspectX;	//基本のアスペクト比X
 
 	//-----------------
 	// メンバ変数
