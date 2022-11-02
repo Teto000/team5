@@ -161,7 +161,7 @@ void CCamera::SetCamera(LPDIRECT3DDEVICE9 pDevice)
 
 //==================================================
 // カメラの生成
-// 引数 : 開始位置 X, 開始位置 Y, 幅, 高さ
+// 引数 : 左上の座標 X, 左上の座標 Y, 幅, 高さ
 //==================================================
 CCamera* CCamera::Create(DWORD X, DWORD Y, DWORD Width, DWORD Height)
 {
