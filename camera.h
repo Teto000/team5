@@ -47,7 +47,10 @@ public:
 	//------------------
 	void SetPos(D3DXVECTOR3 pos);	//視点・注視点の設定
 	void SetNumPlayer(int nNum);	//プレイヤー番号の設定
+	void SetViewSize(DWORD X, DWORD Y, int fWidth, int fHeight);	//ビューポートの大きさ設定
 	void AddViewSize(DWORD X, DWORD Y, int fWidth, int fHeight);	//ビューポートの拡縮
+	void SetAspect(LPDIRECT3DDEVICE9 pDevice, float fov,
+					float fWidth, float fHeight);	//アスペクト比の設定
 
 	//------------------
 	// ゲッター

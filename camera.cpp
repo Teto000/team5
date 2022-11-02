@@ -438,9 +438,22 @@ void CCamera::SetNumPlayer(int nNum)
 	m_nNumPlayer = nNum;
 }
 
-//========================
+//=============================
+// ビューポートの大きさ設定
+//=============================
+void CCamera::SetViewSize(DWORD X, DWORD Y, int fWidth, int fHeight)
+{
+	//引数を代入
+	m_viewport.X = X;
+	m_viewport.Y = Y;
+	m_viewport.Width = fWidth;
+	m_viewport.Height = fHeight;
+}
+
+//======================================
 // ビューポートの拡縮
-//========================
+// (開始位置X、開始位置Y、幅、高さ)
+//======================================
 void CCamera::AddViewSize(DWORD X, DWORD Y, int fWidth, int fHeight)
 {
 	//-------------------
@@ -468,6 +481,26 @@ void CCamera::AddViewSize(DWORD X, DWORD Y, int fWidth, int fHeight)
 			m_viewport.Y += Y;
 		}
 	}
+}
+
+//==================================================
+// アスペクト比の設定
+// (デバイス、視野角、アスペクト比(幅、高さ))
+//==================================================
+void CCamera::SetAspect(LPDIRECT3DDEVICE9 pDevice, float fov, float fWidth, float fHeight)
+{
+	//プロジェクションマトリックスの初期化
+	D3DXMatrixIdentity(&m_mtxProjection);
+
+	//プロジェクションマトリックスの作成
+	D3DXMatrixPerspectiveFovLH(&m_mtxProjection,
+								D3DXToRadian(fov),
+								fWidth / fHeight,
+								10.0f,
+								1000.0f);
+
+	//プロジェクションマトリックスの設定
+	pDevice->SetTransform(D3DTS_PROJECTION, &m_mtxProjection);
 }
 
 //========================

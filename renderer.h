@@ -12,13 +12,12 @@
 //--------------------
 #include <tchar.h> // _T
 #include <d3dx9.h>
-#include "application.h"
+#include "game.h"
 
 //--------------------
 // 前方宣言
 //--------------------
 class CCamera;
-//class CApplication;
 
 //*****************************************************************************
 // 定数定義
@@ -82,13 +81,20 @@ public:
 	//-----------------
 	// 静的メンバ関数
 	//-----------------
-	static int SetMaxCamera(CApplication::NUMCAMERA nNumCamera);
+	static int SetMaxCamera(CGame::NUMCAMERA nNumCamera);
 	static int GetMaxCamera();
 
 private:
 	void DrawFPS();
+	void AddAcpect(int nNumCamera, float fov, float x);	//アスペクト比の加算
 
 private:
+	//-----------------
+	// 定数
+	//-----------------
+	static const float fDefaultFov;		//基本の視野角
+	static const float fDefaultAspectX;	//基本のアスペクト比X
+
 	//-----------------
 	// メンバ変数
 	//-----------------
@@ -98,10 +104,13 @@ private:
 	bool m_bWIRE;	//ワイヤーフレーム
 	bool m_nFinish;	//終了フラグ
 	int m_viewPortOrder[nDefaultMaxCamera];
+
 	//-------------------
 	// 静的メンバ変数
 	//-------------------
-	static int m_nMaxCamera;
+	static int m_nMaxCamera;	//カメラの最大数
+	static float m_fAspectFov;	//視野角
+	static float m_fAspectX;	//アスペクト比X
 	static CCamera*	m_pCamera[nDefaultMaxCamera];	//カメラクラス
 };
 

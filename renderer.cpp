@@ -25,7 +25,12 @@
 //-----------------------
 // 静的メンバ変数宣言
 //-----------------------
-int CRenderer::m_nMaxCamera = nDefaultMaxCamera;	//カメラの最大数
+const float CRenderer::fDefaultFov = 45.0f;						//基本の視野角
+const float CRenderer::fDefaultAspectX = (float)SCREEN_WIDTH;	//基本のアスペクト比X
+
+int CRenderer::m_nMaxCamera = nDefaultMaxCamera;		//カメラの最大数
+float CRenderer::m_fAspectFov = 0.0f;					//視野角
+float CRenderer::m_fAspectX = 0.0f;						//アスペクト比X
 CCamera* CRenderer::m_pCamera[nDefaultMaxCamera] = {};	//カメラ
 
 //=========================
@@ -58,6 +63,10 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 {
 	D3DPRESENT_PARAMETERS d3dpp;
 	D3DDISPLAYMODE d3ddm;
+
+	//アスペクト比変更用変数の初期化
+	m_fAspectFov = 60.0f;
+	m_fAspectX = (float)(SCREEN_WIDTH / 2);
 
 	// Direct3Dオブジェクトの作成
 	m_pD3D = Direct3DCreate9(D3D_SDK_VERSION);
@@ -204,23 +213,15 @@ void CRenderer::Draw()
 			//-----------------------------
 			// 描画順の配列を入れ替える
 			//-----------------------------
-			int nviewData;	//保存用変数
+			int nviewData = 0;	//保存用変数
 
-			if (m_nMaxCamera == 2)
-			{//最大数が2なら
-				//最後の値を保存
-				nviewData = m_viewPortOrder[1];
-				//配列の最後と入れ替える
-				m_viewPortOrder[1] = nFirstNumber;
-			}
-			else if (m_nMaxCamera == 4)
-			{//最大数が4なら
-				//最後の値を保存
-				nviewData = m_viewPortOrder[3];
-				//配列の最後と入れ替える
-				m_viewPortOrder[3] = nFirstNumber;
-			}
+			//最後の値を保存
+			nviewData = m_viewPortOrder[m_nMaxCamera - 1];
 
+			//配列の最後と入れ替える
+			m_viewPortOrder[m_nMaxCamera - 1] = nFirstNumber;
+
+			//保存していた値を代入
 			m_viewPortOrder[nFirstNumber] = nviewData;
 		}
 	}
@@ -233,17 +234,39 @@ void CRenderer::Draw()
 		int nOrder = m_viewPortOrder[i];
 
 		//カメラの取得
-		m_pCamera[nOrder] = CApplication::GetCamera(nOrder);
+		m_pCamera[nOrder] = CGame::GetCamera(nOrder);
 
-		//カメラの設定
-		m_pCamera[nOrder]->SetCamera(m_pD3DDevice);
+		if (m_pCamera[nOrder] != nullptr)
+		{//カメラがnullじゃないなら
+			//カメラの設定
+			m_pCamera[nOrder]->SetCamera(m_pD3DDevice);
 
-		//-------------------------
-		// ビューポートの処理
-		//-------------------------
-		//ビューポートの設定
-		D3DVIEWPORT9 viewport = m_pCamera[nOrder]->GetViewport();
-		m_pD3DDevice->SetViewport(&viewport);
+			//-------------------------
+			// カメラが2つの場合
+			//-------------------------
+			if (m_nMaxCamera == 2)
+			{//カメラの数が2つなら
+				//カメラのアスペクト比を変更
+				m_pCamera[nOrder]->SetAspect(m_pD3DDevice, 60.0f,
+					(float)(SCREEN_WIDTH / 2), (float)SCREEN_HEIGHT);
+
+				//-------------------------
+				// 拡大する時の処理
+				//-------------------------
+				if (CGame::GetFinish() == true)
+				{//終了フラグが立っているなら
+					//アスペクト比の加算
+					AddAcpect(nOrder, (15.0f / 60.0f), (640.0f / 120.0f));
+				}
+			}
+
+			//-------------------------
+			// ビューポートの処理
+			//-------------------------
+			//ビューポートの設定
+			D3DVIEWPORT9 viewport = m_pCamera[nOrder]->GetViewport();
+			m_pD3DDevice->SetViewport(&viewport);
+		}
 
 		// バックバッファ＆Ｚバッファのクリア
 		m_pD3DDevice->Clear(0,
@@ -271,6 +294,12 @@ void CRenderer::Draw()
 		}
 	}
 
+	//ビューポートの描画順を初期化
+	for (int i = 0; i < m_nMaxCamera; i++)
+	{
+		m_viewPortOrder[i] = i;
+	}
+
 	// バックバッファとフロントバッファの入れ替え
 	m_pD3DDevice->Present(NULL, NULL, NULL, NULL);
 }
@@ -278,30 +307,57 @@ void CRenderer::Draw()
 //=============================================================================
 // カメラの最大数の設定・取得
 //=============================================================================
-int CRenderer::SetMaxCamera(CApplication::NUMCAMERA nNumCamera)
+int CRenderer::SetMaxCamera(CGame::NUMCAMERA nNumCamera)
 {
 	switch (nNumCamera)
 	{
-	case CApplication::NUMCAMERA_ONE:
+	case CGame::NUMCAMERA_ONE:
 		//カメラの最大数を1にする
 		m_nMaxCamera = 1;
 		break;
 
-	case CApplication::NUMCAMERA_TWO:
+	case CGame::NUMCAMERA_TWO:
 		//カメラの最大数を2にする
 		m_nMaxCamera = 2;
 		break;
 
-	case CApplication::NUMCAMERA_FOUR:
+	case CGame::NUMCAMERA_THREE:
+		//カメラの最大数を3にする
+		m_nMaxCamera = 3;
+		break;
+
+	case CGame::NUMCAMERA_FOUR:
 		//カメラの最大数を4にする
 		m_nMaxCamera = 4;
 		break;
 
 	default:
+		m_nMaxCamera = 0;
 		break;
 	}
 
 	return nNumCamera;
+}
+
+//=============================================================================
+// アスペクト比の加算
+//=============================================================================
+void CRenderer::AddAcpect(int nNumCamera, float fov, float x)
+{
+	if (m_fAspectFov >= fDefaultFov)
+	{//視野角が45以上なら
+		//視野角を減少
+		m_fAspectFov -= fov;
+	}
+	if (m_fAspectX <= fDefaultAspectX)
+	{//アスペクト比Xがスクリーンの幅以内なら
+		//アスペクト比Xを加算
+		m_fAspectX += x;
+	}
+
+	//カメラのアスペクト比を変更
+	m_pCamera[nNumCamera]->SetAspect(m_pD3DDevice, m_fAspectFov,
+		m_fAspectX, (float)SCREEN_HEIGHT);
 }
 
 //=============================================================================
