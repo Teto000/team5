@@ -24,6 +24,7 @@ public: /* 定義 */
 		TEXTURE_SHADOW,			//影
 		TEXTURE_BULLET,			//弾
 		TEXTURE_NUMBER,			//数字テクスチャ
+		TEXTURE_TITLELOGO,		//タイトルロゴ
 		TEXTURE_MAX,
 		TEXTURE_NONE,			//使用しない
 	};
