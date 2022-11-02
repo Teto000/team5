@@ -8,6 +8,7 @@
 //----------------------
 // インクルード
 //----------------------
+#include <stdlib.h>
 #include "camera.h"
 #include "input.h"
 #include "input_keybord.h"
@@ -34,6 +35,9 @@ CCamera::CCamera()
 	m_posRDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//目的の注視点
 	m_rotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);;	//目的の角度
 	m_vecU = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//上方向ベクトル
+	m_nNumPlayer = -1;		//対応するプレイヤー番号
+	m_nNumFieldCamera = 0;	//フィールドカメラのプレイヤー番号
+	m_nChangeTime = 0;			//フィールドカメラ切り替え時間
 	m_fDistance = 0.0f;		//距離
 	POLOR_X = 0.0f;			//極座標のX
 	POLOR_Y = 0.0f;			//極座標のY
@@ -107,6 +111,18 @@ void CCamera::Update(void)
 	// プレイヤーごとの処理
 	//------------------------
 	EachPlayer();
+
+	//------------------------
+	// フィールドカメラの旋回
+	//------------------------
+	if (CApplication::GetGame()->GetEnumCamera() == CGame::NUMCAMERA_THREE
+		&& m_nNumPlayer == -1)
+	{//カメラ列挙型がthree かつ 対応するプレイヤー番号が0未満なら
+		m_rot.y -= fTurnSpeed / 16;
+		m_posR.x = m_posV.x + POLOR_X;
+		m_posR.y = m_posV.y + POLOR_Y;
+		m_posR.z = m_posV.z + POLOR_Z;
+	}
 
 	//------------------------
 	// カメラの追従
@@ -389,11 +405,49 @@ void CCamera::Following()
 		return;
 	}
 
-	//----------------------------
-	// プレイヤーの情報を取得
-	//----------------------------
-	D3DXVECTOR3 playerPos(CGame::GetPlayer(m_nNumPlayer)->GetPosition());
-	D3DXVECTOR3 playerRot(CGame::GetPlayer(m_nNumPlayer)->GetRot());
+	D3DXVECTOR3 playerPos(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	D3DXVECTOR3 playerRot(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+
+	//------------------------
+	// フィールドカメラの設定
+	//------------------------
+	if (CApplication::GetGame()->GetEnumCamera() == CGame::NUMCAMERA_THREE
+		&& m_nNumPlayer == -1)
+	{//カメラ列挙型がthree かつ 対応するプレイヤー番号が0未満なら
+
+		//切り替え時間の加算
+		m_nChangeTime++;
+
+		if (m_nChangeTime % 360 == 0)
+		{//一定時間が経過したら
+			//ランダムなプレイヤーに切り替え
+			//m_nNumFieldCamera = rand() % 3;
+
+			//次のプレイヤーに切り替え
+			m_nNumFieldCamera++;
+
+			if (m_nNumFieldCamera >= 3)
+			{//プレイヤー人数が最大なら
+				//最初のプレイヤーを追従
+				m_nNumFieldCamera = 0;
+			}
+
+			//カウントのリセット
+			m_nChangeTime = 0;
+		}
+
+		//プレイヤーの情報を取得
+		playerPos = CGame::GetPlayer(m_nNumFieldCamera)->GetPosition();
+		playerRot = CGame::GetPlayer(m_nNumFieldCamera)->GetRot();
+	}
+	else
+	{//それ以外なら
+		//----------------------------
+		// プレイヤーの情報を取得
+		//----------------------------
+		playerPos = CGame::GetPlayer(m_nNumPlayer)->GetPosition();
+		playerRot = CGame::GetPlayer(m_nNumPlayer)->GetRot();
+	}
 
 	//----------------------------
 	// 目的の注視点を設定
@@ -462,7 +516,7 @@ void CCamera::AddViewSize(DWORD X, DWORD Y, int fWidth, int fHeight)
 	//-------------------
 	// 幅の加算
 	//-------------------
-	if (m_viewport.Width < SCREEN_WIDTH - 5)
+	if (m_viewport.Width < SCREEN_WIDTH)
 	{//幅がスクリーン内なら
 		m_viewport.Width += fWidth;
 
@@ -475,7 +529,7 @@ void CCamera::AddViewSize(DWORD X, DWORD Y, int fWidth, int fHeight)
 	//-------------------
 	// 高さの加算
 	//-------------------
-	if (m_viewport.Height < SCREEN_HEIGHT - 5)
+	if (m_viewport.Height < SCREEN_HEIGHT)
 	{//幅がスクリーン内なら
 		m_viewport.Height += fHeight;
 

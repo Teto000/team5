@@ -88,6 +88,8 @@ private:
 	D3DXVECTOR3 m_rotDest;		//目的の角度
 	D3DXVECTOR3 m_vecU;			//上方向ベクトル
 	int m_nNumPlayer;			//プレイヤー番号
+	int m_nNumFieldCamera;		//フィールドカメラのプレイヤー番号
+	int m_nChangeTime;			//フィールドカメラ切り替え時間
 	float m_fDistance;			//距離
 	float POLOR_X;				//極座標のX
 	float POLOR_Y;				//極座標のY

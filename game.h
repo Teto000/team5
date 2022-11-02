@@ -59,6 +59,8 @@ public:
 	//------------------
 	// ゲッター
 	//------------------
+	int GetEnumCamera();	//カメラ列挙型番号を取得
+
 	static CPlayer*		GetPlayer(int NumPlayer);			//プレイヤーの取得
 	static CMeshField*	GetMesh() { return pMeshField; }	//メッシュフィールドの取得
 	static CCamera*		GetCamera(int nCnt);				//カメラの取得
