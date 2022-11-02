@@ -62,12 +62,12 @@ public:
 	static CMeshField* GetMesh() { return pMeshField; }	//メッシュフィールドの取得
 	static CCamera	 *GetCamera(int nCnt);				//カメラの取得
 
-	//プレイヤー人数の取得
-	static int GetAmount() { return nDefaultMaxCamera; }
+	//プレイヤー人数の設定
+	static void SetPlayerNum(int nPlayer) { m_player = nPlayer; }
 
 private:
 	void CreateCamera(CGame::NUMCAMERA num);	//カメラの生成
-	void FinishGame();	//ゲーム終了時の処理
+	void FinishGame();							//ゲーム終了時の処理
 
 private:
 	//------------------
@@ -88,6 +88,7 @@ private:
 	static int m_nNumCamera;	//カメラの列挙型番号
 	static int m_nMaxCamera;	//カメラの数
 	static bool m_bStop;		//プログラムを停止する
+	static int m_player;		//プレイヤーの数
 };
 
 #endif

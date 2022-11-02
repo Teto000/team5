@@ -36,6 +36,9 @@
     <Filter Include="Main\Object\Mesh">
       <UniqueIdentifier>{77ef4761-1324-42c7-adec-1ca091daa026}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Main\Application\Scene\SelectPlayer">
+      <UniqueIdentifier>{bb1b0f9b-e363-4271-ae57-48ec7c513b4b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -122,8 +125,11 @@
     <ClCompile Include="Goal.cpp">
       <Filter>Main\Object\ObjectX</Filter>
     </ClCompile>
+    <ClCompile Include="UI_PSelect.cpp">
+      <Filter>Main\Application\Scene\SelectPlayer</Filter>
+    </ClCompile>
     <ClCompile Include="select_player.cpp">
-      <Filter>Main\Application\Scene</Filter>
+      <Filter>Main\Application\Scene\SelectPlayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -208,8 +214,11 @@
     <ClInclude Include="Goal.h">
       <Filter>Main\Object\ObjectX</Filter>
     </ClInclude>
+    <ClInclude Include="UI_PSelect.h">
+      <Filter>Main\Application\Scene\SelectPlayer</Filter>
+    </ClInclude>
     <ClInclude Include="select_player.h">
-      <Filter>Main\Application\Scene</Filter>
+      <Filter>Main\Application\Scene\SelectPlayer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

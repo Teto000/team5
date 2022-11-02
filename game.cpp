@@ -36,6 +36,7 @@ CCamera* CGame::m_pCamera[nDefaultMaxCamera] = {};		//カメラ
 int CGame::m_nNumCamera = 0;	//カメラの列挙型の数
 int CGame::m_nMaxCamera = 0;	//カメラの最大数
 bool CGame::m_bStop = false;	//プログラムを停止する
+int CGame::m_player = 0;		//プレイヤーの数の指定
 
 //===========================
 // コンストラクタ
@@ -59,7 +60,7 @@ CGame::~CGame()
 HRESULT CGame::Init()
 {
 	//カメラの生成
-	CreateCamera(NUMCAMERA_FOUR);
+	CreateCamera((CGame::NUMCAMERA)m_player);
 
 	//カメラの最大数の設定
 	{

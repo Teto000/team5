@@ -24,12 +24,14 @@
 #include "camera.h"
 #include "light.h"
 #include "player.h"
-#include"Goal.h"
+#include "Goal.h"
+#include "select_player.h"
 
 //------------------------
 // 静的メンバ変数宣言
 //------------------------
 CTitle*				CApplication::m_pTitle = nullptr;		//タイトルクラス
+CPSelect*			CApplication::m_pPSelect = nullptr;		//プレイヤー人数指定クラス
 CGame*				CApplication::m_pGame = nullptr;		//ゲームクラス
 CResult*			CApplication::m_pResult = nullptr;		//リザルトクラス
 CTutorial*			CApplication::m_pTutorial = nullptr;	//チュートリアルクラス
@@ -99,8 +101,8 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	// モードの設定
 	//----------------------------
 	m_pFade = new CFade;
-	SetMode(MODE_GAME);
-	m_pFade->Init(MODE_GAME);
+	SetMode(MODE_TITLE);
+	m_pFade->Init(MODE_TITLE);
 
 	return S_OK;
 }
@@ -188,6 +190,10 @@ void CApplication::Update()
 		m_pTitle->Update();
 		break;
 
+	case MODE_PSELECT:
+		m_pPSelect->Update();
+		break;
+
 	case MODE_GAME:
 		m_pGame->Update();
 		break;
@@ -230,6 +236,12 @@ void CApplication::SetMode(MODE mode)
 		m_pTitle = nullptr;
 		break;
 
+	case MODE_PSELECT:
+		m_pPSelect->Uninit();
+		delete m_pPSelect;
+		m_pPSelect = nullptr;
+		break;
+
 	case MODE_GAME:
 		m_pGame->Uninit();
 		delete m_pGame;
@@ -260,6 +272,12 @@ void CApplication::SetMode(MODE mode)
 		m_pTitle = nullptr;
 		m_pTitle = new CTitle;
 		m_pTitle->Init();
+		break;
+
+	case MODE_PSELECT:
+		m_pPSelect = nullptr;
+		m_pPSelect = new CPSelect;
+		m_pPSelect->Init();
 		break;
 
 	case MODE_GAME:
@@ -349,4 +367,12 @@ CLight *CApplication::GetLight()
 CFade *CApplication::GetFade()
 {
 	return m_pFade;
+}
+
+//===========================
+// セレクトの取得
+//===========================
+CPSelect *CApplication::GetPSelect()
+{
+	return m_pPSelect;
 }

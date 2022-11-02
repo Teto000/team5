@@ -17,10 +17,10 @@
 //--------------------------------
 // 前方宣言
 //--------------------------------
-class CPolygon;		//ポリゴン
-class CPolygon2d;	//ポリゴン2d
+class CObject2D;	//ポリゴン2d
 class CPlayer;		//プレイヤー
 class CMeshField;	//メッシュフィールド
+class CUI_PSelect;	//UI
 
 //================================
 // Pセレクトクラスの定義
@@ -38,17 +38,19 @@ public:
 	void Uninit();
 	void Update();
 	void SelectPlayerNum();
-//------------------
-// ゲッター
-//------------------
+	void UI_Create();
+	void UI_Uninit();
+	//------------------
+	// ゲッター
+	//------------------
 
 private:
-//-------------------
-// 静的メンバ変数
-//-------------------
-	static CPolygon* pPolygon;
-	static CPolygon2d* pPolygon2d;
+	//-------------------
+	// メンバ変数
+	//-------------------
 	int m_PlayerSelectNum;
+	CUI_PSelect *m_PUI[MAX_PLAYER];			// プレイヤー数のUI
+	CUI_PSelect *m_BGUI;					// 背景のUI
 };
 
 #endif

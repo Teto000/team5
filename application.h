@@ -20,7 +20,7 @@ class CTitle;		//タイトル
 class CResult;		//リザルト
 class CTutorial;	//チュートリアル
 class CFade;		//フェード
-
+class CPSelect;		//セレクト
 class CRenderer;	//レンダラー
 class CInput;		//インプット
 class CTexture;		//テクスチャ
@@ -77,6 +77,7 @@ public:
 	static CSound	 *GetSound();			//サウンドの取得
 	static CLight	 *GetLight();			//ライトの取得
 	static CFade	 *GetFade();			//フェードの取得
+	static CPSelect	 *GetPSelect();			//プレイヤーの人数の取得
 
 private:
 	//------------------
@@ -84,6 +85,7 @@ private:
 	//------------------
 	static CGame*		m_pGame;				//ゲームクラス
 	static CTitle*		m_pTitle;				//タイトルクラス
+	static CPSelect*	m_pPSelect;				//人数セレクトクラス
 	static CResult*		m_pResult;				//リザルトクラス
 	static CTutorial*	m_pTutorial;			//チュートリアル
 	static CFade*		m_pFade;				//フェードクラス
