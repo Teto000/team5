@@ -52,7 +52,7 @@ HRESULT CTitle::Init()
 //===========================
 void CTitle::Uninit()
 {
-	m_pObject2D->Uninit();
+
 }
 
 //===========================

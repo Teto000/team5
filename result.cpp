@@ -51,7 +51,7 @@ HRESULT CResult::Init()
 //===========================
 void CResult::Uninit()
 {
-	m_pObject2D->Uninit();
+
 }
 
 //===========================
