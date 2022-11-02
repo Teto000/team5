@@ -113,6 +113,18 @@ void CCamera::Update(void)
 	EachPlayer();
 
 	//------------------------
+	// フィールドカメラの旋回
+	//------------------------
+	if (CApplication::GetGame()->GetEnumCamera() == CGame::NUMCAMERA_THREE
+		&& m_nNumPlayer == -1)
+	{//カメラ列挙型がthree かつ 対応するプレイヤー番号が0未満なら
+		m_rot.y -= fTurnSpeed / 16;
+		m_posR.x = m_posV.x + POLOR_X;
+		m_posR.y = m_posV.y + POLOR_Y;
+		m_posR.z = m_posV.z + POLOR_Z;
+	}
+
+	//------------------------
 	// カメラの追従
 	//------------------------
 	Following();
@@ -406,14 +418,17 @@ void CCamera::Following()
 		//切り替え時間の加算
 		m_nChangeTime++;
 
-		if (m_nChangeTime % 120 == 0)
+		if (m_nChangeTime % 360 == 0)
 		{//一定時間が経過したら
-			//写すプレイヤーの変更
+			//ランダムなプレイヤーに切り替え
 			//m_nNumFieldCamera = rand() % 3;
+
+			//次のプレイヤーに切り替え
 			m_nNumFieldCamera++;
 
 			if (m_nNumFieldCamera >= 3)
-			{
+			{//プレイヤー人数が最大なら
+				//最初のプレイヤーを追従
 				m_nNumFieldCamera = 0;
 			}
 
