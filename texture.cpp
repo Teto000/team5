@@ -24,6 +24,7 @@ const char* CTexture::s_FileName[] =
 	"data/TEXTURE/Bullet.png",		//弾
 	"data/TEXTURE/number001.png",	//ナンバー
 	"data/TEXTURE/Titlelogo000.png",//タイトルロゴ
+	"data/TEXTURE/Ranking.png",		//ランキング
 
 };
 
