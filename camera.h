@@ -49,6 +49,8 @@ public:
 	void SetNumPlayer(int nNum);	//プレイヤー番号の設定
 	void SetViewSize(DWORD X, DWORD Y, int fWidth, int fHeight);	//ビューポートの大きさ設定
 	void AddViewSize(DWORD X, DWORD Y, int fWidth, int fHeight);	//ビューポートの拡縮
+	void SetAspect(LPDIRECT3DDEVICE9 pDevice, float fov,
+					float fWidth, float fHeight);	//アスペクト比の設定
 
 	//------------------
 	// ゲッター
@@ -86,6 +88,8 @@ private:
 	D3DXVECTOR3 m_rotDest;		//目的の角度
 	D3DXVECTOR3 m_vecU;			//上方向ベクトル
 	int m_nNumPlayer;			//プレイヤー番号
+	int m_nNumFieldCamera;		//フィールドカメラのプレイヤー番号
+	int m_nChangeTime;			//フィールドカメラ切り替え時間
 	float m_fDistance;			//距離
 	float POLOR_X;				//極座標のX
 	float POLOR_Y;				//極座標のY

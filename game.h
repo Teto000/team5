@@ -39,6 +39,7 @@ public:
 	{
 		NUMCAMERA_ONE = 0,
 		NUMCAMERA_TWO,
+		NUMCAMERA_THREE,
 		NUMCAMERA_FOUR,
 		NUMCAMERA_MAX
 	};
@@ -58,9 +59,12 @@ public:
 	//------------------
 	// ゲッター
 	//------------------
-	static CPlayer*	GetPlayer(int NumPlayer);			//プレイヤーの取得
-	static CMeshField* GetMesh() { return pMeshField; }	//メッシュフィールドの取得
-	static CCamera	 *GetCamera(int nCnt);				//カメラの取得
+	int GetEnumCamera();	//カメラ列挙型番号を取得
+
+	static CPlayer*		GetPlayer(int NumPlayer);			//プレイヤーの取得
+	static CMeshField*	GetMesh() { return pMeshField; }	//メッシュフィールドの取得
+	static CCamera*		GetCamera(int nCnt);				//カメラの取得
+	static bool			GetFinish();	//終了フラグの取得
 
 	//プレイヤー人数の設定
 	static void SetPlayerNum(int nPlayer) { m_player = nPlayer; }
@@ -77,6 +81,13 @@ private:
 	static const int nSpeed_Y = 5;
 
 	//-------------------
+	// メンバ変数
+	//-------------------
+	int m_nEnumCamera;	//カメラの列挙型の値
+	int m_nMaxCamera;	//カメラの数
+	bool m_bStop;		//プログラムを停止する
+
+	//-------------------
 	// 静的メンバ変数
 	//-------------------
 	static CPolygon* pPolygon;
@@ -85,10 +96,7 @@ private:
 	static CMeshField* pMeshField;
 	static CCamera* m_pCamera[nDefaultMaxCamera];	//カメラクラス
 
-	static int m_nNumCamera;	//カメラの列挙型番号
-	static int m_nMaxCamera;	//カメラの数
-	static bool m_bStop;		//プログラムを停止する
-	static int m_player;		//プレイヤーの数
+	static bool m_bFinish;		//終了フラグ
 };
 
 #endif
