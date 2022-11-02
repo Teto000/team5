@@ -86,21 +86,31 @@ public:
 
 private:
 	void DrawFPS();
+	void AddAcpect(int nNumCamera, float fov, float x);	//アスペクト比の加算
 
 private:
 	//-----------------
+	// 定数
+	//-----------------
+	static const float fDefaultFov;		//基本の視野角
+	static const float fDefaultAspectX;	//基本のアスペクト比X
+
+	//-----------------
 	// メンバ変数
 	//-----------------
-	LPDIRECT3D9 m_pD3D;					// Direct3Dオブジェクト
+	LPDIRECT3D9		  m_pD3D;			// Direct3Dオブジェクト
 	LPDIRECT3DDEVICE9 m_pD3DDevice;		// Deviceオブジェクト
-	LPD3DXFONT m_pFont;					// フォント
+	LPD3DXFONT		  m_pFont;			// フォント
 	bool m_bWIRE;	//ワイヤーフレーム
 	bool m_nFinish;	//終了フラグ
 	int m_viewPortOrder[nDefaultMaxCamera];
+
 	//-------------------
 	// 静的メンバ変数
 	//-------------------
-	static int m_nMaxCamera;
+	static int	 m_nMaxCamera;	//カメラの最大数
+	static float m_fAspectFov;	//視野角
+	static float m_fAspectX;	//アスペクト比X
 	static CCamera*	m_pCamera[nDefaultMaxCamera];	//カメラクラス
 };
 

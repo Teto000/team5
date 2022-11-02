@@ -33,16 +33,16 @@ CPlayer*  CGame::pPlayer[MAX_PLAYER] = {};
 CMeshField* CGame::pMeshField = nullptr;
 CCamera* CGame::m_pCamera[nDefaultMaxCamera] = {};		//カメラ
 
-int CGame::m_nNumCamera = 0;	//カメラの列挙型の数
-int CGame::m_nMaxCamera = 0;	//カメラの最大数
-bool CGame::m_bStop = false;	//プログラムを停止する
+bool CGame::m_bFinish = false;	//終了フラグ
 
 //===========================
 // コンストラクタ
 //===========================
 CGame::CGame()
 {
-	
+	m_nEnumCamera = 0;	//カメラの列挙型の数
+	m_nMaxCamera = 0;	//カメラの最大数
+	m_bStop = false;	//プログラムを停止する
 }
 
 //===========================
@@ -50,7 +50,7 @@ CGame::CGame()
 //===========================
 CGame::~CGame()
 {
-
+	m_nMaxCamera = 0;
 }
 
 //===========================
@@ -59,10 +59,17 @@ CGame::~CGame()
 HRESULT CGame::Init()
 {
 	//カメラの生成
+	//カメラ・プレイヤーの人数設定はここ
 	CreateCamera(NUMCAMERA_THREE);
 
 	//カメラの最大数の設定
 	{
+		if (m_nEnumCamera == NUMCAMERA_THREE)
+		{//カメラ列挙型が3なら
+			//カメラの最大数を1減らす
+			m_nMaxCamera--;
+		}
+
 		//カメラの最大数分プレイヤーを生成
 		for (int nCnt = 0; nCnt < m_nMaxCamera; nCnt++)
 		{
@@ -91,6 +98,12 @@ void CGame::Uninit()
 {
 	//カメラの終了
 	{
+		if (m_nEnumCamera == NUMCAMERA_THREE)
+		{//カメラ列挙型が3なら
+			//カメラの最大数を戻す
+			m_nMaxCamera++;
+		}
+
 		for (int i = 0; i < m_nMaxCamera; i++)
 		{
 			if (m_pCamera[i] != nullptr)
@@ -139,12 +152,12 @@ void CGame::CreateCamera(CGame::NUMCAMERA num)
 	//----------------------------
 	{
 		//カメラの最大数の設定
-		m_nNumCamera = CRenderer::SetMaxCamera(num);
+		m_nEnumCamera = CRenderer::SetMaxCamera(num);
 
 		DWORD fWidth = SCREEN_WIDTH / 2;
 		DWORD fHeight = SCREEN_HEIGHT / 2;
 
-		switch (m_nNumCamera)
+		switch (m_nEnumCamera)
 		{
 		case NUMCAMERA_ONE:
 			//カメラの数が1つなら
@@ -158,10 +171,11 @@ void CGame::CreateCamera(CGame::NUMCAMERA num)
 			break;
 
 		case NUMCAMERA_THREE:
-			//カメラの数が4つなら
+			//カメラの数が3つなら
 			m_pCamera[0] = CCamera::Create(0, 0, fWidth, fHeight);				//左上
 			m_pCamera[1] = CCamera::Create(fWidth, 0, fWidth, fHeight);			//右上
 			m_pCamera[2] = CCamera::Create(0, fHeight, fWidth, fHeight);		//左下
+			m_pCamera[3] = CCamera::Create(fWidth, fHeight, fWidth, fHeight);	//右下
 			break;
 
 		case NUMCAMERA_FOUR:
@@ -195,8 +209,10 @@ void CGame::FinishGame()
 	/* 1位のプレイヤー番号を取得 */
 	int nFirstNumber = CGoal::GetWinner();
 
-	if (nFirstNumber >= 0 /* 1位がnullじゃないなら */)
-	{//Zが押されているなら
+	m_bFinish = true;	//終了フラグを立てる
+
+	if (nFirstNumber >= 0)
+	{//1位がnullじゃないなら
 
 		LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
 
@@ -247,7 +263,7 @@ void CGame::ResetCameraSize()
 	DWORD fWidth = SCREEN_WIDTH / 2;
 	DWORD fHeight = SCREEN_HEIGHT / 2;
 
-	switch (m_nNumCamera)
+	switch (m_nEnumCamera)
 	{
 	case NUMCAMERA_ONE:
 		//カメラの数が1つなら
@@ -296,6 +312,14 @@ CPlayer* CGame::GetPlayer(int NumPlayer)
 CCamera *CGame::GetCamera(int nCnt)
 {
 	return m_pCamera[nCnt];
+}
+
+//===========================
+// 終了フラグの取得
+//===========================
+bool CGame::GetFinish()
+{
+	return m_bFinish;
 }
 
 //===========================

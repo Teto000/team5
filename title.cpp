@@ -39,6 +39,10 @@ CTitle::~CTitle()
 //===========================
 HRESULT CTitle::Init()
 {
+	m_pObject2D = new CObject2D;
+	m_pObject2D->Init(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+	m_pObject2D->SetTexture(CTexture::TEXTURE_TITLELOGO);
+	m_pObject2D->SetSize(SCREEN_WIDTH, 460.0f);
 
 	return S_OK;
 }
@@ -57,7 +61,7 @@ void CTitle::Uninit()
 void CTitle::Update()
 {
 	if (CInputKeyboard::Trigger(DIK_RETURN) == true && CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
-	{
+	{//Enter‚ÅŽŸ‚Ì‰æ–Ê‚É‘JˆÚ‚·‚é
 		CApplication::GetFade()->SetFade(CApplication::MODE_GAME);
 	}
 }
