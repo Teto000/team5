@@ -61,7 +61,7 @@ void CTitle::Uninit()
 void CTitle::Update()
 {
 	if (CInputKeyboard::Trigger(DIK_RETURN) == true && CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
-	{
+	{//Enter‚ÅŽŸ‚Ì‰æ–Ê‚É‘JˆÚ‚·‚é
 		CApplication::GetFade()->SetFade(CApplication::MODE_GAME);
 	}
 }

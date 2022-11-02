@@ -38,6 +38,11 @@ CResult::~CResult()
 //===========================
 HRESULT CResult::Init()
 {
+	m_pObject2D = new CObject2D;
+	m_pObject2D->Init(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+	m_pObject2D->SetTexture(CTexture::TEXTURE_TITLELOGO);
+	m_pObject2D->SetSize(SCREEN_WIDTH, 460.0f);
+
 	return S_OK;
 }
 
@@ -46,7 +51,7 @@ HRESULT CResult::Init()
 //===========================
 void CResult::Uninit()
 {
-
+	m_pObject2D->Uninit();
 }
 
 //===========================
