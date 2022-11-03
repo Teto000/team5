@@ -207,8 +207,8 @@ void CGoal::Draw()
 //===========================
 bool CGoal::Collision()
 {
-	for (int i = 0; i < 4; i++)
-	{
+	for (int i = 0; i < CRenderer::GetMaxCamera(); i++)
+	{//プレイヤーの最大人数分回す
 		CPlayer*pPlayer = CGame::GetPlayer(i);
 
 		//横からぶつかった時用
