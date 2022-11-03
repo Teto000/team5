@@ -33,6 +33,7 @@ CPlayer*  CGame::pPlayer[MAX_PLAYER] = {};
 CMeshField* CGame::pMeshField = nullptr;
 CCamera* CGame::m_pCamera[nDefaultMaxCamera] = {};		//カメラ
 
+int	 CGame::m_player = 0;		//プレイヤーの数
 bool CGame::m_bFinish = false;	//終了フラグ
 
 //===========================
@@ -60,7 +61,7 @@ HRESULT CGame::Init()
 {
 	//カメラの生成
 	//カメラ・プレイヤーの人数設定はここ
-	CreateCamera(NUMCAMERA_THREE);
+	CreateCamera((CGame::NUMCAMERA)m_player);
 
 	//----------------------------
 	// カメラの最大数の設定

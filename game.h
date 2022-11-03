@@ -97,6 +97,7 @@ private:
 	static CCamera* m_pCamera[nDefaultMaxCamera];	//カメラクラス
 
 	static bool m_bFinish;		//終了フラグ
+	static int  m_player;		//プレイヤーの数
 };
 
 #endif
