@@ -131,6 +131,9 @@
     <ClCompile Include="select_player.cpp">
       <Filter>Main\Application\Scene\SelectPlayer</Filter>
     </ClCompile>
+    <ClCompile Include="message.cpp">
+      <Filter>Main\Object\Object2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h">
@@ -219,6 +222,9 @@
     </ClInclude>
     <ClInclude Include="select_player.h">
       <Filter>Main\Application\Scene\SelectPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="message.h">
+      <Filter>Main\Object\Object2D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

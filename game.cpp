@@ -20,18 +20,20 @@
 #include "meshfield.h"
 #include "debug_proc.h"
 #include "fade.h"
-#include  "camera.h"
+#include "camera.h"
 #include "time.h"
 #include "Goal.h"
+#include "message.h"
 
 //------------------------
 // 静的メンバ変数宣言
 //------------------------
-CPolygon* CGame::pPolygon = nullptr;
-CPolygon2d* CGame::pPolygon2d = nullptr;
-CPlayer*  CGame::pPlayer[MAX_PLAYER] = {};
-CMeshField* CGame::pMeshField = nullptr;
-CCamera* CGame::m_pCamera[nDefaultMaxCamera] = {};		//カメラ
+CPolygon*	CGame::pPolygon = nullptr;
+CPolygon2d*	CGame::pPolygon2d = nullptr;
+CPlayer*	CGame::pPlayer[MAX_PLAYER] = {};
+CMeshField*	CGame::pMeshField = nullptr;
+CCamera*	CGame::m_pCamera[nDefaultMaxCamera] = {};		//カメラ
+CMessage*	CGame::m_pMessage;	//メッセージ
 
 int	 CGame::m_nEnumCamera = 0;	//カメラの列挙型の数
 int	 CGame::m_player = 0;		//プレイヤーの数
@@ -42,8 +44,9 @@ bool CGame::m_bFinish = false;	//終了フラグ
 //===========================
 CGame::CGame()
 {
-	m_nMaxCamera = 0;	//カメラの最大数
-	m_bStop = false;	//プログラムを停止する
+	m_nMaxCamera = 0;		//カメラの最大数
+	m_bStop = false;		//プログラムを停止する
+	mode = GAMEMODE_START;	//ゲームの状態
 }
 
 //===========================
@@ -83,11 +86,17 @@ HRESULT CGame::Init()
 
 	/*SetPlayerPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));*/
 
+	//メッシュフィールドの生成
 	pMeshField = CMeshField::Create();
 
+	//ゴールの生成
 	CGoal*pGoal = CGoal::Create(D3DXVECTOR3(90.0f, 40.0f, 10.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	
+	//タイマーの生成
 	CTime *pTime = CTime::Create(D3DXVECTOR3(20.0f, 20.0f, 0.0f));
+
+	//メッセージの生成
+	m_pMessage = CMessage::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
 
 	return S_OK;
 }

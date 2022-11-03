@@ -27,6 +27,14 @@ public: /* 定義 */
 		TEXTURE_TITLELOGO,		//タイトルロゴ
 		TEXTURE_RANKING,		//ランキング
 		TEXTURE_HUMAN,			//プレイヤー
+
+		/* ↓ メッセージ ↓ */
+		TEXTURE_COUNT_THREE,	//カウント3
+		TEXTURE_COUNT_TWO,		//カウント2
+		TEXTURE_COUNT_ONE,		//カウント1
+		TEXTURE_START,			//スタート
+		TEXTURE_FINISH,			//フィニッシュ
+
 		TEXTURE_MAX,
 		TEXTURE_NONE,			//使用しない
 	};

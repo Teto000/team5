@@ -26,6 +26,13 @@ const char* CTexture::s_FileName[] =
 	"data/TEXTURE/Titlelogo000.png",//タイトルロゴ
 	"data/TEXTURE/Ranking.png",		//ランキング
 	"data/TEXTURE/human.png",		//プレイヤー画像
+
+	/* ↓ メッセージ ↓ */
+	"data/TEXTURE/3.png",			//カウント3
+	"data/TEXTURE/2.png",			//カウント2
+	"data/TEXTURE/1.png",			//カウント1
+	"data/TEXTURE/START.png",		//スタート
+	"data/TEXTURE/FINISH.png",		//フィニッシュ
 };
 
 static_assert(sizeof(CTexture::s_FileName) / sizeof(CTexture::s_FileName[0]) == CTexture::TEXTURE_MAX, "aho");
