@@ -16,6 +16,7 @@
 #include"object2D.h"
 #include"fade.h"
 #include"renderer.h"
+#include"game.h"
 
 //静的メンバ変数宣言
  bool CGoal::m_bGoal=nullptr;
@@ -207,7 +208,19 @@ void CGoal::Draw()
 //===========================
 bool CGoal::Collision()
 {
-	for (int i = 0; i < CRenderer::GetMaxCamera(); i++)
+	//カメラの最大数を取得
+	int nMaxCamera = CRenderer::GetMaxCamera();
+
+	//----------------------------
+	// カメラの最大数の設定
+	//----------------------------
+	if (CGame::GetEnumCamera() == CGame::NUMCAMERA_THREE)
+	{//カメラ列挙型が3なら
+		//カメラの最大数を1減らす
+		nMaxCamera = 3;
+	}
+
+	for (int i = 0; i < nMaxCamera; i++)
 	{//プレイヤーの最大人数分回す
 		CPlayer*pPlayer = CGame::GetPlayer(i);
 

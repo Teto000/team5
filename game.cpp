@@ -33,6 +33,7 @@ CPlayer*  CGame::pPlayer[MAX_PLAYER] = {};
 CMeshField* CGame::pMeshField = nullptr;
 CCamera* CGame::m_pCamera[nDefaultMaxCamera] = {};		//カメラ
 
+int	 CGame::m_nEnumCamera = 0;	//カメラの列挙型の数
 int	 CGame::m_player = 0;		//プレイヤーの数
 bool CGame::m_bFinish = false;	//終了フラグ
 
@@ -41,7 +42,6 @@ bool CGame::m_bFinish = false;	//終了フラグ
 //===========================
 CGame::CGame()
 {
-	m_nEnumCamera = 0;	//カメラの列挙型の数
 	m_nMaxCamera = 0;	//カメラの最大数
 	m_bStop = false;	//プログラムを停止する
 }

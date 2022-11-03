@@ -59,7 +59,7 @@ public:
 	//------------------
 	// ゲッター
 	//------------------
-	int GetEnumCamera();	//カメラ列挙型番号を取得
+	static int GetEnumCamera();	//カメラ列挙型番号を取得
 
 	static CPlayer*		GetPlayer(int NumPlayer);			//プレイヤーの取得
 	static CMeshField*	GetMesh() { return pMeshField; }	//メッシュフィールドの取得
@@ -83,7 +83,7 @@ private:
 	//-------------------
 	// メンバ変数
 	//-------------------
-	int m_nEnumCamera;	//カメラの列挙型の値
+	static int m_nEnumCamera;	//カメラの列挙型の値
 	int m_nMaxCamera;	//カメラの数
 	bool m_bStop;		//プログラムを停止する
 
