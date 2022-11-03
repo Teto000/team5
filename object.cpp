@@ -10,6 +10,8 @@
 //--------------------
 #include "object.h"
 #include "object3d.h"
+#include "input.h"
+#include "input_keybord.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -25,6 +27,7 @@ CObject::CObject(int nPriority)
 {
 	m_nPriority = nPriority;	//プライオリティの番号
 	m_bDeath = false;			//死亡フラグ
+	m_bPause = false;			//ポーズ画面のON,OFF
 
 	//-----------------------------
 	// 先頭のオブジェクトを設定
@@ -125,8 +128,28 @@ void CObject::UpdateAll()
 		//次のオブジェクトを保存
 		CObject* pObjNext = pObj->m_pNext;
 
-		//更新処理
-		pObj->Update();
+		//-------------------------
+		// ポーズ画面の切り替え
+		//-------------------------
+		if (CInputKeyboard::Trigger(DIK_P))
+		{//Pキーを押したとき
+			if (pObj->m_bPause == false)
+			{//ポーズ中じゃないなら
+				//ポーズする
+				pObj->m_bPause = true;
+			}
+			else
+			{//ポーズ中なら
+				//ポーズを解除する
+				pObj->m_bPause = false;
+			}
+		}
+
+		if (pObj->m_bPause == false)
+		{//ポーズ中じゃないなら
+			//更新処理
+			pObj->Update();
+		}
 
 		//次のオブジェクトのアドレスを代入
 		pObj = pObjNext;
