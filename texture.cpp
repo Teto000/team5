@@ -32,7 +32,7 @@ const char* CTexture::s_FileName[] =
 	"data/TEXTURE/2.png",			//カウント2
 	"data/TEXTURE/1.png",			//カウント1
 	"data/TEXTURE/START.png",		//スタート
-	"data/TEXTURE/FINISH.png",		//フィニッシュ
+	"data/TEXTURE/FINISH00.png",	//フィニッシュ
 };
 
 static_assert(sizeof(CTexture::s_FileName) / sizeof(CTexture::s_FileName[0]) == CTexture::TEXTURE_MAX, "aho");

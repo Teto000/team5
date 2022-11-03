@@ -96,7 +96,8 @@ HRESULT CGame::Init()
 	CTime *pTime = CTime::Create(D3DXVECTOR3(20.0f, 20.0f, 0.0f));
 
 	//メッセージの生成
-	m_pMessage = CMessage::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+	m_pMessage = CMessage::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f),
+									CMessage::MESSAGE_COUNT_THREE);
 
 	return S_OK;
 }
@@ -148,6 +149,10 @@ void CGame::Update()
 	//ゲーム終了時の処理
 	if (CGoal::GetGoalFrag())
 	{
+		//メッセージの生成
+		//m_pMessage = CMessage::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f),
+		//								CMessage::MESSAGE_FINISH);
+
 		FinishGame();
 	}
 

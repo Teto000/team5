@@ -42,7 +42,7 @@ public:
 	//------------------
 	// 静的メンバ変数
 	//------------------
-	static CMessage* Create(D3DXVECTOR3 pos);
+	static CMessage* Create(D3DXVECTOR3 pos, MESSAGE message);
 
 private:
 	void SetTexture();		//テクスチャの設定
@@ -52,6 +52,7 @@ private:
 	//------------------
 	// メンバ変数
 	//------------------
+	D3DXVECTOR3 m_pos;	//位置
 	D3DXCOLOR m_col;	//色
 	int m_nCntTime;		//時間カウント
 	float m_fWidth;		//幅
