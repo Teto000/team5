@@ -23,7 +23,7 @@ const char* CTexture::s_FileName[] =
 	"data/TEXTURE/Shadow.jpg",		//影
 	"data/TEXTURE/Bullet.png",		//弾
 	"data/TEXTURE/number001.png",	//ナンバー
-	"data/TEXTURE/Titlelogo000.png",//タイトルロゴ
+	"data/TEXTURE/Title000.png",//タイトルロゴ
 	"data/TEXTURE/Ranking.png",		//ランキング
 
 };
