@@ -95,8 +95,6 @@ private:
 	void SetMotion(bool bLoop);	//モーションの設定
 	void Move();				//移動
 	void Jump();				//ジャンプ
-	void P1MoveKey();			//プレイヤー1のキー操作設定
-	void P2MoveKey();			//プレイヤー2のキー操作設定
 
 	// 移動キー
 	// 引数 : 上のキー、左のキー、下のキー、右のキー

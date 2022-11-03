@@ -56,6 +56,7 @@ HRESULT CPSelect::Init()
 	//m_BGUI = CUI_PSelect::Create(D3DXVECTOR3(0.0f, SCREEN_HEIGHT / 2.0f, 0.0f));
 
 	//m_BGUI->SetSize(SCREEN_WIDTH,SCREEN_HEIGHT * 0.5f);
+
 	return S_OK;
 }
 
@@ -64,7 +65,6 @@ HRESULT CPSelect::Init()
 //===========================
 void CPSelect::Uninit()
 {
-
 }
 
 //===========================
