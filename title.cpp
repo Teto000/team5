@@ -18,7 +18,7 @@
 #include "game.h"
 #include "fade.h"
 #include "meshfield.h"
-#include "camera.h"
+#include "camera_player.h"
 #include "player.h"
 
 //------------------------
@@ -59,7 +59,7 @@ HRESULT CTitle::Init()
 	//カメラの生成
 	//カメラ・プレイヤーの人数設定はここ
 	// カメラの数が4つなら
-	m_pCamera = CCamera::Create(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);				//左上
+	m_pCamera = CCameraPlayer::Create(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);				//左上
 
 	return S_OK;
 }
