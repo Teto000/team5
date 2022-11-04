@@ -12,12 +12,14 @@
 //--------------------------------
 #include <d3dx9.h>
 
-//================================
+//--------------------------------
 // 前方宣言
-//================================
+//--------------------------------
 class CObject2D;
 class CMeshField;
-class CCamera;
+class CCameraTitle;
+class CPlayer;
+
 //================================
 // タイトルクラスの定義
 //================================
@@ -35,16 +37,21 @@ public:
 	void Update();
 
 	//------------------
+	// ゲッター
+	//------------------
+	static CCameraTitle* GetCameraTitle();	//カメラの取得
+
+private:
+	//------------------
 	// メンバ変数
 	//------------------
-	CObject2D*m_pObject2D;
+	CObject2D*		m_pObject2D;
 
-	//-------------------
+	//------------------
 	// 静的メンバ変数
-	//-------------------
-	static CMeshField*	pMeshField;	//メッシュフィールド
-	static CCamera*		m_pCamera;	//カメラクラス
-
+	//------------------
+	static CMeshField*	 m_pMeshField;		//メッシュフィールド
+	static CCameraTitle* m_pCameraTitle;	//タイトルカメラ
 
 };
 

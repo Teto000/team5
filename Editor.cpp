@@ -72,15 +72,17 @@ void CEditor::Load()
 					}
 					else if (strncmp(strLine, "End", 3) == 0)
 					{
+						int nMaxCamera = 0;
+
 						switch (m_type)
 						{//タイプによって分ける
 						case OBJ_PLAYER:
 
-							int nMaxCamera = CRenderer::GetMaxCamera();
+							nMaxCamera = CRenderer::GetMaxCamera();
 							if (nNumplayer < nMaxCamera&&bFlag==true)
 							{
 								CPlayer::Create(nNumplayer);
-								CGame::GetCamera(nNumplayer);
+								CGame::GetCameraPlayer(nNumplayer);
 								nNumplayer++;
 								bFlag = false;	//フラグリセット
 							}

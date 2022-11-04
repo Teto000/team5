@@ -14,8 +14,6 @@
 #include "input_keybord.h"
 #include "renderer.h"
 #include "game.h"
-#include "player.h"
-#include "Goal.h"
 
 //----------------------
 // Ã“Iƒƒ“ƒo•Ï”éŒ¾

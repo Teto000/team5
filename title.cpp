@@ -18,21 +18,21 @@
 #include "game.h"
 #include "fade.h"
 #include "meshfield.h"
-#include "camera_player.h"
+#include "camera_title.h"
 #include "player.h"
 
 //------------------------
 // 静的メンバ変数宣言
 //------------------------
-CMeshField*	CTitle::pMeshField = nullptr;
-CCamera*	CTitle::m_pCamera = nullptr;	//カメラクラス
+CMeshField*   CTitle::m_pMeshField = nullptr;
+CCameraTitle* CTitle::m_pCameraTitle = nullptr;
 
 //===========================
 // コンストラクタ
 //===========================
 CTitle::CTitle()
 {
-
+	m_pObject2D = nullptr;
 }
 
 //===========================
@@ -54,12 +54,10 @@ HRESULT CTitle::Init()
 	m_pObject2D->SetSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
 
 	//メッシュフィールドの生成
-	pMeshField = CMeshField::Create();
+	m_pMeshField = CMeshField::Create();
 
 	//カメラの生成
-	//カメラ・プレイヤーの人数設定はここ
-	// カメラの数が4つなら
-	m_pCamera = CCameraPlayer::Create(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);				//左上
+	m_pCameraTitle = CCameraTitle::Create(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	return S_OK;
 }
@@ -69,11 +67,11 @@ HRESULT CTitle::Init()
 //===========================
 void CTitle::Uninit()
 {
-	if (m_pCamera != nullptr)
+	if (m_pCameraTitle != nullptr)
 	{//カメラがnullじゃないなら 
-		m_pCamera->Uninit();
-		delete m_pCamera;
-		m_pCamera = nullptr;
+		m_pCameraTitle->Uninit();
+		delete m_pCameraTitle;
+		m_pCameraTitle = nullptr;
 	}
 }
 
@@ -87,5 +85,14 @@ void CTitle::Update()
 		CApplication::GetFade()->SetFade(CApplication::MODE_PSELECT);
 	}
 
-	m_pCamera->Update();
+	//カメラの更新
+	m_pCameraTitle->Update();
+}
+
+//===========================
+// タイトルカメラの取得
+//===========================
+CCameraTitle* CTitle::GetCameraTitle()
+{
+	return m_pCameraTitle;
 }
