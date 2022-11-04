@@ -193,6 +193,10 @@ void CMessage::ChangeMessage()
 		break;
 
 	case MESSAGE_START:
+		m_message = MESSAGE_FINISH;
+		break;
+
+	case MESSAGE_FINISH:
 		//メッセージの消去
 		Uninit();
 		break;
