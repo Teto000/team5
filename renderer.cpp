@@ -23,6 +23,7 @@
 #include "input_keybord.h"
 #include "Goal.h"
 #include "title.h"
+#include "result.h"
 
 //-----------------------
 // 静的メンバ変数宣言
@@ -244,7 +245,8 @@ void CRenderer::Draw()
 			//プレイヤーカメラの設定
 			SetCameraPlayer(nOrder);
 		}
-		else if (CApplication::GetMode() == CApplication::MODE_TITLE)
+		else if (CApplication::GetMode() == CApplication::MODE_TITLE
+			|| CApplication::GetMode() == CApplication::MODE_RESULT)
 		{//タイトル画面なら
 			//タイトルカメラの設定
 			SetCameraTitle();
@@ -394,8 +396,19 @@ void CRenderer::SetCameraPlayer(int nOrder)
 //=============================================================================
 void CRenderer::SetCameraTitle()
 {
-	//タイトルカメラの取得
-	m_pCameraTitle = CTitle::GetCameraTitle();
+	//-------------------------
+	// タイトルカメラの取得
+	//-------------------------
+	if (CApplication::GetMode() == CApplication::MODE_TITLE)
+	{//タイトル画面なら
+		//タイトルからカメラを取得
+		m_pCameraTitle = CTitle::GetCameraTitle();
+	}
+	else if (CApplication::GetMode() == CApplication::MODE_RESULT)
+	{//リザルト画面なら
+		//リザルトからカメラを取得
+		m_pCameraTitle = CResult::GetCameraTitle();
+	}
 
 	if (m_pCameraTitle != nullptr)
 	{//カメラがnullじゃないなら
@@ -410,6 +423,12 @@ void CRenderer::SetCameraTitle()
 		//ビューポートの設定
 		D3DVIEWPORT9 viewport = m_pCameraTitle->GetViewport();
 		m_pD3DDevice->SetViewport(&viewport);
+
+		//-------------------------
+		// 画面の最大化
+		//-------------------------
+		m_pCameraTitle->SetAspect(m_pD3DDevice, 45,
+						(float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
 	}
 }
 
