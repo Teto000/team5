@@ -48,10 +48,11 @@ CTitle::~CTitle()
 //===========================
 HRESULT CTitle::Init()
 {
+	//タイトルロゴ
 	m_pObject2D = new CObject2D;
 	m_pObject2D->Init(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
 	m_pObject2D->SetTexture(CTexture::TEXTURE_TITLELOGO);
-	m_pObject2D->SetSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
+	m_pObject2D->SetSize((float)SCREEN_WIDTH / 2, (float)SCREEN_HEIGHT / 2);
 
 	//メッシュフィールドの生成
 	m_pMeshField = CMeshField::Create();
@@ -67,9 +68,15 @@ HRESULT CTitle::Init()
 //===========================
 void CTitle::Uninit()
 {
+	//---------------------
+	// カメラの終了
+	//---------------------
 	if (m_pCameraTitle != nullptr)
 	{//カメラがnullじゃないなら 
+		//終了
 		m_pCameraTitle->Uninit();
+
+		//消去
 		delete m_pCameraTitle;
 		m_pCameraTitle = nullptr;
 	}
@@ -85,8 +92,14 @@ void CTitle::Update()
 		CApplication::GetFade()->SetFade(CApplication::MODE_PSELECT);
 	}
 
-	//カメラの更新
-	m_pCameraTitle->Update();
+	//---------------------
+	// カメラの更新
+	//---------------------
+	if (m_pCameraTitle != nullptr)
+	{//カメラがnullじゃないなら 
+		//更新
+		m_pCameraTitle->Update();
+	}
 }
 
 //===========================
