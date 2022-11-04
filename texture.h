@@ -25,6 +25,7 @@ public: /* 定義 */
 		TEXTURE_BULLET,			//弾
 		TEXTURE_NUMBER,			//数字テクスチャ
 		TEXTURE_TITLELOGO,		//タイトルロゴ
+		TEXTURE_TITLELOGO2,		//タイトルロゴ
 		TEXTURE_RANKING,		//ランキング
 		TEXTURE_HUMAN,			//プレイヤー
 

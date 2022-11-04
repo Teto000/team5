@@ -20,11 +20,11 @@ class CTitlelogo : public CObject2D
 public:
 
 	CTitlelogo();		//コンストラクタ
-	~CTitlelogo();	//デストラクタ
+	~CTitlelogo();		//デストラクタ
 
-					//------------------
-					// メンバ関数
-					//------------------
+	//------------------
+	// メンバ関数
+	//------------------
 	HRESULT Init(D3DXVECTOR3 pos) override;
 	void Uninit() override;
 	void Update() override;
@@ -33,7 +33,7 @@ public:
 	//------------------
 	// 静的メンバ変数
 	//------------------
-	static CTitlelogo* Create(D3DXVECTOR3 pos);
+	static CTitlelogo* Create(D3DXVECTOR3 pos, CTexture::TEXTURE tex);
 
 private:
 	//------------------
@@ -43,6 +43,7 @@ private:
 	D3DXCOLOR m_col;	//色
 	float m_fWidth;		//幅
 	float m_fHeight;	//高さ
+	
 };
 
 #endif

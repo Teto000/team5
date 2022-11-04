@@ -45,10 +45,7 @@ HRESULT CTitlelogo::Init(D3DXVECTOR3 pos)
 
 	CObject2D::Init(m_pos);
 
-	CObject2D::SetSize(500.0f, 500.0f);
-
-	//テクスチャの設定
-	SetTexture(CTexture::TEXTURE_TITLELOGO);
+	CObject2D::SetSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
 
 	return S_OK;
 }
@@ -80,7 +77,7 @@ void CTitlelogo::Draw()
 //=======================
 // 生成
 //=======================
-CTitlelogo *CTitlelogo::Create(D3DXVECTOR3 pos)
+CTitlelogo *CTitlelogo::Create(D3DXVECTOR3 pos,CTexture::TEXTURE tex)
 {
 	CTitlelogo *pTitlelogo = nullptr;
 
@@ -92,6 +89,9 @@ CTitlelogo *CTitlelogo::Create(D3DXVECTOR3 pos)
 	if (pTitlelogo != nullptr)
 	{//NULLチェック//初期化
 		pTitlelogo->Init(D3DXVECTOR3(pos));
+
+		//テクスチャの設定
+		pTitlelogo->SetTexture(tex);
 	}
 
 	return pTitlelogo;

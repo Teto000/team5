@@ -58,8 +58,9 @@ HRESULT CTitle::Init()
 	m_pCameraTitle = CCameraTitle::Create(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	//ƒ^ƒCƒgƒ‹ƒƒS‚Ì¶¬
-	m_pTitlelogo = CTitlelogo::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
-	m_pTitlelogo->SetSize((float)SCREEN_WIDTH / 2, (float)SCREEN_HEIGHT / 2);
+	m_pTitlelogo = CTitlelogo::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f),CTexture::TEXTURE_TITLELOGO);
+	m_pTitlelogo = CTitlelogo::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f), CTexture::TEXTURE_TITLELOGO2);
+
 
 	return S_OK;
 }
