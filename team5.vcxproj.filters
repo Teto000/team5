@@ -143,6 +143,12 @@
     <ClCompile Include="camera_title.cpp">
       <Filter>Main\Application\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Titlelogo.cpp">
+      <Filter>Main\Object\Object2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h">
@@ -240,6 +246,10 @@
     </ClInclude>
     <ClInclude Include="camera_title.h">
       <Filter>Main\Application\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h" />
+    <ClInclude Include="Titlelogo.h">
+      <Filter>Main\Object\Object2D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
