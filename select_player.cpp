@@ -19,10 +19,10 @@
 #include "player.h"
 #include "meshfield.h"
 #include "debug_proc.h"
-#include "fade.h"
-#include  "camera.h"
+#include "camera.h"
 #include "time.h"
 #include "UI_PSelect.h"
+#include "fade.h"
 
 #define MAX_WINDOW (3)
 //===========================
@@ -51,11 +51,10 @@ CPSelect::~CPSelect()
 //===========================
 HRESULT CPSelect::Init()
 {
+	m_BG = CUI_PSelect::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f,0.0f), CUI_PSelect::UI_BG);
+	m_title = CUI_PSelect::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 4.0f, 0.0f), CUI_PSelect::UI_COMENT);
+	m_Select = CUI_PSelect::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 200.0f, 0.0f), CUI_PSelect::UI_SELECT);
 	UI_Create();
-
-	//m_BGUI = CUI_PSelect::Create(D3DXVECTOR3(0.0f, SCREEN_HEIGHT / 2.0f, 0.0f));
-
-	//m_BGUI->SetSize(SCREEN_WIDTH,SCREEN_HEIGHT * 0.5f);
 
 	return S_OK;
 }
@@ -142,27 +141,27 @@ void CPSelect::UI_Create()
 	{
 	case 0:
 		//UIÇÃê∂ê¨
-		m_PUI[0] = CUI_PSelect::Create(D3DXVECTOR3(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f));
+		m_PUI[0] = CUI_PSelect::Create(D3DXVECTOR3(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 0.0f), CUI_PSelect::UI_PLAYER);
 		break;
 
 	case 1:
 		for (int nCnt = 0; nCnt < 2; nCnt++)
 		{
-			m_PUI[nCnt] = CUI_PSelect::Create(D3DXVECTOR3(SCREEN_WIDTH * 0.5f - 100.0f + nCnt * 200.0f, SCREEN_HEIGHT / 2.0f, 0.0f));
+			m_PUI[nCnt] = CUI_PSelect::Create(D3DXVECTOR3(SCREEN_WIDTH * 0.5f - 100.0f + nCnt * 200.0f, SCREEN_HEIGHT / 2.0f, 0.0f), CUI_PSelect::UI_PLAYER);
 		}
 		break;
 
 	case 2:
 		for (int nCnt = 0; nCnt < 3; nCnt++)
 		{
-			m_PUI[nCnt] = CUI_PSelect::Create(D3DXVECTOR3(SCREEN_WIDTH * 0.5f - 150.0f + nCnt * 150.0f, SCREEN_HEIGHT / 2.0f, 0.0f));
+			m_PUI[nCnt] = CUI_PSelect::Create(D3DXVECTOR3(SCREEN_WIDTH * 0.5f - 150.0f + nCnt * 150.0f, SCREEN_HEIGHT / 2.0f, 0.0f), CUI_PSelect::UI_PLAYER);
 		}
 		break;
 
 	case 3:
 		for (int nCnt = 0; nCnt < 4; nCnt++)
 		{
-			m_PUI[nCnt] = CUI_PSelect::Create(D3DXVECTOR3(SCREEN_WIDTH * 0.5f - 300.0f + nCnt * 200.0f, SCREEN_HEIGHT / 2.0f, 0.0f));
+			m_PUI[nCnt] = CUI_PSelect::Create(D3DXVECTOR3(SCREEN_WIDTH * 0.5f - 300.0f + nCnt * 200.0f, SCREEN_HEIGHT / 2.0f, 0.0f), CUI_PSelect::UI_PLAYER);
 		}
 		break;
 	}
