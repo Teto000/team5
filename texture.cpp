@@ -34,15 +34,8 @@ const char* CTexture::s_FileName[] =
 	"data/TEXTURE/1.png",			//カウント1
 	"data/TEXTURE/START.png",		//スタート
 	"data/TEXTURE/FINISH00.png",	//フィニッシュ
-	"data/TEXTURE/Ground.jpg",				//地面
-	"data/TEXTURE/Shadow.jpg",				//影
-	"data/TEXTURE/Bullet.png",				//弾
-	"data/TEXTURE/number001.png",			//ナンバー
-	"data/TEXTURE/Titlelogo000.png",		//タイトルロゴ
-	"data/TEXTURE/Ranking.png",				//ランキング
-	"data/TEXTURE/human.png",				//プレイヤー画像
 	"data/TEXTURE/PlayerSelect/title.png",	//人数選択画面のタイトル
-	"data/TEXTURE/space.jpg",		//人数選択画面の背景
+	"data/TEXTURE/space.jpg",				//人数選択画面の背景
 	"data/TEXTURE/PlayerSelect/select.png"	//人数選択画面の背景
 };
 
