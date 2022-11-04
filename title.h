@@ -19,6 +19,7 @@ class CObject2D;
 class CMeshField;
 class CCameraTitle;
 class CPlayer;
+class CTitlelogo;
 
 //================================
 // タイトルクラスの定義
@@ -52,6 +53,7 @@ private:
 	//------------------
 	static CMeshField*	 m_pMeshField;		//メッシュフィールド
 	static CCameraTitle* m_pCameraTitle;	//タイトルカメラ
+	static CTitlelogo*	 m_pTitlelogo;
 
 };
 
