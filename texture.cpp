@@ -19,6 +19,21 @@
 //==================================================
 const char* CTexture::s_FileName[] =
 {// テクスチャのパス
+	"data/TEXTURE/Ground.jpg",		//地面
+	"data/TEXTURE/Shadow.jpg",		//影
+	"data/TEXTURE/Bullet.png",		//弾
+	"data/TEXTURE/number001.png",	//ナンバー
+	"data/TEXTURE/Titlelogo000.png",//タイトルロゴ
+	"data/TEXTURE/Titlelogo001.png",//タイトルロゴのPreseAnykey
+	"data/TEXTURE/Ranking.png",		//ランキング
+	"data/TEXTURE/human.png",		//プレイヤー画像
+
+	/* ↓ メッセージ ↓ */
+	"data/TEXTURE/3.png",			//カウント3
+	"data/TEXTURE/2.png",			//カウント2
+	"data/TEXTURE/1.png",			//カウント1
+	"data/TEXTURE/START.png",		//スタート
+	"data/TEXTURE/FINISH00.png",	//フィニッシュ
 	"data/TEXTURE/Ground.jpg",				//地面
 	"data/TEXTURE/Shadow.jpg",				//影
 	"data/TEXTURE/Bullet.png",				//弾

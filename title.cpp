@@ -17,13 +17,25 @@
 #include "sound.h"
 #include "game.h"
 #include "fade.h"
+#include "meshfield.h"
+#include "camera_title.h"
+#include "player.h"
+#include "Titlelogo.h"
+
+//------------------------
+// 静的メンバ変数宣言
+//------------------------
+CMeshField*   CTitle::m_pMeshField = nullptr;
+CCameraTitle* CTitle::m_pCameraTitle = nullptr;
+CTitlelogo*	  CTitle::m_pTitlelogo = nullptr;
+
 
 //===========================
 // コンストラクタ
 //===========================
 CTitle::CTitle()
 {
-
+	m_pObject2D = nullptr;
 }
 
 //===========================
@@ -39,10 +51,16 @@ CTitle::~CTitle()
 //===========================
 HRESULT CTitle::Init()
 {
-	m_pObject2D = new CObject2D;
-	m_pObject2D->Init(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
-	m_pObject2D->SetTexture(CTexture::TEXTURE_TITLELOGO);
-	m_pObject2D->SetSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	//メッシュフィールドの生成
+	m_pMeshField = CMeshField::Create();
+
+	//カメラの生成
+	m_pCameraTitle = CCameraTitle::Create(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	//タイトルロゴの生成
+	m_pTitlelogo = CTitlelogo::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f),CTexture::TEXTURE_TITLELOGO);
+	m_pTitlelogo = CTitlelogo::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f), CTexture::TEXTURE_TITLELOGO2);
+
 
 	return S_OK;
 }
@@ -52,7 +70,18 @@ HRESULT CTitle::Init()
 //===========================
 void CTitle::Uninit()
 {
+	//---------------------
+	// カメラの終了
+	//---------------------
+	if (m_pCameraTitle != nullptr)
+	{//カメラがnullじゃないなら 
+		//終了
+		m_pCameraTitle->Uninit();
 
+		//消去
+		delete m_pCameraTitle;
+		m_pCameraTitle = nullptr;
+	}
 }
 
 //===========================
@@ -64,4 +93,21 @@ void CTitle::Update()
 	{
 		CApplication::GetFade()->SetFade(CApplication::MODE_PSELECT);
 	}
+
+	//---------------------
+	// カメラの更新
+	//---------------------
+	if (m_pCameraTitle != nullptr)
+	{//カメラがnullじゃないなら 
+		//更新
+		m_pCameraTitle->Update();
+	}
+}
+
+//===========================
+// タイトルカメラの取得
+//===========================
+CCameraTitle* CTitle::GetCameraTitle()
+{
+	return m_pCameraTitle;
 }

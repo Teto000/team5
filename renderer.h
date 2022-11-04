@@ -17,7 +17,8 @@
 //--------------------
 // 前方宣言
 //--------------------
-class CCamera;
+class CCameraPlayer;
+class CCameraTitle;
 
 //*****************************************************************************
 // 定数定義
@@ -87,6 +88,8 @@ public:
 private:
 	void DrawFPS();
 	void AddAcpect(int nNumCamera, float fov, float x);	//アスペクト比の加算
+	void SetCameraPlayer(int nOrder);	//プレイヤーカメラの設定
+	void SetCameraTitle();				//タイトルカメラの設定
 
 private:
 	//-----------------
@@ -111,7 +114,8 @@ private:
 	static int	 m_nMaxCamera;	//カメラの最大数
 	static float m_fAspectFov;	//視野角
 	static float m_fAspectX;	//アスペクト比X
-	static CCamera*	m_pCamera[nDefaultMaxCamera];	//カメラクラス
+	static CCameraPlayer*	m_pCameraPlayer[nDefaultMaxCamera];	//カメラクラス
+	static CCameraTitle*	m_pCameraTitle;	//タイトルカメラ
 };
 
 #endif // !_RENDERER_H_

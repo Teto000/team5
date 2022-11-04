@@ -20,19 +20,22 @@
 #include "meshfield.h"
 #include "debug_proc.h"
 #include "fade.h"
-#include  "camera.h"
+#include "camera_player.h"
 #include "time.h"
 #include "Goal.h"
+#include "message.h"
 
 //------------------------
 // 静的メンバ変数宣言
 //------------------------
-CPolygon* CGame::pPolygon = nullptr;
-CPolygon2d* CGame::pPolygon2d = nullptr;
-CPlayer*  CGame::pPlayer[MAX_PLAYER] = {};
-CMeshField* CGame::pMeshField = nullptr;
-CCamera* CGame::m_pCamera[nDefaultMaxCamera] = {};		//カメラ
+CPolygon*	CGame::pPolygon = nullptr;
+CPolygon2d*	CGame::pPolygon2d = nullptr;
+CPlayer*	CGame::pPlayer[MAX_PLAYER] = {};
+CMeshField*	CGame::pMeshField = nullptr;
+CCameraPlayer*	CGame::m_pCameraPlayer[nDefaultMaxCamera] = {};		//カメラ
+CMessage*	CGame::m_pMessage;	//メッセージ
 
+int	 CGame::m_nEnumCamera = 0;	//カメラの列挙型の数
 int	 CGame::m_player = 0;		//プレイヤーの数
 bool CGame::m_bFinish = false;	//終了フラグ
 
@@ -41,9 +44,9 @@ bool CGame::m_bFinish = false;	//終了フラグ
 //===========================
 CGame::CGame()
 {
-	m_nEnumCamera = 0;	//カメラの列挙型の数
-	m_nMaxCamera = 0;	//カメラの最大数
-	m_bStop = false;	//プログラムを停止する
+	m_nMaxCamera = 0;		//カメラの最大数
+	m_bStop = false;		//プログラムを停止する
+	mode = GAMEMODE_START;	//ゲームの状態
 }
 
 //===========================
@@ -60,7 +63,6 @@ CGame::~CGame()
 HRESULT CGame::Init()
 {
 	//カメラの生成
-	//カメラ・プレイヤーの人数設定はここ
 	CreateCamera((CGame::NUMCAMERA)m_player);
 
 	//----------------------------
@@ -78,16 +80,23 @@ HRESULT CGame::Init()
 		pPlayer[nCnt] = CPlayer::Create(nCnt);
 
 		//カメラに対応するプレイヤーの番号の設定
-		GetCamera(nCnt)->SetNumPlayer(nCnt);
+		GetCameraPlayer(nCnt)->SetNumPlayer(nCnt);
 	}
 
 	/*SetPlayerPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));*/
 
+	//メッシュフィールドの生成
 	pMeshField = CMeshField::Create();
 
+	//ゴールの生成
 	CGoal*pGoal = CGoal::Create(D3DXVECTOR3(90.0f, 40.0f, 10.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	
+	//タイマーの生成
 	CTime *pTime = CTime::Create(D3DXVECTOR3(20.0f, 20.0f, 0.0f));
+
+	//メッセージの生成
+	m_pMessage = CMessage::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f),
+									CMessage::MESSAGE_COUNT_THREE);
 
 	return S_OK;
 }
@@ -108,11 +117,11 @@ void CGame::Uninit()
 
 	for (int i = 0; i < m_nMaxCamera; i++)
 	{
-		if (m_pCamera[i] != nullptr)
+		if (m_pCameraPlayer[i] != nullptr)
 		{//カメラがnullじゃないなら 
-			m_pCamera[i]->Uninit();
-			delete m_pCamera[i];
-			m_pCamera[i] = nullptr;
+			m_pCameraPlayer[i]->Uninit();
+			delete m_pCameraPlayer[i];
+			m_pCameraPlayer[i] = nullptr;
 		}
 	}
 }
@@ -133,12 +142,16 @@ void CGame::Update()
 
 	for (int i = 0; i < m_nMaxCamera; i++)
 	{
-		m_pCamera[i]->Update();
+		m_pCameraPlayer[i]->Update();
 	}
 
 	//ゲーム終了時の処理
 	if (CGoal::GetGoalFrag())
 	{
+		//メッセージの生成
+		//m_pMessage = CMessage::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f),
+		//								CMessage::MESSAGE_FINISH);
+
 		FinishGame();
 	}
 
@@ -168,22 +181,22 @@ void CGame::CreateCamera(CGame::NUMCAMERA num)
 		{
 		case NUMCAMERA_ONE:
 			//カメラの数が1つなら
-			m_pCamera[0] = CCamera::Create(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+			m_pCameraPlayer[0] = CCameraPlayer::Create(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 			break;
 
 		case NUMCAMERA_TWO:
 			//カメラの数が2つなら
-			m_pCamera[0] = CCamera::Create(0, 0, fWidth, SCREEN_HEIGHT);
-			m_pCamera[1] = CCamera::Create(fWidth, 0, fWidth, SCREEN_HEIGHT);
+			m_pCameraPlayer[0] = CCameraPlayer::Create(0, 0, fWidth, SCREEN_HEIGHT);
+			m_pCameraPlayer[1] = CCameraPlayer::Create(fWidth, 0, fWidth, SCREEN_HEIGHT);
 			break;
 
 		case NUMCAMERA_THREE:
 		case NUMCAMERA_FOUR:
 			//カメラの数が4つなら
-			m_pCamera[0] = CCamera::Create(0, 0, fWidth, fHeight);				//左上
-			m_pCamera[1] = CCamera::Create(fWidth, 0, fWidth, fHeight);			//右上
-			m_pCamera[2] = CCamera::Create(0, fHeight, fWidth, fHeight);		//左下
-			m_pCamera[3] = CCamera::Create(fWidth, fHeight, fWidth, fHeight);	//右下
+			m_pCameraPlayer[0] = CCameraPlayer::Create(0, 0, fWidth, fHeight);				//左上
+			m_pCameraPlayer[1] = CCameraPlayer::Create(fWidth, 0, fWidth, fHeight);			//右上
+			m_pCameraPlayer[2] = CCameraPlayer::Create(0, fHeight, fWidth, fHeight);		//左下
+			m_pCameraPlayer[3] = CCameraPlayer::Create(fWidth, fHeight, fWidth, fHeight);	//右下
 			break;
 
 		default:
@@ -224,29 +237,29 @@ void CGame::FinishGame()
 			//-----------------------
 			// 1人目が勝った
 			//-----------------------
-		case CCamera::NUMPLAYER_ONE:
-			m_pCamera[nFirstNumber]->AddViewSize(0, 0, nSpeed_X, nSpeed_Y);
+		case CCameraPlayer::NUMPLAYER_ONE:
+			m_pCameraPlayer[nFirstNumber]->AddViewSize(0, 0, nSpeed_X, nSpeed_Y);
 			break;
 
 			//-----------------------
 			// 2人目が勝った
 			//-----------------------
-		case CCamera::NUMPLAYER_TWO:
-			m_pCamera[nFirstNumber]->AddViewSize(-nSpeed_X, 0, nSpeed_X, nSpeed_Y);
+		case CCameraPlayer::NUMPLAYER_TWO:
+			m_pCameraPlayer[nFirstNumber]->AddViewSize(-nSpeed_X, 0, nSpeed_X, nSpeed_Y);
 			break;
 
 			//-----------------------
 			// 3人目が勝った
 			//-----------------------
-		case CCamera::NUMPLAYER_THREE:
-			m_pCamera[nFirstNumber]->AddViewSize(0, -nSpeed_Y, nSpeed_X, nSpeed_Y);
+		case CCameraPlayer::NUMPLAYER_THREE:
+			m_pCameraPlayer[nFirstNumber]->AddViewSize(0, -nSpeed_Y, nSpeed_X, nSpeed_Y);
 			break;
 
 			//-----------------------
 			// 4人目が勝った
 			//-----------------------
-		case CCamera::NUMPLAYER_FOUR:
-			m_pCamera[nFirstNumber]->AddViewSize(-nSpeed_X, -nSpeed_Y, nSpeed_X, nSpeed_Y);
+		case CCameraPlayer::NUMPLAYER_FOUR:
+			m_pCameraPlayer[nFirstNumber]->AddViewSize(-nSpeed_X, -nSpeed_Y, nSpeed_X, nSpeed_Y);
 			break;
 
 		default:
@@ -267,22 +280,22 @@ void CGame::ResetCameraSize()
 	{
 	case NUMCAMERA_ONE:
 		//カメラの数が1つなら
-		m_pCamera[0]->SetViewSize(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+		m_pCameraPlayer[0]->SetViewSize(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 		break;
 
 	case NUMCAMERA_TWO:
 		//カメラの数が2つなら
-		m_pCamera[0]->SetViewSize(0, 0, fWidth, SCREEN_HEIGHT);
-		m_pCamera[1]->SetViewSize(fWidth, 0, fWidth, SCREEN_HEIGHT);
+		m_pCameraPlayer[0]->SetViewSize(0, 0, fWidth, SCREEN_HEIGHT);
+		m_pCameraPlayer[1]->SetViewSize(fWidth, 0, fWidth, SCREEN_HEIGHT);
 		break;
 
 	case NUMCAMERA_THREE:
 	case NUMCAMERA_FOUR:
 		//カメラの数が4つなら
-		m_pCamera[0]->SetViewSize(0, 0, fWidth, fHeight);				//左上
-		m_pCamera[1]->SetViewSize(fWidth, 0, fWidth, fHeight);			//右上
-		m_pCamera[2]->SetViewSize(0, fHeight, fWidth, fHeight);			//左下
-		m_pCamera[3]->SetViewSize(fWidth, fHeight, fWidth, fHeight);	//右下
+		m_pCameraPlayer[0]->SetViewSize(0, 0, fWidth, fHeight);				//左上
+		m_pCameraPlayer[1]->SetViewSize(fWidth, 0, fWidth, fHeight);			//右上
+		m_pCameraPlayer[2]->SetViewSize(0, fHeight, fWidth, fHeight);			//左下
+		m_pCameraPlayer[3]->SetViewSize(fWidth, fHeight, fWidth, fHeight);	//右下
 		break;
 
 	default:
@@ -311,9 +324,9 @@ CPlayer* CGame::GetPlayer(int NumPlayer)
 //===========================
 // カメラの取得
 //===========================
-CCamera *CGame::GetCamera(int nCnt)
+CCameraPlayer *CGame::GetCameraPlayer(int nCnt)
 {
-	return m_pCamera[nCnt];
+	return m_pCameraPlayer[nCnt];
 }
 
 //===========================

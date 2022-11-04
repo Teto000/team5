@@ -15,8 +15,14 @@
     <Filter Include="Main\Application\Scene">
       <UniqueIdentifier>{57dfd659-9714-45b8-8494-ee606ac9f018}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Main\Application\Scene\SelectPlayer">
+      <UniqueIdentifier>{bb1b0f9b-e363-4271-ae57-48ec7c513b4b}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Main\Application\Input">
       <UniqueIdentifier>{451ba86c-1d68-41e7-9dbd-f017c6155cab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Application\Camera">
+      <UniqueIdentifier>{c4ce57cd-6098-4595-a788-c62b966c5d18}</UniqueIdentifier>
     </Filter>
     <Filter Include="Main\Object">
       <UniqueIdentifier>{3838a7b7-1c17-47ed-96bf-d5ba85021346}</UniqueIdentifier>
@@ -36,9 +42,6 @@
     <Filter Include="Main\Object\Mesh">
       <UniqueIdentifier>{77ef4761-1324-42c7-adec-1ca091daa026}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Main\Application\Scene\SelectPlayer">
-      <UniqueIdentifier>{bb1b0f9b-e363-4271-ae57-48ec7c513b4b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -49,9 +52,6 @@
     </ClCompile>
     <ClCompile Include="billboard.cpp">
       <Filter>Main\Object\Billboard</Filter>
-    </ClCompile>
-    <ClCompile Include="camera.cpp">
-      <Filter>Main\Application</Filter>
     </ClCompile>
     <ClCompile Include="fade.cpp">
       <Filter>Main\Application\Scene</Filter>
@@ -131,6 +131,24 @@
     <ClCompile Include="select_player.cpp">
       <Filter>Main\Application\Scene\SelectPlayer</Filter>
     </ClCompile>
+    <ClCompile Include="message.cpp">
+      <Filter>Main\Object\Object2D</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>Main\Application\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="camera_player.cpp">
+      <Filter>Main\Application\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="camera_title.cpp">
+      <Filter>Main\Application\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Titlelogo.cpp">
+      <Filter>Main\Object\Object2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h">
@@ -138,9 +156,6 @@
     </ClInclude>
     <ClInclude Include="billboard.h">
       <Filter>Main\Object\Billboard</Filter>
-    </ClInclude>
-    <ClInclude Include="camera.h">
-      <Filter>Main\Application</Filter>
     </ClInclude>
     <ClInclude Include="fade.h">
       <Filter>Main\Application\Scene</Filter>
@@ -219,6 +234,18 @@
     </ClInclude>
     <ClInclude Include="select_player.h">
       <Filter>Main\Application\Scene\SelectPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="message.h">
+      <Filter>Main\Object\Object2D</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>Main\Application\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="camera_player.h">
+      <Filter>Main\Application\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="camera_title.h">
+      <Filter>Main\Application\Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

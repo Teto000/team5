@@ -25,8 +25,17 @@ public: /* 定義 */
 		TEXTURE_BULLET,			//弾
 		TEXTURE_NUMBER,			//数字テクスチャ
 		TEXTURE_TITLELOGO,		//タイトルロゴ
+		TEXTURE_TITLELOGO2,		//タイトルロゴ
 		TEXTURE_RANKING,		//ランキング
 		TEXTURE_HUMAN,			//プレイヤー
+
+		/* ↓ メッセージ ↓ */
+		TEXTURE_COUNT_THREE,	//カウント3
+		TEXTURE_COUNT_TWO,		//カウント2
+		TEXTURE_COUNT_ONE,		//カウント1
+		TEXTURE_START,			//スタート
+		TEXTURE_FINISH,			//フィニッシュ
+
 		TEXTURE_SELECT_COMENT,	//セレクト画面の解説
 		TEXTURE_SELECT_BG,		//セレクト画面の背景
 		TEXTURE_SELECT_SELECT,	//セレクト画面のセレクトの説明文
