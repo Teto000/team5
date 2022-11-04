@@ -63,7 +63,6 @@ CGame::~CGame()
 HRESULT CGame::Init()
 {
 	//カメラの生成
-	//カメラ・プレイヤーの人数設定はここ
 	CreateCamera((CGame::NUMCAMERA)m_player);
 
 	//----------------------------
@@ -81,7 +80,7 @@ HRESULT CGame::Init()
 		pPlayer[nCnt] = CPlayer::Create(nCnt);
 
 		//カメラに対応するプレイヤーの番号の設定
-		GetCamera(nCnt)->SetNumPlayer(nCnt);
+		GetCameraPlayer(nCnt)->SetNumPlayer(nCnt);
 	}
 
 	/*SetPlayerPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));*/
@@ -325,7 +324,7 @@ CPlayer* CGame::GetPlayer(int NumPlayer)
 //===========================
 // カメラの取得
 //===========================
-CCameraPlayer *CGame::GetCamera(int nCnt)
+CCameraPlayer *CGame::GetCameraPlayer(int nCnt)
 {
 	return m_pCameraPlayer[nCnt];
 }

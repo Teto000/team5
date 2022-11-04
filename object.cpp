@@ -131,7 +131,7 @@ void CObject::UpdateAll()
 		//-------------------------
 		// ポーズ画面の切り替え
 		//-------------------------
-		if (CInputKeyboard::Trigger(DIK_P))
+		/*if (CInputKeyboard::Trigger(DIK_P))
 		{//Pキーを押したとき
 			if (pObj->m_bPause == false)
 			{//ポーズ中じゃないなら
@@ -143,7 +143,7 @@ void CObject::UpdateAll()
 				//ポーズを解除する
 				pObj->m_bPause = false;
 			}
-		}
+		}*/
 
 		if (pObj->m_bPause == false)
 		{//ポーズ中じゃないなら

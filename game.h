@@ -74,7 +74,7 @@ public:
 
 	static CPlayer*			GetPlayer(int NumPlayer);			//プレイヤーの取得
 	static CMeshField*		GetMesh() { return pMeshField; }	//メッシュフィールドの取得
-	static CCameraPlayer*	GetCamera(int nCnt);				//カメラの取得
+	static CCameraPlayer*	GetCameraPlayer(int nCnt);				//カメラの取得
 	static bool				GetFinish();	//終了フラグの取得
 	
 	//プレイヤー人数の設定

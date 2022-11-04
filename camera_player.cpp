@@ -101,26 +101,26 @@ void CCameraPlayer::SetCamera(LPDIRECT3DDEVICE9 pDevice)
 //==================================================
 CCameraPlayer* CCameraPlayer::Create(DWORD X, DWORD Y, DWORD Width, DWORD Height)
 {
-	CCameraPlayer *pCamera = nullptr;
+	CCameraPlayer *pCameraPlayer = nullptr;
 
 	//----------------------------------
 	// ポリゴンの生成と初期化
 	//----------------------------------
-	pCamera = new CCameraPlayer;	//生成
+	pCameraPlayer = new CCameraPlayer;	//生成
 
-	if (pCamera != nullptr)
+	if (pCameraPlayer != nullptr)
 	{//NULLチェック
 	 //ビューポート構成の保存
-		pCamera->m_viewport.X = X;				//開始位置(X)
-		pCamera->m_viewport.Y = Y;				//開始位置(Y)
-		pCamera->m_viewport.Width = Width;		//幅
-		pCamera->m_viewport.Height = Height;	//高さ
+		pCameraPlayer->m_viewport.X = X;			//開始位置(X)
+		pCameraPlayer->m_viewport.Y = Y;			//開始位置(Y)
+		pCameraPlayer->m_viewport.Width = Width;	//幅
+		pCameraPlayer->m_viewport.Height = Height;	//高さ
 
 		//初期化
-		pCamera->Init();
+		pCameraPlayer->Init();
 	}
 
-	return pCamera;
+	return pCameraPlayer;
 }
 
 //==================================================

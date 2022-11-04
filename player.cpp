@@ -533,7 +533,7 @@ D3DXVECTOR3 CPlayer::GetPosOld()
 void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey)
 {
 	// カメラの角度情報取得
-	D3DXVECTOR3 CameraRot = CGame::GetCamera(0)->GetRot();;
+	D3DXVECTOR3 CameraRot = CGame::GetCameraPlayer(0)->GetRot();;
 
 	//-------------------------------
 	// プレイヤーの操作
