@@ -57,6 +57,14 @@ void CCameraTitle::Update(void)
 {
 	//カメラの更新
 	CCamera::Update();
+
+	//----------------------
+	// カメラの回転
+	//----------------------
+	m_rot.y -= fTurnSpeed / 16;
+	m_posR.x = m_posV.x + POLOR_X;
+	m_posR.y = m_posV.y + POLOR_Y;
+	m_posR.z = m_posV.z + POLOR_Z;
 }
 
 //==================================================

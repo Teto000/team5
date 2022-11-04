@@ -69,9 +69,15 @@ HRESULT CTitle::Init()
 //===========================
 void CTitle::Uninit()
 {
+	//---------------------
+	// カメラの終了
+	//---------------------
 	if (m_pCameraTitle != nullptr)
 	{//カメラがnullじゃないなら 
+		//終了
 		m_pCameraTitle->Uninit();
+
+		//消去
 		delete m_pCameraTitle;
 		m_pCameraTitle = nullptr;
 	}
@@ -87,8 +93,14 @@ void CTitle::Update()
 		CApplication::GetFade()->SetFade(CApplication::MODE_PSELECT);
 	}
 
-	//カメラの更新
-	m_pCameraTitle->Update();
+	//---------------------
+	// カメラの更新
+	//---------------------
+	if (m_pCameraTitle != nullptr)
+	{//カメラがnullじゃないなら 
+		//更新
+		m_pCameraTitle->Update();
+	}
 }
 
 //===========================
