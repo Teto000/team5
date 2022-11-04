@@ -20,7 +20,8 @@ class CPolygon;		//ポリゴン
 class CPolygon2d;	//ポリゴン2d
 class CPlayer;		//プレイヤー
 class CMeshField;	//メッシュフィールド
-class CCamera;		//カメラ
+class CCameraPlayer;//プレイヤーカメラ
+class CMessage;		//メッセージ
 
 //--------------------
 // マクロ定義
@@ -34,6 +35,16 @@ class CCamera;		//カメラ
 class CGame
 {
 public:
+	//ゲームの状態
+	enum GAMEMODE
+	{
+		GAMEMODE_NORMAL = 0,	//通常
+		GAMEMODE_START,			//開始
+		GAMEMODE_FINISH,		//終了
+		GAMEMODE_PAUSE,			//一時停止
+		GAMEMODE_MAX
+	};
+
 	//カメラの最大数
 	enum NUMCAMERA
 	{
@@ -61,11 +72,11 @@ public:
 	//------------------
 	static int GetEnumCamera();	//カメラ列挙型番号を取得
 
-	static CPlayer*		GetPlayer(int NumPlayer);			//プレイヤーの取得
-	static CMeshField*	GetMesh() { return pMeshField; }	//メッシュフィールドの取得
-	static CCamera*		GetCamera(int nCnt);				//カメラの取得
-	static bool			GetFinish();	//終了フラグの取得
-
+	static CPlayer*			GetPlayer(int NumPlayer);			//プレイヤーの取得
+	static CMeshField*		GetMesh() { return pMeshField; }	//メッシュフィールドの取得
+	static CCameraPlayer*	GetCameraPlayer(int nCnt);				//カメラの取得
+	static bool				GetFinish();	//終了フラグの取得
+	
 	//プレイヤー人数の設定
 	static void SetPlayerNum(int nPlayer) { m_player = nPlayer; }
 
@@ -86,15 +97,17 @@ private:
 	static int m_nEnumCamera;	//カメラの列挙型の値
 	int m_nMaxCamera;	//カメラの数
 	bool m_bStop;		//プログラムを停止する
+	GAMEMODE mode;
 
 	//-------------------
 	// 静的メンバ変数
 	//-------------------
-	static CPolygon* pPolygon;
-	static CPolygon2d* pPolygon2d;
-	static CPlayer*	 pPlayer[MAX_PLAYER];
-	static CMeshField* pMeshField;
-	static CCamera* m_pCamera[nDefaultMaxCamera];	//カメラクラス
+	static CPolygon*	pPolygon;
+	static CPolygon2d*	pPolygon2d;
+	static CPlayer*		pPlayer[MAX_PLAYER];
+	static CMeshField*	pMeshField;
+	static CCameraPlayer*	m_pCameraPlayer[nDefaultMaxCamera];	//プレイヤーカメラクラス
+	static CMessage*	m_pMessage;
 
 	static bool m_bFinish;		//終了フラグ
 	static int  m_player;		//プレイヤーの数

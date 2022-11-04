@@ -16,6 +16,7 @@
 // 前方宣言
 //================================
 class CObject2D;
+class CCameraTitle;
 
 //================================
 // リザルトクラスの定義
@@ -34,9 +35,15 @@ public:
 	void Update();
 
 	//------------------
+	// ゲッター
+	//------------------
+	static CCameraTitle* GetCameraTitle();	//カメラの取得
+
+	//------------------
 	// メンバ変数
 	//------------------
 	CObject2D*m_pObject2D;
+	static CCameraTitle* m_pCameraTitle;	//タイトルカメラ
 };
 
 #endif

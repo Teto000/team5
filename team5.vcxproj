@@ -157,7 +157,10 @@
     <ClCompile Include="application.cpp" />
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="camera_player.cpp" />
+    <ClCompile Include="camera_title.cpp" />
     <ClCompile Include="debug_proc.cpp" />
+    <ClCompile Include="Editor.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="Goal.cpp" />
@@ -168,6 +171,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="meshfield.cpp" />
+    <ClCompile Include="message.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="number.cpp" />
     <ClCompile Include="object.cpp" />
@@ -182,13 +186,17 @@
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="time.cpp" />
     <ClCompile Include="title.cpp" />
+    <ClCompile Include="Titlelogo.cpp" />
     <ClCompile Include="UI_PSelect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h" />
     <ClInclude Include="billboard.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="camera_player.h" />
+    <ClInclude Include="camera_title.h" />
     <ClInclude Include="debug_proc.h" />
+    <ClInclude Include="Editor.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="Goal.h" />
@@ -199,6 +207,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="meshfield.h" />
+    <ClInclude Include="message.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="number.h" />
     <ClInclude Include="object.h" />
@@ -213,6 +222,7 @@
     <ClInclude Include="texture.h" />
     <ClInclude Include="time.h" />
     <ClInclude Include="title.h" />
+    <ClInclude Include="Titlelogo.h" />
     <ClInclude Include="UI_PSelect.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

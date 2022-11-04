@@ -16,6 +16,12 @@
 #include "application.h"
 #include "sound.h"
 #include "fade.h"
+#include "camera_title.h"
+
+//------------------------
+// 静的メンバ変数宣言
+//------------------------
+CCameraTitle* CResult::m_pCameraTitle = nullptr;
 
 //===========================
 // コンストラクタ
@@ -38,6 +44,9 @@ CResult::~CResult()
 //===========================
 HRESULT CResult::Init()
 {
+	//カメラの生成
+	m_pCameraTitle = CCameraTitle::Create(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
 	m_pObject2D = new CObject2D;
 	m_pObject2D->Init(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
 	m_pObject2D->SetTexture(CTexture::TEXTURE_RANKING);
@@ -51,7 +60,18 @@ HRESULT CResult::Init()
 //===========================
 void CResult::Uninit()
 {
+	//---------------------
+	// カメラの終了
+	//---------------------
+	if (m_pCameraTitle != nullptr)
+	{//カメラがnullじゃないなら 
+		//終了
+		m_pCameraTitle->Uninit();
 
+		//消去
+		delete m_pCameraTitle;
+		m_pCameraTitle = nullptr;
+	}
 }
 
 //===========================
@@ -63,4 +83,21 @@ void CResult::Update()
 	{//Enterで次の画面に遷移する
 		CApplication::GetFade()->SetFade(CApplication::MODE_TITLE);
 	}
+
+	//---------------------
+	// カメラの更新
+	//---------------------
+	if (m_pCameraTitle != nullptr)
+	{//カメラがnullじゃないなら 
+	 //更新
+		m_pCameraTitle->Update();
+	}
+}
+
+//===========================
+// タイトルカメラの取得
+//===========================
+CCameraTitle* CResult::GetCameraTitle()
+{
+	return m_pCameraTitle;
 }

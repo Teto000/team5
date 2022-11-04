@@ -77,7 +77,8 @@ private:
 	CObject* m_pPrev;	//1つ前のオブジェクト
 	CObject* m_pNext;	//1つ後のオブジェクト
 	EObjType m_ObjType;	//オブジェクトの種類
-	bool m_bDeath;		//死 亡フラグ
+	bool m_bDeath;		//死亡フラグ
+	bool m_bPause;		//ポーズのON,OFF
 
 	//----------------
 	// 静的メンバ変数

@@ -16,11 +16,14 @@
 #include "main.h"
 #include "object3d.h"
 #include "application.h"
-#include "camera.h"
+#include "camera_player.h"
+#include "camera_title.h"
 #include "debug_proc.h"
 #include "input.h"
 #include "input_keybord.h"
 #include "Goal.h"
+#include "title.h"
+#include "result.h"
 
 //-----------------------
 // 静的メンバ変数宣言
@@ -31,7 +34,8 @@ const float CRenderer::fDefaultAspectX = (float)SCREEN_WIDTH;	//基本のアスペクト
 int CRenderer::m_nMaxCamera = nDefaultMaxCamera;		//カメラの最大数
 float CRenderer::m_fAspectFov = 0.0f;					//視野角
 float CRenderer::m_fAspectX = 0.0f;						//アスペクト比X
-CCamera* CRenderer::m_pCamera[nDefaultMaxCamera] = {};	//カメラ
+CCameraPlayer* CRenderer::m_pCameraPlayer[nDefaultMaxCamera] = {};	//カメラ
+CCameraTitle* CRenderer::m_pCameraTitle = nullptr;	//タイトルカメラ
 
 //=========================
 // コンストラクタ
@@ -233,39 +237,19 @@ void CRenderer::Draw()
 	{
 		int nOrder = m_viewPortOrder[i];
 
-		//カメラの取得
-		m_pCamera[nOrder] = CGame::GetCamera(nOrder);
-
-		if (m_pCamera[nOrder] != nullptr)
-		{//カメラがnullじゃないなら
-			//カメラの設定
-			m_pCamera[nOrder]->SetCamera(m_pD3DDevice);
-
-			//-------------------------
-			// カメラが2つの場合
-			//-------------------------
-			if (m_nMaxCamera == 2)
-			{//カメラの数が2つなら
-				//カメラのアスペクト比を変更
-				m_pCamera[nOrder]->SetAspect(m_pD3DDevice, 60.0f,
-					(float)(SCREEN_WIDTH / 2), (float)SCREEN_HEIGHT);
-
-				//-------------------------
-				// 拡大する時の処理
-				//-------------------------
-				if (CGame::GetFinish() == true)
-				{//終了フラグが立っているなら
-					//アスペクト比の加算
-					AddAcpect(nOrder, (15.0f / 60.0f), (640.0f / 120.0f));
-				}
-			}
-
-			//-------------------------
-			// ビューポートの処理
-			//-------------------------
-			//ビューポートの設定
-			D3DVIEWPORT9 viewport = m_pCamera[nOrder]->GetViewport();
-			m_pD3DDevice->SetViewport(&viewport);
+		//-------------------------
+		// カメラの設定
+		//-------------------------
+		if (CApplication::GetMode() == CApplication::MODE_GAME)
+		{//ゲーム画面なら
+			//プレイヤーカメラの設定
+			SetCameraPlayer(nOrder);
+		}
+		else if (CApplication::GetMode() == CApplication::MODE_TITLE
+			|| CApplication::GetMode() == CApplication::MODE_RESULT)
+		{//タイトル画面なら
+			//タイトルカメラの設定
+			SetCameraTitle();
 		}
 
 		// バックバッファ＆Ｚバッファのクリア
@@ -352,7 +336,7 @@ void CRenderer::AddAcpect(int nNumCamera, float fov, float x)
 	}
 
 	//カメラのアスペクト比を変更
-	m_pCamera[nNumCamera]->SetAspect(m_pD3DDevice, m_fAspectFov,
+	m_pCameraPlayer[nNumCamera]->SetAspect(m_pD3DDevice, m_fAspectFov,
 		m_fAspectX, (float)SCREEN_HEIGHT);
 }
 
@@ -362,6 +346,90 @@ void CRenderer::AddAcpect(int nNumCamera, float fov, float x)
 int CRenderer::GetMaxCamera()
 {
 	return m_nMaxCamera;
+}
+
+//=============================================================================
+// プレイヤーカメラの設定
+//=============================================================================
+void CRenderer::SetCameraPlayer(int nOrder)
+{
+	//プレイヤーカメラの取得
+	m_pCameraPlayer[nOrder] = CGame::GetCameraPlayer(nOrder);
+
+	if (m_pCameraPlayer[nOrder] != nullptr)
+	{//カメラがnullじゃないなら
+		//-------------------------
+		// カメラの設定
+		//-------------------------
+		m_pCameraPlayer[nOrder]->SetCamera(m_pD3DDevice);
+
+		//-------------------------
+		// カメラが2つの場合
+		//-------------------------
+		if (m_nMaxCamera == 2)
+		{//カメラの数が2つなら
+		 //カメラのアスペクト比を変更
+			m_pCameraPlayer[nOrder]->SetAspect(m_pD3DDevice, 60.0f,
+				(float)(SCREEN_WIDTH / 2), (float)SCREEN_HEIGHT);
+
+			//-------------------------
+			// 拡大する時の処理
+			//-------------------------
+			if (CGame::GetFinish() == true)
+			{//終了フラグが立っているなら
+			 //アスペクト比の加算
+				AddAcpect(nOrder, (15.0f / 60.0f), (640.0f / 120.0f));
+			}
+		}
+
+		//-------------------------
+		// ビューポートの処理
+		//-------------------------
+		//ビューポートの設定
+		D3DVIEWPORT9 viewport = m_pCameraPlayer[nOrder]->GetViewport();
+		m_pD3DDevice->SetViewport(&viewport);
+	}
+}
+
+//=============================================================================
+// タイトルカメラの設定
+//=============================================================================
+void CRenderer::SetCameraTitle()
+{
+	//-------------------------
+	// タイトルカメラの取得
+	//-------------------------
+	if (CApplication::GetMode() == CApplication::MODE_TITLE)
+	{//タイトル画面なら
+		//タイトルからカメラを取得
+		m_pCameraTitle = CTitle::GetCameraTitle();
+	}
+	else if (CApplication::GetMode() == CApplication::MODE_RESULT)
+	{//リザルト画面なら
+		//リザルトからカメラを取得
+		m_pCameraTitle = CResult::GetCameraTitle();
+	}
+
+	if (m_pCameraTitle != nullptr)
+	{//カメラがnullじゃないなら
+		//-------------------------
+		// カメラの設定
+		//-------------------------
+		m_pCameraTitle->SetCamera(m_pD3DDevice);
+
+		//-------------------------
+		// ビューポートの処理
+		//-------------------------
+		//ビューポートの設定
+		D3DVIEWPORT9 viewport = m_pCameraTitle->GetViewport();
+		m_pD3DDevice->SetViewport(&viewport);
+
+		//-------------------------
+		// 画面の最大化
+		//-------------------------
+		m_pCameraTitle->SetAspect(m_pD3DDevice, 45,
+						(float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
+	}
 }
 
 #ifdef _DEBUG
