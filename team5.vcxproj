@@ -157,6 +157,7 @@
     <ClCompile Include="application.cpp" />
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="camera_player.cpp" />
     <ClCompile Include="debug_proc.cpp" />
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="fade.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="application.h" />
     <ClInclude Include="billboard.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="camera_player.h" />
     <ClInclude Include="debug_proc.h" />
     <ClInclude Include="Editor.h" />
     <ClInclude Include="fade.h" />

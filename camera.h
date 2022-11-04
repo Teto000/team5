@@ -13,40 +13,32 @@
 #include <d3dx9.h>
 #include "main.h"
 
+//--------------------------------
+// 前方宣言
+//--------------------------------
+class CCameraPlayer;
+
 //================================
 // カメラクラスの定義
 //================================
 class CCamera
 {
 public:
-	//------------------------------
-	// プレイヤー番号の列挙型
-	//------------------------------
-	enum NUMPLAYER
-	{
-		NUMPLAYER_ONE = 0,
-		NUMPLAYER_TWO,
-		NUMPLAYER_THREE,
-		NUMPLAYER_FOUR,
-		NUMPLAYER_MAX
-	};
-
 	CCamera();	//コンストラクタ
-	~CCamera();	//デストラクタ
+	virtual ~CCamera();	//デストラクタ
 
 	//------------------
 	// メンバ関数
 	//------------------
-	void Init();
-	void Uninit();
-	void Update();
-	void SetCamera(LPDIRECT3DDEVICE9 pDevice);
+	virtual HRESULT Init();
+	virtual void Uninit();
+	virtual void Update();
+	virtual void SetCamera(LPDIRECT3DDEVICE9 pDevice);
 
 	//------------------
 	// セッター
 	//------------------
 	void SetPos(D3DXVECTOR3 pos);	//視点・注視点の設定
-	void SetNumPlayer(int nNum);	//プレイヤー番号の設定
 	void SetViewSize(DWORD X, DWORD Y, int fWidth, int fHeight);	//ビューポートの大きさ設定
 	void AddViewSize(DWORD X, DWORD Y, int fWidth, int fHeight);	//ビューポートの拡縮
 	void SetAspect(LPDIRECT3DDEVICE9 pDevice, float fov,
@@ -59,18 +51,7 @@ public:
 	D3DXVECTOR3 GetRot();		//向きの取得
 	D3DVIEWPORT9 GetViewport();	//ビューポートの取得
 
-	//------------------
-	// 静的メンバ関数
-	//------------------
-	static CCamera* Create(DWORD X, DWORD Y, DWORD Width, DWORD Height);
-
-private:
-	void EachPlayer();	//プレイヤーごとの処理
-	void Turn(int nLeftKey,int nRightKey);	//旋回
-	void Move(int nUpKey, int nDownKey, int nLeftKey, int nRightKey);	//移動
-	void Following();				//追従
-
-private:
+protected:
 	//------------------
 	// 定数
 	//------------------
@@ -87,9 +68,6 @@ private:
 	D3DXVECTOR3 m_posRDest;		//目的の注視点
 	D3DXVECTOR3 m_rotDest;		//目的の角度
 	D3DXVECTOR3 m_vecU;			//上方向ベクトル
-	int m_nNumPlayer;			//プレイヤー番号
-	int m_nNumFieldCamera;		//フィールドカメラのプレイヤー番号
-	int m_nChangeTime;			//フィールドカメラ切り替え時間
 	float m_fDistance;			//距離
 	float POLOR_X;				//極座標のX
 	float POLOR_Y;				//極座標のY

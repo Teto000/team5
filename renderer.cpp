@@ -16,7 +16,7 @@
 #include "main.h"
 #include "object3d.h"
 #include "application.h"
-#include "camera.h"
+#include "camera_player.h"
 #include "debug_proc.h"
 #include "input.h"
 #include "input_keybord.h"
@@ -31,7 +31,7 @@ const float CRenderer::fDefaultAspectX = (float)SCREEN_WIDTH;	//基本のアスペクト
 int CRenderer::m_nMaxCamera = nDefaultMaxCamera;		//カメラの最大数
 float CRenderer::m_fAspectFov = 0.0f;					//視野角
 float CRenderer::m_fAspectX = 0.0f;						//アスペクト比X
-CCamera* CRenderer::m_pCamera[nDefaultMaxCamera] = {};	//カメラ
+CCameraPlayer* CRenderer::m_pCamera[nDefaultMaxCamera] = {};	//カメラ
 
 //=========================
 // コンストラクタ

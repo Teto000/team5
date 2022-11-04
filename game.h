@@ -20,7 +20,7 @@ class CPolygon;		//ポリゴン
 class CPolygon2d;	//ポリゴン2d
 class CPlayer;		//プレイヤー
 class CMeshField;	//メッシュフィールド
-class CCamera;		//カメラ
+class CCameraPlayer;//プレイヤーカメラ
 class CMessage;		//メッセージ
 
 //--------------------
@@ -72,11 +72,11 @@ public:
 	//------------------
 	static int GetEnumCamera();	//カメラ列挙型番号を取得
 
-	static CPlayer*		GetPlayer(int NumPlayer);			//プレイヤーの取得
-	static CMeshField*	GetMesh() { return pMeshField; }	//メッシュフィールドの取得
-	static CCamera*		GetCamera(int nCnt);				//カメラの取得
-	static bool			GetFinish();	//終了フラグの取得
-
+	static CPlayer*			GetPlayer(int NumPlayer);			//プレイヤーの取得
+	static CMeshField*		GetMesh() { return pMeshField; }	//メッシュフィールドの取得
+	static CCameraPlayer*	GetCamera(int nCnt);				//カメラの取得
+	static bool				GetFinish();	//終了フラグの取得
+	
 	//プレイヤー人数の設定
 	static void SetPlayerNum(int nPlayer) { m_player = nPlayer; }
 
@@ -106,7 +106,7 @@ private:
 	static CPolygon2d*	pPolygon2d;
 	static CPlayer*		pPlayer[MAX_PLAYER];
 	static CMeshField*	pMeshField;
-	static CCamera*		m_pCamera[nDefaultMaxCamera];	//カメラクラス
+	static CCameraPlayer*	m_pCameraPlayer[nDefaultMaxCamera];	//プレイヤーカメラクラス
 	static CMessage*	m_pMessage;
 
 	static bool m_bFinish;		//終了フラグ

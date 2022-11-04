@@ -14,7 +14,7 @@
 #include "renderer.h"
 #include "input.h"
 #include "input_keybord.h"
-#include "camera.h"
+#include "camera_player.h"
 #include "debug_proc.h"
 #include "model.h"
 #include "meshfield.h"
