@@ -134,6 +134,9 @@
     <ClCompile Include="message.cpp">
       <Filter>Main\Object\Object2D</Filter>
     </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h">
@@ -225,6 +228,9 @@
     </ClInclude>
     <ClInclude Include="message.h">
       <Filter>Main\Object\Object2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>Main\Application</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
