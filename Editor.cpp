@@ -11,6 +11,8 @@
 #include"player.h"
 #include"game.h"
 #include"renderer.h"
+#include"Goal.h"
+#include"meshfield.h"
 
 //=============================================================================
 // コンストラクタ
@@ -61,31 +63,41 @@ void CEditor::Load()
 					{
 						return;
 					}
-					else if (strncmp(strLine, "Player", 5) == 0)
+					else if (strncmp(strLine, "Goal", 4) == 0)
 					{
 						bFlag = true;
-						m_type = OBJ_PLAYER;
+						m_type = OBJ_GOAL;
+					}
+					else if (strncmp(strLine, "Map", 3) == 0)
+					{
+						bFlag = true;
+						m_type = OBJ_MAP;
+					}
+					else if (strncmp(strLine, "Gimmick", 7) == 0)
+					{
+						bFlag = true;
+						m_type = OBJ_GIMMICK;
 					}
 					else if (strncmp(strLine, "Pos", 3) == 0)
 					{
 						fscanf(fp, "%f%f%f", &m_pos.x, &m_pos.y, &m_pos.z);
 					}
+					else if (strncmp(strLine, "Rot", 3) == 0)
+					{
+						fscanf(fp, "%f%f%f", &m_rot.x, &m_rot.y, &m_rot.z);
+					}
 					else if (strncmp(strLine, "End", 3) == 0)
 					{
-						int nMaxCamera = 0;
-
 						switch (m_type)
 						{//タイプによって分ける
-						case OBJ_PLAYER:
-
-							nMaxCamera = CRenderer::GetMaxCamera();
-							if (nNumplayer < nMaxCamera&&bFlag==true)
-							{
-								CPlayer::Create(nNumplayer);
-								CGame::GetCameraPlayer(nNumplayer);
-								nNumplayer++;
-								bFlag = false;	//フラグリセット
-							}
+						case OBJ_GOAL:
+							CGoal::Create(D3DXVECTOR3(m_pos), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+							break;
+						case OBJ_GIMMICK:
+							break;
+						case OBJ_MAP:
+							CMeshField::Create();
+							break;
 						default:
 							break;
 						}

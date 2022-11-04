@@ -24,6 +24,7 @@
 #include "time.h"
 #include "Goal.h"
 #include "message.h"
+#include "Editor.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -34,6 +35,7 @@ CPlayer*	CGame::pPlayer[MAX_PLAYER] = {};
 CMeshField*	CGame::pMeshField = nullptr;
 CCameraPlayer*	CGame::m_pCameraPlayer[nDefaultMaxCamera] = {};		//カメラ
 CMessage*	CGame::m_pMessage;	//メッセージ
+CEditor*	CGame::m_pEditor = nullptr;
 
 int	 CGame::m_nEnumCamera = 0;	//カメラの列挙型の数
 int	 CGame::m_player = 0;		//プレイヤーの数
@@ -89,7 +91,7 @@ HRESULT CGame::Init()
 	pMeshField = CMeshField::Create();
 
 	//ゴールの生成
-	CGoal*pGoal = CGoal::Create(D3DXVECTOR3(90.0f, 40.0f, 10.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	//CGoal*pGoal = CGoal::Create(D3DXVECTOR3(90.0f, 40.0f, 10.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	
 	//タイマーの生成
 	CTime *pTime = CTime::Create(D3DXVECTOR3(20.0f, 20.0f, 0.0f));
@@ -97,6 +99,11 @@ HRESULT CGame::Init()
 	//メッセージの生成
 	m_pMessage = CMessage::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f),
 									CMessage::MESSAGE_COUNT_THREE);
+
+	//エディタの作成と読み込み
+	m_pEditor = new CEditor;
+	m_pEditor->Load();
+
 
 	return S_OK;
 }

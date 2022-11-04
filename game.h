@@ -22,6 +22,7 @@ class CPlayer;		//プレイヤー
 class CMeshField;	//メッシュフィールド
 class CCameraPlayer;//プレイヤーカメラ
 class CMessage;		//メッセージ
+class CEditor;		//エディタ
 
 //--------------------
 // マクロ定義
@@ -108,6 +109,7 @@ private:
 	static CMeshField*	pMeshField;
 	static CCameraPlayer*	m_pCameraPlayer[nDefaultMaxCamera];	//プレイヤーカメラクラス
 	static CMessage*	m_pMessage;
+	static CEditor*		m_pEditor;
 
 	static bool m_bFinish;		//終了フラグ
 	static int  m_player;		//プレイヤーの数
