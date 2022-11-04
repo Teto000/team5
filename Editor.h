@@ -16,21 +16,18 @@
 #define FILE_MAPDATA	"data\\TXT\\stage01.txt"	//読み込むファイル名
 #define DEBUG_MAPDATA	"data\\TXT\\test.txt"		//読み込むファイル名
 
-
-//前方宣言
-class CEnemyManager;
 //=============================================================================
 // 構造体定義
 //=============================================================================
-class CMapdata
+class CEditor
 {
 public:
 	enum OBJ
 	{
 		OBJ_PLAYER = 0,
 	};
-	CMapdata();
-	~CMapdata();
+	CEditor();
+	~CEditor();
 	void Update();
 	void Load();
 
