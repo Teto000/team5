@@ -3,6 +3,7 @@
 // Author : 冨所知生
 //========================================================
 #include "UI_PSelect.h"
+#include "renderer.h"
 
 //=========================================
 //コンストラクタ
@@ -24,14 +25,40 @@ CUI_PSelect::~CUI_PSelect()
 //=========================================
 HRESULT CUI_PSelect::Init(D3DXVECTOR3 pos)
 {
-	//サイズの設定
-	CObject2D::SetSize(50.0f, 50.0f);
+	switch (m_Tui)
+	{
+	case UI_PLAYER:
+		//サイズの設定
+		CObject2D::SetSize(100.0f, 100.0f);
+		// テクスチャの設定
+		CObject2D::SetTexture(CTexture::TEXTURE_HUMAN);
+		break;
+
+	case UI_COMENT:
+		//サイズの設定
+		CObject2D::SetSize(500.0f, 200.0f);
+		// テクスチャの設定
+		CObject2D::SetTexture(CTexture::TEXTURE_SELECT_COMENT);
+		break;
+
+	case UI_BG:
+		//サイズの設定
+		CObject2D::SetSize(SCREEN_WIDTH,SCREEN_HEIGHT);
+		// テクスチャの設定
+		CObject2D::SetTexture(CTexture::TEXTURE_SELECT_BG);
+		break;
+
+	case UI_SELECT:
+		//サイズの設定
+		CObject2D::SetSize(400.0f, 50.0f);
+		// テクスチャの設定
+		// テクスチャの指定やばすぎるけど気にしないで
+		CObject2D::SetTexture(CTexture::TEXTURE_SELECT_SELECT);
+		break;
+	}
 
 	// オブジェクトの初期化
 	CObject2D::Init(pos);
-
-	// テクスチャの設定
-	CObject2D::SetTexture(CTexture::TEXTURE_HUMAN);
 
 	return S_OK;
 }
@@ -64,7 +91,7 @@ void CUI_PSelect::Draw()
 //=========================================
 //オブジェクトのクリエイト
 //=========================================
-CUI_PSelect* CUI_PSelect::Create(const D3DXVECTOR3 &pos)
+CUI_PSelect* CUI_PSelect::Create(const D3DXVECTOR3 &pos,const UI &texture)
 {
 	CUI_PSelect* pUI_PSelect = nullptr;
 
@@ -72,6 +99,7 @@ CUI_PSelect* CUI_PSelect::Create(const D3DXVECTOR3 &pos)
 
 	if (pUI_PSelect != nullptr)
 	{
+		pUI_PSelect->Set(texture);
 		pUI_PSelect->Init(pos);
 	}
 

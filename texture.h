@@ -27,6 +27,9 @@ public: /* 定義 */
 		TEXTURE_TITLELOGO,		//タイトルロゴ
 		TEXTURE_RANKING,		//ランキング
 		TEXTURE_HUMAN,			//プレイヤー
+		TEXTURE_SELECT_COMENT,	//セレクト画面の解説
+		TEXTURE_SELECT_BG,		//セレクト画面の背景
+		TEXTURE_SELECT_SELECT,	//セレクト画面のセレクトの説明文
 		TEXTURE_MAX,
 		TEXTURE_NONE,			//使用しない
 	};
