@@ -72,19 +72,6 @@ void CEditor::Uninit()
 }
 
 //=============================================================================
-//生成
-//=============================================================================
-CEditor * CEditor::Create()
-{
-	CEditor *pEditor = new CEditor;
-
-	pEditor->Init();
-	pEditor->Load();
-
-	return pEditor;
-}
-
-//=============================================================================
 //更新
 //=============================================================================
 void CEditor::Update()
@@ -104,10 +91,12 @@ void CEditor::Update()
 			m_pGoal->SetPosition(pos);
 		}
 	}
+
 	if (CInputKeyboard::Trigger(DIK_O) == true)
 	{
-		m_pGoal->GetPosition();
+		SaveObject();
 	}
+
 	//CDebugProc::Print("現在置くブロック\n");
 }
 
@@ -198,3 +187,31 @@ void CEditor::Load()
 }
 
 
+//=============================================================================
+//生成
+//=============================================================================
+CEditor * CEditor::Create()
+{
+	CEditor *pEditor = new CEditor;
+
+	pEditor->Init();
+	pEditor->Load();
+
+	return pEditor;
+}
+
+//=============================================================================
+//オブジェクトの位置の保存
+//=============================================================================
+void CEditor::SaveObject()
+{
+	FILE*fp = fopen("data\\TXT\\ObjectPos.txt", "w");		//ファイル読み込み
+
+	fprintf(fp, "Object\n");
+	fprintf(fp, "Goal\n");
+	fprintf(fp, "Pos %.1f %.1f %.1f\n", m_pGoal->GetPosition().x, m_pGoal->GetPosition().y, m_pGoal->GetPosition().z);
+	fprintf(fp, "Rot 0.0f 0.0f 0.0f\n");
+	fprintf(fp, "End\n");
+
+	fclose(fp);
+}

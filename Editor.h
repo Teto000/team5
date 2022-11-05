@@ -43,6 +43,7 @@ public:
 	void Load();
 	void Uninit();
 	static CEditor*Create();
+	void SaveObject();
 
 private:
 	//メンバ関数
@@ -57,8 +58,6 @@ private:
 	static	CPlayer*	pPlayer;
 	static	CGoal*		m_pGoal;		//ゴール
 	static	CMeshField*	m_Map;			//マップ
-
-
 };
 #endif 
 
