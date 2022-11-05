@@ -19,6 +19,8 @@
 //前方宣言
 class CEnemyManager;
 class CPlayer;
+class CGoal;
+class CMeshField;
 
 //=============================================================================
 // 構造体定義
@@ -36,19 +38,25 @@ public:
 
 	CEditor();
 	~CEditor();
+	void Init();
 	void Update();
 	void Load();
+	void Uninit();
+	static CEditor*Create();
 
 private:
 	//メンバ関数
-	OBJ			m_type;			//オブジェクトの種類
-	D3DXVECTOR3 m_pos;			//出現座標
-	D3DXVECTOR3 m_rot;			//出現した際の角度
-	int			m_frame;		//出現時間
-	bool		bEnd;			//終了フラグ
-	int			nNumplayer;		//現在の人数
-	bool		bFlag;			//生成フラグ
-	static		 CPlayer*		pPlayer;
+	OBJ					m_type;			//オブジェクトの種類
+	D3DXVECTOR3			m_pos;			//出現座標
+	D3DXVECTOR3			m_rot;			//出現した際の角度
+	bool				bEnd;			//終了フラグ
+	bool				bFlag;			//生成フラグ
+	int					nNumber;		//現在設定するブロックのタイプ
+
+	//スタティック関数
+	static	CPlayer*	pPlayer;
+	static	CGoal*		m_pGoal;		//ゴール
+	static	CMeshField*	m_Map;			//マップ
 
 
 };

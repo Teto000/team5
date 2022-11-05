@@ -25,7 +25,7 @@ class CShadow;	//影
 class CGoal : public CObject
 {
 public:
-	CGoal();	//コンストラクタ
+	explicit CGoal(int nPriority);	//コンストラクタ
 	~CGoal();	//デストラクタ
 
 	//------------------
@@ -37,6 +37,9 @@ public:
 	void Draw();
 	bool Collision();
 	static CGoal * Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
+
+	//セッター
+	void SetPosition(D3DXVECTOR3 pos);
 
 	//ゲッター
 	static bool GetGoalFrag();

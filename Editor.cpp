@@ -13,7 +13,14 @@
 #include"renderer.h"
 #include"Goal.h"
 #include"meshfield.h"
+#include"debug_proc.h"
+#include"input_keybord.h"
+#include"input.h"
 
+//静的メンバ変数
+CPlayer*	CEditor::pPlayer = nullptr;
+CGoal*		CEditor::m_pGoal = nullptr;			//ゴール
+CMeshField*	CEditor::m_Map = nullptr;			//マップ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
@@ -26,7 +33,55 @@ CEditor::CEditor()
 //=============================================================================
 CEditor::~CEditor()
 {
+}
 
+
+//=============================================================================
+//初期化
+//=============================================================================
+void CEditor::Init()
+{
+	//初期化
+	m_pGoal = nullptr;
+	m_Map = nullptr;
+	pPlayer = nullptr;
+	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			//出現座標
+	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			//出現した際の角度
+	bEnd = false;									//終了フラグ
+	bFlag = false;									//生成フラグ
+	nNumber = 0;									//現在設定するブロックのタイプ
+}
+
+//=============================================================================
+//終了
+//=============================================================================
+void CEditor::Uninit()
+{
+	if (m_pGoal != nullptr)
+	{
+		m_pGoal = nullptr;
+	}
+	if (m_Map != nullptr)
+	{
+		m_Map = nullptr;
+	}
+	if (pPlayer != nullptr)
+	{
+		pPlayer = nullptr;
+	}
+}
+
+//=============================================================================
+//生成
+//=============================================================================
+CEditor * CEditor::Create()
+{
+	CEditor *pEditor = new CEditor;
+
+	pEditor->Init();
+	pEditor->Load();
+
+	return pEditor;
 }
 
 //=============================================================================
@@ -34,7 +89,26 @@ CEditor::~CEditor()
 //=============================================================================
 void CEditor::Update()
 {
-
+	if (CInputKeyboard::Trigger(DIK_P) == true)
+	{
+		if (m_pGoal == nullptr)
+		{
+			pPlayer = CGame::GetPlayer(0);
+			D3DXVECTOR3 pos = pPlayer->GetPosition();
+			m_pGoal = CGoal::Create(pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+		}
+		else
+		{
+			pPlayer = CGame::GetPlayer(0);
+			D3DXVECTOR3 pos = pPlayer->GetPosition();
+			m_pGoal->SetPosition(pos);
+		}
+	}
+	if (CInputKeyboard::Trigger(DIK_O) == true)
+	{
+		m_pGoal->GetPosition();
+	}
+	//CDebugProc::Print("現在置くブロック\n");
 }
 
 //=============================================================================
@@ -88,21 +162,33 @@ void CEditor::Load()
 					}
 					else if (strncmp(strLine, "End", 3) == 0)
 					{
-						switch (m_type)
-						{//タイプによって分ける
-						case OBJ_GOAL:
-							CGoal::Create(D3DXVECTOR3(m_pos), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-							break;
-						case OBJ_GIMMICK:
-							break;
-						case OBJ_MAP:
-							CMeshField::Create();
-							break;
-						default:
+						if (bFlag == true)
+						{
+							switch (m_type)
+							{//タイプによって分ける
+							case OBJ_GOAL:
+								if (m_pGoal == nullptr)
+								{
+									m_pGoal = CGoal::Create(D3DXVECTOR3(m_pos), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+								}
+								break;
+
+							case OBJ_GIMMICK:
+								break;
+
+							case OBJ_MAP:
+								if (m_pGoal == nullptr)
+								{
+									m_Map = CMeshField::Create();
+								}
+								break;
+
+							default:
+								break;
+							}
+							bEnd = true;
 							break;
 						}
-						bEnd = true;
-						break;
 					}
 				}
 			}
@@ -110,3 +196,5 @@ void CEditor::Load()
 		fclose(fp);
 	}
 }
+
+

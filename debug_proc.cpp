@@ -57,7 +57,8 @@ HRESULT CDebugProc::Init()
 //===========================
 void CDebugProc::Uninit()
 {
-
+	m_pFont = nullptr;
+	m_Str[0] = NULL;
 }
 
 //===========================
@@ -116,4 +117,7 @@ void CDebugProc::Draw()
 	{
 		m_pFont->DrawText(NULL, str, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
 	}
+
+	//テキストリセット
+	m_Str[0] = NULL;
 }

@@ -23,6 +23,7 @@ class CMeshField;	//メッシュフィールド
 class CCameraPlayer;//プレイヤーカメラ
 class CMessage;		//メッセージ
 class CEditor;		//エディタ
+class CDebugProc;	//デバッグ用文字
 
 //--------------------
 // マクロ定義
@@ -110,6 +111,7 @@ private:
 	static CCameraPlayer*	m_pCameraPlayer[nDefaultMaxCamera];	//プレイヤーカメラクラス
 	static CMessage*	m_pMessage;
 	static CEditor*		m_pEditor;
+	static CDebugProc*	m_pProc;
 
 	static bool m_bFinish;		//終了フラグ
 	static int  m_player;		//プレイヤーの数
