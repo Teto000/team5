@@ -70,6 +70,8 @@ void CDebugProc::Print(const char* pFormat, ...)
 
 	va_start(ap, pFormat);	//可変引数構造体の初期化
 
+	m_Str += "\n";
+
 	for (int i = 0; i < (signed)strlen(pFormat); i++)
 	{//文字列の数だけ回す
 		if (pFormat[i] == '%')
@@ -119,5 +121,5 @@ void CDebugProc::Draw()
 	}
 
 	//テキストリセット
-	m_Str[0] = NULL;
+	m_Str = {};
 }

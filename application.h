@@ -26,6 +26,7 @@ class CInput;		//インプット
 class CTexture;		//テクスチャ
 class CSound;		//サウンド
 class CLight;		//ライト
+class CDebugProc;	//デバッグ用文字
 
 //================================
 // アプリケーションクラスの定義
@@ -97,6 +98,7 @@ private:
 	static CTexture*	m_pTexture;						//テクスチャクラス
 	static CSound*		m_pSound;						//サウンドクラス
 	static CLight*		m_pLight;						//ライトクラス
+	static CDebugProc*	m_pDebugproc;			//デバッグ用文字
 };
 
 #endif // !_APPLICATION_H_

@@ -148,6 +148,9 @@ void CGame::Uninit()
 //===========================
 void CGame::Update()
 {
+	//エディタの更新
+	m_pEditor->Update();
+
 	//-----------------------------
 	// カメラの更新
 	//-----------------------------
@@ -176,9 +179,6 @@ void CGame::Update()
 	{//Enterで次の画面に遷移する
 		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
 	}
-
-	//エディタの更新
-	m_pEditor->Update();
 }
 
 //===========================
