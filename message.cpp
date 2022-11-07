@@ -94,13 +94,25 @@ void CMessage::Update()
 		}
 	}
 
+	//-------------------------
+	// 文字の切り替え処理
+	//-------------------------
+	if (m_message == MESSAGE_START && CGame::GetFinish())
+	{//スタート文字が出た後 and 終了フラグが立っているなら
+		//メッセージの切り替え
+		ChangeMessage();
+	}
+
 	//色の設定
 	CObject2D::SetColor(m_col);
 
 	if (m_col.a <= 0.0f)
 	{//完全に透明になったら
-		//メッセージの切り替え
-		ChangeMessage();
+		if (m_message != MESSAGE_START)
+		{//スタート以外の文字なら
+			//メッセージの切り替え
+			ChangeMessage();
+		}
 
 		//カウントのリセット
 		m_nCntTime = 0;
