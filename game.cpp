@@ -249,9 +249,9 @@ void CGame::FinishGame()
 
 		LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
 
-	 //-----------------------
-	 // ビューポートを拡大
-	 //-----------------------
+		//-----------------------
+		// ビューポートを拡大
+		//-----------------------
 		switch (nFirstNumber)
 		{
 			//-----------------------
