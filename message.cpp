@@ -1,6 +1,6 @@
 //===================================================
 //
-// ポリゴン2Dの処理
+// メッセージの処理
 // Author : Sato Teruto
 //
 //===================================================
@@ -12,6 +12,7 @@
 #include "renderer.h"
 #include "input.h"
 #include "input_keybord.h"
+#include "Goal.h"
 
 //=======================
 // コンストラクタ
@@ -70,15 +71,24 @@ void CMessage::Update()
 {
 	CObject2D::Update();
 
+	//-------------------------
+	// 文字の切り替え処理
+	//-------------------------
+	if (m_message == MESSAGE_START && CGame::GetFinish())
+	{//スタート文字が出た後 and 終了フラグが立っているなら
+	 //メッセージの切り替え
+		ChangeMessage();
+	}
+
 	//テクスチャの設定
 	SetTexture();
 
 	//時間カウント
 	m_nCntTime++;
 
-	//-------------------
+	//-------------------------
 	// 透明にする
-	//-------------------
+	//-------------------------
 	if (m_message == MESSAGE_START || m_message == MESSAGE_FINISH)
 	{//スタートかフィニッシュなら
 		if (m_nCntTime >= 60)
@@ -86,8 +96,9 @@ void CMessage::Update()
 			m_col.a -= 0.02f;	//透明度の減少
 		}
 	}
-	else
-	{//それ以外なら
+	else if (m_message != MESSAGE_WINNER_ONE && m_message != MESSAGE_WINNER_TWO
+		&& m_message != MESSAGE_WINNER_THREE && m_message != MESSAGE_WINNER_FOUR)
+	{//勝者の文字じゃないなら
 		if (m_nCntTime >= 30)
 		{//カウントが30以上なら
 			m_col.a -= 0.02f;	//透明度の減少
@@ -99,11 +110,15 @@ void CMessage::Update()
 
 	if (m_col.a <= 0.0f)
 	{//完全に透明になったら
-		//メッセージの切り替え
-		ChangeMessage();
+		if (m_message != MESSAGE_START)
+		{//スタート以外の文字なら
+			//メッセージの切り替え
+			ChangeMessage();
+		}
 
 		//カウントのリセット
 		m_nCntTime = 0;
+
 		return;
 	}
 }
@@ -168,6 +183,22 @@ void CMessage::SetTexture()
 		CObject2D::SetTexture(CTexture::TEXTURE_FINISH);
 		break;
 
+	case MESSAGE_WINNER_ONE:
+		CObject2D::SetTexture(CTexture::TEXTURE_COUNT_ONE);
+		break;
+
+	case MESSAGE_WINNER_TWO:
+		CObject2D::SetTexture(CTexture::TEXTURE_COUNT_TWO);
+		break;
+
+	case MESSAGE_WINNER_THREE:
+		CObject2D::SetTexture(CTexture::TEXTURE_COUNT_THREE);
+		break;
+
+	case MESSAGE_WINNER_FOUR:
+		CObject2D::SetTexture(CTexture::TEXTURE_WINNER_FOUR);
+		break;
+
 	default:
 		break;
 	}
@@ -197,8 +228,37 @@ void CMessage::ChangeMessage()
 		break;
 
 	case MESSAGE_FINISH:
-		//メッセージの消去
-		Uninit();
+		//勝利したプレイヤーの番号を取得
+		switch (CGoal::GetWinner())
+		{
+		case 0:
+			m_message = MESSAGE_WINNER_ONE;
+			break;
+
+		case 1:
+			m_message = MESSAGE_WINNER_TWO;
+			break;
+
+		case 2:
+			m_message = MESSAGE_WINNER_THREE;
+			break;
+
+		case 3:
+			m_message = MESSAGE_WINNER_FOUR;
+			break;
+
+		default:
+			break;
+		}
+
+		//位置の変更
+		m_pos.y = 550.0f;
+		CObject2D::SetPosition(m_pos);
+
+		//サイズの変更
+		m_fWidth = 700.0f;
+		m_fHeight = 400.0f;
+		CObject2D::SetSize(m_fWidth, m_fHeight);
 		break;
 
 	default:
