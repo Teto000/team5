@@ -45,6 +45,7 @@ HRESULT CMessage::Init(D3DXVECTOR3 pos)
 	m_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	m_fWidth = 500.0f;
 	m_fHeight = 500.0f;
+	m_message = MESSAGE_COUNT_THREE;
 
 	CObject2D::Init(m_pos);
 
