@@ -191,10 +191,6 @@ void CCamera::AddViewSize(DWORD X, DWORD Y, int fWidth, int fHeight)
 			m_viewport.X += X;
 		}
 	}
-	else
-	{
-		int a = 0;
-	}
 
 	//-------------------
 	// çÇÇ≥ÇÃâ¡éZ
@@ -207,10 +203,6 @@ void CCamera::AddViewSize(DWORD X, DWORD Y, int fWidth, int fHeight)
 		{
 			m_viewport.Y += Y;
 		}
-	}
-	else
-	{
-		int a = 0;
 	}
 }
 

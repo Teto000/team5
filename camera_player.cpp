@@ -15,6 +15,7 @@
 #include "application.h"
 #include "game.h"
 #include "player.h"
+#include "Goal.h"
 
 //==================================================
 // コンストラクタ
@@ -61,6 +62,21 @@ void CCameraPlayer::Update(void)
 {
 	//カメラの更新
 	CCamera::Update();
+
+	//------------------------
+	// ゲーム終了時の処理
+	//------------------------
+	if (CGame::GetFinish())
+	{//終了フラグが立っているなら
+		if (m_nNumPlayer == CGoal::GetWinner())
+		{//対応するプレイヤー番号が勝者と一緒なら
+			//回転させる
+			m_rot.y -= fTurnSpeed / 16;
+			m_posR.x = m_posV.x + POLOR_X;
+			m_posR.y = m_posV.y + POLOR_Y;
+			m_posR.z = m_posV.z + POLOR_Z;
+		}
+	}
 
 	//------------------------
 	// プレイヤーごとの処理
