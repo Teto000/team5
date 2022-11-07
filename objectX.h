@@ -18,7 +18,6 @@
 class CObjectX : public CObject
 {
 public:
-	CObjectX();
 	explicit CObjectX(int nPriority);	//コンストラクタ
 	virtual ~CObjectX() override;		//デストラクタ
 

@@ -21,6 +21,8 @@
 CPlayer*	CEditor::pPlayer = nullptr;
 CGoal*		CEditor::m_pGoal = nullptr;			//ゴール
 CMeshField*	CEditor::m_Map = nullptr;			//マップ
+CObject*	CEditor::m_SelectObj = nullptr;		//選択中のオブジェクト
+
 //=============================================================================
 // コンストラクタ
 //=============================================================================
@@ -47,9 +49,9 @@ void CEditor::Init()
 	pPlayer = nullptr;
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			//出現座標
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			//出現した際の角度
-	bEnd = false;									//終了フラグ
-	bFlag = false;									//生成フラグ
-	nNumber = 0;									//現在設定するブロックのタイプ
+	m_bEnd = false;									//終了フラグ
+	m_bFlag = false;								//生成フラグ
+	m_nNumber = 0;									//現在設定するブロックのタイプ
 }
 
 //=============================================================================
@@ -69,6 +71,9 @@ void CEditor::Uninit()
 	{
 		pPlayer = nullptr;
 	}
+	m_nNumber = NULL;
+	m_bEnd = NULL;			//終了フラグ
+	m_bFlag = NULL;			//生成フラグ
 }
 
 //=============================================================================
@@ -78,26 +83,69 @@ void CEditor::Update()
 {
 	if (CInputKeyboard::Trigger(DIK_P) == true)
 	{
-		if (m_pGoal == nullptr)
+		pPlayer = CGame::GetPlayer(0);
+		D3DXVECTOR3 pos = pPlayer->GetPosition();
+
+		switch (m_nNumber)
 		{
-			pPlayer = CGame::GetPlayer(0);
-			D3DXVECTOR3 pos = pPlayer->GetPosition();
-			m_pGoal = CGoal::Create(pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-		}
-		else
-		{
-			pPlayer = CGame::GetPlayer(0);
-			D3DXVECTOR3 pos = pPlayer->GetPosition();
-			m_pGoal->SetPosition(pos);
+		case OBJ_GOAL:
+			if (m_pGoal == nullptr)
+			{//ゴールの位置を現在のプレイヤーの位置に移動
+				m_pGoal = CGoal::Create(pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+			}
+			else
+			{
+				m_pGoal->SetPosition(pos);
+			}
+			break;
+
+		case OBJ_MAP:
+			break;
+
+		case OBJ_GIMMICK:
+			break;
+		default:
+			break;
+
 		}
 	}
 
 	if (CInputKeyboard::Trigger(DIK_O) == true)
-	{
+	{//O(オー)キーを押したとき
 		SaveObject();
 	}
 
-	//CDebugProc::Print("現在置くブロック\n");
+	if (CInputKeyboard::Trigger(DIK_0) == true)
+	{//0(ゼロ)キーを押したとき
+		if (m_nNumber++ >= OBJ_MAX-1)
+		{
+			m_nNumber = 0;
+		}
+	}
+
+	switch (m_nNumber)
+	{
+	case OBJ_GOAL:
+		m_SelectObj = m_pGoal;
+		break;
+
+	case OBJ_MAP:
+		//m_SelectObj = m_Map;
+		break;
+
+	case OBJ_GIMMICK:
+		//m_SelectObj = m_Map;
+		break;
+	default:
+		break;
+
+	}
+
+	D3DXVECTOR3 Selectpos= m_SelectObj->GetPosition();
+
+	CDebugProc::Print("現在置くオブジェクト:%d 0キーで種類を変更", m_nNumber);
+	//CDebugProc::Print("現在のオブジェクトの座標:x:%f y:%f z:%f", Selectpos.x, Selectpos.y, Selectpos.z);
+
 }
 
 //=============================================================================
@@ -117,8 +165,8 @@ void CEditor::Load()
 			fgets(strLine, lenLine, fp);
 			if (strncmp(strLine, "Object", 6) == 0)	//六文字比較して一致するかどうか調べる
 			{
-				bEnd = false;
-				while (bEnd == false)
+				m_bEnd = false;
+				while (m_bEnd == false)
 				{
 					fscanf(fp, "%s", &strLine[0]);	//読み込んだ文字ごとに設定する
 
@@ -128,17 +176,17 @@ void CEditor::Load()
 					}
 					else if (strncmp(strLine, "Goal", 4) == 0)
 					{
-						bFlag = true;
+						m_bFlag = true;
 						m_type = OBJ_GOAL;
 					}
 					else if (strncmp(strLine, "Map", 3) == 0)
 					{
-						bFlag = true;
+						m_bFlag = true;
 						m_type = OBJ_MAP;
 					}
 					else if (strncmp(strLine, "Gimmick", 7) == 0)
 					{
-						bFlag = true;
+						m_bFlag = true;
 						m_type = OBJ_GIMMICK;
 					}
 					else if (strncmp(strLine, "Pos", 3) == 0)
@@ -151,7 +199,7 @@ void CEditor::Load()
 					}
 					else if (strncmp(strLine, "End", 3) == 0)
 					{
-						if (bFlag == true)
+						if (m_bFlag == true)
 						{
 							switch (m_type)
 							{//タイプによって分ける
@@ -175,7 +223,7 @@ void CEditor::Load()
 							default:
 								break;
 							}
-							bEnd = true;
+							m_bEnd = true;
 							break;
 						}
 					}
@@ -185,7 +233,6 @@ void CEditor::Load()
 		fclose(fp);
 	}
 }
-
 
 //=============================================================================
 //生成

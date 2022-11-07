@@ -182,7 +182,7 @@ void CCamera::AddViewSize(DWORD X, DWORD Y, int fWidth, int fHeight)
 	//-------------------
 	// 幅の加算
 	//-------------------
-	if (m_viewport.Width < SCREEN_WIDTH)
+	if (m_viewport.Width < SCREEN_WIDTH - 1.0f)
 	{//幅がスクリーン内なら
 		m_viewport.Width += fWidth;
 
@@ -195,7 +195,7 @@ void CCamera::AddViewSize(DWORD X, DWORD Y, int fWidth, int fHeight)
 	//-------------------
 	// 高さの加算
 	//-------------------
-	if (m_viewport.Height < SCREEN_HEIGHT)
+	if (m_viewport.Height < SCREEN_HEIGHT - 1.0f)
 	{//幅がスクリーン内なら
 		m_viewport.Height += fHeight;
 

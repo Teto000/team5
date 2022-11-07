@@ -26,6 +26,7 @@
 #include "message.h"
 #include "Editor.h"
 #include "debug_proc.h"
+#include "Map.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -38,7 +39,7 @@ CCameraPlayer*	CGame::m_pCameraPlayer[nDefaultMaxCamera] = {};		//カメラ
 CMessage*	CGame::m_pMessage;	//メッセージ
 CEditor*	CGame::m_pEditor = nullptr;
 CDebugProc*	CGame::m_pProc = nullptr;
-
+CMap*		CGame::m_pMap = nullptr;
 
 int	 CGame::m_nEnumCamera = 0;	//カメラの列挙型の数
 int	 CGame::m_player = 0;		//プレイヤーの数
@@ -67,6 +68,9 @@ CGame::~CGame()
 //===========================
 HRESULT CGame::Init()
 {
+	//変数の初期化
+	m_bFinish = false;
+
 	//カメラの生成
 	CreateCamera((CGame::NUMCAMERA)m_player);
 
@@ -91,7 +95,8 @@ HRESULT CGame::Init()
 	/*SetPlayerPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));*/
 
 	//メッシュフィールドの生成
-	pMeshField = CMeshField::Create();
+	//pMeshField = CMeshField::Create();
+	m_pMap = CMap::Create(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
 
 	//タイマーの生成
 	CTime *pTime = CTime::Create(D3DXVECTOR3(20.0f, 20.0f, 0.0f));
@@ -139,8 +144,8 @@ void CGame::Uninit()
 	delete m_pEditor;
 	m_pEditor = nullptr;
 
-	////デバッグ用文字の削除
-	//m_pProc->Uninit();
+	//デバッグ用文字の削除
+	m_pProc->Uninit();
 }
 
 //===========================
@@ -148,6 +153,9 @@ void CGame::Uninit()
 //===========================
 void CGame::Update()
 {
+	//エディタの更新
+	m_pEditor->Update();
+
 	//-----------------------------
 	// カメラの更新
 	//-----------------------------
@@ -176,9 +184,6 @@ void CGame::Update()
 	{//Enterで次の画面に遷移する
 		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
 	}
-
-	//エディタの更新
-	m_pEditor->Update();
 }
 
 //===========================
@@ -249,9 +254,9 @@ void CGame::FinishGame()
 
 		LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
 
-	 //-----------------------
-	 // ビューポートを拡大
-	 //-----------------------
+		//-----------------------
+		// ビューポートを拡大
+		//-----------------------
 		switch (nFirstNumber)
 		{
 			//-----------------------

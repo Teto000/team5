@@ -17,10 +17,6 @@
 //========================
 // コンストラクタ
 //========================
-CObjectX::CObjectX() : CObjectX(0)
-{
-}
-
 CObjectX::CObjectX(int nPriority) : CObject(nPriority)
 {
 	//モデル

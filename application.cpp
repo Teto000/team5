@@ -26,6 +26,7 @@
 #include "player.h"
 #include "Goal.h"
 #include "select_player.h"
+#include "debug_proc.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -38,11 +39,13 @@ CTutorial*			CApplication::m_pTutorial = nullptr;	//チュートリアルクラス
 CFade*				CApplication::m_pFade = nullptr;		//フェードクラス
 CApplication::MODE	CApplication::m_mode = MODE_MAX;		//ゲームモード
 
-CRenderer*	CApplication::m_pRenderer = nullptr;			//レンダラー
-CInput*		CApplication::m_pInput = nullptr;				//インプット
-CTexture*	CApplication::m_pTexture = nullptr;				//テクスチャ
-CSound*		CApplication::m_pSound = nullptr;				//サウンド
-CLight*		CApplication::m_pLight = nullptr;				//ライト
+CRenderer*			CApplication::m_pRenderer = nullptr;	//レンダラー
+CInput*				CApplication::m_pInput = nullptr;		//インプット
+CTexture*			CApplication::m_pTexture = nullptr;		//テクスチャ
+CSound*				CApplication::m_pSound = nullptr;		//サウンド
+CLight*				CApplication::m_pLight = nullptr;		//ライト
+CDebugProc*			CApplication::m_pDebugproc = nullptr;	//デバッグ用文字
+
 
 //===========================
 // コンストラクタ
@@ -103,6 +106,12 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	m_pFade = new CFade;
 	SetMode(MODE_TITLE);
 	m_pFade->Init(MODE_TITLE);
+
+	//----------------------------
+	// デバッグ用文字の生成
+	//----------------------------
+	m_pDebugproc->Init();
+
 
 	return S_OK;
 }
@@ -186,6 +195,14 @@ void CApplication::Uninit()
 		delete m_pFade;
 		m_pFade = nullptr;
 	}
+
+	//デバッグ用文字の終了
+	if (m_pDebugproc != nullptr)
+	{
+		m_pDebugproc->Uninit();
+		delete m_pDebugproc;
+		m_pDebugproc = nullptr;
+	}
 }
 
 //===========================
@@ -231,11 +248,15 @@ void CApplication::Update()
 //===========================
 void CApplication::Draw()
 {
+
 	//レンダリングの描画
 	m_pRenderer->Draw();
 
 	//フェードの描画
 	m_pFade->Draw();
+
+	//デバッグ用文字の描画
+	m_pDebugproc->Draw();
 }
 
 //===========================
