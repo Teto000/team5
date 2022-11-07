@@ -154,8 +154,8 @@ void CPlayer::Update()
 	//-------------------
 	//“–‚½‚è”»’è
 	//-------------------
-	CMeshField *m_pMesh = CGame::GetMesh();
-	m_pMesh->Collision(&m_pos);
+	/*CMeshField *m_pMesh = CGame::GetMesh();
+	m_pMesh->Collision(&m_pos);*/
 }
 
 //========================

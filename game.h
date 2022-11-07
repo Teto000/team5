@@ -24,6 +24,7 @@ class CCameraPlayer;//プレイヤーカメラ
 class CMessage;		//メッセージ
 class CEditor;		//エディタ
 class CDebugProc;	//デバッグ用文字
+class CMap;			//マップ
 
 //--------------------
 // マクロ定義
@@ -112,6 +113,7 @@ private:
 	static CMessage*	m_pMessage;
 	static CEditor*		m_pEditor;
 	static CDebugProc*	m_pProc;
+	static CMap*		m_pMap;
 
 	static bool m_bFinish;		//終了フラグ
 	static int  m_player;		//プレイヤーの数
