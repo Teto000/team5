@@ -149,6 +149,9 @@
     <ClCompile Include="time.cpp">
       <Filter>Main\Object\Object2D</Filter>
     </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Main\Object\ObjectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h">
@@ -252,6 +255,9 @@
     </ClInclude>
     <ClInclude Include="time.h">
       <Filter>Main\Object\Object2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Main\Object\ObjectX</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
