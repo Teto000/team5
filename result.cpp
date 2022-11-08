@@ -51,7 +51,8 @@ HRESULT CResult::Init()
 	m_pObject2D->Init(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
 	m_pObject2D->SetTexture(CTexture::TEXTURE_RANKING);
 	m_pObject2D->SetSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-
+	//サウンド生成
+	CSound::PlaySound(CSound::SOUND_LABEL_RESULT2);
 	return S_OK;
 }
 
@@ -60,6 +61,8 @@ HRESULT CResult::Init()
 //===========================
 void CResult::Uninit()
 {
+	//サウンド停止
+	CSound::StopSound();
 	//---------------------
 	// カメラの終了
 	//---------------------

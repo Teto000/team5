@@ -108,6 +108,9 @@ HRESULT CGame::Init()
 	m_pMessage = CMessage::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f),
 									CMessage::MESSAGE_COUNT_THREE);
 
+	//サウンド生成
+	CSound::PlaySound(CSound::SOUND_LABEL_GAME1);
+
 	////デバッグ用フォントの生成
 	//m_pProc =new CDebugProc;
 	//m_pProc->Init();
@@ -120,6 +123,9 @@ HRESULT CGame::Init()
 //===========================
 void CGame::Uninit()
 {
+	//サウンド停止
+	CSound::StopSound();
+
 	//-----------------------------
 	// カメラの終了
 	//-----------------------------
