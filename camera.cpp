@@ -56,6 +56,7 @@ HRESULT CCamera::Init(void)
 	// 初期値の設定
 	//---------------------------------
 	m_posV = D3DXVECTOR3(0.0f, 200.0f, -400.0f);	//視点
+	m_posR = D3DXVECTOR3(0.0f, 100.0f, 0.0f);		//注視点
 	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);			//上方向
 	m_viewport.MinZ = 0.0f;
 	m_viewport.MaxZ = 1.0f;
@@ -144,7 +145,7 @@ void CCamera::SetCamera(LPDIRECT3DDEVICE9 pDevice)
 							   D3DXToRadian(45.0f),
 							   (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT,
 							   10.0f,
-							   1000.0f);
+							   10000.0f);
 
 	//プロジェクションマトリックスの設定
 	pDevice->SetTransform(D3DTS_PROJECTION, &m_mtxProjection);
@@ -220,7 +221,7 @@ void CCamera::SetAspect(LPDIRECT3DDEVICE9 pDevice, float fov, float fWidth, floa
 								D3DXToRadian(fov),
 								fWidth / fHeight,
 								10.0f,
-								1000.0f);
+								10000.0f);
 
 	//プロジェクションマトリックスの設定
 	pDevice->SetTransform(D3DTS_PROJECTION, &m_mtxProjection);
