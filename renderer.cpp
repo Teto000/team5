@@ -24,6 +24,7 @@
 #include "Goal.h"
 #include "title.h"
 #include "result.h"
+#include "motion_parts.h"
 
 //-----------------------
 // 静的メンバ変数宣言
@@ -263,9 +264,11 @@ void CRenderer::Draw()
 		// Direct3Dによる描画の開始
 		if (SUCCEEDED(m_pD3DDevice->BeginScene()))
 		{
+			CMotionParts::ALLDraw();
 			//オブジェクトの描画
 			CObject::DrawAll();
 
+			
 #ifdef _DEBUG
 			// FPS表示
 			DrawFPS();

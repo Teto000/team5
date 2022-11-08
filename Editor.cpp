@@ -216,7 +216,7 @@ void CEditor::Load()
 							case OBJ_MAP:
 								if (m_pGoal == nullptr)
 								{
-									m_Map = CMeshField::Create();
+									//m_Map = CMeshField::Create();
 								}
 								break;
 

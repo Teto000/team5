@@ -1,51 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="リソース ファイル">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Main">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Main\Application">
-      <UniqueIdentifier>{b494ee58-c02c-4844-a21c-89a6c7ec4724}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Main\Application\Scene">
-      <UniqueIdentifier>{57dfd659-9714-45b8-8494-ee606ac9f018}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Main\Application\Scene\SelectPlayer">
-      <UniqueIdentifier>{bb1b0f9b-e363-4271-ae57-48ec7c513b4b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Main\Application\Input">
-      <UniqueIdentifier>{451ba86c-1d68-41e7-9dbd-f017c6155cab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Main\Application\Camera">
-      <UniqueIdentifier>{c4ce57cd-6098-4595-a788-c62b966c5d18}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Main\Object">
-      <UniqueIdentifier>{3838a7b7-1c17-47ed-96bf-d5ba85021346}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Main\Object\Object2D">
-      <UniqueIdentifier>{e12c788f-2069-45f7-bcac-b96db0d8976a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Main\Object\Object3D">
-      <UniqueIdentifier>{cfe76b93-09b4-4d81-8c09-785eec0c951b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Main\Object\ObjectX">
-      <UniqueIdentifier>{6efa2a57-ed82-4675-a3c3-7267c7db9c47}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Main\Object\Billboard">
-      <UniqueIdentifier>{96d49455-d266-495c-872f-ff51b40a7fb6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Main\Object\Mesh">
-      <UniqueIdentifier>{77ef4761-1324-42c7-adec-1ca091daa026}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Main</Filter>
+    <ClCompile Include="3dobject.cpp">
+      <Filter>Main\Object\Object3D</Filter>
     </ClCompile>
     <ClCompile Include="application.cpp">
       <Filter>Main\Application</Filter>
@@ -53,11 +10,29 @@
     <ClCompile Include="billboard.cpp">
       <Filter>Main\Object\Billboard</Filter>
     </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>Main\Application\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="camera_player.cpp">
+      <Filter>Main\Application\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="camera_title.cpp">
+      <Filter>Main\Application\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="debug_proc.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
     <ClCompile Include="fade.cpp">
-      <Filter>Main\Application\Scene</Filter>
+      <Filter>Main\Application\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="game.cpp">
-      <Filter>Main\Application\Scene</Filter>
+      <Filter>Main\Application\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Goal.cpp">
+      <Filter>Main\Object\ObjectX</Filter>
     </ClCompile>
     <ClCompile Include="input.cpp">
       <Filter>Main\Application\Input</Filter>
@@ -71,8 +46,32 @@
     <ClCompile Include="light.cpp">
       <Filter>Main\Application</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Main\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh.cpp">
+      <Filter>Main\Object\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="meshfield.cpp">
+      <Filter>Main\Object\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="message.cpp">
+      <Filter>Main\Object\Object2D</Filter>
+    </ClCompile>
     <ClCompile Include="model.cpp">
       <Filter>Main\Object\ObjectX</Filter>
+    </ClCompile>
+    <ClCompile Include="motion_parts.cpp">
+      <Filter>Main\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="num_block.cpp">
+      <Filter>Main\Object\Object2D\Number</Filter>
+    </ClCompile>
+    <ClCompile Include="number.cpp">
+      <Filter>Main\Object\Object2D\Number</Filter>
     </ClCompile>
     <ClCompile Include="object.cpp">
       <Filter>Main\Object</Filter>
@@ -86,11 +85,20 @@
     <ClCompile Include="objectX.cpp">
       <Filter>Main\Object\ObjectX</Filter>
     </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Main\Object\ObjectX</Filter>
+    </ClCompile>
+    <ClCompile Include="read.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
     <ClCompile Include="renderer.cpp">
       <Filter>Main\Application</Filter>
     </ClCompile>
     <ClCompile Include="result.cpp">
-      <Filter>Main\Application\Scene</Filter>
+      <Filter>Main\Application\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="select_player.cpp">
+      <Filter>Main\Application\Scenes\SelectPlayer</Filter>
     </ClCompile>
     <ClCompile Include="sound.cpp">
       <Filter>Main\Application</Filter>
@@ -98,73 +106,52 @@
     <ClCompile Include="texture.cpp">
       <Filter>Main\Application</Filter>
     </ClCompile>
+    <ClCompile Include="time.cpp">
+      <Filter>Main\Object\Object2D\Number</Filter>
+    </ClCompile>
     <ClCompile Include="title.cpp">
-      <Filter>Main\Application\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>Main\Object\ObjectX</Filter>
-    </ClCompile>
-    <ClCompile Include="debug_proc.cpp">
-      <Filter>Main\Application</Filter>
-    </ClCompile>
-    <ClCompile Include="meshfield.cpp">
-      <Filter>Main\Object\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="number.cpp">
-      <Filter>Main\Application</Filter>
-    </ClCompile>
-    <ClCompile Include="Goal.cpp">
-      <Filter>Main\Object\ObjectX</Filter>
-    </ClCompile>
-    <ClCompile Include="mesh.cpp">
-      <Filter>Main\Object\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Goal.cpp">
-      <Filter>Main\Object\ObjectX</Filter>
+      <Filter>Main\Application\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="UI_PSelect.cpp">
-      <Filter>Main\Application\Scene\SelectPlayer</Filter>
-    </ClCompile>
-    <ClCompile Include="select_player.cpp">
-      <Filter>Main\Application\Scene\SelectPlayer</Filter>
-    </ClCompile>
-    <ClCompile Include="message.cpp">
-      <Filter>Main\Object\Object2D</Filter>
-    </ClCompile>
-    <ClCompile Include="camera.cpp">
-      <Filter>Main\Application\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="camera_player.cpp">
-      <Filter>Main\Application\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="camera_title.cpp">
-      <Filter>Main\Application\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.cpp">
-      <Filter>Main</Filter>
+      <Filter>Main\Application\Scenes\SelectPlayer</Filter>
     </ClCompile>
     <ClCompile Include="Titlelogo.cpp">
       <Filter>Main\Object\Object2D</Filter>
     </ClCompile>
-    <ClCompile Include="time.cpp">
-      <Filter>Main\Object\Object2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Main\Object\ObjectX</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="3dobject.h">
+      <Filter>Main\Object\Object3D</Filter>
+    </ClInclude>
     <ClInclude Include="application.h">
       <Filter>Main\Application</Filter>
     </ClInclude>
     <ClInclude Include="billboard.h">
       <Filter>Main\Object\Billboard</Filter>
     </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>Main\Application\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="camera_player.h">
+      <Filter>Main\Application\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="camera_title.h">
+      <Filter>Main\Application\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="debug_proc.h">
+      <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>Main\Application</Filter>
+    </ClInclude>
     <ClInclude Include="fade.h">
-      <Filter>Main\Application\Scene</Filter>
+      <Filter>Main\Application\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="game.h">
-      <Filter>Main\Application\Scene</Filter>
+      <Filter>Main\Application\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Goal.h">
+      <Filter>Main\Object\ObjectX</Filter>
     </ClInclude>
     <ClInclude Include="input.h">
       <Filter>Main\Application\Input</Filter>
@@ -181,11 +168,29 @@
     <ClInclude Include="main.h">
       <Filter>Main</Filter>
     </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Main\Object</Filter>
+    </ClInclude>
     <ClInclude Include="mesh.h">
       <Filter>Main\Object\Mesh</Filter>
     </ClInclude>
+    <ClInclude Include="meshfield.h">
+      <Filter>Main\Object\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="message.h">
+      <Filter>Main\Object\Object2D</Filter>
+    </ClInclude>
     <ClInclude Include="model.h">
       <Filter>Main\Object\ObjectX</Filter>
+    </ClInclude>
+    <ClInclude Include="motion_parts.h">
+      <Filter>Main\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="num_block.h">
+      <Filter>Main\Object\Object2D\Number</Filter>
+    </ClInclude>
+    <ClInclude Include="number.h">
+      <Filter>Main\Object\Object2D\Number</Filter>
     </ClInclude>
     <ClInclude Include="object.h">
       <Filter>Main\Object</Filter>
@@ -199,11 +204,20 @@
     <ClInclude Include="objectX.h">
       <Filter>Main\Object\ObjectX</Filter>
     </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Main\Object\ObjectX</Filter>
+    </ClInclude>
+    <ClInclude Include="read.h">
+      <Filter>Main</Filter>
+    </ClInclude>
     <ClInclude Include="renderer.h">
       <Filter>Main\Application</Filter>
     </ClInclude>
     <ClInclude Include="result.h">
-      <Filter>Main\Application\Scene</Filter>
+      <Filter>Main\Application\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="select_player.h">
+      <Filter>Main\Application\Scenes\SelectPlayer</Filter>
     </ClInclude>
     <ClInclude Include="sound.h">
       <Filter>Main\Application</Filter>
@@ -211,53 +225,58 @@
     <ClInclude Include="texture.h">
       <Filter>Main\Application</Filter>
     </ClInclude>
+    <ClInclude Include="time.h">
+      <Filter>Main\Object\Object2D\Number</Filter>
+    </ClInclude>
     <ClInclude Include="title.h">
-      <Filter>Main\Application\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>Main\Object\ObjectX</Filter>
-    </ClInclude>
-    <ClInclude Include="debug_proc.h">
-      <Filter>Main\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="meshfield.h">
-      <Filter>Main\Object\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="number.h">
-      <Filter>Main\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="Goal.h">
-      <Filter>Main\Object\ObjectX</Filter>
+      <Filter>Main\Application\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="UI_PSelect.h">
-      <Filter>Main\Application\Scene\SelectPlayer</Filter>
-    </ClInclude>
-    <ClInclude Include="select_player.h">
-      <Filter>Main\Application\Scene\SelectPlayer</Filter>
-    </ClInclude>
-    <ClInclude Include="message.h">
-      <Filter>Main\Object\Object2D</Filter>
-    </ClInclude>
-    <ClInclude Include="camera.h">
-      <Filter>Main\Application\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="camera_player.h">
-      <Filter>Main\Application\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="camera_title.h">
-      <Filter>Main\Application\Camera</Filter>
+      <Filter>Main\Application\Scenes\SelectPlayer</Filter>
     </ClInclude>
     <ClInclude Include="Titlelogo.h">
       <Filter>Main\Object\Object2D</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.h">
-      <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="time.h">
-      <Filter>Main\Object\Object2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Main\Object\ObjectX</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Main">
+      <UniqueIdentifier>{fbabbb44-93bc-4dca-992c-5906547758f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Application">
+      <UniqueIdentifier>{83864a30-2d3c-465d-b8c5-5736b9cc0560}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object">
+      <UniqueIdentifier>{f3bf294b-3a5d-45ec-b3a5-1deb9c5b1751}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object\Object2D">
+      <UniqueIdentifier>{6825a86c-d26f-4a59-a59b-d2853ff0471b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object\Object3D">
+      <UniqueIdentifier>{11624b34-2fd7-42f3-a78f-bc2d3c55b4a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object\Billboard">
+      <UniqueIdentifier>{44cde651-5246-4ef3-901e-86dbc0805f4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object\Mesh">
+      <UniqueIdentifier>{9806c66b-a12b-4e81-9c63-5f3b1178d997}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Application\Input">
+      <UniqueIdentifier>{e1fe882b-3085-49fd-894a-fad67f1ad4e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Application\Camera">
+      <UniqueIdentifier>{2571131e-0b04-4cb2-b49b-9927867dfeaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Application\Scenes">
+      <UniqueIdentifier>{059fe093-3911-4648-817d-9367110bda41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object\ObjectX">
+      <UniqueIdentifier>{88ffc4ba-06f3-4f32-9ef1-5e833a36a82b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object\Object2D\Number">
+      <UniqueIdentifier>{d069d927-46dc-48d2-bb6f-aa1dd93726a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Application\Scenes\SelectPlayer">
+      <UniqueIdentifier>{7e491a82-c7df-420f-88eb-e546235a47b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
