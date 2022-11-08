@@ -34,7 +34,7 @@ CEditor::CEditor()
 	m_pPlayer = nullptr;
 	m_pGoal = nullptr;						//ゴール
 	m_pMap = nullptr;						//マップ
-	m_pSelectObj = nullptr;				//選択中のオブジェクト
+	m_pSelectObj = nullptr;					//選択中のオブジェクト
 	ZeroMemory(&m_pPlanet[0],sizeof(m_pPlanet[0])*MAX_PLANET);
 }
 
@@ -83,6 +83,14 @@ void CEditor::Uninit()
 	if (m_pPlayer != nullptr)
 	{
 		m_pPlayer = nullptr;
+	}
+
+	for (int i = 0; i < MAX_PLANET; i++)
+	{
+		if (m_pPlanet[i] != nullptr)
+		{
+			m_pPlanet[i] = nullptr;
+		}
 	}
 
 	m_nNumber = NULL;
@@ -167,6 +175,11 @@ void CEditor::Load()
 						m_bFlag = true;
 						m_type = OBJ_GIMMICK;
 					}
+					else if (strncmp(strLine, "Planet", 7) == 0)
+					{
+						m_bFlag = true;
+						m_type = OBJ_PLANET;
+					}
 					else if (strncmp(strLine, "Pos", 3) == 0)
 					{
 						fscanf(fp, "%f%f%f", &m_pos.x, &m_pos.y, &m_pos.z);
@@ -203,7 +216,6 @@ void CEditor::Load()
 								{
 									m_pPlanet[m_nNumpla] = CObjectX::Create(m_nPlaFileName[m_nNumpla], m_pos, m_rot);
 								}
-
 								break;
 
 							default:
@@ -287,14 +299,14 @@ void CEditor::Input()
 
 	if (CInputKeyboard::Trigger(DIK_9) == true)
 	{//9キーを押したとき
-		if (m_nNumpla++ >= MAX_PLANET)
+		if (m_nNumpla++ >= MAX_PLANET-1)
 		{
 			m_nNumpla = 0;
 		}
 	}
 	if (CInputKeyboard::Trigger(DIK_8) == true)
 	{//9キーを押したとき
-		if (m_nNumpla-- < 0)
+		if (m_nNumpla-- <= 0)
 		{
 			m_nNumpla = MAX_PLANET - 1;
 		}
