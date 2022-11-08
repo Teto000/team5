@@ -2,13 +2,13 @@ Metasequoia Document
 Format Text Ver 1.0
 
 Scene {
-	pos 0.0000 0.0000 3840.0000
+	pos 0.0000 0.0000 6144.0000
 	lookat 0.0000 0.0000 0.0000
-	head -5.2936
-	pich 0.3136
+	head -10.7036
+	pich 0.4636
 	bank 0.0000
 	ortho 0
-	zoom2 1.9531
+	zoom2 1.2207
 	amb 0.250 0.250 0.250
 	dirlights 1 {
 		light {
@@ -18,7 +18,7 @@ Scene {
 	}
 }
 Material 1 {
-	"mat1" col(1.000 1.000 1.000 1.000) dif(0.800) amb(0.500) emi(0.700) spc(0.500) power(50.00) tex("C:\Users\student\Desktop\惑星テクスチャ\sunmap.jpg")
+	"mat1" col(1.000 0.976 0.996 1.000) dif(0.750) amb(0.500) emi(0.730) spc(0.500) power(50.00) tex("..\..\..\data\TEXTURE\惑星テクスチャ\sunmap.jpg")
 }
 Object "obj1" {
 	visible 15

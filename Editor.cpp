@@ -16,18 +16,26 @@
 #include"debug_proc.h"
 #include"input_keybord.h"
 #include"input.h"
+#include"Map.h"
+#include"objectX.h"
+
 
 //静的メンバ変数
-CPlayer*	CEditor::pPlayer = nullptr;
-CGoal*		CEditor::m_pGoal = nullptr;			//ゴール
-CMeshField*	CEditor::m_Map = nullptr;			//マップ
-CObject*	CEditor::m_SelectObj = nullptr;		//選択中のオブジェクト
-
+//CPlayer*	CEditor::pPlayer = nullptr;
+//CGoal*		CEditor::m_pGoal = nullptr;						//ゴール
+//CMap*		CEditor::m_pMap = nullptr;						//マップ
+//CObject*	CEditor::m_pSelectObj = nullptr;				//選択中のオブジェクト
+//CModel*		CEditor::m_pPlanet[MAX_PLANET] = { nullptr };	//設置するオブジェクト
 //=============================================================================
 // コンストラクタ
 //=============================================================================
 CEditor::CEditor()
 {
+	m_pPlayer = nullptr;
+	m_pGoal = nullptr;						//ゴール
+	m_pMap = nullptr;						//マップ
+	m_pSelectObj = nullptr;				//選択中のオブジェクト
+	m_pPlanet[MAX_PLANET] = { nullptr };	//設置するオブジェクト
 }
 
 //=============================================================================
@@ -45,13 +53,16 @@ void CEditor::Init()
 {
 	//初期化
 	m_pGoal = nullptr;
-	m_Map = nullptr;
-	pPlayer = nullptr;
+	m_pMap = nullptr;
+	m_pPlayer = nullptr;
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			//出現座標
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			//出現した際の角度
 	m_bEnd = false;									//終了フラグ
 	m_bFlag = false;								//生成フラグ
 	m_nNumber = 0;									//現在設定するブロックのタイプ
+	m_nNumpla = 0;
+
+	SelectPlanet();
 }
 
 //=============================================================================
@@ -63,14 +74,17 @@ void CEditor::Uninit()
 	{
 		m_pGoal = nullptr;
 	}
-	if (m_Map != nullptr)
+
+	if (m_pMap != nullptr)
 	{
-		m_Map = nullptr;
+		m_pMap = nullptr;
 	}
-	if (pPlayer != nullptr)
+
+	if (m_pPlayer != nullptr)
 	{
-		pPlayer = nullptr;
+		m_pPlayer = nullptr;
 	}
+
 	m_nNumber = NULL;
 	m_bEnd = NULL;			//終了フラグ
 	m_bFlag = NULL;			//生成フラグ
@@ -81,69 +95,33 @@ void CEditor::Uninit()
 //=============================================================================
 void CEditor::Update()
 {
-	if (CInputKeyboard::Trigger(DIK_P) == true)
-	{
-		pPlayer = CGame::GetPlayer(0);
-		D3DXVECTOR3 pos = pPlayer->GetPosition();
-
-		switch (m_nNumber)
-		{
-		case OBJ_GOAL:
-			if (m_pGoal == nullptr)
-			{//ゴールの位置を現在のプレイヤーの位置に移動
-				m_pGoal = CGoal::Create(pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-			}
-			else
-			{
-				m_pGoal->SetPosition(pos);
-			}
-			break;
-
-		case OBJ_MAP:
-			break;
-
-		case OBJ_GIMMICK:
-			break;
-		default:
-			break;
-
-		}
-	}
-
-	if (CInputKeyboard::Trigger(DIK_O) == true)
-	{//O(オー)キーを押したとき
-		SaveObject();
-	}
-
-	if (CInputKeyboard::Trigger(DIK_0) == true)
-	{//0(ゼロ)キーを押したとき
-		if (m_nNumber++ >= OBJ_MAX-1)
-		{
-			m_nNumber = 0;
-		}
-	}
+	Input();
 
 	switch (m_nNumber)
 	{
 	case OBJ_GOAL:
-		m_SelectObj = m_pGoal;
+		m_pSelectObj = m_pGoal;
 		break;
 
 	case OBJ_MAP:
-		//m_SelectObj = m_Map;
+		//m_pSelectObj = m_pMap;
 		break;
 
 	case OBJ_GIMMICK:
-		//m_SelectObj = m_Map;
+		//m_pSelectObj = m_pMap;
 		break;
 	default:
 		break;
 
 	}
 
-	D3DXVECTOR3 Selectpos= m_SelectObj->GetPosition();
+	D3DXVECTOR3 Selectpos = m_pSelectObj->GetPosition();
 
-	CDebugProc::Print("現在置くオブジェクト:%d 0キーで種類を変更", m_nNumber);
+	CDebugProc::Print("現在置くオブジェクト:%d 0(ゼロ)キーで種類を変更", m_nNumber);
+	CDebugProc::Print("O(オー)キーでオブジェクトの座標ファイルに出力する");
+	CDebugProc::Print("現在設置する惑星の種類:%d 8/9で種類を変更", m_nNumpla);
+
+
 	//CDebugProc::Print("現在のオブジェクトの座標:x:%f y:%f z:%f", Selectpos.x, Selectpos.y, Selectpos.z);
 
 }
@@ -216,8 +194,16 @@ void CEditor::Load()
 							case OBJ_MAP:
 								if (m_pGoal == nullptr)
 								{
-									m_Map = CMeshField::Create();
+									m_pMap = CMap::Create(m_pos);
 								}
+								break;
+
+							case OBJ_PLANET:
+								if (m_pPlanet[m_nNumpla] == nullptr)
+								{
+									m_pPlanet[m_nNumpla] = CObjectX::Create(m_nPlaFileName[m_nNumpla], m_pos, m_rot);
+								}
+
 								break;
 
 							default:
@@ -261,4 +247,98 @@ void CEditor::SaveObject()
 	fprintf(fp, "End\n");
 
 	fclose(fp);
+}
+
+//=============================================================================
+//オブジェクトの位置の保存
+//=============================================================================
+void CEditor::SelectPlanet()
+{
+	m_nPlaFileName[0] = "data\\MODEL\\X_File\\Earth_000.x";
+	m_nPlaFileName[2] = "data\\MODEL\\X_File\\Sun_000.x";
+	m_nPlaFileName[1] = "data\\MODEL\\X_File\\Moon_000.x";
+	m_nPlaFileName[3] = "data\\MODEL\\X_File\\Mars_000.x";
+	m_nPlaFileName[4] = "data\\MODEL\\X_File\\Jupiter_000.x";
+	m_nPlaFileName[5] = "data\\MODEL\\X_File\\Venus_000.x";
+	m_nPlaFileName[6] = "data\\MODEL\\X_File\\Saturn_000.x";
+	m_nPlaFileName[7] = "data\\MODEL\\X_File\\Neptune_000.x";
+	m_nPlaFileName[8] = "data\\MODEL\\X_File\\Uranus_000.x";
+	m_nPlaFileName[9] = "data\\MODEL\\X_File\\Pluto_000.x";
+}
+
+
+//=============================================================================
+//入力処理
+//=============================================================================
+void CEditor::Input()
+{
+	if (CInputKeyboard::Trigger(DIK_O) == true)
+	{//O(オー)キーを押したとき
+		SaveObject();
+	}
+
+	if (CInputKeyboard::Trigger(DIK_0) == true)
+	{//0(ゼロ)キーを押したとき
+		if (m_nNumber++ >= OBJ_MAX - 1)
+		{
+			m_nNumber = 0;
+		}
+	}
+
+	if (CInputKeyboard::Trigger(DIK_9) == true)
+	{//9キーを押したとき
+		if (m_nNumpla++ >= MAX_PLANET)
+		{
+			m_nNumpla = 0;
+		}
+	}
+	if (CInputKeyboard::Trigger(DIK_8) == true)
+	{//9キーを押したとき
+		if (m_nNumpla-- < 0)
+		{
+			m_nNumpla = MAX_PLANET - 1;
+		}
+	}
+
+	//生成/移動
+	if (CInputKeyboard::Trigger(DIK_P) == true)
+	{
+		m_pPlayer = CGame::GetPlayer(0);
+		D3DXVECTOR3 pos = m_pPlayer->GetPosition();
+
+		switch (m_nNumber)
+		{
+		case OBJ_GOAL:
+			if (m_pGoal == nullptr)
+			{//ゴールの位置を現在のプレイヤーの位置に移動
+				m_pGoal = CGoal::Create(pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+			}
+			else
+			{
+				m_pGoal->SetPosition(pos);
+			}
+			break;
+
+		case OBJ_MAP:
+			break;
+
+		case OBJ_GIMMICK:
+			break;
+
+		case OBJ_PLANET:
+			if (m_pPlanet[m_nNumpla] == nullptr)
+			{
+				m_pPlanet[m_nNumpla] = CObjectX::Create(m_nPlaFileName[m_nNumpla], pos, m_rot);
+			}
+			else
+			{
+				m_pPlanet[m_nNumpla]->SetPos(pos);
+			}
+			break;
+
+		default:
+			break;
+
+		}
+	}
 }

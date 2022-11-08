@@ -105,15 +105,15 @@ private:
 	//-------------------
 	// 静的メンバ変数
 	//-------------------
-	static CPolygon*	pPolygon;
-	static CPolygon2d*	pPolygon2d;
-	static CPlayer*		pPlayer[MAX_PLAYER];
-	static CMeshField*	pMeshField;
+	static CPolygon*		pPolygon;
+	static CPolygon2d*		pPolygon2d;
+	static CPlayer*			pPlayer[MAX_PLAYER];
+	static CMeshField*		pMeshField;
 	static CCameraPlayer*	m_pCameraPlayer[nDefaultMaxCamera];	//プレイヤーカメラクラス
-	static CMessage*	m_pMessage;
-	static CEditor*		m_pEditor;
-	static CDebugProc*	m_pProc;
-	static CMap*		m_pMap;
+	static CMessage*		m_pMessage;
+	static CEditor*			m_pEditor;
+	static CDebugProc*		m_pProc;
+	static CMap*			m_pMap;
 
 	static bool m_bFinish;		//終了フラグ
 	static int  m_player;		//プレイヤーの数

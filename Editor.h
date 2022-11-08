@@ -12,8 +12,9 @@
 #include"Application.h"
 
 //マクロ定義
-#define NUM_STAGE	(1)									//ステージ数
+#define NUM_STAGE	(1)							//ステージ数
 #define FILE_MAPDATA	"data\\TXT\\Edit.txt"	//読み込むファイル名
+#define	MAX_PLANET	(9)							//配置する惑星の数
 
 
 //前方宣言
@@ -22,6 +23,9 @@ class CPlayer;
 class CGoal;
 class CMeshField;
 class CObject;
+class CGimmick;
+class CMap;
+class CObjectX;
 
 //=============================================================================
 // 構造体定義
@@ -34,6 +38,7 @@ public:
 		OBJ_GOAL = 0,
 		OBJ_MAP,
 		OBJ_GIMMICK,
+		OBJ_PLANET,
 		OBJ_MAX
 	};
 
@@ -45,21 +50,26 @@ public:
 	void Uninit();
 	static CEditor*Create();
 	void SaveObject();
+	void SelectPlanet();
+	void Input();
 
 private:
 	//メンバ関数
-	OBJ					m_type;			//オブジェクトの種類
-	D3DXVECTOR3			m_pos;			//出現座標
-	D3DXVECTOR3			m_rot;			//出現した際の角度
-	bool				m_bEnd;			//終了フラグ
-	bool				m_bFlag;		//生成フラグ
-	int					m_nNumber;		//現在設定するブロックのタイプ
+	OBJ					m_type;							//オブジェクトの種類
+	D3DXVECTOR3			m_pos;							//出現座標
+	D3DXVECTOR3			m_rot;							//出現した際の角度
+	bool				m_bEnd;							//終了フラグ
+	bool				m_bFlag;						//生成フラグ
+	int					m_nNumber;						//現在設定するブロックのタイプ
+	int					m_nNumpla;						//現在の惑星の数
+	LPCTSTR				m_nPlaFileName[MAX_PLANET];		//惑星のファイルの名前
 
 	//スタティック関数
-	static	CPlayer*	pPlayer;
-	static	CGoal*		m_pGoal;		//ゴール
-	static	CMeshField*	m_Map;			//マップ
-	static	CObject*	m_SelectObj;	//選択中のオブジェクト
+	CPlayer*	m_pPlayer;
+	CGoal*		m_pGoal;				//ゴール
+	CMap*		m_pMap;					//マップ
+	CObject*	m_pSelectObj;			//選択中のオブジェクト
+	CObjectX*	m_pPlanet[MAX_PLANET];	//背景の星
 };
 #endif 
 
