@@ -42,6 +42,9 @@
     <Filter Include="Main\Object\Mesh">
       <UniqueIdentifier>{77ef4761-1324-42c7-adec-1ca091daa026}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Main\Object\Object2D\Number">
+      <UniqueIdentifier>{ecb0e574-9420-4601-9bec-ba865af5db56}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -110,9 +113,6 @@
     <ClCompile Include="meshfield.cpp">
       <Filter>Main\Object\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="number.cpp">
-      <Filter>Main\Application</Filter>
-    </ClCompile>
     <ClCompile Include="Goal.cpp">
       <Filter>Main\Object\ObjectX</Filter>
     </ClCompile>
@@ -146,6 +146,7 @@
     <ClCompile Include="Titlelogo.cpp">
       <Filter>Main\Object\Object2D</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="3dobject.cpp">
       <Filter>Main</Filter>
     </ClCompile>
@@ -158,8 +159,19 @@
     <ClCompile Include="time.cpp">
       <Filter>Main\Object\Object2D</Filter>
     </ClCompile>
+=======
+>>>>>>> c08f6f38f61ba817a70a46efc1fcb5f8ac8bc4c5
     <ClCompile Include="Map.cpp">
       <Filter>Main\Object\ObjectX</Filter>
+    </ClCompile>
+    <ClCompile Include="number.cpp">
+      <Filter>Main\Object\Object2D\Number</Filter>
+    </ClCompile>
+    <ClCompile Include="time.cpp">
+      <Filter>Main\Object\Object2D\Number</Filter>
+    </ClCompile>
+    <ClCompile Include="num_block.cpp">
+      <Filter>Main\Object\Object2D\Number</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -232,9 +244,6 @@
     <ClInclude Include="meshfield.h">
       <Filter>Main\Object\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="number.h">
-      <Filter>Main\Application</Filter>
-    </ClInclude>
     <ClInclude Include="Goal.h">
       <Filter>Main\Object\ObjectX</Filter>
     </ClInclude>
@@ -276,12 +285,21 @@
     <ClInclude Include="Editor.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="time.h">
-      <Filter>Main\Object\Object2D</Filter>
-    </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Main\Object\ObjectX</Filter>
     </ClInclude>
+<<<<<<< HEAD
 >>>>>>> .theirs
+=======
+    <ClInclude Include="number.h">
+      <Filter>Main\Object\Object2D\Number</Filter>
+    </ClInclude>
+    <ClInclude Include="time.h">
+      <Filter>Main\Object\Object2D\Number</Filter>
+    </ClInclude>
+    <ClInclude Include="num_block.h">
+      <Filter>Main\Object\Object2D\Number</Filter>
+    </ClInclude>
+>>>>>>> c08f6f38f61ba817a70a46efc1fcb5f8ac8bc4c5
   </ItemGroup>
 </Project>
