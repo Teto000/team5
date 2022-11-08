@@ -38,7 +38,7 @@ const char* CTexture::s_FileName[] =
 
 	/* ↓ 人数選択画面 ↓ */
 	"data/TEXTURE/PlayerSelect/title.png",	//人数選択画面のタイトル
-	"data/TEXTURE/space.jpg",				//人数選択画面の背景
+	"data/TEXTURE/PlayerSelect/bg2.png",				//人数選択画面の背景
 	"data/TEXTURE/PlayerSelect/select.png"	//人数選択画面の背景
 };
 
