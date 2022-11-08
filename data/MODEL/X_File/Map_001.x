@@ -817,7 +817,7 @@ Mesh {
    0.380000;0.380000;0.380000;;
    0.270000;0.270000;0.270000;;
    TextureFilename {
-    "C:\\Users\\student\\Desktop\\team5\\data\\TEXTURE\\Rainbow002.png";
+    "data\\TEXTURE\\Rainbow002.png";
    }
   }
   Material {
@@ -826,7 +826,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "C:\\Users\\student\\Desktop\\team5\\data\\TEXTURE\\metal_000.jpg";
+    "data\\TEXTURE\\metal_000.jpg";
    }
   }
  }

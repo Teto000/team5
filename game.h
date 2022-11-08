@@ -25,6 +25,7 @@ class CMessage;		//メッセージ
 class CEditor;		//エディタ
 class CDebugProc;	//デバッグ用文字
 class CMap;			//マップ
+class CNumBlock;	//ブロックの数表示
 
 //--------------------
 // マクロ定義
@@ -79,6 +80,7 @@ public:
 	static CMeshField*		GetMesh() { return pMeshField; }	//メッシュフィールドの取得
 	static CCameraPlayer*	GetCameraPlayer(int nCnt);				//カメラの取得
 	static bool				GetFinish();	//終了フラグの取得
+	static int GetGroundNum() { return m_nGroundNum; }
 	
 	//プレイヤー人数の設定
 	static void SetPlayerNum(int nPlayer) { m_player = nPlayer; }
@@ -101,6 +103,7 @@ private:
 	int m_nMaxCamera;	//カメラの数
 	bool m_bStop;		//プログラムを停止する
 	GAMEMODE mode;
+	
 
 	//-------------------
 	// 静的メンバ変数
@@ -110,13 +113,15 @@ private:
 	static CPlayer*			pPlayer[MAX_PLAYER];
 	static CMeshField*		pMeshField;
 	static CCameraPlayer*	m_pCameraPlayer[nDefaultMaxCamera];	//プレイヤーカメラクラス
-	static CMessage*		m_pMessage;
-	static CEditor*			m_pEditor;
-	static CDebugProc*		m_pProc;
-	static CMap*			m_pMap;
+	static CMessage*	m_pMessage;
+	static CEditor*		m_pEditor;
+	static CDebugProc*	m_pProc;
+	static CMap*		m_pMap;
+	static CNumBlock*	m_pNumBlock;
 
 	static bool m_bFinish;		//終了フラグ
 	static int  m_player;		//プレイヤーの数
+	static int m_nGroundNum;
 };
 
 #endif

@@ -90,9 +90,9 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 
 	//----------------------------
 	// サウンドの生成と初期化
-	//----------------------------
-	//m_pSound = new CSound;
-	//m_pSound->Init(hWnd);
+	----------------------------
+	m_pSound = new CSound;
+	m_pSound->Init(hWnd);
 
 	//----------------------------
 	// ライトの生成と初期化
@@ -149,12 +149,12 @@ void CApplication::Uninit()
 	}
 
 	//サウンドの終了
-	/*if (m_pSound != nullptr)
+	if (m_pSound != nullptr)
 	{
 		m_pSound->Uninit();
 		delete m_pSound;
 		m_pSound = nullptr;
-	}*/
+	}
 
 	//ライトの終了
 	if (m_pLight != nullptr)
