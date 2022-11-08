@@ -162,8 +162,8 @@ void CPlayer::Update()
 	//-------------------
 	//“–‚½‚è”»’è
 	//-------------------
-	CMeshField *m_pMesh = CGame::GetMesh();
-	m_pMesh->Collision(&m_pos);
+	/*CMeshField *m_pMesh = CGame::GetMesh();
+	m_pMesh->Collision(&m_pos);*/
 
 	CMotionParts::MoveMotionModel(m_pos, GetRot(), m_nMotionNum, 1);
 }

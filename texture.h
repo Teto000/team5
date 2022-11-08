@@ -35,7 +35,12 @@ public: /* 定義 */
 		TEXTURE_COUNT_ONE,		//カウント1
 		TEXTURE_START,			//スタート
 		TEXTURE_FINISH,			//フィニッシュ
+		TEXTURE_WINNER_FOUR,	//4PWin
 
+		/* ↓ 人数選択画面 ↓ */
+		TEXTURE_SELECT_COMENT,	//セレクト画面の解説
+		TEXTURE_SELECT_BG,		//セレクト画面の背景
+		TEXTURE_SELECT_SELECT,	//セレクト画面のセレクトの説明文
 		TEXTURE_MAX,
 		TEXTURE_NONE,			//使用しない
 	};

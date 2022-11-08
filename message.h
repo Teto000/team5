@@ -20,11 +20,18 @@ class CMessage : public CObject2D
 public:
 	enum MESSAGE
 	{
-		MESSAGE_COUNT_ONE = 0,
-		MESSAGE_COUNT_TWO,
-		MESSAGE_COUNT_THREE,
-		MESSAGE_START,
-		MESSAGE_FINISH,
+		/* ↓ 開始演出 ↓ */
+		MESSAGE_COUNT_ONE = 0,	//カウント1
+		MESSAGE_COUNT_TWO,		//カウント2
+		MESSAGE_COUNT_THREE,	//カウント3
+		MESSAGE_START,			//スタート
+
+		/* ↓ 終了演出 ↓ */
+		MESSAGE_FINISH,			//フィニッシュ
+		MESSAGE_WINNER_ONE,		//1PWin
+		MESSAGE_WINNER_TWO,		//2PWin
+		MESSAGE_WINNER_THREE,	//3PWin
+		MESSAGE_WINNER_FOUR,	//4PWin
 		MESSAGE_MAX
 	};
 

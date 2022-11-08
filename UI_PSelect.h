@@ -9,6 +9,7 @@
 
 #include "object2D.h"
 
+
 //=========================================
 // スコアクラスを定義
 //=========================================
@@ -19,7 +20,10 @@ public:
 	enum UI
 	{
 		UI_NONE = 0,	//何もない
+		UI_COMENT,		//解説
 		UI_PLAYER,		//プレイヤーUI
+		UI_BG,			//背景
+		UI_SELECT,		//選択
 		UI_MAX
 	};
 
@@ -34,12 +38,15 @@ public:
 	void Draw(void) override;
 	//終了処理
 	void Uninit(void) override;
+	//セッター
+	void Set(UI ui) { m_Tui = ui; }
 
 	//クリエイト処理
-	static CUI_PSelect* Create(const D3DXVECTOR3 &pos);
+	static CUI_PSelect* Create(const D3DXVECTOR3 &pos,const UI &texture);
 
 private:
 	int m_texture;
+	UI m_Tui;			// UI
 };
 
 #endif

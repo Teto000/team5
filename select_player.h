@@ -50,7 +50,9 @@ private:
 	//-------------------
 	int m_PlayerSelectNum;
 	CUI_PSelect *m_PUI[MAX_PLAYER];			// プレイヤー数のUI
-	CUI_PSelect *m_BGUI;					// 背景のUI
+	CUI_PSelect *m_title;					// 背景のUI
+	CUI_PSelect *m_BG;						// 背景
+	CUI_PSelect *m_Select;					// 人数選択の説明
 };
 
 #endif

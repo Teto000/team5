@@ -57,7 +57,8 @@ HRESULT CDebugProc::Init()
 //===========================
 void CDebugProc::Uninit()
 {
-
+	m_pFont = nullptr;
+	m_Str[0] = NULL;
 }
 
 //===========================
@@ -68,6 +69,8 @@ void CDebugProc::Print(const char* pFormat, ...)
 	va_list ap;	//可変引数構造体の定義
 
 	va_start(ap, pFormat);	//可変引数構造体の初期化
+
+	m_Str += "\n";
 
 	for (int i = 0; i < (signed)strlen(pFormat); i++)
 	{//文字列の数だけ回す
@@ -116,4 +119,7 @@ void CDebugProc::Draw()
 	{
 		m_pFont->DrawText(NULL, str, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
 	}
+
+	//テキストリセット
+	m_Str = {};
 }

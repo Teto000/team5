@@ -26,6 +26,9 @@
 #include "message.h"
 #include "motion_parts.h"
 #include "3dobject.h"
+#include "Editor.h"
+#include "debug_proc.h"
+#include "Map.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -36,6 +39,9 @@ CPlayer*	CGame::pPlayer[MAX_PLAYER] = {};
 CMeshField*	CGame::pMeshField = nullptr;
 CCameraPlayer*	CGame::m_pCameraPlayer[nDefaultMaxCamera] = {};		//カメラ
 CMessage*	CGame::m_pMessage;	//メッセージ
+CEditor*	CGame::m_pEditor = nullptr;
+CDebugProc*	CGame::m_pProc = nullptr;
+CMap*		CGame::m_pMap = nullptr;
 
 int	 CGame::m_nEnumCamera = 0;	//カメラの列挙型の数
 int	 CGame::m_player = 0;		//プレイヤーの数
@@ -64,6 +70,9 @@ CGame::~CGame()
 //===========================
 HRESULT CGame::Init()
 {
+	//変数の初期化
+	m_bFinish = false;
+
 	//カメラの生成
 	CreateCamera((CGame::NUMCAMERA)m_player);
 
@@ -88,18 +97,23 @@ HRESULT CGame::Init()
 	/*SetPlayerPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));*/
 
 	//メッシュフィールドの生成
-	pMeshField = CMeshField::Create();
+	//pMeshField = CMeshField::Create();
+	m_pMap = CMap::Create(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
 
-	//ゴールの生成
-	CGoal*pGoal = CGoal::Create(D3DXVECTOR3(90.0f, 40.0f, 10.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	
 	//タイマーの生成
 	CTime *pTime = CTime::Create(D3DXVECTOR3(20.0f, 20.0f, 0.0f));
+
+	//エディタの作成と読み込み
+	m_pEditor = CEditor::Create();
 
 	//メッセージの生成
 	m_pMessage = CMessage::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f),
 									CMessage::MESSAGE_COUNT_THREE);
 	
+	////デバッグ用フォントの生成
+	//m_pProc =new CDebugProc;
+	//m_pProc->Init();
+
 	return S_OK;
 }
 
@@ -130,6 +144,14 @@ void CGame::Uninit()
 	C3DObject::UninitAllModel();
 
 	CMotionParts::ALLUninit();
+
+	//エディタの削除
+	m_pEditor->Uninit();
+	delete m_pEditor;
+	m_pEditor = nullptr;
+
+	//デバッグ用文字の削除
+	m_pProc->Uninit();
 }
 
 //===========================
@@ -137,12 +159,15 @@ void CGame::Uninit()
 //===========================
 void CGame::Update()
 {
+	//エディタの更新
+	m_pEditor->Update();
+
 	//-----------------------------
 	// カメラの更新
 	//-----------------------------
 	if (m_nEnumCamera == NUMCAMERA_THREE)
 	{//カメラ列挙型が3なら
-		//カメラの最大数を戻す
+	 //カメラの最大数を戻す
 		m_nMaxCamera = 4;
 	}
 
@@ -237,9 +262,9 @@ void CGame::FinishGame()
 
 		LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
 
-	 //-----------------------
-	 // ビューポートを拡大
-	 //-----------------------
+		//-----------------------
+		// ビューポートを拡大
+		//-----------------------
 		switch (nFirstNumber)
 		{
 			//-----------------------
