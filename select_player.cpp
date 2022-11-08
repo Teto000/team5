@@ -64,6 +64,30 @@ HRESULT CPSelect::Init()
 //===========================
 void CPSelect::Uninit()
 {
+	for (int nCnt = 0; nCnt < MAX_PLAYER; nCnt++)
+	{
+		if (m_PUI[nCnt] != nullptr)
+		{
+			m_PUI[nCnt]->Uninit();
+			m_PUI[nCnt] = nullptr;
+		}
+	}
+
+	if (m_title != nullptr)
+	{
+		m_title->Uninit();
+		m_title = nullptr;
+	}
+	if (m_BG != nullptr)
+	{
+		m_BG->Uninit();
+		m_BG = nullptr;
+	}
+	if (m_Select != nullptr)
+	{
+		m_Select->Uninit();
+		m_Select = nullptr;
+	}
 }
 
 //===========================

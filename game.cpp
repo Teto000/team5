@@ -92,7 +92,7 @@ HRESULT CGame::Init()
 		GetCameraPlayer(nCnt)->SetNumPlayer(nCnt);
 	}
 
-	/*SetPlayerPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));*/
+	SetPlayerPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 	//メッシュフィールドの生成
 	//pMeshField = CMeshField::Create();
@@ -371,6 +371,14 @@ void CGame::SetPlayerPosition(D3DXVECTOR3 pos)
 	srand((unsigned int)time(NULL));
 
 	int nNumCamera = CRenderer::GetMaxCamera();
+
+	m_nEnumCamera = CGame::GetEnumCamera();
+
+	if (m_nEnumCamera == NUMCAMERA_THREE)
+	{//カメラ列挙型が3なら
+	 //カメラの最大数を1減らす
+		nNumCamera = 3;
+	}
 
 	// プレイヤーの初期位置の設定
 	D3DXVECTOR3 FirstPos = pos;
