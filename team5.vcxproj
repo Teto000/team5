@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="3dobject.cpp" />
     <ClCompile Include="application.cpp" />
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="camera.cpp" />
@@ -173,12 +174,14 @@
     <ClCompile Include="meshfield.cpp" />
     <ClCompile Include="message.cpp" />
     <ClCompile Include="model.cpp" />
+    <ClCompile Include="motion_parts.cpp" />
     <ClCompile Include="number.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="object2D.cpp" />
     <ClCompile Include="object3d.cpp" />
     <ClCompile Include="objectX.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="read.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="select_player.cpp" />
@@ -190,6 +193,7 @@
     <ClCompile Include="UI_PSelect.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="3dobject.h" />
     <ClInclude Include="application.h" />
     <ClInclude Include="billboard.h" />
     <ClInclude Include="camera.h" />
@@ -209,12 +213,14 @@
     <ClInclude Include="meshfield.h" />
     <ClInclude Include="message.h" />
     <ClInclude Include="model.h" />
+    <ClInclude Include="motion_parts.h" />
     <ClInclude Include="number.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="object2D.h" />
     <ClInclude Include="object3d.h" />
     <ClInclude Include="objectX.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="read.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="select_player.h" />

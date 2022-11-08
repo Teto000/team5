@@ -24,6 +24,8 @@
 #include "time.h"
 #include "Goal.h"
 #include "message.h"
+#include "motion_parts.h"
+#include "3dobject.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -97,7 +99,7 @@ HRESULT CGame::Init()
 	//メッセージの生成
 	m_pMessage = CMessage::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f),
 									CMessage::MESSAGE_COUNT_THREE);
-
+	
 	return S_OK;
 }
 
@@ -124,6 +126,10 @@ void CGame::Uninit()
 			m_pCameraPlayer[i] = nullptr;
 		}
 	}
+
+	C3DObject::UninitAllModel();
+
+	CMotionParts::ALLUninit();
 }
 
 //===========================
@@ -154,6 +160,8 @@ void CGame::Update()
 
 		FinishGame();
 	}
+
+	CMotionParts::ALLUpdate();
 
 	if (CInputKeyboard::Trigger(DIK_RETURN) == true && CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{//Enterで次の画面に遷移する

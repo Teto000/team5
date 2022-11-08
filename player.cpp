@@ -19,6 +19,8 @@
 #include "model.h"
 #include "meshfield.h"
 #include "game.h"
+#include "motion_parts.h"
+#include "read.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -100,6 +102,12 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos)
 	//--------------------
 	SetModel();
 
+
+	CRead cRead;
+
+	m_nMotionNum = cRead.ReadMotion("data/MOTION/motionplayer.txt");
+
+
 	return S_OK;
 }
 
@@ -156,6 +164,8 @@ void CPlayer::Update()
 	//-------------------
 	CMeshField *m_pMesh = CGame::GetMesh();
 	m_pMesh->Collision(&m_pos);
+
+	CMotionParts::MoveMotionModel(m_pos, GetRot(), m_nMotionNum, 1);
 }
 
 //========================
@@ -257,7 +267,7 @@ void CPlayer::SetModel()
 //========================
 void CPlayer::SetMotion(bool bLoop)
 {
-	if (m_nCurrentKey + 1 >= MAX_KEY)
+	if (m_nCurrentKey + 1 >= MAX_KEY_B)
 	{//キーが最大数に達したら
 		if (bLoop)
 		{

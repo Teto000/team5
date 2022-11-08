@@ -23,7 +23,7 @@ class CModel;	//モデル
 // マクロ定義
 //--------------------------------
 #define MAX_PARTS	(7)		//モデルパーツの最大数
-#define MAX_KEY		(2)		//キーの最大数
+#define MAX_KEY_B		(2)		//キーの最大数
 #define MAX_SPEED	(3.0f)	//最大速度
 
 //================================
@@ -131,6 +131,9 @@ private:
 	/* ↓ クラス情報 ↓ */
 	static CShadow* m_pShadow;	//影
 	static CBullet* m_pBullet;	//弾
+
+	/* ↓　使ってるモーションモデル番号　*/
+	int m_nMotionNum;
 };
 
 #endif

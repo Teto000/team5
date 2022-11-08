@@ -149,6 +149,15 @@
     <ClCompile Include="Titlelogo.cpp">
       <Filter>Main\Object\Object2D</Filter>
     </ClCompile>
+    <ClCompile Include="3dobject.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="motion_parts.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="read.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h">
@@ -247,5 +256,10 @@
     <ClInclude Include="camera_title.h">
       <Filter>Main\Application\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="Editor.h" />
+    <ClInclude Include="Titlelogo.h" />
+    <ClInclude Include="3dobject.h" />
+    <ClInclude Include="motion_parts.h" />
+    <ClInclude Include="read.h" />
   </ItemGroup>
 </Project>
