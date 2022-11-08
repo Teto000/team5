@@ -90,7 +90,7 @@ void CFade::Update()
 				m_fade = FADE_IN;	//フェードイン状態に
 
 				CApplication::SetMode(m_modeNext);
-				m_pObject = new CObject2D;
+				m_pObject = new CObject2D(CObject::OBJTYPE_FADE);
 
 				m_pObject->Init(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
 

@@ -110,9 +110,6 @@
     <ClCompile Include="meshfield.cpp">
       <Filter>Main\Object\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="time.cpp">
-      <Filter>Main\Application</Filter>
-    </ClCompile>
     <ClCompile Include="number.cpp">
       <Filter>Main\Application</Filter>
     </ClCompile>
@@ -148,6 +145,12 @@
     </ClCompile>
     <ClCompile Include="Titlelogo.cpp">
       <Filter>Main\Object\Object2D</Filter>
+    </ClCompile>
+    <ClCompile Include="time.cpp">
+      <Filter>Main\Object\Object2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Main\Object\ObjectX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -220,9 +223,6 @@
     <ClInclude Include="meshfield.h">
       <Filter>Main\Object\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="time.h">
-      <Filter>Main\Application</Filter>
-    </ClInclude>
     <ClInclude Include="number.h">
       <Filter>Main\Application</Filter>
     </ClInclude>
@@ -246,6 +246,18 @@
     </ClInclude>
     <ClInclude Include="camera_title.h">
       <Filter>Main\Application\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Titlelogo.h">
+      <Filter>Main\Object\Object2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="time.h">
+      <Filter>Main\Object\Object2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Main\Object\ObjectX</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

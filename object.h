@@ -29,6 +29,10 @@ public:
 	//------------------------
 	enum EObjType
 	{
+		OBJTYPE_FADE,
+		OBJTYPE_MAP,
+		OBJTYPE_GOAL,
+		OBJTYPE_CAMERA,
 		OBJTYPE_MAX,
 	};
 
@@ -69,7 +73,7 @@ private:
 	//----------------
 	// íËêî
 	//----------------
-	static const int nMaxPriority = 2;
+	static const int nMaxPriority = OBJTYPE_MAX;
 
 	//----------------
 	// ÉÅÉìÉoïœêî

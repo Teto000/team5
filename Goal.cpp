@@ -24,7 +24,7 @@
 //===========================
 // コンストラクタ
 //===========================
-CGoal::CGoal() : CObject(0)
+CGoal::CGoal(int nPriority) : CObject(nPriority)
 {
 	m_nWinner = 100;
 }
@@ -138,6 +138,7 @@ void CGoal::Uninit()
 		m_pBuffMat->Release();
 		m_pBuffMat = nullptr;
 	}
+	Release();
 }
 
 //===========================
@@ -258,7 +259,9 @@ CGoal* CGoal::Create( D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	// 生成と初期化
 	//----------------------------------
 	CGoal *pGoal = nullptr;
-	pGoal = new CGoal;	//生成
+	//pGoal = new CGoal(CObject::OBJTYPE_GOAL);	//生成
+	pGoal = new CGoal(0);	//生成
+
 
 	if (pGoal != nullptr)
 	{//NULLチェック
@@ -271,6 +274,14 @@ CGoal* CGoal::Create( D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	}
 
 	return pGoal;
+}
+
+//========================
+// 位置の設定
+//========================
+void CGoal::SetPosition(D3DXVECTOR3 pos)
+{
+	m_pos = pos;
 }
 
 
