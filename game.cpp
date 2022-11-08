@@ -68,6 +68,9 @@ CGame::~CGame()
 //===========================
 HRESULT CGame::Init()
 {
+	//•Ï”‚Ì‰Šú‰»
+	m_bFinish = false;
+
 	//ƒJƒƒ‰‚Ì¶¬
 	CreateCamera((CGame::NUMCAMERA)m_player);
 
