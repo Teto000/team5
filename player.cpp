@@ -26,43 +26,7 @@
 // 静的メンバ変数宣言
 //------------------------
 const float CPlayer::fPlayerSpeed = 1.0f;
-const float CPlayer::fGravity = 0.6f;
-CShadow* CPlayer::m_pShadow = nullptr;
-CBullet* CPlayer::m_pBullet = nullptr;
-
-//------------------------
-// グローバル変数
-//------------------------
-CPlayer::KEY_SET g_aKeySet[] =	//キーセット情報
-{
-	//----------------------
-	// キー1
-	//----------------------
-	{ 40,	//フレーム数
-		//		Pos				Rot
-		{{ 0.0f,0.0f,0.0f , 0.0f,0.0f,0.0f },	//体
-		{ 0.0f,0.0f,0.0f , 0.0f,0.0f,0.0f },	//頭
-		{ 0.0f,0.0f,0.0f , 0.0f,0.0f,0.0f },	//右手
-		{ 0.0f,0.0f,0.0f , 0.0f,0.0f,0.0f },	//左手
-		{ 0.0f,0.0f,0.0f , 0.0f,0.0f,0.0f },	//右足
-		{ 0.0f,0.0f,0.0f , 0.0f,0.0f,0.0f },	//左手
-		{ 0.0f,0.0f,0.0f , 0.0f,0.0f,0.0f }},	//剣
-	},
-
-	//----------------------
-	// キー2
-	//----------------------
-	{ 40,	//フレーム数
-		//		Pos				Rot
-		{{ 0.0f,0.0f,0.0f , 0.0f,0.0f,0.0f },	//体
-		{ 0.0f,0.0f,0.0f , 0.0f,0.0f,0.0f },	//頭
-		{ 0.0f,0.0f,0.0f , 90.0f,0.0f,0.0f },	//右手
-		{ 0.0f,0.0f,0.0f , 0.0f,0.0f,0.0f },	//左手
-		{ 0.0f,0.0f,0.0f , 0.0f,0.0f,0.0f },	//右足
-		{ 0.0f,0.0f,0.0f , 0.0f,0.0f,0.0f },	//左手
-		{ 0.0f,0.0f,0.0f , 0.0f,0.0f,0.0f }},	//剣
-	},
-};
+const float CPlayer::fGravity = 0.1f;
 
 //========================
 // コンストラクタ
@@ -73,11 +37,6 @@ CPlayer::CPlayer() : CObject(0)
 	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//移動量
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//向き
 	m_rotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//目的の向き
-	m_pModel[MAX_PARTS] = {};
-
-	/* ↓ モーション情報 ↓ */
-	m_nCurrentKey = 0;
-	m_nCntMotion = 0;
 }
 
 //========================
@@ -95,14 +54,8 @@ CPlayer::~CPlayer()
 HRESULT CPlayer::Init(D3DXVECTOR3 pos)
 {
 	m_pos = pos;
-	m_nCntMotion = 1;
 	m_bJump = false;
-	//--------------------
-	// モデルの生成
-	//--------------------
-	SetModel();
-
-
+	
 	CRead cRead;
 
 	m_nMotionNum = cRead.ReadMotion("data/MOTION/motionplayer.txt");
@@ -116,19 +69,6 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos)
 //========================
 void CPlayer::Uninit()
 {
-	//-------------------------
-	// モデルの終了
-	//-------------------------
-	for (int i = 0; i < MAX_PARTS; i++)
-	{//モデルパーツ数分回す
-		if (m_pModel[i])
-		{//モデルがnullじゃないなら
-			m_pModel[i]->Uninit();
-			delete m_pModel[i];
-			m_pModel[i] = nullptr;
-		}
-	}
-
 	Release();
 }
 
@@ -137,17 +77,6 @@ void CPlayer::Uninit()
 //========================
 void CPlayer::Update()
 {
-	//-------------------------
-	// モデルの更新
-	//-------------------------
-	for (int i = 0; i < MAX_PARTS; i++)
-	{//モデルパーツ数分回す
-		if (m_pModel[i])
-		{//モデルがnullじゃないなら
-			m_pModel[i]->Update();
-		}
-	}
-
 	//---------------
 	// 移動
 	//---------------
@@ -155,17 +84,21 @@ void CPlayer::Update()
 	Move();
 
 	//-------------------
-	// モーション
-	//-------------------
-	SetMotion(true);
-
-	//-------------------
 	//当たり判定
 	//-------------------
 	/*CMeshField *m_pMesh = CGame::GetMesh();
 	m_pMesh->Collision(&m_pos);*/
+	D3DXVECTOR3 pos = CMotionParts::AllCollision(m_nMotionNum,CGame::GetGroundNum(), m_pos, m_posold);
+	if (m_pos != pos)
+	{
+		m_pos = pos;
+		m_move.y = 0.0f;
+	}
+	
 
 	CMotionParts::MoveMotionModel(m_pos, GetRot(), m_nMotionNum, 1);
+
+	m_rot.y = atan2f(m_move.x, m_move.z) + D3DX_PI;
 }
 
 //========================
@@ -173,36 +106,6 @@ void CPlayer::Update()
 //========================
 void CPlayer::Draw()
 {
-	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();	//デバイスの取得
-
-	D3DXMATRIX mtxRot, mtxTrans;	//計算用マトリックス
-
-	//モデルのワールドマトリックスの初期化
-	D3DXMatrixIdentity(&m_mtxWorld);
-
-	//モデルの向きを反映
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, m_rot.y, m_rot.x, m_rot.z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRot);
-
-	//モデルの位置を反映
-	D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
-
-	//ワールドマトリックスの設定
-	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
-
-	//-------------------------
-	// モデルの描画
-	//-------------------------
-	for (int i = 0; i < MAX_PARTS; i++)
-	{//モデルパーツ数分回す
-		if (!m_pModel[i])
-		{//モデルがnullなら
-			return;
-		}
-
-		m_pModel[i]->Draw();
-	}
 }
 
 //========================
@@ -226,141 +129,6 @@ CPlayer* CPlayer::Create(int PlayerNum)
 	}
 
 	return pPlayer;
-}
-
-//========================
-// モデルの生成
-//========================
-void CPlayer::SetModel()
-{
-	//モデル0
-	m_pModel[0] = CModel::Create("data\\MODEL\\X_File\\body.x", D3DXVECTOR3(0.0f, 5.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	m_pModel[0]->SetParent(nullptr);
-
-	//モデル1
-	m_pModel[1] = CModel::Create("data\\MODEL\\X_File\\head.x", D3DXVECTOR3(0.0f, 40.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	m_pModel[1]->SetParent(m_pModel[0]);
-
-	//モデル2
-	m_pModel[2] = CModel::Create("data\\MODEL\\X_File\\armR.x", D3DXVECTOR3(-20.0f, 40.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	m_pModel[2]->SetParent(m_pModel[0]);
-
-	//モデル3
-	m_pModel[3] = CModel::Create("data\\MODEL\\X_File\\armL.x", D3DXVECTOR3(20.0f, 40.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	m_pModel[3]->SetParent(m_pModel[0]);
-
-	//モデル4
-	m_pModel[4] = CModel::Create("data\\MODEL\\X_File\\legR.x", D3DXVECTOR3(-7.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	m_pModel[4]->SetParent(m_pModel[0]);
-
-	//モデル5
-	m_pModel[5] = CModel::Create("data\\MODEL\\X_File\\legL.x", D3DXVECTOR3(7.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	m_pModel[5]->SetParent(m_pModel[0]);
-
-	//モデル6
-	m_pModel[6] = CModel::Create("data\\MODEL\\X_File\\sword.x", D3DXVECTOR3(-22.0f, -14.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	m_pModel[6]->SetParent(m_pModel[2]);
-}
-
-//========================
-// モーションの設定
-//========================
-void CPlayer::SetMotion(bool bLoop)
-{
-	if (m_nCurrentKey + 1 >= MAX_KEY_B)
-	{//キーが最大数に達したら
-		if (bLoop)
-		{
-			m_nCurrentKey = 0;	//キー番号の初期化
-		}
-		else
-		{
-			return;
-		}
-	}
-
-	for (int i = 0; i < MAX_PARTS; i++)
-	{//モデルパーツ数分回す
-		//-----------------------------------------
-		// NULLチェック
-		//-----------------------------------------
-		if (!m_pModel[i])
-		{//モデルパーツがnullなら
-			return;
-		}
-
-		//キー情報を持った変数
-		KEY key = g_aKeySet[m_nCurrentKey].aKey[i];
-		KEY keyNext = g_aKeySet[m_nCurrentKey + 1].aKey[i];
-
-		//-----------------------------------------
-		// 現在値を取得
-		//-----------------------------------------
-		//位置を取得
-		float fPosX = m_pModel[i]->GetPos().x;
-		float fPosY = m_pModel[i]->GetPos().y;
-		float fPosZ = m_pModel[i]->GetPos().z;
-
-		//向きを取得
-		float fRotX = m_pModel[i]->GetRot().x;
-		float fRotY = m_pModel[i]->GetRot().y;
-		float fRotZ = m_pModel[i]->GetRot().z;
-
-		//-----------------------------------------
-		// 差分の計算
-		// (終了値 - 開始値)
-		//-----------------------------------------
-		//位置
-		float fDifPosX = keyNext.fPosX - key.fPosX;
-		float fDifPosY = keyNext.fPosY - key.fPosY;
-		float fDifPosZ = keyNext.fPosZ - key.fPosZ;
-
-		//向き
-		float fDifRotX = keyNext.fRotX - key.fRotX;
-		float fDifRotY = keyNext.fRotY - key.fRotY;
-		float fDifRotZ = keyNext.fRotZ - key.fRotZ;
-
-		//-----------------------------------------
-		// 相対値の計算
-		// (モーションカウンター / フレーム数)
-		//-----------------------------------------
-		float fNumRelative = m_nCntMotion / (float)g_aKeySet[m_nCurrentKey].nFrame;
-
-		//-----------------------------------------
-		// 現在値の計算
-		// (開始値 + (差分 * 相対値))
-		//-----------------------------------------
-		//位置
-		fPosX += key.fPosX + (fDifPosX * fNumRelative);
-		fPosY += key.fPosY + (fDifPosY * fNumRelative);
-		fPosZ += key.fPosZ + (fDifPosZ * fNumRelative);
-
-		//向き
-		fRotX = key.fRotX + (fDifRotX * fNumRelative);
-		fRotY = key.fRotY + (fDifRotY * fNumRelative);
-		fRotZ = key.fRotZ + (fDifRotZ * fNumRelative);
-
-		//-----------------------------------------
-		// モデル情報の設定
-		//-----------------------------------------
-		//位置の設定
-		m_pModel[i]->SetPos(D3DXVECTOR3(fPosX, fPosY, fPosZ));
-
-		//向きの設定
-		m_pModel[i]->SetRot(D3DXVECTOR3(D3DXToRadian(fRotX), D3DXToRadian(fRotY), D3DXToRadian(fRotZ)));
-	}
-
-	//モーションカウンターを進める
-	m_nCntMotion++;
-
-	//-------------------------
-	// 初期化
-	//-------------------------
-	if (m_nCntMotion >= g_aKeySet[m_nCurrentKey].nFrame)
-	{//モーションカウンターが再生フレームに達したら
-		m_nCurrentKey++;	//キー番号を加算
-		m_nCntMotion = 0;	//モーションカウンターを初期化
-	}
 }
 
 //========================
@@ -396,17 +164,17 @@ void CPlayer::Move()
 	m_move.x += (0.0f - m_move.x) * 0.1f;
 	m_move.z += (0.0f - m_move.z) * 0.1f;
 
-	//重力関連
-	if (m_pos.y <= 1.0f)
-	{
-		m_bJump = false;
-		m_move.y = 0.0f;
-		
-		//仮で地面で止まる処理
-		m_pos.y = 1.0f;
-	}
-		//重力
-		m_move.y -= fGravity;
+	////重力関連
+	//if (m_pos.y <= 1.0f)
+	//{
+	//	m_bJump = false;
+	//	m_move.y = 0.0f;
+	//	
+	//	////仮で地面で止まる処理
+	//	//m_pos.y = 1.0f;
+	//}
+	//重力
+	m_move.y -= fGravity;
 
 	//-------------------------------
 	// ジャンプ状態の処理
@@ -521,14 +289,6 @@ float CPlayer::GetHeight()
 }
 
 //===========================
-// ワールドマトリックスの取得
-//===========================
-D3DXMATRIX CPlayer::GetmtxWorld()
-{
-	return m_mtxWorld;
-}
-
-//===========================
 // 1F前の座標の取得
 //===========================
 D3DXVECTOR3 CPlayer::GetPosOld()
@@ -576,6 +336,9 @@ void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey
 		moveInput.x += 1.0f;
 		moveLength = 1.0f;
 	}
+
+	/*moveInput.y += 1.0f;
+	moveLength = 1.0f;*/
 
 	//ジャンプ状態ではないときに
 	if (m_state == IDOL_STATE)

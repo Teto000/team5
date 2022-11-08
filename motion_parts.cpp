@@ -585,3 +585,24 @@ D3DXVECTOR3 CMotionParts::AllCollision(int nMotionNum, D3DXVECTOR3 pos, D3DXVECT
 
 	return pos;
 }
+
+D3DXVECTOR3 CMotionParts::AllCollision(int nMyselfMotionNum, int nTargetMotionNum, D3DXVECTOR3 pos, D3DXVECTOR3 oldpos)
+{
+	CMotionParts* pMotionParts = m_pMotionPartsTop;
+
+	while (pMotionParts != nullptr)
+	{
+		if (!pMotionParts->GetMotionParts(nMyselfMotionNum) && pMotionParts->GetMotionParts(nTargetMotionNum))
+		{
+			D3DXVECTOR3 Add = pMotionParts->Collision(pos, oldpos);
+			if (Add != D3DXVECTOR3(0.0f, 0.0f, 0.0f))
+			{
+				return Add;
+			}
+
+		}
+		pMotionParts = pMotionParts->GetNextMotionParts();
+	}
+
+	return pos;
+}

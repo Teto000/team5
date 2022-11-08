@@ -12,18 +12,6 @@
 //--------------------------------
 #include "object.h"
 
-//--------------------------------
-// 前方宣言
-//--------------------------------
-class CShadow;	//影
-class CBullet;	//弾
-class CModel;	//モデル
-
-//--------------------------------
-// マクロ定義
-//--------------------------------
-#define MAX_PARTS	(7)		//モデルパーツの最大数
-#define MAX_KEY_B		(2)		//キーの最大数
 #define MAX_SPEED	(3.0f)	//最大速度
 
 //================================
@@ -32,23 +20,6 @@ class CModel;	//モデル
 class CPlayer : public CObject
 {
 public:
-	//キー要素
-	struct KEY
-	{
-		float fPosX;	//位置
-		float fPosY;
-		float fPosZ;
-		float fRotX;	//向き
-		float fRotY;
-		float fRotZ;
-	};
-
-	//キー情報
-	struct KEY_SET
-	{
-		int nFrame;	//フレーム数
-		KEY aKey[MAX_PARTS];
-	};
 
 	//プレイヤーの状態
 	enum STATE
@@ -91,8 +62,6 @@ public:
 	static CPlayer* Create(int PlayerNum);
 
 private:
-	void SetModel();			//モデルの設定
-	void SetMotion(bool bLoop);	//モーションの設定
 	void Move();				//移動
 	void Jump();				//ジャンプ
 
@@ -110,7 +79,6 @@ private:
 	//----------------
 	// メンバ変数
 	//----------------
-	D3DXMATRIX m_mtxWorld;		//ワールドマトリックス
 	D3DXVECTOR3 m_pos;			//位置
 	D3DXVECTOR3 m_posold;		//1F前の位置
 	D3DXVECTOR3 m_move;			//移動量
@@ -118,19 +86,9 @@ private:
 	D3DXVECTOR3 m_rotDest;		//目的の向き
 	STATE		m_state;		//プレイヤーの状態
 	bool		m_bJump;		//ジャンプしたかしていないか
-	CModel*  m_pModel[MAX_PARTS];	//モデル
-
-	/* ↓ モーション情報 ↓ */
-	int m_nCurrentKey;			//現在のキー番号
-	int m_nCntMotion;			//モーションカウンター
-	int m_nJumpCount;			//ジャンプカウント
-
+	int m_nJumpCount;
 	/* ↓ プレイヤー管理情報 */
 	int m_nPlayerNum;			//プレイヤーの操作番号
-
-	/* ↓ クラス情報 ↓ */
-	static CShadow* m_pShadow;	//影
-	static CBullet* m_pBullet;	//弾
 
 	/* ↓　使ってるモーションモデル番号　*/
 	int m_nMotionNum;

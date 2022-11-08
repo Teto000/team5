@@ -43,6 +43,11 @@ HRESULT CCameraPlayer::Init(void)
 	//カメラの初期化
 	CCamera::Init();
 
+	m_rot.y = D3DX_PI;			//回転量の増加
+	//m_posR.x = D3DX_PI;	//xの距離
+	//m_posR.y = D3DX_PI;	//yの距離
+	//m_posR.z = D3DX_PI;	//zの距離
+
 	return S_OK;
 }
 
@@ -150,7 +155,7 @@ void CCameraPlayer::EachPlayer()
 		// プレイヤー1
 		//------------------
 	case NUMPLAYER_ONE:
-		Turn(DIK_Q, DIK_E);	//旋回
+		Turn(DIK_E, DIK_Q);	//旋回
 		break;
 
 		//------------------
