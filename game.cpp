@@ -409,7 +409,7 @@ void CGame::SetPlayerPosition(D3DXVECTOR3 pos)
 	if (m_nEnumCamera == NUMCAMERA_THREE)
 	{//カメラ列挙型が3なら
 	 //カメラの最大数を1減らす
-		nNumCamera = 3;
+		m_nMaxCamera = 3;
 	}
 
 	// プレイヤーの初期位置の設定
