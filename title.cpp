@@ -61,6 +61,8 @@ HRESULT CTitle::Init()
 	m_pTitlelogo = CTitlelogo::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f),CTexture::TEXTURE_TITLELOGO);
 	m_pTitlelogo = CTitlelogo::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f), CTexture::TEXTURE_TITLELOGO2);
 
+	//サウンド生成
+	CSound::PlaySound(CSound::SOUND_LABEL_TITLE2);
 
 	return S_OK;
 }
@@ -70,6 +72,9 @@ HRESULT CTitle::Init()
 //===========================
 void CTitle::Uninit()
 {
+	//サウンド停止
+	CSound::StopSound();
+
 	//---------------------
 	// カメラの終了
 	//---------------------

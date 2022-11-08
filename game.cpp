@@ -24,9 +24,13 @@
 #include "time.h"
 #include "Goal.h"
 #include "message.h"
+#include "motion_parts.h"
+#include "3dobject.h"
 #include "Editor.h"
 #include "debug_proc.h"
 #include "Map.h"
+#include "read.h"
+#include "num_block.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -40,8 +44,10 @@ CMessage*	CGame::m_pMessage;	//メッセージ
 CEditor*	CGame::m_pEditor = nullptr;
 CDebugProc*	CGame::m_pProc = nullptr;
 CMap*		CGame::m_pMap = nullptr;
+CNumBlock*	CGame::m_pNumBlock = nullptr;
 
 int	 CGame::m_nEnumCamera = 0;	//カメラの列挙型の数
+int	 CGame::m_nGroundNum = 0;		//床
 int	 CGame::m_player = 0;		//プレイヤーの数
 bool CGame::m_bFinish = false;	//終了フラグ
 
@@ -92,11 +98,11 @@ HRESULT CGame::Init()
 		GetCameraPlayer(nCnt)->SetNumPlayer(nCnt);
 	}
 
-	SetPlayerPosition(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	SetPlayerPosition(D3DXVECTOR3(300.0f, 50.0f, -100.0f));
 
 	//メッシュフィールドの生成
 	//pMeshField = CMeshField::Create();
-	m_pMap = CMap::Create(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
+	//m_pMap = CMap::Create(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
 
 	//タイマーの生成
 	CTime *pTime = CTime::Create(D3DXVECTOR3(20.0f, 20.0f, 0.0f));
@@ -108,9 +114,17 @@ HRESULT CGame::Init()
 	m_pMessage = CMessage::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f),
 									CMessage::MESSAGE_COUNT_THREE);
 
+	//サウンド生成
+	CSound::PlaySound(CSound::SOUND_LABEL_GAME1);
+
 	////デバッグ用フォントの生成
 	//m_pProc =new CDebugProc;
 	//m_pProc->Init();
+
+	CRead cRead;
+	m_nGroundNum = cRead.ReadMotion("data/MOTION/motionground.txt");
+
+	m_pNumBlock = CNumBlock::Create(D3DXVECTOR3(50.0f, 650.0f, 0.0f));
 
 	return S_OK;
 }
@@ -120,6 +134,9 @@ HRESULT CGame::Init()
 //===========================
 void CGame::Uninit()
 {
+	//サウンド停止
+	CSound::StopSound();
+
 	//-----------------------------
 	// カメラの終了
 	//-----------------------------
@@ -138,6 +155,10 @@ void CGame::Uninit()
 			m_pCameraPlayer[i] = nullptr;
 		}
 	}
+
+	C3DObject::UninitAllModel();
+
+	CMotionParts::ALLUninit();
 
 	//エディタの削除
 	m_pEditor->Uninit();
@@ -180,9 +201,20 @@ void CGame::Update()
 		FinishGame();
 	}
 
+	CMotionParts::ALLUpdate();
+
 	if (CInputKeyboard::Trigger(DIK_RETURN) == true && CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{//Enterで次の画面に遷移する
 		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
+	}
+
+	if (CInputKeyboard::Press(DIK_UP))
+	{
+		m_pNumBlock->AddNumber(1);
+	}
+	else if (CInputKeyboard::Press(DIK_DOWN))
+	{
+		m_pNumBlock->AddNumber(-1);
 	}
 }
 
@@ -370,7 +402,7 @@ void CGame::SetPlayerPosition(D3DXVECTOR3 pos)
 	//時刻をもとにしたランダムな値を生成
 	srand((unsigned int)time(NULL));
 
-	int nNumCamera = CRenderer::GetMaxCamera();
+	//int nNumCamera = CRenderer::GetMaxCamera();
 
 	m_nEnumCamera = CGame::GetEnumCamera();
 
@@ -386,7 +418,7 @@ void CGame::SetPlayerPosition(D3DXVECTOR3 pos)
 	// FirstPosから等間隔にほかのプレイヤーの座標を設定する。(最大4)
 	D3DXVECTOR3 PlayerPos[4] = {};
 
-	for (int nCnt = 0; nCnt < nNumCamera; nCnt++)
+	for (int nCnt = 0; nCnt < m_nMaxCamera; nCnt++)
 	{
 		// プレイヤーの座標を設定
 		PlayerPos[nCnt] = D3DXVECTOR3(pos.x + nCnt * 100, pos.y + nCnt, pos.z);
@@ -398,10 +430,10 @@ void CGame::SetPlayerPosition(D3DXVECTOR3 pos)
 	int RandCheck[4] = { 99,99,99,99 };
 	int nCnt2 = 0;
 
-	for (int nCnt = 0; nCnt < nNumCamera; nCnt++)
+	for (int nCnt = 0; nCnt < m_nMaxCamera; nCnt++)
 	{
 		// ランダムの値
-		Rand[nCnt] = rand() % 4;
+		Rand[nCnt] = rand() % m_nMaxCamera;
 
 		while (1)
 		{
@@ -409,7 +441,7 @@ void CGame::SetPlayerPosition(D3DXVECTOR3 pos)
 			if (Rand[nCnt] == RandCheck[nCnt2])
 			{
 				// ランダムの値
-				Rand[nCnt] = rand() % 4;
+				Rand[nCnt] = rand() % m_nMaxCamera;
 				nCnt2 = 0;
 
 				continue;
@@ -418,7 +450,7 @@ void CGame::SetPlayerPosition(D3DXVECTOR3 pos)
 			nCnt2++;
 
 			// 全ての箱のチェックが終わったら
-			if (nCnt2 == nNumCamera)
+			if (nCnt2 == m_nMaxCamera)
 			{
 				break;
 			}
@@ -428,7 +460,7 @@ void CGame::SetPlayerPosition(D3DXVECTOR3 pos)
 		RandCheck[nCnt] = Rand[nCnt];
 	}
 
-	for (int nCnt = 0; nCnt < nNumCamera; nCnt++)
+	for (int nCnt = 0; nCnt < m_nMaxCamera; nCnt++)
 	{
 		// 設定した座標にランダムなプレイヤーを移動させる。
 		pPlayer[nCnt]->SetPosition(PlayerPos[Rand[nCnt]]);
