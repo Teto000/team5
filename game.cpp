@@ -117,10 +117,6 @@ HRESULT CGame::Init()
 	//サウンド生成
 	CSound::PlaySound(CSound::SOUND_LABEL_GAME1);
 
-	////デバッグ用フォントの生成
-	//m_pProc =new CDebugProc;
-	//m_pProc->Init();
-
 	CRead cRead;
 	m_nGroundNum = cRead.ReadMotion("data/MOTION/motionground.txt");
 
@@ -164,9 +160,6 @@ void CGame::Uninit()
 	m_pEditor->Uninit();
 	delete m_pEditor;
 	m_pEditor = nullptr;
-
-	//デバッグ用文字の削除
-	m_pProc->Uninit();
 }
 
 //===========================

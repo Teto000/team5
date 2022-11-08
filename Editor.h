@@ -14,7 +14,7 @@
 //マクロ定義
 #define NUM_STAGE	(1)							//ステージ数
 #define FILE_MAPDATA	"data\\TXT\\Edit.txt"	//読み込むファイル名
-#define	MAX_PLANET	(9)							//配置する惑星の数
+#define	MAX_PLANET	(10)							//配置する惑星の数
 
 
 //前方宣言

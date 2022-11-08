@@ -35,7 +35,7 @@ CEditor::CEditor()
 	m_pGoal = nullptr;						//ゴール
 	m_pMap = nullptr;						//マップ
 	m_pSelectObj = nullptr;				//選択中のオブジェクト
-	m_pPlanet[MAX_PLANET] = { nullptr };	//設置するオブジェクト
+	ZeroMemory(&m_pPlanet[0],sizeof(m_pPlanet[0])*MAX_PLANET);
 }
 
 //=============================================================================
