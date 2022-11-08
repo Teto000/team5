@@ -123,7 +123,7 @@ void CEditor::Update()
 
 	}
 
-	D3DXVECTOR3 Selectpos = m_pSelectObj->GetPosition();
+//	D3DXVECTOR3 Selectpos = m_pSelectObj->GetPosition();
 
 	CDebugProc::Print("現在置くオブジェクト:%d 0(ゼロ)キーで種類を変更", m_nNumber);
 	CDebugProc::Print("O(オー)キーでオブジェクトの座標ファイルに出力する");

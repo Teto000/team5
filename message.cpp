@@ -17,7 +17,7 @@
 //=======================
 // コンストラクタ
 //=======================
-CMessage::CMessage() : CObject2D(0)
+CMessage::CMessage() : CObject2D(OBJTYPE_UI)
 {
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//位置
 	m_col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);	//色

@@ -54,6 +54,8 @@ HRESULT CObjectX::Init(D3DXVECTOR3 pos)
 					  &m_nNumMat,
 					  &m_pMesh);
 
+	m_pos = pos;
+
 	return S_OK;
 }
 
@@ -124,6 +126,7 @@ void CObjectX::Draw()
 	//現在のマテリアルを保持
 	pDevice->GetMaterial(&matDef);
 
+	pDevice->SetTexture(0, NULL);
 	//マテリアルデータへのポインタを取得
 	pMat = (D3DXMATERIAL*)m_pBuffMat->GetBufferPointer();
 

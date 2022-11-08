@@ -104,8 +104,8 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	// モードの設定
 	//----------------------------
 	m_pFade = new CFade;
-	SetMode(MODE_TITLE);
-	m_pFade->Init(MODE_TITLE);
+	SetMode(MODE_GAME);
+	m_pFade->Init(MODE_GAME);
 
 	//----------------------------
 	// デバッグ用文字の生成
@@ -253,10 +253,10 @@ void CApplication::Draw()
 	m_pRenderer->Draw();
 
 	//フェードの描画
-	m_pFade->Draw();
+	//m_pFade->Draw();
 
 	//デバッグ用文字の描画
-	m_pDebugproc->Draw();
+	//m_pDebugproc->Draw();
 }
 
 //===========================
