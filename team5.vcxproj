@@ -186,6 +186,7 @@
     <ClCompile Include="read.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
+    <ClCompile Include="Score.cpp" />
     <ClCompile Include="select_player.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="texture.cpp" />
@@ -227,6 +228,7 @@
     <ClInclude Include="read.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
+    <ClInclude Include="Score.h" />
     <ClInclude Include="select_player.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="texture.h" />

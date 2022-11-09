@@ -126,11 +126,3 @@ void CFade::SetFade(CApplication::MODE modeNext)
 		m_col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 }
-
-//===========================
-// Žæ“¾
-//===========================
-CFade::FADE CFade::GetFade(void)
-{
-	return m_fade;
-}

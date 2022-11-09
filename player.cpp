@@ -31,7 +31,7 @@ const float CPlayer::fGravity = 0.1f;
 //========================
 // コンストラクタ
 //========================
-CPlayer::CPlayer() : CObject(0)
+CPlayer::CPlayer() : CObject(OBJTYPE_MODEL)
 {
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//位置
 	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//移動量

@@ -31,6 +31,7 @@
 #include "Map.h"
 #include "read.h"
 #include "num_block.h"
+#include "Score.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -170,10 +171,7 @@ void CGame::Update()
 {
 	static int nCnt = 0;
 	nCnt++;
-	if (nCnt == 1)
-	{
-		CObjectX::Create("data\\MODEL\\X_File\\Neptune_000.x", D3DXVECTOR3(200.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	}
+
 	//エディタの更新
 	m_pEditor->Update();
 
@@ -185,12 +183,6 @@ void CGame::Update()
 	 //カメラの最大数を戻す
 		m_nMaxCamera = 4;
 	}
-	
-	if (CInputKeyboard::Trigger(DIK_7) == true)
-	{//O(オー)キーを押したとき
-		CObjectX::Create("data\\MODEL\\X_File\\Neptune_000.x", D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	}
-
 
 	for (int i = 0; i < m_nMaxCamera; i++)
 	{
@@ -205,6 +197,10 @@ void CGame::Update()
 		//								CMessage::MESSAGE_FINISH);
 
 		FinishGame();
+
+		//一回だけ通るようにしたい…
+		const int ClearTime = CTime::GetTime();
+		CScore::SetCurrentScore(ClearTime);
 	}
 
 	CMotionParts::ALLUpdate();

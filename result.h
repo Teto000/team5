@@ -17,6 +17,7 @@
 //================================
 class CObject2D;
 class CCameraTitle;
+class CScore;
 
 //================================
 // リザルトクラスの定義
@@ -33,7 +34,7 @@ public:
 	HRESULT Init();
 	void Uninit();
 	void Update();
-
+	
 	//------------------
 	// ゲッター
 	//------------------
@@ -42,8 +43,9 @@ public:
 	//------------------
 	// メンバ変数
 	//------------------
-	CObject2D*m_pObject2D;
+	CObject2D* m_pObject2D;
 	static CCameraTitle* m_pCameraTitle;	//タイトルカメラ
+	CScore* apScore[5];
 };
 
 #endif
