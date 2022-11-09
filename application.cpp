@@ -104,8 +104,8 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	// モードの設定
 	//----------------------------
 	m_pFade = new CFade;
-	SetMode(MODE_TITLE);
-	m_pFade->Init(MODE_TITLE);
+	SetMode(MODE_RESULT);
+	m_pFade->Init(MODE_RESULT);
 
 	//----------------------------
 	// デバッグ用文字の生成

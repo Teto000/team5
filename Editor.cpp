@@ -22,7 +22,7 @@
 
 //静的メンバ変数
 //CPlayer*	CEditor::pPlayer = nullptr;
-//CGoal*		CEditor::m_pGoal = nullptr;						//ゴール
+CGoal*		CEditor::m_pGoal = nullptr;						//ゴール
 //CMap*		CEditor::m_pMap = nullptr;						//マップ
 //CObject*	CEditor::m_pSelectObj = nullptr;				//選択中のオブジェクト
 //CModel*		CEditor::m_pPlanet[MAX_PLANET] = { nullptr };	//設置するオブジェクト
@@ -32,7 +32,7 @@
 CEditor::CEditor()
 {
 	m_pPlayer = nullptr;
-	m_pGoal = nullptr;						//ゴール
+	//m_pGoal = nullptr;						//ゴール
 	m_pMap = nullptr;						//マップ
 	m_pSelectObj = nullptr;					//選択中のオブジェクト
 	ZeroMemory(&m_pPlanet[0],sizeof(m_pPlanet[0])*MAX_PLANET);
@@ -354,4 +354,12 @@ void CEditor::Input()
 
 		}
 	}
+}
+
+//=============================================================================
+// ゴールの取得
+//=============================================================================
+CGoal* CEditor::GetGoal()
+{
+	return m_pGoal;
 }

@@ -41,7 +41,7 @@ public:
 	void Update();
 	void Draw();
 	void SetFade(CApplication::MODE modeNext);
-	FADE GetFade(void);
+	FADE GetFade(void) { return m_fade; };
 
 private:
 	//------------------

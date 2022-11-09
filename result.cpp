@@ -17,6 +17,7 @@
 #include "sound.h"
 #include "fade.h"
 #include "camera_title.h"
+#include "Score.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -51,8 +52,15 @@ HRESULT CResult::Init()
 	m_pObject2D->Init(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
 	m_pObject2D->SetTexture(CTexture::TEXTURE_RANKING);
 	m_pObject2D->SetSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	for (int i = 0; i < 5; i++)
+	{
+		apScore[i]->Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 190.0f + 150.0f*i, 0.0f));
+	}
+
 	//サウンド生成
 	CSound::PlaySound(CSound::SOUND_LABEL_RESULT2);
+
 	return S_OK;
 }
 

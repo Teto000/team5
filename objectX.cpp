@@ -232,7 +232,7 @@ void CObjectX::DrawShadow()
 //===========================
 CObjectX * CObjectX::Create(LPCTSTR text, D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
-	CObjectX*pObjectX = new CObjectX(0);
+	CObjectX*pObjectX = new CObjectX(OBJTYPE_MODEL);
 
 	if (pObjectX!=nullptr)
 	{

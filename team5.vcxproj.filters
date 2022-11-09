@@ -22,9 +22,6 @@
     <ClCompile Include="debug_proc.cpp">
       <Filter>Main\Application</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.cpp">
-      <Filter>Main\Application</Filter>
-    </ClCompile>
     <ClCompile Include="fade.cpp">
       <Filter>Main\Application\Scenes</Filter>
     </ClCompile>
@@ -118,6 +115,15 @@
     <ClCompile Include="Titlelogo.cpp">
       <Filter>Main\Object\Object2D</Filter>
     </ClCompile>
+    <ClCompile Include="num_rank.cpp">
+      <Filter>Main\Object\Object2D\Number</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Score.cpp">
+      <Filter>Main\Object\Object2D</Filter>
+    </ClCompile>
     <ClCompile Include="block.cpp">
       <Filter>Main\Object\ObjectX</Filter>
     </ClCompile>
@@ -142,9 +148,6 @@
       <Filter>Main\Application\Camera</Filter>
     </ClInclude>
     <ClInclude Include="debug_proc.h">
-      <Filter>Main\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.h">
       <Filter>Main\Application</Filter>
     </ClInclude>
     <ClInclude Include="fade.h">
@@ -240,9 +243,6 @@
     <ClInclude Include="Titlelogo.h">
       <Filter>Main\Object\Object2D</Filter>
     </ClInclude>
-    <ClInclude Include="block.h">
-      <Filter>Main\Object\ObjectX</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Main">
@@ -253,9 +253,6 @@
     </Filter>
     <Filter Include="Main\Object">
       <UniqueIdentifier>{f3bf294b-3a5d-45ec-b3a5-1deb9c5b1751}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Main\Object\Object2D">
-      <UniqueIdentifier>{6825a86c-d26f-4a59-a59b-d2853ff0471b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Main\Object\Object3D">
       <UniqueIdentifier>{11624b34-2fd7-42f3-a78f-bc2d3c55b4a7}</UniqueIdentifier>
@@ -278,11 +275,14 @@
     <Filter Include="Main\Object\ObjectX">
       <UniqueIdentifier>{88ffc4ba-06f3-4f32-9ef1-5e833a36a82b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Main\Object\Object2D\Number">
-      <UniqueIdentifier>{d069d927-46dc-48d2-bb6f-aa1dd93726a6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Main\Application\Scenes\SelectPlayer">
       <UniqueIdentifier>{7e491a82-c7df-420f-88eb-e546235a47b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object\Object2D">
+      <UniqueIdentifier>{6825a86c-d26f-4a59-a59b-d2853ff0471b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\Object\Object2D\Number">
+      <UniqueIdentifier>{d069d927-46dc-48d2-bb6f-aa1dd93726a6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

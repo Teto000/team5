@@ -71,7 +71,7 @@ void CObject::ReleaseAll(bool bFinish)
 	{
 		if (!m_Top[i])
 		{//Top‚ªnull‚È‚ç
-			return;
+			continue;
 		}
 
 		CObject* pObj = m_Top[i];
@@ -122,7 +122,7 @@ void CObject::UpdateAll()
 	{
 		if (!m_Top[m_nPriority])
 		{//Top‚ªnull‚È‚ç
-			return;
+			continue;
 		}
 
 		CObject* pObj = m_Top[m_nPriority];
@@ -190,7 +190,7 @@ void CObject::DrawAll()
 	{
 		if (!m_Top[i])
 		{//Top‚ªnull‚È‚ç
-			return;
+			continue;
 		}
 
 		CObject* pObj = m_Top[i];

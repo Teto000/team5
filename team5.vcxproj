@@ -179,6 +179,7 @@
     <ClCompile Include="motion_parts.cpp" />
     <ClCompile Include="number.cpp" />
     <ClCompile Include="num_block.cpp" />
+    <ClCompile Include="num_rank.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="object2D.cpp" />
     <ClCompile Include="object3d.cpp" />
@@ -187,6 +188,7 @@
     <ClCompile Include="read.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
+    <ClCompile Include="Score.cpp" />
     <ClCompile Include="select_player.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="texture.cpp" />
@@ -221,6 +223,7 @@
     <ClInclude Include="motion_parts.h" />
     <ClInclude Include="number.h" />
     <ClInclude Include="num_block.h" />
+    <ClInclude Include="num_rank.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="object2D.h" />
     <ClInclude Include="object3d.h" />
@@ -229,6 +232,7 @@
     <ClInclude Include="read.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
+    <ClInclude Include="Score.h" />
     <ClInclude Include="select_player.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="texture.h" />
