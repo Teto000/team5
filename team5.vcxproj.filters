@@ -125,6 +125,9 @@
     <ClCompile Include="Ranking.cpp">
       <Filter>Main\Application</Filter>
     </ClCompile>
+    <ClCompile Include="block.cpp">
+      <Filter>Main\Object\ObjectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3dobject.h">

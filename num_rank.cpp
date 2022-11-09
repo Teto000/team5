@@ -21,13 +21,8 @@
 CRank::CRank() : CObject2D(0)
 {
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//位置
-	m_aPosTexU = 0;			//今の桁の数値
-	m_pNumber = nullptr;	//数値
-
-	for (int i = 0; i < MAX_PLAYER; i++)
-	{
-		m_nRank[i] = 0;	//順位
-	}
+	m_aPosTexU = 0;		//今の桁の数値
+	m_nRank = 0;		//順位
 }
 
 //=======================
@@ -44,15 +39,14 @@ CRank::~CRank()
 HRESULT CRank::Init(D3DXVECTOR3 pos)
 {
 	//初期値の設定
-	m_pos = pos;		//位置
+	m_pos = pos;	//位置
 
 	CObject2D::Init(m_pos);
-	CObject2D::SetSize(0.0f, 0.0f);	//サイズの設定
+	CObject2D::SetSize(100.0f, 100.0f);	//サイズの設定
 
-	//-----------------------
-	// 数値の設定
-	//-----------------------
-	m_pNumber = CNumber::Create(D3DXVECTOR3((m_pos.x + 40.0f), m_pos.y, m_pos.z));
+	m_nRank = 1;
+	//テクスチャの設定
+	SetTexture();
 
 	return S_OK;
 }
@@ -77,15 +71,34 @@ void CRank::Update()
 	D3DXVECTOR3 goalPos(CEditor::GetGoal()->GetPosition());
 
 	//プレイヤーの位置を取得
-	D3DXVECTOR3 playrerPos[4];
+	D3DXVECTOR3 playrerPos[MAX_PLAYER];
 	for (int i = 0; i < MAX_PLAYER; i++)
 	{
-		playrerPos[i] = CGame::GetPlayer(i)->GetPosition();
+		if (CGame::GetPlayer(i) != nullptr)
+		{
+			playrerPos[i] = CGame::GetPlayer(i)->GetPosition();
+		}
 	}
 
 	//ベクトルを計算、配列に入れる
+	D3DXVECTOR3 vec[MAX_PLAYER];
+	for (int i = 0; i < MAX_PLAYER; i++)
+	{
+		vec[i] = D3DXVECTOR3((goalPos.x - playrerPos[i].x),0.0f,
+								(goalPos.z - playrerPos[i].z));
+	}
 
 	//ベクトルの小さい順に対応するプレイヤーにランクを入れる
+
+	m_nRank = 1;
+
+	//テクスチャの設定
+	SetTexture();
+
+	if (CGame::GetFinish())
+	{//終了フラグが立っているなら
+		Uninit();
+	}
 }
 
 //=======================
@@ -115,4 +128,32 @@ CRank *CRank::Create(D3DXVECTOR3 pos)
 	}
 
 	return pRank;
+}
+
+//=======================
+// テクスチャの設定
+//=======================
+void CRank::SetTexture()
+{
+	switch (m_nRank)
+	{
+	case 1:
+		CObject2D::SetTexture(CTexture::TEXTURE_FIRST);
+		break;
+
+	case 2:
+		CObject2D::SetTexture(CTexture::TEXTURE_SECOND);
+		break;
+
+	case 3:
+		CObject2D::SetTexture(CTexture::TEXTURE_THIRD);
+		break;
+
+	case 4:
+		CObject2D::SetTexture(CTexture::TEXTURE_FOURTH);
+		break;
+
+	default:
+		break;
+	}
 }

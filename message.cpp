@@ -49,7 +49,7 @@ HRESULT CMessage::Init(D3DXVECTOR3 pos)
 
 	CObject2D::Init(m_pos);
 
-	CObject2D::SetSize(500.0f, 500.0f);
+	CObject2D::SetSize(m_fWidth, m_fHeight);
 
 	//テクスチャの設定
 	SetTexture();
@@ -79,6 +79,17 @@ void CMessage::Update()
 	{//スタート文字が出た後 and 終了フラグが立っているなら
 	 //メッセージの切り替え
 		ChangeMessage();
+	}
+
+	//-------------------------
+	// 大きさの変更
+	//-------------------------
+	if (m_message == MESSAGE_WINNER_ONE || m_message == MESSAGE_WINNER_TWO
+		|| m_message == MESSAGE_WINNER_THREE || m_message == MESSAGE_WINNER_FOUR)
+	{//勝者を表示するとき
+		m_fWidth = 800.0f;
+		m_fHeight = 300.0f;
+		CObject2D::SetSize(m_fWidth, m_fHeight);
 	}
 
 	//テクスチャの設定
@@ -185,15 +196,15 @@ void CMessage::SetTexture()
 		break;
 
 	case MESSAGE_WINNER_ONE:
-		CObject2D::SetTexture(CTexture::TEXTURE_COUNT_ONE);
+		CObject2D::SetTexture(CTexture::TEXTURE_WINNER_ONE);
 		break;
 
 	case MESSAGE_WINNER_TWO:
-		CObject2D::SetTexture(CTexture::TEXTURE_COUNT_TWO);
+		CObject2D::SetTexture(CTexture::TEXTURE_WINNER_TWO);
 		break;
 
 	case MESSAGE_WINNER_THREE:
-		CObject2D::SetTexture(CTexture::TEXTURE_COUNT_THREE);
+		CObject2D::SetTexture(CTexture::TEXTURE_WINNER_THREE);
 		break;
 
 	case MESSAGE_WINNER_FOUR:

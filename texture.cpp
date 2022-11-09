@@ -34,7 +34,18 @@ const char* CTexture::s_FileName[] =
 	"data/TEXTURE/1.png",			//カウント1
 	"data/TEXTURE/START.png",		//スタート
 	"data/TEXTURE/FINISH00.png",	//フィニッシュ
-	"data/TEXTURE/4.png",			//カウント4
+
+	/* ↓ 順位 ↓ */
+	"data/TEXTURE/1st.png",			//1位
+	"data/TEXTURE/2nd.png",			//2位
+	"data/TEXTURE/3rd.png",			//3位
+	"data/TEXTURE/4th.png",			//4位
+
+	/* ↓ 勝利 ↓ */
+	"data/TEXTURE/Player 1 Win.png",//1PWin
+	"data/TEXTURE/Player 2 Win.png",//2PWin
+	"data/TEXTURE/Player 3 Win.png",//3PWin
+	"data/TEXTURE/Player 4 Win.png",//4PWin
 
 	/* ↓ 人数選択画面 ↓ */
 	"data/TEXTURE/PlayerSelect/title.png",	//人数選択画面のタイトル

@@ -11,12 +11,6 @@
 // インクルード
 //-------------------------------
 #include "object2d.h"
-#include "game.h"
-
-//-------------------------------
-// 前方宣言
-//-------------------------------
-class CNumber;	//数値
 
 //================================
 // ブロック数クラス
@@ -41,13 +35,15 @@ public:
 	static CRank* Create(D3DXVECTOR3 pos);
 
 private:
+	void SetTexture();	//テクスチャの設定
+
+private:
 	//------------------
 	// メンバ変数
 	//------------------
-	D3DXVECTOR3	m_pos;					//位置
-	int			m_nRank[MAX_PLAYER];	//順位
-	int m_aPosTexU;						//今の桁の数値
-	CNumber*	m_pNumber;				//数値
+	D3DXVECTOR3	m_pos;		//位置
+	int			m_nRank;	//順位
+	int m_aPosTexU;			//今の桁の数値
 };
 
 #endif
