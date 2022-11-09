@@ -29,10 +29,10 @@ public:
 	//------------------------
 	enum EObjType
 	{
-		OBJTYPE_MAP,
-		OBJTYPE_UI,
-		OBJTYPE_GOAL,
 		OBJTYPE_FADE,
+		OBJTYPE_MAP,
+		OBJTYPE_GOAL,
+		OBJTYPE_UI,
 		OBJTYPE_MAX,
 	};
 
