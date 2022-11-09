@@ -20,7 +20,7 @@
 class CShadow;	//影
 
 //================================
-// フェードクラスの定義
+// ゴールクラスの定義
 //================================
 class CGoal : public CObject
 {
@@ -31,7 +31,7 @@ public:
 	//------------------
 	// メンバ関数
 	//------------------
-	HRESULT Init(D3DXVECTOR3 pos)override;
+	HRESULT Init(D3DXVECTOR3 pos) override;
 	void Uninit();
 	void Update();
 	void Draw();

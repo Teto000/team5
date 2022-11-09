@@ -41,6 +41,10 @@ public:
 	D3DXVECTOR3 GetPosition() override;	//位置の取得
 	float GetWidth() override;			//幅の取得
 	float GetHeight() override;			//高さの取得
+	//----------------
+	// 静的メンバ関数
+	//----------------
+	static CObjectX* Create(LPCTSTR text, D3DXVECTOR3 pos, D3DXVECTOR3 rot);
 
 private:
 	void DrawShadow();
@@ -52,11 +56,13 @@ private:
 	D3DXMATRIX m_mtxWorld;				//ワールドマトリックス
 	D3DXVECTOR3 m_pos;					//位置
 	D3DXVECTOR3 m_rot;					//向き
+	LPCTSTR		m_pPass;				//ファイル名
 
 	/* ↓ モデル情報 ↓ */
 	LPD3DXMESH m_pMesh;					//メッシュ情報へのポインタ
 	LPD3DXBUFFER m_pBuffMat;			//マテリアル情報へのポインタ
 	DWORD m_nNumMat;					//マテリアル情報の数
+
 };
 
 #endif

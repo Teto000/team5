@@ -55,7 +55,8 @@ HRESULT CPSelect::Init()
 	m_title = CUI_PSelect::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 4.0f, 0.0f), CUI_PSelect::UI_COMENT);
 	m_Select = CUI_PSelect::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 200.0f, 0.0f), CUI_PSelect::UI_SELECT);
 	UI_Create();
-
+	//サウンド生成
+	CSound::PlaySound(CSound::SOUND_LABEL_SELECT2);
 	return S_OK;
 }
 
@@ -64,6 +65,32 @@ HRESULT CPSelect::Init()
 //===========================
 void CPSelect::Uninit()
 {
+	for (int nCnt = 0; nCnt < MAX_PLAYER; nCnt++)
+	{
+		if (m_PUI[nCnt] != nullptr)
+		{
+			m_PUI[nCnt]->Uninit();
+			m_PUI[nCnt] = nullptr;
+		}
+	}
+
+	if (m_title != nullptr)
+	{
+		m_title->Uninit();
+		m_title = nullptr;
+	}
+	if (m_BG != nullptr)
+	{
+		m_BG->Uninit();
+		m_BG = nullptr;
+	}
+	if (m_Select != nullptr)
+	{
+		m_Select->Uninit();
+		m_Select = nullptr;
+	}
+	//サウンド停止
+	CSound::StopSound();
 }
 
 //===========================

@@ -45,7 +45,7 @@ HRESULT CObjectX::Init(D3DXVECTOR3 pos)
 	//-----------------------
 	// Xファイルの読み込み
 	//-----------------------
-	D3DXLoadMeshFromX("data\\MODEL\\sword.x",
+	D3DXLoadMeshFromX(m_pPass,
 					  D3DXMESH_SYSTEMMEM,
 					  pDevice,
 					  NULL,
@@ -53,6 +53,8 @@ HRESULT CObjectX::Init(D3DXVECTOR3 pos)
 					  NULL,
 					  &m_nNumMat,
 					  &m_pMesh);
+
+	m_pos = pos;
 
 	return S_OK;
 }
@@ -79,6 +81,8 @@ void CObjectX::Uninit()
 		m_pBuffMat->Release();
 		m_pBuffMat = nullptr;
 	}
+
+	Release();
 }
 
 //========================
@@ -122,6 +126,7 @@ void CObjectX::Draw()
 	//現在のマテリアルを保持
 	pDevice->GetMaterial(&matDef);
 
+	pDevice->SetTexture(0, NULL);
 	//マテリアルデータへのポインタを取得
 	pMat = (D3DXMATERIAL*)m_pBuffMat->GetBufferPointer();
 
@@ -220,6 +225,23 @@ void CObjectX::DrawShadow()
 
 	//保持しているマテリアルを戻す
 	pDevice->SetMaterial(&matDef);
+}
+
+//===========================
+// 位置の設定
+//===========================
+CObjectX * CObjectX::Create(LPCTSTR text, D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+{
+	CObjectX*pObjectX = new CObjectX(0);
+
+	if (pObjectX!=nullptr)
+	{
+		pObjectX->m_pPass = text;
+		pObjectX->Init(pos);
+		pObjectX->SetRot(rot);
+	}
+
+	return pObjectX;
 }
 
 //===========================

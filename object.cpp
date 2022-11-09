@@ -18,7 +18,6 @@
 //------------------------
 CObject* CObject::m_Top[nMaxPriority] = {};		//最初のオブジェクト
 CObject* CObject::m_Current[nMaxPriority] = {};	//最後のオブジェクト
-int CObject::m_nPriority = 0;					//プライオリティの番号
 
 //=============================
 // コンストラクタ
@@ -68,33 +67,104 @@ CObject::~CObject()
 //=============================
 void CObject::ReleaseAll(bool bFinish)
 {
-	if (!m_Top[m_nPriority])
-	{//Topがnullなら
-		return;
-	}
-
-	CObject* pObj = m_Top[m_nPriority];
-
-	while (pObj)
-	{//pObjがnullじゃないなら
-		//次のオブジェクトを保存
-		CObject* pObjNext = pObj->m_pNext;
-
-		//終了処理
-		pObj->Release();
-
-		//次のオブジェクトのアドレスを代入
-		pObj = pObjNext;
-	}
-
-	//-------------------
-	// 死亡処理
-	//-------------------
-	pObj = m_Top[m_nPriority];
-
-	while (pObj)
+	for (int i = 0; i < nMaxPriority; i++)
 	{
-		if (bFinish == true)
+		if (!m_Top[i])
+		{//Topがnullなら
+			return;
+		}
+
+		CObject* pObj = m_Top[i];
+
+		while (pObj)
+		{//pObjがnullじゃないなら
+			//次のオブジェクトを保存
+			CObject* pObjNext = pObj->m_pNext;
+
+			//終了処理
+			pObj->Release();
+
+			//次のオブジェクトのアドレスを代入
+			pObj = pObjNext;
+		}
+
+		//-------------------
+		// 死亡処理
+		//-------------------
+		pObj = m_Top[i];
+
+		while (pObj)
+		{
+			if (bFinish == true)
+			{
+				//次のオブジェクトを保存
+				CObject* pObjNext = pObj->m_pNext;
+
+				if (pObj->m_bDeath == true)
+				{
+					//消去処理
+					pObj->Death(pObj);
+				}
+
+				//次のオブジェクトのアドレスを代入
+				pObj = pObjNext;
+			}
+		}
+	}
+}
+
+//=============================
+// 全て更新
+//=============================
+void CObject::UpdateAll()
+{
+	for (int m_nPriority = 0; m_nPriority < OBJTYPE_MAX; m_nPriority++)
+	{
+		if (!m_Top[m_nPriority])
+		{//Topがnullなら
+			return;
+		}
+
+		CObject* pObj = m_Top[m_nPriority];
+
+		while (pObj)
+		{//pObjがnullじゃないなら
+			//次のオブジェクトを保存
+			CObject* pObjNext = pObj->m_pNext;
+
+			//-------------------------
+			// ポーズ画面の切り替え
+			//-------------------------
+			/*if (CInputKeyboard::Trigger(DIK_P))
+			{//Pキーを押したとき
+				if (pObj->m_bPause == false)
+				{//ポーズ中じゃないなら
+					//ポーズする
+					pObj->m_bPause = true;
+				}
+				else
+				{//ポーズ中なら
+					//ポーズを解除する
+					pObj->m_bPause = false;
+				}
+			}*/
+
+			if (pObj->m_bPause == false)
+			{//ポーズ中じゃないなら
+				//更新処理
+				pObj->Update();
+			}
+
+			//次のオブジェクトのアドレスを代入
+			pObj = pObjNext;
+		}
+
+		//-------------------
+		// 死亡処理
+		//-------------------
+		pObj = m_Top[m_nPriority];
+
+		while (pObj)
 		{
 			//次のオブジェクトを保存
 			CObject* pObjNext = pObj->m_pNext;
@@ -112,89 +182,27 @@ void CObject::ReleaseAll(bool bFinish)
 }
 
 //=============================
-// 全て更新
-//=============================
-void CObject::UpdateAll()
-{
-	if (!m_Top[m_nPriority])
-	{//Topがnullなら
-		return;
-	}
-
-	CObject* pObj = m_Top[m_nPriority];
-
-	while (pObj)
-	{//pObjがnullじゃないなら
-		//次のオブジェクトを保存
-		CObject* pObjNext = pObj->m_pNext;
-
-		//-------------------------
-		// ポーズ画面の切り替え
-		//-------------------------
-		/*if (CInputKeyboard::Trigger(DIK_P))
-		{//Pキーを押したとき
-			if (pObj->m_bPause == false)
-			{//ポーズ中じゃないなら
-				//ポーズする
-				pObj->m_bPause = true;
-			}
-			else
-			{//ポーズ中なら
-				//ポーズを解除する
-				pObj->m_bPause = false;
-			}
-		}*/
-
-		if (pObj->m_bPause == false)
-		{//ポーズ中じゃないなら
-			//更新処理
-			pObj->Update();
-		}
-
-		//次のオブジェクトのアドレスを代入
-		pObj = pObjNext;
-	}
-
-	//-------------------
-	// 死亡処理
-	//-------------------
-	pObj = m_Top[m_nPriority];
-
-	while (pObj)
-	{
-		//次のオブジェクトを保存
-		CObject* pObjNext = pObj->m_pNext;
-
-		if (pObj->m_bDeath == true)
-		{
-			//消去処理
-			pObj->Death(pObj);
-		}
-
-		//次のオブジェクトのアドレスを代入
-		pObj = pObjNext;
-	}
-}
-
-//=============================
 // 全て描画
 //=============================
 void CObject::DrawAll()
 {
-	if (!m_Top[m_nPriority])
-	{//Topがnullなら
-		return;
-	}
+	for (int i = 0; i < OBJTYPE_MAX; i++)
+	{
+		if (!m_Top[i])
+		{//Topがnullなら
+			return;
+		}
 
-	CObject* pObj = m_Top[m_nPriority];
+		CObject* pObj = m_Top[i];
 
-	while (pObj)
-	{//pObjがnullじゃないなら
-		//描画処理
-		pObj->Draw();
+		while (pObj)
+		{//pObjがnullじゃないなら
+			//描画処理
+			pObj->Draw();
 
-		//次のオブジェクトのアドレスを代入
-		pObj = pObj->m_pNext;
+			//次のオブジェクトのアドレスを代入
+			pObj = pObj->m_pNext;
+		}
 	}
 }
 

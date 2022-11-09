@@ -113,15 +113,15 @@ HRESULT CGame::Init()
 	//メッセージの生成
 	m_pMessage = CMessage::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f),
 									CMessage::MESSAGE_COUNT_THREE);
-	
-	////デバッグ用フォントの生成
-	//m_pProc =new CDebugProc;
-	//m_pProc->Init();
+
+	//サウンド生成
+	CSound::PlaySound(CSound::SOUND_LABEL_GAME1);
 
 	CRead cRead;
 	m_nGroundNum = cRead.ReadMotion("data/MOTION/motionground.txt");
 
 	m_pNumBlock = CNumBlock::Create(D3DXVECTOR3(50.0f, 650.0f, 0.0f));
+	//CObjectX::Create("data\\MODEL\\X_File\\Neptune_000.x", D3DXVECTOR3(200.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 	return S_OK;
 }
@@ -131,6 +131,9 @@ HRESULT CGame::Init()
 //===========================
 void CGame::Uninit()
 {
+	//サウンド停止
+	CSound::StopSound();
+
 	//-----------------------------
 	// カメラの終了
 	//-----------------------------
@@ -158,9 +161,6 @@ void CGame::Uninit()
 	m_pEditor->Uninit();
 	delete m_pEditor;
 	m_pEditor = nullptr;
-
-	//デバッグ用文字の削除
-	m_pProc->Uninit();
 }
 
 //===========================
@@ -168,6 +168,12 @@ void CGame::Uninit()
 //===========================
 void CGame::Update()
 {
+	static int nCnt = 0;
+	nCnt++;
+	if (nCnt == 1)
+	{
+		CObjectX::Create("data\\MODEL\\X_File\\Neptune_000.x", D3DXVECTOR3(200.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	}
 	//エディタの更新
 	m_pEditor->Update();
 
@@ -179,6 +185,12 @@ void CGame::Update()
 	 //カメラの最大数を戻す
 		m_nMaxCamera = 4;
 	}
+	
+	if (CInputKeyboard::Trigger(DIK_7) == true)
+	{//O(オー)キーを押したとき
+		CObjectX::Create("data\\MODEL\\X_File\\Neptune_000.x", D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	}
+
 
 	for (int i = 0; i < m_nMaxCamera; i++)
 	{
@@ -397,6 +409,14 @@ void CGame::SetPlayerPosition(D3DXVECTOR3 pos)
 	srand((unsigned int)time(NULL));
 
 	//int nNumCamera = CRenderer::GetMaxCamera();
+
+	m_nEnumCamera = CGame::GetEnumCamera();
+
+	if (m_nEnumCamera == NUMCAMERA_THREE)
+	{//カメラ列挙型が3なら
+	 //カメラの最大数を1減らす
+		m_nMaxCamera = 3;
+	}
 
 	// プレイヤーの初期位置の設定
 	D3DXVECTOR3 FirstPos = pos;

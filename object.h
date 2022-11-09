@@ -32,7 +32,7 @@ public:
 		OBJTYPE_FADE,
 		OBJTYPE_MAP,
 		OBJTYPE_GOAL,
-		OBJTYPE_CAMERA,
+		OBJTYPE_UI,
 		OBJTYPE_MAX,
 	};
 
@@ -89,7 +89,7 @@ private:
 	//----------------
 	static CObject* m_Top[nMaxPriority];		//最初のオブジェクト
 	static CObject*	m_Current[nMaxPriority];	//最後のオブジェクト
-	static int m_nPriority;	//プライオリティの番号
+	int	   m_nPriority;	//プライオリティの番号
 };
 
 #endif // !_OBJECT_H_
