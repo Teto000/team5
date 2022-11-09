@@ -124,6 +124,9 @@
     <ClCompile Include="Score.cpp">
       <Filter>Main\Object\Object2D</Filter>
     </ClCompile>
+    <ClCompile Include="block.cpp">
+      <Filter>Main\Object\ObjectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3dobject.h">
@@ -239,11 +242,6 @@
     </ClInclude>
     <ClInclude Include="Titlelogo.h">
       <Filter>Main\Object\Object2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.h" />
-    <ClInclude Include="Score.h" />
-    <ClInclude Include="num_rank.h">
-      <Filter>Main\Object\Object2D\Number</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
