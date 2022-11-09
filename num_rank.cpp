@@ -21,13 +21,8 @@
 CRank::CRank() : CObject2D(0)
 {
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//位置
-	m_aPosTexU = 0;			//今の桁の数値
-	m_pNumber = nullptr;	//数値
-
-	for (int i = 0; i < MAX_PLAYER; i++)
-	{
-		m_nRank[i] = 0;	//順位
-	}
+	m_aPosTexU = 0;		//今の桁の数値
+	m_nRank = 0;		//順位
 }
 
 //=======================
@@ -47,12 +42,8 @@ HRESULT CRank::Init(D3DXVECTOR3 pos)
 	m_pos = pos;		//位置
 
 	CObject2D::Init(m_pos);
-	CObject2D::SetSize(0.0f, 0.0f);	//サイズの設定
-
-	//-----------------------
-	// 数値の設定
-	//-----------------------
-	m_pNumber = CNumber::Create(D3DXVECTOR3((m_pos.x + 40.0f), m_pos.y, m_pos.z));
+	CObject2D::SetSize(50.0f, 50.0f);	//サイズの設定
+	CObject2D::SetTexture(CTexture::TEXTURE_WINNER_FOUR);
 
 	return S_OK;
 }
@@ -77,15 +68,26 @@ void CRank::Update()
 	D3DXVECTOR3 goalPos(CEditor::GetGoal()->GetPosition());
 
 	//プレイヤーの位置を取得
-	D3DXVECTOR3 playrerPos[4];
+	D3DXVECTOR3 playrerPos[MAX_PLAYER];
 	for (int i = 0; i < MAX_PLAYER; i++)
 	{
 		playrerPos[i] = CGame::GetPlayer(i)->GetPosition();
 	}
 
 	//ベクトルを計算、配列に入れる
+	D3DXVECTOR2 vec[MAX_PLAYER];
+	for (int i = 0; i < MAX_PLAYER; i++)
+	{
+		vec[i] = D3DXVECTOR2((goalPos.x - playrerPos[i].x),
+								(goalPos.y - playrerPos[i].y));
+	}
 
 	//ベクトルの小さい順に対応するプレイヤーにランクを入れる
+
+	if (CGame::GetFinish())
+	{//終了フラグが立っているなら
+		Uninit();
+	}
 }
 
 //=======================

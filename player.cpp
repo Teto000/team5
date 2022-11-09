@@ -22,6 +22,7 @@
 #include "motion_parts.h"
 #include "read.h"
 #include "num_block.h"
+#include "num_rank.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -40,6 +41,7 @@ CPlayer::CPlayer() : CObject(OBJTYPE_MODEL)
 	m_rotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//目的の向き
 	m_nNumBlock = 0;							//ブロック数
 	m_pNumBlock = nullptr;						//ブロック数の表示
+	m_pRank = nullptr;							//順位
 }
 
 //========================
@@ -69,6 +71,20 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos)
 				(CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().Height - 50.0f);
 		D3DXVECTOR3 Pos(X, Y, 0.0f);
 		m_pNumBlock = CNumBlock::Create(Pos);
+	}
+
+	//-----------------------------
+	// 順位の生成
+	//-----------------------------
+	{
+		//ビューポートの座標を取得、設置場所の計算
+		float X = CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().X +
+			(CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().Width - 80.0f);
+
+		float Y = CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().Y +
+			(CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().Height - 50.0f);
+		D3DXVECTOR3 Pos(X, Y, 0.0f);
+		m_pRank = CRank::Create(Pos);
 	}
 	
 	CRead cRead;

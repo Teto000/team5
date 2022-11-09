@@ -3,6 +3,7 @@
 //========================================================
 #include "time.h"
 #include "input.h"
+#include "game.h"
 #include <math.h>
 
 int CTime::m_Time = 0;
@@ -62,6 +63,18 @@ void CTime::Update()
 
 	// 時間設定
 	Set();
+
+	if (CGame::GetFinish())
+	{//終了フラグが立っているなら
+		for (int i = 0; i < MAX_DIGITS; i++)
+		{
+			if (m_pNumber[i] != nullptr)
+			{//nullじゃないなら
+				m_pNumber[i]->Uninit();
+				m_pNumber[i] = nullptr;
+			}
+		}
+	}
 }
 
 //=========================================
@@ -106,6 +119,11 @@ void CTime::Set()
 
 	for (int nCnt = 0; nCnt < MAX_DIGITS; nCnt++)
 	{
+		if (m_pNumber[nCnt] == nullptr)
+		{//nullじゃないなら
+			return;
+		}
+
 		// powで桁数を出す。
 		int nCntNumber = MAX_DIGITS - nCnt - 1;		// defineだと0がないので-1
 		int nNum0 = (int)pow(10, nCntNumber + 1);	// 桁数を10000000~の形にする

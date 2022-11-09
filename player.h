@@ -16,6 +16,7 @@
 // 前方宣言
 //--------------------------------
 class CNumBlock;	//ブロック数の表示
+class CRank;		//ランク
 
 //--------------------------------
 // マクロ定義
@@ -97,6 +98,7 @@ private:
 	bool		m_bJump;		//ジャンプしたかしていないか
 	int m_nJumpCount;
 	CNumBlock*	m_pNumBlock;	//ブロック数の表示
+	CRank*		m_pRank;		//順位
 
 	/* ↓ プレイヤー管理情報 */
 	int m_nPlayerNum;			//プレイヤーの操作番号
