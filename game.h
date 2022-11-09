@@ -25,7 +25,6 @@ class CMessage;		//メッセージ
 class CEditor;		//エディタ
 class CDebugProc;	//デバッグ用文字
 class CMap;			//マップ
-class CNumBlock;	//ブロックの数表示
 
 //--------------------
 // マクロ定義
@@ -117,7 +116,6 @@ private:
 	static CEditor*		m_pEditor;
 	static CDebugProc*	m_pProc;
 	static CMap*		m_pMap;
-	static CNumBlock*	m_pNumBlock;
 
 	static bool m_bFinish;		//終了フラグ
 	static int  m_player;		//プレイヤーの数
