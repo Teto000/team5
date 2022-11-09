@@ -25,7 +25,6 @@ class CMessage;		//メッセージ
 class CEditor;		//エディタ
 class CDebugProc;	//デバッグ用文字
 class CMap;			//マップ
-class CNumBlock;	//ブロックの数表示
 
 //--------------------
 // マクロ定義
@@ -108,16 +107,15 @@ private:
 	//-------------------
 	// 静的メンバ変数
 	//-------------------
-	static CPolygon*	pPolygon;
-	static CPolygon2d*	pPolygon2d;
-	static CPlayer*		pPlayer[MAX_PLAYER];
-	static CMeshField*	pMeshField;
+	static CPolygon*		pPolygon;
+	static CPolygon2d*		pPolygon2d;
+	static CPlayer*			pPlayer[MAX_PLAYER];
+	static CMeshField*		pMeshField;
 	static CCameraPlayer*	m_pCameraPlayer[nDefaultMaxCamera];	//プレイヤーカメラクラス
 	static CMessage*	m_pMessage;
 	static CEditor*		m_pEditor;
 	static CDebugProc*	m_pProc;
 	static CMap*		m_pMap;
-	static CNumBlock*	m_pNumBlock;
 
 	static bool m_bFinish;		//終了フラグ
 	static int  m_player;		//プレイヤーの数

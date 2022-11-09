@@ -12,7 +12,14 @@
 //--------------------------------
 #include "object.h"
 
-#define MAX_BLOCK	(1000)	//ブロックの最大数
+//--------------------------------
+// 前方宣言
+//--------------------------------
+class CNumBlock;	//ブロック数の表示
+
+//--------------------------------
+// マクロ定義
+//--------------------------------
 #define MAX_SPEED	(3.0f)	//最大速度
 
 //================================
@@ -88,6 +95,7 @@ private:
 	D3DXVECTOR3 m_rot;			//向き
 	D3DXVECTOR3 m_rotDest;		//目的の向き
 	STATE		m_state;		//プレイヤーの状態
+	int			m_nNumBlock;	//ブロック数
 	bool		m_bJump;		//ジャンプしたかしていないか
 
 	CBlock		*m_pModel[MAX_BLOCK];		//ブロック
@@ -95,6 +103,8 @@ private:
 	int			m_BlockHave;				//ブロックを所持している個数
 
 	int m_nJumpCount;
+	CNumBlock*	m_pNumBlock;	//ブロック数の表示
+
 	/* ↓ プレイヤー管理情報 */
 	int m_nPlayerNum;			//プレイヤーの操作番号
 

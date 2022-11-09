@@ -4,8 +4,8 @@ Format Text Ver 1.0
 Scene {
 	pos 0.0000 0.0000 1500.0000
 	lookat 0.0000 0.0000 0.0000
-	head -2.4036
-	pich 0.7636
+	head -4.7936
+	pich 0.2236
 	bank 0.0000
 	ortho 0
 	zoom2 5.0000
@@ -18,7 +18,7 @@ Scene {
 	}
 }
 Material 1 {
-	"mat1" col(1.000 1.000 1.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00) tex("C:\Users\student\Desktop\惑星テクスチャ\moon.jpg")
+	"mat1" col(1.000 1.000 1.000 1.000) dif(0.800) amb(0.600) emi(0.000) spc(0.000) power(5.00) tex("..\..\..\data\TEXTURE\惑星テクスチャ\moon.jpg")
 }
 Object "obj1" {
 	visible 15

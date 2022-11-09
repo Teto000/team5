@@ -183,7 +183,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "C:\\Users\\student\\Desktop\\team5\\data\\TEXTURE\\SolarPanel000.png";
+    "..\\..\\..\\\\data\\TEXTURE\\SolarPanel000.png";
    }
   }
  }
