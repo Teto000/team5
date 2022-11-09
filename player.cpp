@@ -21,6 +21,7 @@
 #include "game.h"
 #include "motion_parts.h"
 #include "read.h"
+#include "block.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -82,13 +83,25 @@ void CPlayer::Update()
 	//---------------
 	m_posold = m_pos;	//位置の保存
 	Move();
+	SetBlock();
+
+#ifdef _DEBUG
+	
+	//デバック用
+	if (CInputKeyboard::Press(DIK_K))
+	{
+		m_BlockHave++;
+	}
+#endif // _DEBUG
 
 	//-------------------
 	//当たり判定
 	//-------------------
 	/*CMeshField *m_pMesh = CGame::GetMesh();
 	m_pMesh->Collision(&m_pos);*/
+
 	D3DXVECTOR3 pos = CMotionParts::AllCollision(m_nMotionNum,CGame::GetGroundNum(), m_pos, m_posold);
+	
 	if (m_pos != pos)
 	{
 		m_pos = pos;
@@ -106,6 +119,13 @@ void CPlayer::Update()
 //========================
 void CPlayer::Draw()
 {
+	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
+	{
+		if (m_pModel[nCnt] != nullptr)
+		{
+			m_pModel[nCnt]->Draw();
+		}
+	}
 }
 
 //========================
@@ -368,5 +388,38 @@ void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey
 	else
 	{ // 入力されていない。
 		return;
+	}
+}
+
+void CPlayer::SetBlock()
+{
+	// プレイヤーのy座標が0以下の時
+	if (m_pos.y > 0.0f)
+	{
+		return;
+	}
+
+	if (m_BlockHave <= 0)
+	{
+		return;
+	}
+
+	/*if(プレイヤーがブロックの上にいないとき)*/
+	{
+		for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
+		{
+			if (m_pModel[nCnt]->GetBlockCollision())
+			{// trueだった時
+				return;
+			}
+		}
+
+		if (m_pModel[m_BlockCnt] == nullptr)
+		{// モデルの設定
+			m_pModel[m_BlockCnt] = CBlock::Create(D3DXVECTOR3(m_pos.x, 0.0f, m_pos.z), m_rot);
+			m_pModel[m_BlockCnt]->SetAbove();
+			m_BlockCnt++;
+			m_BlockHave--;
+		}
 	}
 }

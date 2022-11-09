@@ -118,6 +118,9 @@
     <ClCompile Include="Titlelogo.cpp">
       <Filter>Main\Object\Object2D</Filter>
     </ClCompile>
+    <ClCompile Include="block.cpp">
+      <Filter>Main\Object\ObjectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3dobject.h">
@@ -236,6 +239,9 @@
     </ClInclude>
     <ClInclude Include="Titlelogo.h">
       <Filter>Main\Object\Object2D</Filter>
+    </ClInclude>
+    <ClInclude Include="block.h">
+      <Filter>Main\Object\ObjectX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

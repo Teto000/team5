@@ -12,11 +12,13 @@
 //--------------------------------
 #include "object.h"
 
+#define MAX_BLOCK	(1000)	//ブロックの最大数
 #define MAX_SPEED	(3.0f)	//最大速度
 
 //================================
 // プレイヤークラスの定義
 //================================
+class CBlock;
 class CPlayer : public CObject
 {
 public:
@@ -64,6 +66,7 @@ public:
 private:
 	void Move();				//移動
 	void Jump();				//ジャンプ
+	void SetBlock();			//ブロックの設置
 
 	// 移動キー
 	// 引数 : 上のキー、左のキー、下のキー、右のキー
@@ -86,6 +89,11 @@ private:
 	D3DXVECTOR3 m_rotDest;		//目的の向き
 	STATE		m_state;		//プレイヤーの状態
 	bool		m_bJump;		//ジャンプしたかしていないか
+
+	CBlock		*m_pModel[MAX_BLOCK];		//ブロック
+	int			m_BlockCnt;					//ブロックをカウントする処理
+	int			m_BlockHave;				//ブロックを所持している個数
+
 	int m_nJumpCount;
 	/* ↓ プレイヤー管理情報 */
 	int m_nPlayerNum;			//プレイヤーの操作番号
