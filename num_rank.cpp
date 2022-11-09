@@ -39,11 +39,14 @@ CRank::~CRank()
 HRESULT CRank::Init(D3DXVECTOR3 pos)
 {
 	//初期値の設定
-	m_pos = pos;		//位置
+	m_pos = pos;	//位置
 
 	CObject2D::Init(m_pos);
-	CObject2D::SetSize(50.0f, 50.0f);	//サイズの設定
-	CObject2D::SetTexture(CTexture::TEXTURE_WINNER_FOUR);
+	CObject2D::SetSize(100.0f, 100.0f);	//サイズの設定
+
+	m_nRank = 1;
+	//テクスチャの設定
+	SetTexture();
 
 	return S_OK;
 }
@@ -78,14 +81,19 @@ void CRank::Update()
 	}
 
 	//ベクトルを計算、配列に入れる
-	D3DXVECTOR2 vec[MAX_PLAYER];
+	D3DXVECTOR3 vec[MAX_PLAYER];
 	for (int i = 0; i < MAX_PLAYER; i++)
 	{
-		vec[i] = D3DXVECTOR2((goalPos.x - playrerPos[i].x),
-								(goalPos.y - playrerPos[i].y));
+		vec[i] = D3DXVECTOR3((goalPos.x - playrerPos[i].x),0.0f,
+								(goalPos.z - playrerPos[i].z));
 	}
 
 	//ベクトルの小さい順に対応するプレイヤーにランクを入れる
+
+	m_nRank = 1;
+
+	//テクスチャの設定
+	SetTexture();
 
 	if (CGame::GetFinish())
 	{//終了フラグが立っているなら
@@ -120,4 +128,32 @@ CRank *CRank::Create(D3DXVECTOR3 pos)
 	}
 
 	return pRank;
+}
+
+//=======================
+// テクスチャの設定
+//=======================
+void CRank::SetTexture()
+{
+	switch (m_nRank)
+	{
+	case 1:
+		CObject2D::SetTexture(CTexture::TEXTURE_FIRST);
+		break;
+
+	case 2:
+		CObject2D::SetTexture(CTexture::TEXTURE_SECOND);
+		break;
+
+	case 3:
+		CObject2D::SetTexture(CTexture::TEXTURE_THIRD);
+		break;
+
+	case 4:
+		CObject2D::SetTexture(CTexture::TEXTURE_FOURTH);
+		break;
+
+	default:
+		break;
+	}
 }

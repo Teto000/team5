@@ -35,6 +35,17 @@ public: /* 定義 */
 		TEXTURE_COUNT_ONE,		//カウント1
 		TEXTURE_START,			//スタート
 		TEXTURE_FINISH,			//フィニッシュ
+
+		/* ↓ 順位 ↓ */
+		TEXTURE_FIRST,			//1位
+		TEXTURE_SECOND,			//2位
+		TEXTURE_THIRD,			//3位
+		TEXTURE_FOURTH,			//4位
+
+		/* ↓ 勝利 ↓ */
+		TEXTURE_WINNER_ONE,		//1PWin
+		TEXTURE_WINNER_TWO,		//2PWin
+		TEXTURE_WINNER_THREE,	//3PWin
 		TEXTURE_WINNER_FOUR,	//4PWin
 
 		/* ↓ 人数選択画面 ↓ */

@@ -35,6 +35,9 @@ public:
 	static CRank* Create(D3DXVECTOR3 pos);
 
 private:
+	void SetTexture();	//テクスチャの設定
+
+private:
 	//------------------
 	// メンバ変数
 	//------------------
