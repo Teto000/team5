@@ -7,6 +7,7 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_	//二重インクルード防止
 
+#define MAX_BLOCK (1000)
 //--------------------------------
 // インクルード
 //--------------------------------
@@ -74,6 +75,7 @@ private:
 	void Move();				//移動
 	void Jump();				//ジャンプ
 	void SetBlock();			//ブロックの設置
+	void Gravity();				//重力
 
 	// 移動キー
 	// 引数 : 上のキー、左のキー、下のキー、右のキー
@@ -89,14 +91,14 @@ private:
 	//----------------
 	// メンバ変数
 	//----------------
-	D3DXVECTOR3 m_pos;			//位置
-	D3DXVECTOR3 m_posold;		//1F前の位置
-	D3DXVECTOR3 m_move;			//移動量
-	D3DXVECTOR3 m_rot;			//向き
-	D3DXVECTOR3 m_rotDest;		//目的の向き
-	STATE		m_state;		//プレイヤーの状態
-	int			m_nNumBlock;	//ブロック数
-	bool		m_bJump;		//ジャンプしたかしていないか
+	D3DXVECTOR3 m_pos;						//位置
+	D3DXVECTOR3 m_posold;					//1F前の位置
+	D3DXVECTOR3 m_move;						//移動量
+	D3DXVECTOR3 m_rot;						//向き
+	D3DXVECTOR3 m_rotDest;					//目的の向き
+	STATE		m_state;					//プレイヤーの状態
+	int			m_nNumBlock;				//ブロック数
+	bool		m_bJump;					//ジャンプしたかしていないか
 
 	CBlock		*m_pModel[MAX_BLOCK];		//ブロック
 	int			m_BlockCnt;					//ブロックをカウントする処理

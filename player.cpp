@@ -85,6 +85,15 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos)
 //========================
 void CPlayer::Uninit()
 {
+	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
+	{
+		if (m_pModel[nCnt] != nullptr)
+		{
+			m_pModel[nCnt]->Uninit();
+			m_pModel[nCnt] = nullptr;
+		}
+	}
+
 	Release();
 }
 
@@ -98,7 +107,6 @@ void CPlayer::Update()
 	//---------------
 	m_posold = m_pos;	//位置の保存
 	Move();
-	SetBlock();
 
 #ifdef _DEBUG
 	
@@ -136,10 +144,9 @@ void CPlayer::Update()
 	}
 	else if (m_pos == pos && pos.y < -8.0f)
 	{//コースアウト
-		
+		SetBlock();
 	}
 	
-
 	CMotionParts::MoveMotionModel(m_pos, GetRot(), m_nMotionNum, 1);
 
 	m_rot.y = atan2f(m_move.x, m_move.z) + D3DX_PI;
@@ -194,6 +201,7 @@ void CPlayer::Move()
 		//プレイヤー1の操作
 		MoveKey(DIK_W, DIK_A, DIK_S, DIK_D,DIK_SPACE);
 		break;
+
 	case 1:
 		//プレイヤー2の操作
 		MoveKey(DIK_T, DIK_F, DIK_G, DIK_H, DIK_BACKSPACE);
@@ -224,8 +232,8 @@ void CPlayer::Move()
 	//	////仮で地面で止まる処理
 	//	//m_pos.y = 1.0f;
 	//}
-	//重力
-	m_move.y -= fGravity;
+	
+	Gravity();
 
 	//-------------------------------
 	// ジャンプ状態の処理
@@ -422,6 +430,9 @@ void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey
 	}
 }
 
+//=========================================
+// ブロックを設置する
+//=========================================
 void CPlayer::SetBlock()
 {
 	// プレイヤーのy座標が0以下の時
@@ -430,27 +441,44 @@ void CPlayer::SetBlock()
 		return;
 	}
 
-	if (m_BlockHave <= 0)
+	// ブロックの所持数が1以上の時
+	if (m_nNumBlock <= 0)
 	{
 		return;
 	}
 
-	/*if(プレイヤーがブロックの上にいないとき)*/
+	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
 	{
-		for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
-		{
-			if (m_pModel[nCnt]->GetBlockCollision())
-			{// trueだった時
-				return;
-			}
-		}
-
-		if (m_pModel[m_BlockCnt] == nullptr)
-		{// モデルの設定
-			m_pModel[m_BlockCnt] = CBlock::Create(D3DXVECTOR3(m_pos.x, 0.0f, m_pos.z), m_rot);
-			m_pModel[m_BlockCnt]->SetAbove();
-			m_BlockCnt++;
-			m_BlockHave--;
+		if (m_pModel[nCnt]->GetBlockCollision())
+		{// trueだった時
+			return;
 		}
 	}
+
+	if (m_pModel[m_BlockCnt] == nullptr)
+	{// モデルの設定
+		m_pModel[m_BlockCnt] = CBlock::Create(D3DXVECTOR3(m_pos.x, -1.0f, m_pos.z), m_rot);
+		m_pModel[m_BlockCnt]->SetAbove();
+		m_BlockCnt++;
+		m_nNumBlock = m_pNumBlock->AddNumber(-1);
+	}
+}
+
+//=========================================
+// 重力の処理
+//=========================================
+void CPlayer::Gravity()
+{
+	//重力
+	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
+	{
+		if (m_pModel[nCnt]->GetBlockCollision())
+		{// trueだった時
+			m_pos.y = 0.0f;
+			SetPosition(m_pos);
+			return;
+		}
+	}
+
+	m_move.y -= fGravity;
 }
