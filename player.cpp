@@ -94,6 +94,10 @@ void CPlayer::Update()
 		m_pos = pos;
 		m_move.y = 0.0f;
 	}
+	else if (m_pos == pos && pos.y < -8.0f)
+	{//コースアウト
+		
+	}
 	
 
 	CMotionParts::MoveMotionModel(m_pos, GetRot(), m_nMotionNum, 1);
