@@ -127,6 +127,7 @@ void CEditor::Update()
 
 	CDebugProc::Print("現在置くオブジェクト:%d 0(ゼロ)キーで種類を変更", m_nNumber);
 	CDebugProc::Print("O(オー)キーでオブジェクトの座標ファイルに出力する");
+	CDebugProc::Print("Pキーでオブジェクトの生成/移動");
 	CDebugProc::Print("現在設置する惑星の種類:%d 8/9で種類を変更", m_nNumpla);
 
 
@@ -339,11 +340,11 @@ void CEditor::Input()
 
 		case OBJ_PLANET:
 			if (m_pPlanet[m_nNumpla] == nullptr)
-			{
+			{//生成されてない場合生成
 				m_pPlanet[m_nNumpla] = CObjectX::Create(m_nPlaFileName[m_nNumpla], pos, m_rot);
 			}
 			else
-			{
+			{//中身がある場合移動
 				m_pPlanet[m_nNumpla]->SetPos(pos);
 			}
 			break;
