@@ -71,7 +71,10 @@ void CRank::Update()
 	D3DXVECTOR3 playrerPos[MAX_PLAYER];
 	for (int i = 0; i < MAX_PLAYER; i++)
 	{
-		playrerPos[i] = CGame::GetPlayer(i)->GetPosition();
+		if (CGame::GetPlayer(i) != nullptr)
+		{
+			playrerPos[i] = CGame::GetPlayer(i)->GetPosition();
+		}
 	}
 
 	//ベクトルを計算、配列に入れる
