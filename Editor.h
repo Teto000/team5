@@ -53,6 +53,8 @@ public:
 	void SelectPlanet();
 	void Input();
 
+	static CGoal* GetGoal();	//ゴールの取得
+
 private:
 	//メンバ関数
 	OBJ					m_type;							//オブジェクトの種類
@@ -66,7 +68,7 @@ private:
 
 	//スタティック関数
 	CPlayer*	m_pPlayer;
-	CGoal*		m_pGoal;				//ゴール
+	static CGoal*		m_pGoal;		//ゴール
 	CMap*		m_pMap;					//マップ
 	CObject*	m_pSelectObj;			//選択中のオブジェクト
 	CObjectX*	m_pPlanet[MAX_PLANET];	//背景の星

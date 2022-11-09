@@ -10,6 +10,7 @@
 //----------------------
 #include "num_block.h"
 #include "number.h"
+#include "game.h"
 
 //=======================
 // コンストラクタ
@@ -76,6 +77,18 @@ void CNumBlock::Update()
 
 	//数値の設定
 	SetNumber();
+
+	if (CGame::GetFinish())
+	{//終了フラグが立っているなら
+		for (int i = 0; i < nMaxDigits; i++)
+		{
+			if (m_pNumber[i] != nullptr)
+			{//nullじゃないなら
+				m_pNumber[i]->Uninit();
+				m_pNumber[i] = nullptr;
+			}
+		}
+	}
 }
 
 //=======================
@@ -114,14 +127,17 @@ void CNumBlock::SetNumber()
 {
 	for (int i = 0; i < nMaxDigits; i++)
 	{
-		//powで桁数を出す。
-		int nCntNumber = nMaxDigits - i - 1;
-		int nNum0 = (int)pow(10, nCntNumber + 1);
-		int nNum1 = (int)pow(10, nCntNumber);
+		if (m_pNumber[i] != nullptr)
+		{//nullじゃないなら
+			//powで桁数を出す。
+			int nCntNumber = nMaxDigits - i - 1;
+			int nNum0 = (int)pow(10, nCntNumber + 1);
+			int nNum1 = (int)pow(10, nCntNumber);
 
-		//桁ごとの値を求める
-		m_aPosTexU[i] = (m_nNumBlock % nNum0) / nNum1;
-		m_pNumber[i]->Set(m_aPosTexU[i]);
+			//桁ごとの値を求める
+			m_aPosTexU[i] = (m_nNumBlock % nNum0) / nNum1;
+			m_pNumber[i]->Set(m_aPosTexU[i]);
+		}
 	}
 }
 
