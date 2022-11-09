@@ -21,6 +21,7 @@
 #include "game.h"
 #include "motion_parts.h"
 #include "read.h"
+#include "num_block.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -37,6 +38,8 @@ CPlayer::CPlayer() : CObject(0)
 	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//移動量
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//向き
 	m_rotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//目的の向き
+	m_nNumBlock = 0;							//ブロック数
+	m_pNumBlock = nullptr;						//ブロック数の表示
 }
 
 //========================
@@ -55,6 +58,18 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos)
 {
 	m_pos = pos;
 	m_bJump = false;
+
+	//-----------------------------
+	// ブロック数の表示
+	//-----------------------------
+	{
+		//ビューポートの座標を取得、設置場所の計算
+		float X = CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().X + 50.0f;
+		float Y = CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().Y + 
+				(CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().Height - 50.0f);
+		D3DXVECTOR3 Pos(X, Y, 0.0f);
+		m_pNumBlock = CNumBlock::Create(Pos);
+	}
 	
 	CRead cRead;
 
@@ -82,6 +97,18 @@ void CPlayer::Update()
 	//---------------
 	m_posold = m_pos;	//位置の保存
 	Move();
+
+	//----------------------
+	// ブロック数の増減
+	//----------------------
+	if (CInputKeyboard::Press(DIK_UP) && m_nPlayerNum == 0)
+	{
+		m_nNumBlock = m_pNumBlock->AddNumber(1);
+	}
+	else if (CInputKeyboard::Press(DIK_DOWN) && m_nPlayerNum == 0)
+	{
+		m_nNumBlock = m_pNumBlock->AddNumber(-1);
+	}
 
 	//-------------------
 	//当たり判定
@@ -123,8 +150,8 @@ CPlayer* CPlayer::Create(int PlayerNum)
 	if (pPlayer != nullptr)
 	{//NULLチェック
 		//初期化
-		pPlayer->Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 		pPlayer->m_nPlayerNum = PlayerNum;
+		pPlayer->Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 		//pPlayer->SetObjType(OBJTYPE_ENEMY);
 	}
 

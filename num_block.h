@@ -34,7 +34,7 @@ public:
 	void Update() override;
 	void Draw() override;
 
-	void AddNumber(int nNumber);	//数値の加算
+	int AddNumber(int nNumber);	//数値の加算
 
 	//------------------
 	// 静的メンバ変数

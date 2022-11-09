@@ -30,7 +30,6 @@
 #include "debug_proc.h"
 #include "Map.h"
 #include "read.h"
-#include "num_block.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -44,7 +43,6 @@ CMessage*	CGame::m_pMessage;	//メッセージ
 CEditor*	CGame::m_pEditor = nullptr;
 CDebugProc*	CGame::m_pProc = nullptr;
 CMap*		CGame::m_pMap = nullptr;
-CNumBlock*	CGame::m_pNumBlock = nullptr;
 
 int	 CGame::m_nEnumCamera = 0;	//カメラの列挙型の数
 int	 CGame::m_nGroundNum = 0;		//床
@@ -120,7 +118,6 @@ HRESULT CGame::Init()
 	CRead cRead;
 	m_nGroundNum = cRead.ReadMotion("data/MOTION/motionground.txt");
 
-	m_pNumBlock = CNumBlock::Create(D3DXVECTOR3(50.0f, 650.0f, 0.0f));
 	//CObjectX::Create("data\\MODEL\\X_File\\Neptune_000.x", D3DXVECTOR3(200.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 	return S_OK;
@@ -212,15 +209,6 @@ void CGame::Update()
 	if (CInputKeyboard::Trigger(DIK_RETURN) == true && CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{//Enterで次の画面に遷移する
 		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
-	}
-
-	if (CInputKeyboard::Press(DIK_UP))
-	{
-		m_pNumBlock->AddNumber(1);
-	}
-	else if (CInputKeyboard::Press(DIK_DOWN))
-	{
-		m_pNumBlock->AddNumber(-1);
 	}
 }
 

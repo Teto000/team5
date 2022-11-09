@@ -128,11 +128,13 @@ void CNumBlock::SetNumber()
 //=======================
 // ”’l‚Ì‰ÁZ
 //=======================
-void CNumBlock::AddNumber(int nNumber)
+int CNumBlock::AddNumber(int nNumber)
 {
 	//‰ÁZ
 	m_nNumBlock += nNumber;
 
 	//”’l‚Ìİ’è
 	SetNumber();
+
+	return m_nNumBlock;
 }
