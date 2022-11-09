@@ -341,8 +341,8 @@ void CGame::ResetCameraSize()
 	case NUMCAMERA_FOUR:
 		//カメラの数が4つなら
 		m_pCameraPlayer[0]->SetViewSize(0, 0, fWidth, fHeight);				//左上
-		m_pCameraPlayer[1]->SetViewSize(fWidth, 0, fWidth, fHeight);			//右上
-		m_pCameraPlayer[2]->SetViewSize(0, fHeight, fWidth, fHeight);			//左下
+		m_pCameraPlayer[1]->SetViewSize(fWidth, 0, fWidth, fHeight);		//右上
+		m_pCameraPlayer[2]->SetViewSize(0, fHeight, fWidth, fHeight);		//左下
 		m_pCameraPlayer[3]->SetViewSize(fWidth, fHeight, fWidth, fHeight);	//右下
 		break;
 
