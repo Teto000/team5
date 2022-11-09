@@ -48,7 +48,7 @@ private:
 	//------------------
 	// ’è”
 	//------------------
-	static const int nMaxDigits = 3;	//Å‘åŒ…”
+	static const int nMaxDigits = 2;	//Å‘åŒ…”
 
 	//------------------
 	// ƒƒ“ƒo•Ï”
