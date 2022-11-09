@@ -17,7 +17,7 @@
 //================================
 class CObject2D;
 class CCameraTitle;
-class CScore;
+class CRanking;
 
 //================================
 // リザルトクラスの定義
@@ -45,7 +45,7 @@ public:
 	//------------------
 	CObject2D* m_pObject2D;
 	static CCameraTitle* m_pCameraTitle;	//タイトルカメラ
-	CScore* apScore[5];
+	CRanking* m_pRanking;
 };
 
 #endif

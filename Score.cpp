@@ -4,10 +4,9 @@
 #include "Score.h"
 #include "input.h"
 #include <math.h>
-
-int CScore::m_Time = 0;
-int CScore::m_Seconds = 0;
-int CScore::m_Minutes = 0;
+#include "application.h"
+#include "renderer.h"
+#include<string>
 
 //=========================================
 //コンストラクタ
@@ -57,7 +56,10 @@ HRESULT CScore::Init(D3DXVECTOR3 pos)
 //=========================================
 void CScore::Update()
 {
-
+	// クリアタイムを表示
+	m_Minutes = m_Time / 60000;					// 分に変換
+	m_Seconds = m_Time - (m_Minutes * 60000);	// 分に変換した分を引いた値を秒に入れる
+	Set();
 }
 
 //=========================================
@@ -147,9 +149,72 @@ void CScore::Set()
 }
 
 //=========================================
-// 最新のスコアを取得
+// 時間の設定
 //=========================================
-void CScore::SetCurrentScore(int Time)
+void CScore::SetTime(int Time)
 {
 	m_Time = Time;
 }
+
+int CScore::GetTime()
+{
+	return m_Time;
+}
+
+int CScore::GetSec()
+{
+	return m_Seconds;
+}
+
+int CScore::GetMin()
+{
+	return m_Minutes;
+}
+
+//=========================================
+// 読み込み
+//=========================================
+void CScore::Load()
+{
+	LPDIRECT3DDEVICE9 pDevice;
+	pDevice = CApplication::GetRenderer()->GetDevice();
+
+	FILE*fp = fopen("data\\TXT\\Ranking.txt", "r");		//ファイル読み込み
+	const int lenLine = 1024;							//1単語の最大数
+	int nrScore = 0;									//読み込み用の文字列
+
+	for (int i = 0; i < MAX_RANK; i++)
+	{
+		if (fp != NULL)
+		{
+			fscanf(fp, "%d", &m_apScore[i]);	//読み込んだ文字ごとに設定する
+		}
+	}
+
+	fclose(fp);
+}
+
+////=========================================
+//// ランキングの並び替え
+////=========================================
+//void CScore::Ranking()
+//{
+//	int nSave;
+//	m_nRankUpdate = -1;
+//	m_nTimerRanking = 0;
+//	if (m_Time <= m_apScore[0])
+//	{//比較
+//		m_nRankUpdate++;
+//		m_apScore[0];
+//		for (int i = 0; i < MAX_RANK - 1; i++)
+//		{
+//			if (m_apScore[i] > m_apScore[i + 1])
+//			{//並べ替え
+//				nSave = m_apScore[i + 1];
+//				m_apScore[i + 1] = m_apScore[i];
+//				m_apScore[i] = nSave;
+//				m_nRankUpdate++;
+//			}
+//		}
+//	}
+//}

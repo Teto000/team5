@@ -30,8 +30,6 @@
 #include "debug_proc.h"
 #include "Map.h"
 #include "read.h"
-#include "num_block.h"
-#include "Score.h"
 
 //------------------------
 // Ã“Iƒƒ“ƒo•Ï”éŒ¾
@@ -195,10 +193,6 @@ void CGame::Update()
 		//								CMessage::MESSAGE_FINISH);
 
 		FinishGame();
-
-		//ˆê‰ñ‚¾‚¯’Ê‚é‚æ‚¤‚É‚µ‚½‚¢c
-		const int ClearTime = CTime::GetTime();
-		CScore::SetCurrentScore(ClearTime);
 	}
 
 	CMotionParts::ALLUpdate();
