@@ -202,6 +202,10 @@ void CEditor::Load()
 					{
 						fscanf(fp, "%f%f%f", &m_rot.x, &m_rot.y, &m_rot.z);
 					}
+					else if (strncmp(strLine, "Type", 4) == 0)
+					{
+						fscanf(fp, "%d", &m_nNumgim);
+					}
 					else if (strncmp(strLine, "End", 3) == 0)
 					{
 						if (m_bFlag == true)
@@ -216,6 +220,10 @@ void CEditor::Load()
 								break;
 
 							case OBJ_GIMMICK:
+								if (m_nNumgim >= 0 && m_nNumgim < MAX_GIMMICK)
+								{
+									CGimmick::Create(m_nNumgim, m_pos, m_rot);
+								}
 								break;
 
 							case OBJ_MAP:
@@ -272,6 +280,29 @@ void CEditor::SaveObject()
 	fprintf(fp, "Rot 0.0f 0.0f 0.0f\n");
 	fprintf(fp, "End\n");
 
+	
+	CObject* pObj = CObject::GetTop(CObject::OBJTYPE_GIMMICK);
+
+	while (pObj)
+	{//pObjがnullじゃないなら
+	 //次のオブジェクトを保存
+		CObject* pObjNext = pObj->GetNext();
+
+		//終了処理
+		D3DXVECTOR3 pos= pObj->GetPosition();
+
+		fprintf(fp, "Object\n");
+		fprintf(fp, "Gimmick\n");
+		fprintf(fp, "Pos %.1f %.1f %.1f\n", pos.x, pos.y, pos.z);
+		fprintf(fp, "Rot 0.0f 0.0f 0.0f\n");
+		fprintf(fp, "Type %d\n",pObj->GetType());
+
+		fprintf(fp, "End\n\n");
+
+		//次のオブジェクトのアドレスを代入
+		pObj = pObjNext;
+	}
+
 	fclose(fp);
 }
 
@@ -291,12 +322,6 @@ void CEditor::Pass()
 	m_nPlaFileName[7] = "data\\MODEL\\X_File\\Neptune_000.x";
 	m_nPlaFileName[8] = "data\\MODEL\\X_File\\Uranus_000.x";
 	m_nPlaFileName[9] = "data\\MODEL\\X_File\\Pluto_000.x";
-
-	//星のオブジェクト
-	m_nGimmickName[0] = "data/MOTION/Gimmick001Hummer.txt";
-	m_nGimmickName[1] = "data/MOTION/Gimmick002RotateStick.txt";
-	m_nGimmickName[2] = "data/MOTION/Gimmick003Gate.txt";
-	m_nGimmickName[3] = "data/MOTION/Gimmick004ElasticStick.txt";
 }
 
 
@@ -375,13 +400,14 @@ void CEditor::Input()
 	{
 		m_pPlayer = CGame::GetPlayer(0);
 		D3DXVECTOR3 pos = m_pPlayer->GetPosition();
+		D3DXVECTOR3 rot = m_pPlayer->GetRot();
 
 		switch (m_nNumber)
 		{
 		case OBJ_GOAL:
 			if (m_pGoal == nullptr)
 			{//ゴールの位置を現在のプレイヤーの位置に移動
-				m_pGoal = CGoal::Create(pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+				m_pGoal = CGoal::Create(pos, rot);
 			}
 			else
 			{
@@ -394,16 +420,14 @@ void CEditor::Input()
 
 		case OBJ_GIMMICK:
 			//生成
-			if (m_nGimmickName[m_nNumgim] != nullptr)
-			{
-				CGimmick::Create(m_nGimmickName[m_nNumgim], pos);
-			}
+			CGimmick::Create(m_nNumgim, pos, rot);
+
 			break;
 
 		case OBJ_PLANET:
 			if (m_pPlanet[m_nNumpla] == nullptr)
 			{//生成されてない場合生成
-				m_pPlanet[m_nNumpla] = CObjectX::Create(m_nPlaFileName[m_nNumpla], pos, m_rot);
+				m_pPlanet[m_nNumpla] = CObjectX::Create(m_nPlaFileName[m_nNumpla], pos, rot);
 			}
 			else
 			{//中身がある場合移動

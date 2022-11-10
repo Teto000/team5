@@ -52,11 +52,11 @@ CGimmick::~CGimmick()
 //========================
 HRESULT CGimmick::Init(D3DXVECTOR3 pos)
 {
+	Load();
 	m_pos = pos;
 
 	CRead cRead;
-
-	m_nMotionNum = cRead.ReadMotion(m_modelName);
+	m_nMotionNum = cRead.ReadMotion(m_nGimmickName[GetType()]);
 
 	return S_OK;
 }
@@ -80,7 +80,7 @@ void CGimmick::Update()
 	m_posold = m_pos;	//位置の保存
 	Move();
 
-	//D3DXVECTOR3 pos = CMotionParts::AllCollision(m_nMotionNum, CGame::GetGroundNum(), m_pos, m_posold);
+	D3DXVECTOR3 pos = CMotionParts::AllCollision(m_nMotionNum, CGame::GetGroundNum(), m_pos, m_posold);
 
 	//モーション再生
 	CMotionParts::MoveMotionModel(m_pos, GetRot(), m_nMotionNum, 0);
@@ -96,23 +96,33 @@ void CGimmick::Draw()
 
 }
 
+void CGimmick::Load()
+{
+	//ギミックのオブジェクト
+	m_nGimmickName[0] = "data/MOTION/Gimmick001Hummer.txt";
+	m_nGimmickName[1] = "data/MOTION/Gimmick002RotateStick.txt";
+	m_nGimmickName[2] = "data/MOTION/Gimmick003Gate.txt";
+	m_nGimmickName[3] = "data/MOTION/Gimmick004ElasticStick.txt";
+}
+
 //========================
 // 生成
 //========================
-CGimmick* CGimmick::Create(char* FileName, D3DXVECTOR3 pos)
+CGimmick* CGimmick::Create(int Type, D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {
 	CGimmick *pGimmick = nullptr;
 
 	//----------------------------------
 	// ポリゴンの生成と初期化
 	//----------------------------------
-	pGimmick = new CGimmick;	//生成
+	pGimmick = new CGimmick();	//生成
 
 	if (pGimmick != nullptr)
 	{//NULLチェック
 	 //初期化
-		pGimmick->m_modelName = FileName;
+		pGimmick->SetType(Type) ;
 		pGimmick->Init(D3DXVECTOR3(pos));
+		pGimmick->m_rot = rot;
 	}
 
 	return pGimmick;

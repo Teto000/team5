@@ -218,6 +218,27 @@ void CObject::Release()
 }
 
 //=============================
+// 先頭のアドレスを取得
+//=============================
+CObject * CObject::GetTop(int priority)
+{
+	return m_Top[priority];
+}
+
+//=============================
+// 次のオブジェクトを取得
+//=============================
+CObject * CObject::GetNext()
+{
+	return m_pNext;
+}
+
+int CObject::GetType()
+{
+	return m_nType;
+}
+
+//=============================
 // 死亡処理
 //=============================
 void CObject::Death(CObject* pObj)
@@ -288,4 +309,12 @@ void CObject::SetObjType(EObjType ObjType)
 CObject::EObjType CObject::GetObjType()
 {
 	return m_ObjType;
+}
+
+//=============================
+// オブジェクトの種類の設定
+//=============================
+void CObject::SetType(int Type)
+{
+	m_nType = Type;
 }
