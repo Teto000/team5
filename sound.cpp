@@ -15,19 +15,29 @@
 //------------------------
 CSound::SOUNDPARAM g_aParam[CSound::SOUND_LABEL_MAX] =
 {
-	{ "data/BGM/Game.wav", -1 },								// ゲーム
-	{ "data/BGM/Title.wav", -1 },							// タイトル
-	{ "data/BGM/Result.wav", -1 },						// リザルト
-	{ "data/BGM/Select.wav", -1 },					// セレクト
-	{ "data/SE/block01.wav", 0 },										// ブロック設置音
-	{ "data/SE/jump01.wav", 0 },											// ジャンプ音１
-	{ "data/SE/jump02.wav", 0 },										// ジャンプ音２
-	{ "data/SE/fall01.wav", 0 },										// 落下音１
-	{ "data/SE/fall02.wav", 0 },										// 落下音２
-	{ "data/SE/上昇していくような風の音.wav", 0 },						// ジャンプオブジェクト用音
-	{ "data/SE/Hit01-1.wav", 0 },										// 衝撃音軽１
+	{ "data/BGM/Game.wav", -1 },										//ゲーム
+	{ "data/BGM/Title.wav", -1 },										//タイトル
+	{ "data/BGM/Result.wav", -1 },										//リザルト
+	{ "data/BGM/Select.wav", -1 },										//セレクト
+	{ "data/SE/block01.wav", 0 },										//ブロック設置音
+	{ "data/SE/jump01.wav", 0 },										//ジャンプ音１
+	{ "data/SE/jump02.wav", 0 },										//ジャンプ音２
+	{ "data/SE/fall01.wav", 0 },										//落下音１
+	{ "data/SE/fall02.wav", 0 },										//落下音２
+	{ "data/SE/上昇していくような風の音.wav", 0 },						//ジャンプオブジェクト用音
+	{ "data/SE/Hit01-1.wav", 0 },										//衝撃音軽１
 	{ "data/SE/Hit01-2.wav", 0 },										//衝撃音軽２
-	{ "data/SE/heavy_punch1.wav", 0 },									//  衝撃音重
+	{ "data/SE/heavy_punch1.wav", 0 },									//衝撃音重
+	{ "data/SE/Start声.wav", 0 },										//スタート音声
+	{ "data/SE/Start音低.wav", 0 },										//カウントダウン低音
+	{ "data/SE/Start音高.wav", 0 },										//カウントダウン高音
+	{ "data/SE/人数選択.wav", 0 },										//選択音
+	{ "data/SE/人数決定.wav", 0 },										//選択決定音
+	{ "data/SE/Goal音.wav", 0 },										//ゴール音声
+	{ "data/SE/1PWIN.wav", 0 },											//１Ｐ勝利音声
+	{ "data/SE/2PWIN.wav", 0 },											//２Ｐ勝利音声
+	{ "data/SE/3PWIN.wav", 0 },											//３Ｐ勝利音声
+	{ "data/SE/4PWIN.wav", 0 },											//４Ｐ勝利音声
 };
 
 //------------------------
