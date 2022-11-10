@@ -1,43 +1,45 @@
 //===================================================
 //
-// ブロックの判定
+// 重ねられたブロックの処理
 //
 //===================================================
 
 //------------------------
 // インクルード
 //------------------------
-#include "block.h"
-#include "player.h"
-#include "game.h"
-#include "application.h"
-#include "meshfield.h"
-#include "object2D.h"
-#include "fade.h"
-#include "renderer.h"
-#include "game.h"
+#include"stack_block.h"
+#include"player.h"
+#include"game.h"
+#include"application.h"
+#include"meshfield.h"
+#include"object2D.h"
+#include"fade.h"
+#include"renderer.h"
+#include"game.h"
+#include"time.h"
+#include"Ranking.h"
 
-#define PLAYER_SIZE (20.0f)
-bool CBlock::m_bAbove = false;
-bool CBlock::m_bHaveBlock = false;
+#define PLAYER_SIZE (10.0f)
+//静的メンバ変数宣言
+
 //===========================
 // コンストラクタ
 //===========================
-CBlock::CBlock(int nPriority)
+CSBlock::CSBlock(int nPriority) : CObject(nPriority)
 {
 }
 
 //===========================
 // デストラクタ
 //===========================
-CBlock::~CBlock()
+CSBlock::~CSBlock()
 {
 }
 
 //===========================
 // 初期化
 //===========================
-HRESULT CBlock::Init(D3DXVECTOR3 pos)
+HRESULT CSBlock::Init(D3DXVECTOR3 pos)
 {
 	//-----------------------
 	// デバイスの取得
@@ -47,7 +49,7 @@ HRESULT CBlock::Init(D3DXVECTOR3 pos)
 	//-----------------------
 	// Xファイルの読み込み
 	//-----------------------
-	D3DXLoadMeshFromX("data\\MODEL\\X_File\\Stained_Glass000.x",
+	D3DXLoadMeshFromX("data\\MODEL\\X_File\\Stack_Stained_Glass000.x",
 		D3DXMESH_SYSTEMMEM,
 		pDevice,
 		NULL,
@@ -61,17 +63,15 @@ HRESULT CBlock::Init(D3DXVECTOR3 pos)
 	DWORD sizeFVF;								//頂点フォーマットのサイズ
 	BYTE*pVtxBuff;								//頂点バッファへのポインタ
 
-	//頂点フォーマットのサイズを取得
+												//頂点フォーマットのサイズを取得
 	sizeFVF = D3DXGetFVFVertexSize(m_pMesh->GetFVF());
 
 	//頂点バッファのロック
 	m_pMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&pVtxBuff);
-
 	//頂点座標の代入
 	//すべての頂点のposを取得する
 	m_vtxMax = D3DXVECTOR3(-1000.0f, -1000.0f, -1000.0f);	//最大値の保存用
 	m_vtxMin = D3DXVECTOR3(1000.0f, 1000.0f, 1000.0f);	//最小値の保存用
-
 	for (int nCntVtx = 0; nCntVtx < nNumVtx; nCntVtx++)
 	{
 		D3DXVECTOR3 vtx = *(D3DXVECTOR3*)pVtxBuff;
@@ -116,7 +116,7 @@ HRESULT CBlock::Init(D3DXVECTOR3 pos)
 //===========================
 // 終了
 //===========================
-void CBlock::Uninit()
+void CSBlock::Uninit()
 {
 	//-----------------------
 	// メッシュの破棄
@@ -135,22 +135,22 @@ void CBlock::Uninit()
 		m_pBuffMat->Release();
 		m_pBuffMat = nullptr;
 	}
-	//Release();
+
+	Release();
 }
 
 //===========================
 // 更新
 //===========================
-void CBlock::Update()
+void CSBlock::Update()
 {
-	// 当たり判定
 	Collision();
 }
 
 //========================
 // 描画
 //========================
-void CBlock::Draw()
+void CSBlock::Draw()
 {
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();	//デバイスの取得
 
@@ -201,8 +201,10 @@ void CBlock::Draw()
 //===========================
 // 当たり判定
 //===========================
-bool CBlock::Collision()
+bool CSBlock::Collision()
 {
+	bool bCheck = false;
+
 	//カメラの最大数を取得
 	int nMaxCamera = CRenderer::GetMaxCamera();
 
@@ -219,12 +221,6 @@ bool CBlock::Collision()
 	{//プレイヤーの最大人数分回す
 		CPlayer*pPlayer = CGame::GetPlayer(i);
 
-		//横からぶつかった時用
-		////Y軸
-		//if (pPlayer->GetPosition().y < m_pos.y + m_vtxMax.y
-		//	&&pPlayer->GetPosition().y  > m_pos.y - m_vtxMin.y)
-		//{
-		//}
 		if (pPlayer != nullptr)
 		{
 			//X軸
@@ -233,61 +229,72 @@ bool CBlock::Collision()
 				//Z軸
 				if (pPlayer->GetPosition().x - PLAYER_SIZE < m_pos.x + m_vtxMax.x
 					&& pPlayer->GetPosition().x + PLAYER_SIZE > m_pos.x + m_vtxMin.x)
-				{// 当たっている
-					m_bAbove = true;
+				{
+					Uninit();
+					bCheck = true;
+					pPlayer->Add(5);
 				}
-				else
-				{// Xで当たってない
-					m_bAbove = false;
-				}
-			}
-			else
-			{// Zで当たってない
-				m_bAbove = false;
 			}
 		}
 	}
-	return m_bAbove;
+	return bCheck;
 }
 
 //========================
 // 生成
 //========================
-CBlock* CBlock::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CSBlock* CSBlock::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 {//モデルのパス , 親モデルから見た位置 , 親モデルから見た向き
 
  //----------------------------------
  // 生成と初期化
  //----------------------------------
-	CBlock *pCBlock = nullptr;
-	//pGoal = new CGoal(CObject::OBJTYPE_GOAL);	//生成
-	pCBlock = new CBlock(CObject::OBJTYPE_BLOCK);	//生成
+	CSBlock *pGoal = nullptr;
+	//pGoal = new CSBlock(CObject::OBJTYPE_GOAL);	//生成
+	pGoal = new CSBlock(0);	//生成
 
-	if (pCBlock != nullptr)
+
+	if (pGoal != nullptr)
 	{//NULLチェック
 	 //メンバ変数に代入
-		pCBlock->m_pos = pos;
-		pCBlock->m_rot = rot;
+		pGoal->m_pos = pos;
+		pGoal->m_rot = rot;
 
 		//初期化
-		pCBlock->Init(pos);
+		pGoal->Init(pos);
 	}
 
-	return pCBlock;
+	return pGoal;
 }
 
 //========================
 // 位置の設定
 //========================
-void CBlock::SetPosition(D3DXVECTOR3 pos)
+void CSBlock::SetPosition(D3DXVECTOR3 pos)
 {
 	m_pos = pos;
 }
 
-////===========================
-//// 位置の取得
-////===========================
-//D3DXVECTOR3 CBlock::GetPosition()
-//{
-//	return m_pos;
-//}
+//===========================
+// 位置の取得
+//===========================
+D3DXVECTOR3 CSBlock::GetPosition()
+{
+	return m_pos;
+}
+
+//===========================
+// 幅の取得
+//===========================
+float CSBlock::GetWidth()
+{
+	return 0.0f;
+}
+
+//===========================
+// 高さの取得
+//===========================
+float CSBlock::GetHeight()
+{
+	return 0.0f;
+}

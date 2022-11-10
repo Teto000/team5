@@ -11,6 +11,7 @@
 // インクルード
 //-------------------------------
 #include "object2d.h"
+#include "game.h"
 
 //================================
 // ブロック数クラス
@@ -32,18 +33,24 @@ public:
 	//------------------
 	// 静的メンバ変数
 	//------------------
-	static CRank* Create(D3DXVECTOR3 pos);
+	static CRank* Create(D3DXVECTOR3 pos, int nNumPlayer);
 
 private:
-	void SetTexture();	//テクスチャの設定
+	void SetTexture(int nNumPlayer);	//テクスチャの設定
 
 private:
 	//------------------
 	// メンバ変数
 	//------------------
-	D3DXVECTOR3	m_pos;		//位置
-	int			m_nRank;	//順位
-	int m_aPosTexU;			//今の桁の数値
+	D3DXVECTOR3	m_pos;					//位置
+	int			m_aPosTexU;				//今の桁の数値
+	int			m_nNumPlayer;			//対応するプレイヤー番号
+
+	//------------------
+	// 静的メンバ変数
+	//------------------
+	static int	m_nRank[MAX_PLAYER];	//順位
+	static int	m_nDistance[MAX_PLAYER];//距離
 };
 
 #endif
