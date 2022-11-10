@@ -57,7 +57,7 @@ HRESULT CResult::Init()
 	m_pRanking = CRanking::Create();
 
 	//ÉTÉEÉìÉhê∂ê¨
-	CSound::PlaySound(CSound::SOUND_LABEL_RESULT2);
+	CSound::PlaySound(CSound::SOUND_LABEL_RESULT);
 
 	return S_OK;
 }

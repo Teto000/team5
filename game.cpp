@@ -113,7 +113,7 @@ HRESULT CGame::Init()
 									CMessage::MESSAGE_COUNT_THREE);
 
 	//ÉTÉEÉìÉhê∂ê¨
-	CSound::PlaySound(CSound::SOUND_LABEL_GAME1);
+	CSound::PlaySound(CSound::SOUND_LABEL_GAME);
 
 	CRead cRead;
 	m_nGroundNum = cRead.ReadMotion("data/MOTION/motionground.txt");

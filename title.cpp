@@ -68,7 +68,7 @@ HRESULT CTitle::Init()
 	m_pTitlelogo = CTitlelogo::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f), CTexture::TEXTURE_TITLELOGO2);
 
 	//ÉTÉEÉìÉhê∂ê¨
-	CSound::PlaySound(CSound::SOUND_LABEL_TITLE2);
+	CSound::PlaySound(CSound::SOUND_LABEL_TITLE);
 
 	return S_OK;
 }

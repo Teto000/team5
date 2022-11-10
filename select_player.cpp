@@ -56,7 +56,7 @@ HRESULT CPSelect::Init()
 	m_Select = CUI_PSelect::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 200.0f, 0.0f), CUI_PSelect::UI_SELECT);
 	UI_Create();
 	//ÉTÉEÉìÉhê∂ê¨
-	CSound::PlaySound(CSound::SOUND_LABEL_SELECT2);
+	CSound::PlaySound(CSound::SOUND_LABEL_SELECT);
 	return S_OK;
 }
 
