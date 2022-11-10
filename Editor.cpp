@@ -65,8 +65,6 @@ void CEditor::Init()
 	m_nNumber = 0;									//現在設定するブロックのタイプ
 	m_nNumpla = 0;
 
-	SelectPlanet();
-
 	for (int nCnt = 0; nCnt < MAX_STACK_BLOCK; nCnt++)
 	{
 		if (m_pStackBlock[nCnt] != nullptr)
@@ -74,7 +72,6 @@ void CEditor::Init()
 			m_pStackBlock[nCnt] = nullptr;
 		}
 	}
-}
 	Pass();
 }
 
