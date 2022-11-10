@@ -4,8 +4,8 @@ Format Text Ver 1.0
 Scene {
 	pos 0.0000 0.0000 9830.4004
 	lookat 0.0000 0.0000 0.0000
-	head 0.1764
-	pich 0.3336
+	head 0.4564
+	pich 0.3636
 	bank 0.0000
 	ortho 0
 	zoom2 0.7629
@@ -18,7 +18,7 @@ Scene {
 	}
 }
 Object "gate" {
-	visible 0
+	visible 15
 	locking 0
 	shading 1
 	facet 59.5
@@ -44,7 +44,7 @@ Object "gate" {
 	}
 }
 Object "stick" {
-	visible 15
+	visible 0
 	locking 0
 	shading 1
 	facet 59.5
@@ -70,7 +70,7 @@ Object "stick" {
 	}
 }
 Object "stick2" {
-	visible 15
+	visible 0
 	locking 0
 	shading 1
 	facet 59.5

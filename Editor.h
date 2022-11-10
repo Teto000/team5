@@ -14,7 +14,9 @@
 //マクロ定義
 #define NUM_STAGE	(1)							//ステージ数
 #define FILE_MAPDATA	"data\\TXT\\Edit.txt"	//読み込むファイル名
-#define	MAX_PLANET	(10)							//配置する惑星の数
+#define	MAX_PLANET	(10)						//配置する惑星の数
+#define	MAX_GIMMICK	(4)							//ギミックの種類
+
 
 
 //前方宣言
@@ -26,6 +28,7 @@ class CObject;
 class CGimmick;
 class CMap;
 class CObjectX;
+class CGimmick;
 
 //=============================================================================
 // 構造体定義
@@ -50,7 +53,7 @@ public:
 	void Uninit();
 	static CEditor*Create();
 	void SaveObject();
-	void SelectPlanet();
+	void Pass();
 	void Input();
 
 	static CGoal* GetGoal();	//ゴールの取得
@@ -63,15 +66,19 @@ private:
 	bool				m_bEnd;							//終了フラグ
 	bool				m_bFlag;						//生成フラグ
 	int					m_nNumber;						//現在設定するブロックのタイプ
-	int					m_nNumpla;						//現在の惑星の数
+	int					m_nNumpla;						//現在の惑星の番号
+	int					m_nNumgim;						//現在のギミックの番号
+
 	LPCTSTR				m_nPlaFileName[MAX_PLANET];		//惑星のファイルの名前
+	char*				m_nGimmickName[MAX_GIMMICK];	//障害物のファイルの名前
+
 
 	//スタティック関数
-	CPlayer*	m_pPlayer;
-	static CGoal*		m_pGoal;		//ゴール
-	CMap*		m_pMap;					//マップ
-	CObject*	m_pSelectObj;			//選択中のオブジェクト
-	CObjectX*	m_pPlanet[MAX_PLANET];	//背景の星
+	CPlayer*		m_pPlayer;
+	static CGoal*	m_pGoal;		//ゴール
+	CMap*			m_pMap;					//マップ
+	CObject*		m_pSelectObj;			//選択中のオブジェクト
+	CObjectX*		m_pPlanet[MAX_PLANET];	//背景の星
 };
 #endif 
 

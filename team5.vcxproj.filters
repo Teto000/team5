@@ -128,6 +128,9 @@
     <ClCompile Include="block.cpp">
       <Filter>Main\Object\ObjectX</Filter>
     </ClCompile>
+    <ClCompile Include="Gimmick.cpp">
+      <Filter>Main\Object\ObjectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3dobject.h">
@@ -253,6 +256,16 @@
     <ClInclude Include="num_rank.h" />
     <ClInclude Include="Ranking.h">
       <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h" />
+    <ClInclude Include="num_rank.h" />
+    <ClInclude Include="Score.h" />
+    <ClInclude Include="block.h">
+      <Filter>Main\Object\ObjectX</Filter>
+    </ClInclude>
+    <ClInclude Include="block.h" />
+    <ClInclude Include="Gimmick.h">
+      <Filter>Main\Object\ObjectX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

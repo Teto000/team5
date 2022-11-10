@@ -51,7 +51,7 @@ private:
 	CModel* m_pModel;			//親モデルへのポインタ
 	LPCTSTR m_modelName;		//モデルのパス
 
-								/* ↓ モデル情報 ↓ */
+	/* ↓ モデル情報 ↓ */
 	LPD3DXMESH m_pMesh;			//メッシュ情報へのポインタ
 	LPD3DXBUFFER m_pBuffMat;	//マテリアル情報へのポインタ
 	DWORD m_nNumMat;			//マテリアル情報の数
