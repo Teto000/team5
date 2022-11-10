@@ -13,6 +13,7 @@
 #include "input.h"
 #include "input_keybord.h"
 #include "Goal.h"
+#include "sound.h"
 
 //=======================
 // コンストラクタ
@@ -79,6 +80,7 @@ void CMessage::Update()
 	{//スタート文字が出た後 and 終了フラグが立っているなら
 	 //メッセージの切り替え
 		ChangeMessage();
+		CSound::PlaySound(CSound::SOUND_LABEL_SE_FINISH);
 	}
 
 	//-------------------------
@@ -225,6 +227,7 @@ void CMessage::ChangeMessage()
 	{
 	case MESSAGE_COUNT_ONE:
 		m_message = MESSAGE_START;
+		CSound::PlaySound(CSound::SOUND_LABEL_SE_START_VOICE);
 		break;
 
 	case MESSAGE_COUNT_TWO:

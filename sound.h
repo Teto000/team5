@@ -46,7 +46,8 @@ public:
 		SOUND_LABEL_SE_UP,					//ジャンプオブジェクト用音
 		SOUND_LABEL_SE_HIT1,				//衝撃音軽１
 		SOUND_LABEL_SE_HIT2,				//衝撃音軽２
-		SOUND_LABEL_SE_HIT3,//				//衝撃音重
+		SOUND_LABEL_SE_HIT3,				//衝撃音重
+		SOUND_LABEL_SE_GAME_START,			//スタート音声
 		SOUND_LABEL_SE_START_VOICE,			//スタート音声
 		SOUND_LABEL_SE_START_LIGHT,			//カウントダウン低音
 		SOUND_LABEL_SE_START_HEAVY,			//カウントダウン高音

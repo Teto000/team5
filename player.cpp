@@ -24,6 +24,7 @@
 #include "num_block.h"
 #include "num_rank.h"
 #include "block.h"
+#include "sound.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -203,6 +204,7 @@ void CPlayer::Update()
 	else if (m_pos == pos && pos.y < -8.0f)
 	{//コースアウト
 		SetBlock();
+		CSound::PlaySound(CSound::SOUND_LABEL_SE_FALL1);
 	}
 	
 
@@ -382,6 +384,7 @@ void CPlayer::Jump()
 		//プレイヤーを待機状態にする
 		m_state = IDOL_STATE;
 	}
+	CSound::PlaySound(CSound::SOUND_LABEL_SE_JUMP1);
 }
 
 //===========================
@@ -538,6 +541,7 @@ void CPlayer::SetBlock()
 		m_pModel[m_BlockCnt]->SetAbove();
 		m_BlockCnt++;
 		m_nNumBlock = m_pNumBlock->AddNumber(-1);
+		CSound::PlaySound(CSound::SOUND_LABEL_SE_BLOCK);
 	}
 }
 
