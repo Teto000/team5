@@ -33,6 +33,7 @@ public:
 		OBJTYPE_GOAL,
 		OBJTYPE_BLOCK,
 		OBJTYPE_MODEL,
+		OBJTYPE_GIMMICK,
 		OBJTYPE_UI,
 		OBJTYPE_FADE,
 		OBJTYPE_MAX,
@@ -59,14 +60,19 @@ public:
 	static void DrawAll();
 	static int GetNumAll();
 
+	//セッター
 	//CObject *GETObject(int nPriority, int nCnt);
 	void SetObjType(EObjType ObjType);	//種類の設定
 	EObjType GetObjType();				//種類の取得
+	void SetType(int Type);
 
 	//ゲッター
 	virtual D3DXVECTOR3 GetPosition() = 0;
 	virtual float GetWidth() = 0;
 	virtual float GetHeight() = 0;
+	static CObject* GetTop(int priority);
+	CObject* GetNext();
+	int GetType();
 
 private:
 	void Death(CObject* pObj);
@@ -85,6 +91,7 @@ private:
 	EObjType m_ObjType;	//オブジェクトの種類
 	bool m_bDeath;		//死亡フラグ
 	bool m_bPause;		//ポーズのON,OFF
+	int	m_nType;						//オブジェクトの種類
 
 	//----------------
 	// 静的メンバ変数

@@ -34,20 +34,31 @@ public:
 	typedef enum
 	{
 		/*↓ BGM ↓*/
-		SOUND_LABEL_GAME = 0,	// ゲーム
-		SOUND_LABEL_TITLE,
-		SOUND_LABEL_RESULT,
-		SOUND_LABEL_SELECT,
-		SOUND_LABEL_SE_BLOCK,
-		SOUND_LABEL_SE_JUMP1,
-		SOUND_LABEL_SE_JUMP2,
-		SOUND_LABEL_SE_FALL1,
-		SOUND_LABEL_SE_FALL2,
-		SOUND_LABEL_SE_UP,
-		SOUND_LABEL_SE_HIT1,
-		SOUND_LABEL_SE_HIT2,
-		SOUND_LABEL_SE_HIT3,
-		SOUND_LABEL_MAX,
+		SOUND_LABEL_GAME = 0,				//ゲーム
+		SOUND_LABEL_TITLE,					//タイトル
+		SOUND_LABEL_RESULT,					//リザルト
+		SOUND_LABEL_SELECT,					//セレクト
+		SOUND_LABEL_SE_BLOCK,				//ブロック設置音
+		SOUND_LABEL_SE_JUMP1,				//ジャンプ音１
+		SOUND_LABEL_SE_JUMP2,				//ジャンプ音２
+		SOUND_LABEL_SE_FALL1,				//落下音１
+		SOUND_LABEL_SE_FALL2,				//落下音２
+		SOUND_LABEL_SE_UP,					//ジャンプオブジェクト用音
+		SOUND_LABEL_SE_HIT1,				//衝撃音軽１
+		SOUND_LABEL_SE_HIT2,				//衝撃音軽２
+		SOUND_LABEL_SE_HIT3,				//衝撃音重
+		SOUND_LABEL_SE_GAME_START,			//スタート音声
+		SOUND_LABEL_SE_START_VOICE,			//スタート音声
+		SOUND_LABEL_SE_START_LIGHT,			//カウントダウン低音
+		SOUND_LABEL_SE_START_HEAVY,			//カウントダウン高音
+		SOUND_LABEL_SE_SELECT,				//選択音
+		SOUND_LABEL_SE_SELECT_DECISION,		//選択決定音
+		SOUND_LABEL_SE_FINISH,				//ゴール音声
+		SOUND_LABEL_SE_1PWIN,				//１Ｐ勝利音声
+		SOUND_LABEL_SE_2PWIN,				//２Ｐ勝利音声
+		SOUND_LABEL_SE_3PWIN,				//３Ｐ勝利音声
+		SOUND_LABEL_SE_4PWIN,				//４Ｐ勝利音声
+		SOUND_LABEL_MAX,					//最大数
 	} SOUND_LABEL;
 
 	CSound();	//コンストラクタ

@@ -144,7 +144,8 @@ void CRanking::Ranking()
 		m_apScore[MAX_RANK - 1]->SetTime(m_Time);
 
 		//¸‡‚É•À‚Ñ•Ï‚¦‚é
-		std::vector<int> rank = { m_apScore[0]->GetTime(), m_apScore[1]->GetTime(), m_apScore[2]->GetTime(), m_apScore[3]->GetTime(), m_apScore[4]->GetTime() };
+		std::vector<int> rank = { m_apScore[0]->GetTime(), m_apScore[1]->GetTime(), m_apScore[2]->GetTime(),
+			m_apScore[3]->GetTime(), m_apScore[4]->GetTime() };
 		std::sort(rank.begin(), rank.end());
 		for (int i = 0; i < MAX_RANK; i++)
 		{//•À‚Ñ•Ï‚¦‚½‚â‚Â‚ğ‘ã“ü

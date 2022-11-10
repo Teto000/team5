@@ -39,10 +39,12 @@ private:
 	//------------------
 	// メンバ変数
 	//------------------
-	D3DXVECTOR3 m_pos;	//位置
-	D3DXCOLOR m_col;	//色
-	float m_fWidth;		//幅
-	float m_fHeight;	//高さ
+	D3DXVECTOR3 m_pos;		//位置
+	D3DXCOLOR m_col;		//色
+	int m_nCntTime;			//カウント
+	float m_fWidth;			//幅
+	float m_fHeight;		//高さ
+	CTexture::TEXTURE m_tex;//テクスチャ
 	
 };
 

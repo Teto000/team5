@@ -106,6 +106,8 @@ void CTitle::Update()
 {
 	if (CInputKeyboard::Trigger(DIK_RETURN) == true && CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{
+		//ƒTƒEƒ“ƒh¶¬
+		CSound::PlaySound(CSound::SOUND_LABEL_SE_GAME_START);
 		CApplication::GetFade()->SetFade(CApplication::MODE_PSELECT);
 	}
 

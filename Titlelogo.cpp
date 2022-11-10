@@ -20,8 +20,10 @@ CTitlelogo::CTitlelogo() : CObject2D(0)
 {
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//位置
 	m_col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);	//色
+	m_nCntTime = 0;		//カウント
 	m_fWidth = 0.0f;	//幅
 	m_fHeight = 0.0f;	//高さ
+	m_tex = CTexture::TEXTURE_NONE;	//テクスチャ
 }
 
 //=======================
@@ -64,6 +66,28 @@ void CTitlelogo::Uninit()
 void CTitlelogo::Update()
 {
 	CObject2D::Update();
+
+	//カウントの加算
+	m_nCntTime++;
+	m_nCntTime %= 80;
+
+	//----------------------
+	// テクスチャの点滅
+	//----------------------
+	if (m_tex == CTexture::TEXTURE_TITLELOGO2)
+	{//pless enterの文字なら
+		if (m_nCntTime >= 40)
+		{
+			m_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		}
+		else
+		{
+			m_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.3f);
+		}
+
+		//色の設定
+		CObject2D::SetColor(m_col);
+	}
 }
 
 //=======================
@@ -88,10 +112,11 @@ CTitlelogo *CTitlelogo::Create(D3DXVECTOR3 pos,CTexture::TEXTURE tex)
 
 	if (pTitlelogo != nullptr)
 	{//NULLチェック//初期化
+		pTitlelogo->m_tex = tex;
 		pTitlelogo->Init(D3DXVECTOR3(pos));
 
 		//テクスチャの設定
-		pTitlelogo->SetTexture(tex);
+		pTitlelogo->SetTexture(pTitlelogo->m_tex);
 	}
 
 	return pTitlelogo;
