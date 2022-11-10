@@ -60,12 +60,13 @@ public:
 	//----------------
 	// ゲッター
 	//----------------
-	D3DXVECTOR3 GetPosition() override;	//位置の取得
-	D3DXVECTOR3 GetRot();				//向きの取得
-	float GetWidth() override;			//幅の取得
-	float GetHeight() override;			//高さの取得
-	D3DXMATRIX GetmtxWorld();			//ワールドマトリックスの取得
-	D3DXVECTOR3 GetPosOld();			//1F前の位置の習得
+	D3DXVECTOR3 GetPosition() override;					//位置の取得
+	D3DXVECTOR3 GetRot();								//向きの取得
+	float GetWidth() override;							//幅の取得
+	float GetHeight() override;							//高さの取得
+	D3DXMATRIX GetmtxWorld();							//ワールドマトリックスの取得
+	D3DXVECTOR3 GetPosOld();							//1F前の位置の習得
+	void Add(int Add);									//加算処理
 
 	//----------------
 	// 静的メンバ関数
@@ -81,6 +82,7 @@ private:
 	// 移動キー
 	// 引数 : 上のキー、左のキー、下のキー、右のキー
 	void MoveKey(int UPKey, int LEFTKey, int DOWNKey, int RIGHTKey, int JUMPKey);
+	CNumBlock*	m_pNumBlock;	//ブロック数の表示
 
 private:
 	//----------------
@@ -102,12 +104,10 @@ private:
 	bool		m_bJump;					//ジャンプしたかしていないか
 
 	CBlock		*m_pModel[MAX_BLOCK];		//ブロック
-	CBlock		*m_pSetModel[MAX_BLOCK];	//ブロック
 	int			m_BlockCnt;					//ブロックをカウントする処理
 	int			m_BlockHave;				//ブロックを所持している個数
 
-	int m_nJumpCount;
-	CNumBlock*	m_pNumBlock;	//ブロック数の表示
+	int			m_nJumpCount;
 	CRank*		m_pRank;		//順位
 
 	/* ↓ プレイヤー管理情報 */

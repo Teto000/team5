@@ -18,11 +18,13 @@
 #include"input.h"
 #include"Map.h"
 #include"objectX.h"
+#include"stack_block.h"
 
 
 //静的メンバ変数
 //CPlayer*	CEditor::pPlayer = nullptr;
 CGoal*		CEditor::m_pGoal = nullptr;						//ゴール
+CSBlock*	CEditor::m_pStackBlock[MAX_STACK_BLOCK] = { nullptr };				//ブロックの山
 //CMap*		CEditor::m_pMap = nullptr;						//マップ
 //CObject*	CEditor::m_pSelectObj = nullptr;				//選択中のオブジェクト
 //CModel*		CEditor::m_pPlanet[MAX_PLANET] = { nullptr };	//設置するオブジェクト
@@ -63,6 +65,14 @@ void CEditor::Init()
 	m_nNumpla = 0;
 
 	SelectPlanet();
+
+	for (int nCnt = 0; nCnt < MAX_STACK_BLOCK; nCnt++)
+	{
+		if (m_pStackBlock[nCnt] != nullptr)
+		{
+			m_pStackBlock[nCnt] = nullptr;
+		}
+	}
 }
 
 //=============================================================================
@@ -118,6 +128,7 @@ void CEditor::Update()
 	case OBJ_GIMMICK:
 		//m_pSelectObj = m_pMap;
 		break;
+
 	default:
 		break;
 
@@ -171,6 +182,11 @@ void CEditor::Load()
 						m_bFlag = true;
 						m_type = OBJ_MAP;
 					}
+					else if (strncmp(strLine, "StackBlock", 10) == 0)
+					{
+						m_bFlag = true;
+						m_type = OBJ_STACK_BLOCK;
+					}
 					else if (strncmp(strLine, "Gimmick", 7) == 0)
 					{
 						m_bFlag = true;
@@ -180,6 +196,11 @@ void CEditor::Load()
 					{
 						m_bFlag = true;
 						m_type = OBJ_PLANET;
+					}
+					else if (strncmp(strLine, "StackBlock", 7) == 0)
+					{
+						m_bFlag = true;
+						m_type = OBJ_STACK_BLOCK;
 					}
 					else if (strncmp(strLine, "Pos", 3) == 0)
 					{
@@ -216,6 +237,17 @@ void CEditor::Load()
 								if (m_pPlanet[m_nNumpla] == nullptr)
 								{
 									m_pPlanet[m_nNumpla] = CObjectX::Create(m_nPlaFileName[m_nNumpla], m_pos, m_rot);
+								}
+								break;
+
+							case OBJ_STACK_BLOCK:
+								for (int nCnt = 0; nCnt < MAX_STACK_BLOCK; nCnt++)
+								{
+									if (m_pStackBlock[nCnt] == nullptr)
+									{
+										m_pStackBlock[nCnt] = CSBlock::Create(m_pos,m_rot);
+										break;
+									}
 								}
 								break;
 
@@ -348,6 +380,16 @@ void CEditor::Input()
 				m_pPlanet[m_nNumpla]->SetPos(pos);
 			}
 			break;
+
+		case OBJ_STACK_BLOCK:
+			for (int nCnt = 0; nCnt < MAX_STACK_BLOCK; nCnt++)
+			{
+				if (m_pStackBlock[nCnt] == nullptr)
+				{
+					m_pStackBlock[nCnt] = CSBlock::Create(m_pos, m_rot);
+					break;
+				}
+			}
 
 		default:
 			break;

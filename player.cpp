@@ -28,7 +28,7 @@
 //------------------------
 // 静的メンバ変数宣言
 //------------------------
-const float CPlayer::fPlayerSpeed = 1.0f;
+const float CPlayer::fPlayerSpeed = 10.0f;
 const float CPlayer::fGravity = 0.1f;
 
 //========================
@@ -91,7 +91,6 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos)
 	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
 	{
 		m_pModel[nCnt] = nullptr;
-		m_pSetModel[nCnt] = nullptr;
 	}
 
 	CRead cRead;
@@ -118,13 +117,6 @@ void CPlayer::Uninit()
 		}
 	}
 
-	if (m_pSetModel[0] != nullptr)
-	{
-		m_pSetModel[0]->Uninit();
-		delete m_pSetModel[0];
-		m_pSetModel[0] = nullptr;
-	}
-
 	Release();
 }
 
@@ -148,7 +140,7 @@ void CPlayer::Update()
 
 	if (CInputKeyboard::Trigger(DIK_Z))
 	{
-		m_pSetModel[0] = CBlock::Create(D3DXVECTOR3(m_pos.x+ 130.0f, -1.0f, m_pos.z), m_rot, CBlock::FIELD_BLOCK);
+		m_pModel[0] = CBlock::Create(D3DXVECTOR3(m_pos.x+ 130.0f, -1.0f, m_pos.z), m_rot);
 	}
 #endif // _DEBUG
 
@@ -167,25 +159,25 @@ void CPlayer::Update()
 	//----------------------
 	// 所持ブロック数の加算
 	//----------------------
-	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
-	{
-		if (m_pSetModel[nCnt] != nullptr)
-		{
-			if (m_pSetModel[0]->GetHaveBlock())
-			{
-				if (m_pSetModel[0]->GetType() == CBlock::FIELD_BLOCK)
-				{
-					m_nNumBlock = m_pNumBlock->AddNumber(1);
-					m_BlockCnt++;
-					
-					// モデルの削除
-					m_pSetModel[0]->Uninit();
-					delete m_pSetModel[nCnt];
-					m_pSetModel[0] = nullptr;
-				}
-			}
-		}
-	}
+	//for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
+	//{
+	//	if (m_pModel[nCnt] != nullptr)
+	//	{
+	//		if (m_pModel[0]->GetHaveBlock())
+	//		{
+	//			if (m_pModel[0]->GetType() == CBlock::FIELD_BLOCK)
+	//			{
+	//				m_nNumBlock = m_pNumBlock->AddNumber(1);
+	//				m_BlockCnt++;
+	//				
+	//				// モデルの削除
+	//				m_pModel[0]->Uninit();
+	//				delete m_pModel[nCnt];
+	//				m_pModel[0] = nullptr;
+	//			}
+	//		}
+	//	}
+	//}
 
 	//-------------------
 	//当たり判定
@@ -214,10 +206,7 @@ void CPlayer::Update()
 		}
 	}
 
-	if (m_pSetModel[0] != nullptr)
-	{
-		m_pSetModel[0]->Update();
-	}
+
 
 	CMotionParts::MoveMotionModel(m_pos, GetRot(), m_nMotionNum, 1);
 
@@ -237,10 +226,6 @@ void CPlayer::Draw()
 		}
 	}
 
-	if (m_pSetModel[0] != nullptr)
-	{
-		m_pSetModel[0]->Draw();
-	}
 }
 
 //========================
@@ -498,8 +483,8 @@ void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey
 		m_move.x = moveInput.x * c - moveInput.y * s;
 		m_move.z = moveInput.x * s + moveInput.y * c;
 
-		m_move.x *= 3.0f;
-		m_move.z *= 3.0f;
+		m_move.x *= fPlayerSpeed;
+		m_move.z *= fPlayerSpeed;
 	}
 	else
 	{ // 入力されていない。
@@ -534,7 +519,7 @@ void CPlayer::SetBlock()
 
 	if (m_pModel[m_BlockCnt] == nullptr)
 	{// モデルの設定
-		m_pModel[m_BlockCnt] = CBlock::Create(D3DXVECTOR3(m_pos.x, -1.0f, m_pos.z), m_rot , CBlock::PLAYER_BLOCK);
+		m_pModel[m_BlockCnt] = CBlock::Create(D3DXVECTOR3(m_pos.x, -1.0f, m_pos.z), m_rot);
 		m_pModel[m_BlockCnt]->SetAbove();
 		m_BlockCnt++;
 		m_nNumBlock = m_pNumBlock->AddNumber(-1);
@@ -559,4 +544,13 @@ void CPlayer::Gravity()
 	}
 
 	m_move.y -= fGravity;
+}
+
+//=========================================
+// 所持数の加算処理
+//=========================================
+void CPlayer::Add(int Add)
+{
+	// 所持数加算
+	m_nNumBlock = m_pNumBlock->AddNumber(Add);
 }
