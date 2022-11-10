@@ -51,10 +51,12 @@ CPSelect::~CPSelect()
 //===========================
 HRESULT CPSelect::Init()
 {
-	m_BG = CUI_PSelect::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f,0.0f), CUI_PSelect::UI_BG);
+	m_BG = CUI_PSelect::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 0.0f), CUI_PSelect::UI_BG);
 	m_title = CUI_PSelect::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 4.0f, 0.0f), CUI_PSelect::UI_COMENT);
 	m_Select = CUI_PSelect::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT - 200.0f, 0.0f), CUI_PSelect::UI_SELECT);
+
 	UI_Create();
+
 	//ÉTÉEÉìÉhê∂ê¨
 	CSound::PlaySound(CSound::SOUND_LABEL_SELECT2);
 	return S_OK;
