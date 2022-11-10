@@ -18,6 +18,7 @@
 #include"input.h"
 #include"Map.h"
 #include"objectX.h"
+#include"Gimmick.h"
 
 
 //静的メンバ変数
@@ -62,7 +63,7 @@ void CEditor::Init()
 	m_nNumber = 0;									//現在設定するブロックのタイプ
 	m_nNumpla = 0;
 
-	SelectPlanet();
+	Pass();
 }
 
 //=============================================================================
@@ -118,6 +119,11 @@ void CEditor::Update()
 	case OBJ_GIMMICK:
 		//m_pSelectObj = m_pMap;
 		break;
+
+	case OBJ_PLANET:
+		m_pSelectObj = m_pPlanet[m_nNumpla];
+		break;
+
 	default:
 		break;
 
@@ -128,7 +134,14 @@ void CEditor::Update()
 	CDebugProc::Print("現在置くオブジェクト:%d 0(ゼロ)キーで種類を変更", m_nNumber);
 	CDebugProc::Print("O(オー)キーでオブジェクトの座標ファイルに出力する");
 	CDebugProc::Print("Pキーでオブジェクトの生成/移動");
-	CDebugProc::Print("現在設置する惑星の種類:%d 8/9で種類を変更", m_nNumpla);
+	if (m_nNumber == OBJ_PLANET)
+	{
+		CDebugProc::Print("現在設置する惑星の種類:%d 8/9で種類を変更", m_nNumpla);
+	}
+	else if (m_nNumber == OBJ_GIMMICK)
+	{
+		CDebugProc::Print("現在設置するギミックの種類:%d 8/9で種類を変更", m_nNumgim);
+	}
 
 
 	//CDebugProc::Print("現在のオブジェクトの座標:x:%f y:%f z:%f", Selectpos.x, Selectpos.y, Selectpos.z);
@@ -189,6 +202,10 @@ void CEditor::Load()
 					{
 						fscanf(fp, "%f%f%f", &m_rot.x, &m_rot.y, &m_rot.z);
 					}
+					else if (strncmp(strLine, "Type", 4) == 0)
+					{
+						fscanf(fp, "%d", &m_nNumgim);
+					}
 					else if (strncmp(strLine, "End", 3) == 0)
 					{
 						if (m_bFlag == true)
@@ -203,6 +220,10 @@ void CEditor::Load()
 								break;
 
 							case OBJ_GIMMICK:
+								if (m_nNumgim >= 0 && m_nNumgim < MAX_GIMMICK)
+								{
+									CGimmick::Create(m_nNumgim, m_pos, m_rot);
+								}
 								break;
 
 							case OBJ_MAP:
@@ -259,17 +280,41 @@ void CEditor::SaveObject()
 	fprintf(fp, "Rot 0.0f 0.0f 0.0f\n");
 	fprintf(fp, "End\n");
 
+	
+	CObject* pObj = CObject::GetTop(CObject::OBJTYPE_GIMMICK);
+
+	while (pObj)
+	{//pObjがnullじゃないなら
+	 //次のオブジェクトを保存
+		CObject* pObjNext = pObj->GetNext();
+
+		//終了処理
+		D3DXVECTOR3 pos= pObj->GetPosition();
+
+		fprintf(fp, "Object\n");
+		fprintf(fp, "Gimmick\n");
+		fprintf(fp, "Pos %.1f %.1f %.1f\n", pos.x, pos.y, pos.z);
+		fprintf(fp, "Rot 0.0f 0.0f 0.0f\n");
+		fprintf(fp, "Type %d\n",pObj->GetType());
+
+		fprintf(fp, "End\n\n");
+
+		//次のオブジェクトのアドレスを代入
+		pObj = pObjNext;
+	}
+
 	fclose(fp);
 }
 
 //=============================================================================
 //オブジェクトの位置の保存
 //=============================================================================
-void CEditor::SelectPlanet()
+void CEditor::Pass()
 {
+	//星のオブジェクト
 	m_nPlaFileName[0] = "data\\MODEL\\X_File\\Earth_000.x";
-	m_nPlaFileName[2] = "data\\MODEL\\X_File\\Sun_000.x";
-	m_nPlaFileName[1] = "data\\MODEL\\X_File\\Moon_000.x";
+	m_nPlaFileName[1] = "data\\MODEL\\X_File\\Sun_000.x";
+	m_nPlaFileName[2] = "data\\MODEL\\X_File\\Moon_000.x";
 	m_nPlaFileName[3] = "data\\MODEL\\X_File\\Mars_000.x";
 	m_nPlaFileName[4] = "data\\MODEL\\X_File\\Jupiter_000.x";
 	m_nPlaFileName[5] = "data\\MODEL\\X_File\\Venus_000.x";
@@ -297,34 +342,72 @@ void CEditor::Input()
 			m_nNumber = 0;
 		}
 	}
+	//9キーを押したとき
+	if (CInputKeyboard::Trigger(DIK_9)) 
+	{
+	 //最大数を超えたとき0にリセット
+		switch (m_nNumber)
+		{
+		case OBJ_PLANET:
+			m_nNumpla++;
 
-	if (CInputKeyboard::Trigger(DIK_9) == true)
-	{//9キーを押したとき
-		if (m_nNumpla++ >= MAX_PLANET-1)
-		{
-			m_nNumpla = 0;
+			if (m_nNumpla >= MAX_PLANET)
+			{
+				m_nNumpla = 0;
+			}
+			break;
+
+		case OBJ_GIMMICK:
+			m_nNumgim++;
+
+			if (m_nNumgim>=MAX_GIMMICK)
+			{
+				m_nNumgim = 0;
+			}
+		default:
+			break;
 		}
 	}
-	if (CInputKeyboard::Trigger(DIK_8) == true)
-	{//9キーを押したとき
-		if (m_nNumpla-- <= 0)
+	//8キーを押したとき
+	if (CInputKeyboard::Trigger(DIK_8))
+	{//下限超えたらMAXにする
+		switch (m_nNumber)
 		{
-			m_nNumpla = MAX_PLANET - 1;
+		case OBJ_PLANET:
+			m_nNumpla--;
+
+			if (m_nNumpla < 0)
+			{
+				m_nNumpla = MAX_PLANET - 1;
+			}
+			break;
+
+		case OBJ_GIMMICK:
+			m_nNumgim--;
+
+			if (m_nNumgim < 0)
+			{
+				m_nNumgim = MAX_GIMMICK - 1;
+			}
+		default:
+			break;
 		}
 	}
+	
 
 	//生成/移動
-	if (CInputKeyboard::Trigger(DIK_P) == true)
+	if (CInputKeyboard::Trigger(DIK_P))
 	{
 		m_pPlayer = CGame::GetPlayer(0);
 		D3DXVECTOR3 pos = m_pPlayer->GetPosition();
+		D3DXVECTOR3 rot = m_pPlayer->GetRot();
 
 		switch (m_nNumber)
 		{
 		case OBJ_GOAL:
 			if (m_pGoal == nullptr)
 			{//ゴールの位置を現在のプレイヤーの位置に移動
-				m_pGoal = CGoal::Create(pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+				m_pGoal = CGoal::Create(pos, rot);
 			}
 			else
 			{
@@ -336,12 +419,15 @@ void CEditor::Input()
 			break;
 
 		case OBJ_GIMMICK:
+			//生成
+			CGimmick::Create(m_nNumgim, pos, rot);
+
 			break;
 
 		case OBJ_PLANET:
 			if (m_pPlanet[m_nNumpla] == nullptr)
 			{//生成されてない場合生成
-				m_pPlanet[m_nNumpla] = CObjectX::Create(m_nPlaFileName[m_nNumpla], pos, m_rot);
+				m_pPlanet[m_nNumpla] = CObjectX::Create(m_nPlaFileName[m_nNumpla], pos, rot);
 			}
 			else
 			{//中身がある場合移動

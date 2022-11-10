@@ -19,12 +19,12 @@
 
 #define PLAYER_SIZE (20.0f)
 bool CBlock::m_bAbove = false;
+bool CBlock::m_bHaveBlock = false;
 //===========================
 // コンストラクタ
 //===========================
-CBlock::CBlock(int nPriority) : CObject(nPriority)
+CBlock::CBlock(int nPriority)
 {
-	
 }
 
 //===========================
@@ -135,7 +135,7 @@ void CBlock::Uninit()
 		m_pBuffMat->Release();
 		m_pBuffMat = nullptr;
 	}
-	Release();
+	//Release();
 }
 
 //===========================
@@ -143,10 +143,7 @@ void CBlock::Uninit()
 //===========================
 void CBlock::Update()
 {
-	/*if (m_bGoal == true)
-	{
-	CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
-	}*/
+	// 当たり判定
 	Collision();
 }
 
@@ -163,7 +160,7 @@ void CBlock::Draw()
 
 	D3DXMATERIAL *pMat;		//マテリアルデータへのポインタ
 
-							//モデルのワールドマトリックスの初期化
+	//モデルのワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
 
 	//モデルの向きを反映
@@ -236,16 +233,25 @@ bool CBlock::Collision()
 				//Z軸
 				if (pPlayer->GetPosition().x - PLAYER_SIZE < m_pos.x + m_vtxMax.x
 					&& pPlayer->GetPosition().x + PLAYER_SIZE > m_pos.x + m_vtxMin.x)
-				{
-					m_bAbove = true;
+				{// 当たっている
+					switch (m_state)
+					{
+					case FIELD_BLOCK:
+						m_bHaveBlock = true;
+						break;
+
+					case PLAYER_BLOCK:
+						m_bAbove = true;
+						break;
+					}
 				}
 				else
-				{
+				{// Xで当たってない
 					m_bAbove = false;
 				}
 			}
 			else
-			{
+			{// Zで当たってない
 				m_bAbove = false;
 			}
 		}
@@ -256,7 +262,7 @@ bool CBlock::Collision()
 //========================
 // 生成
 //========================
-CBlock* CBlock::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
+CBlock* CBlock::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, BLOCK state)
 {//モデルのパス , 親モデルから見た位置 , 親モデルから見た向き
 
  //----------------------------------
@@ -264,14 +270,14 @@ CBlock* CBlock::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
  //----------------------------------
 	CBlock *pCBlock = nullptr;
 	//pGoal = new CGoal(CObject::OBJTYPE_GOAL);	//生成
-	pCBlock = new CBlock(0);	//生成
-
+	pCBlock = new CBlock(CObject::OBJTYPE_BLOCK);	//生成
 
 	if (pCBlock != nullptr)
 	{//NULLチェック
 	 //メンバ変数に代入
 		pCBlock->m_pos = pos;
 		pCBlock->m_rot = rot;
+		pCBlock->m_state = state;
 
 		//初期化
 		pCBlock->Init(pos);
@@ -288,26 +294,10 @@ void CBlock::SetPosition(D3DXVECTOR3 pos)
 	m_pos = pos;
 }
 
-//===========================
-// 位置の取得
-//===========================
-D3DXVECTOR3 CBlock::GetPosition()
-{
-	return m_pos;
-}
-
-//===========================
-// 幅の取得
-//===========================
-float CBlock::GetWidth()
-{
-	return 0.0f;
-}
-
-//===========================
-// 高さの取得
-//===========================
-float CBlock::GetHeight()
-{
-	return 0.0f;
-}
+////===========================
+//// 位置の取得
+////===========================
+//D3DXVECTOR3 CBlock::GetPosition()
+//{
+//	return m_pos;
+//}

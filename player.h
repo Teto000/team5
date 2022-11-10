@@ -80,7 +80,7 @@ private:
 
 	// 移動キー
 	// 引数 : 上のキー、左のキー、下のキー、右のキー
-	void MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey);
+	void MoveKey(int UPKey, int LEFTKey, int DOWNKey, int RIGHTKey, int JUMPKey);
 
 private:
 	//----------------
@@ -102,6 +102,7 @@ private:
 	bool		m_bJump;					//ジャンプしたかしていないか
 
 	CBlock		*m_pModel[MAX_BLOCK];		//ブロック
+	CBlock		*m_pSetModel[MAX_BLOCK];	//ブロック
 	int			m_BlockCnt;					//ブロックをカウントする処理
 	int			m_BlockHave;				//ブロックを所持している個数
 
