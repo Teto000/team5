@@ -165,6 +165,7 @@
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="Gimmick.cpp" />
     <ClCompile Include="Goal.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="input_joypad.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="Editor.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="Gimmick.h" />
     <ClInclude Include="Goal.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="input_joypad.h" />
