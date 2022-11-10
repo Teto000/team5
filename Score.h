@@ -22,31 +22,42 @@ public:
 	CScore();							//コンストラクタ
 	virtual ~CScore() override;			//デストラクタ
 
-										//初期化処理
+	//初期化処理
 	HRESULT Init(D3DXVECTOR3 pos) override;
+
 	//更新処理
 	void Update(void) override;
+
 	//描画処理
 	void Draw(void) override;
+
 	//終了処理
 	void Uninit(void) override;
+
 	//クリエイト処理
 	static CScore* Create(const D3DXVECTOR3 &pos);
 
 	//スコアの設定
 	void Set();
-	static void SetCurrentScore(int Time);
-	static int GetTime() { return m_Time; }
-	static int GetSec()	 { return m_Seconds; }
-	static int GetMin()	 { return m_Minutes; }
+	void SetTime(int Time);
+	int GetTime();
+	int GetSec();
+	int GetMin(); 
+	void Load();
+	//void Ranking();
 
 private:
 	D3DXVECTOR3 m_pos;					// 座標
-	CNumber	*m_pNumber[MAX_DIGITS];		// ナンバー1
-	static int m_Time;					// 時間
-	static int m_Seconds;				// 現在の時間(秒)
-	static int m_Minutes;				// 現在の時間(分)
-	int m_Score[MAX_RANK];				// スコアの最大数
+	CNumber*	m_pNumber[MAX_DIGITS];	// ナンバー1
+	int			m_Time;					// 時間
+	int			m_Seconds;				// 現在の時間(秒)
+	int			m_Minutes;				// 現在の時間(分)
+	int			m_apScore[MAX_RANK];	// スコアの最大数
+	int			m_nRankUpdate;			//更新ランクNo.
+	int			m_nTimerRanking;		//ランキング画面表示タイマー
+	float		m_fPtnrank;				//プレイヤー点滅
+	int			m_nCntrank;				//点滅のカウント用
+
 };
 
 #endif

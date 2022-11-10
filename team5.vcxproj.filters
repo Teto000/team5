@@ -22,6 +22,9 @@
     <ClCompile Include="debug_proc.cpp">
       <Filter>Main\Application</Filter>
     </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>Main\Application</Filter>
+    </ClCompile>
     <ClCompile Include="fade.cpp">
       <Filter>Main\Application\Scenes</Filter>
     </ClCompile>
@@ -115,14 +118,12 @@
     <ClCompile Include="Titlelogo.cpp">
       <Filter>Main\Object\Object2D</Filter>
     </ClCompile>
-    <ClCompile Include="num_rank.cpp">
-      <Filter>Main\Object\Object2D\Number</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
     <ClCompile Include="Score.cpp">
       <Filter>Main\Object\Object2D</Filter>
+    </ClCompile>
+    <ClCompile Include="num_rank.cpp" />
+    <ClCompile Include="Ranking.cpp">
+      <Filter>Main\Application</Filter>
     </ClCompile>
     <ClCompile Include="block.cpp">
       <Filter>Main\Object\ObjectX</Filter>
@@ -148,6 +149,9 @@
       <Filter>Main\Application\Camera</Filter>
     </ClInclude>
     <ClInclude Include="debug_proc.h">
+      <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
       <Filter>Main\Application</Filter>
     </ClInclude>
     <ClInclude Include="fade.h">
@@ -242,6 +246,13 @@
     </ClInclude>
     <ClInclude Include="Titlelogo.h">
       <Filter>Main\Object\Object2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Score.h">
+      <Filter>Main\Object\Object2D</Filter>
+    </ClInclude>
+    <ClInclude Include="num_rank.h" />
+    <ClInclude Include="Ranking.h">
+      <Filter>Main\Application</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
