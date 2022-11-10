@@ -28,7 +28,7 @@
 //------------------------
 // 静的メンバ変数宣言
 //------------------------
-const float CPlayer::fPlayerSpeed = 1.0f;
+const float CPlayer::fPlayerSpeed = 15.0f;
 const float CPlayer::fGravity = 0.1f;
 
 //========================
@@ -391,7 +391,7 @@ void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey
 	moveInput.y = 0.0f;
 
 	// モデルの移動
-	if (CInputKeyboard::Press(UPKey))
+	/*if (CInputKeyboard::Press(UPKey))
 	{
 		moveInput.y += 1.0f;
 		moveLength = 1.0f;
@@ -410,20 +410,20 @@ void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey
 	{
 		moveInput.x += 1.0f;
 		moveLength = 1.0f;
-	}
+	}*/
 
-	/*moveInput.y += 1.0f;
-	moveLength = 1.0f;*/
+	moveInput.y += 1.0f;
+	moveLength = 1.0f;
 
-	//ジャンプ状態ではないときに
-	if (m_state == IDOL_STATE)
-	{
-		if (CInputKeyboard::Trigger(JUMPKey) && !m_bJump)
-		{
-			// ジャンプ状態に移行
-			m_state = JUMP_STATE;
-		}
-	}
+	////ジャンプ状態ではないときに
+	//if (m_state == IDOL_STATE)
+	//{
+	//	if (CInputKeyboard::Trigger(JUMPKey) && !m_bJump)
+	//	{
+	//		// ジャンプ状態に移行
+	//		m_state = JUMP_STATE;
+	//	}
+	//}
 
 	if (moveLength > 0.0f)
 	{
@@ -437,8 +437,8 @@ void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey
 		m_move.x = moveInput.x * c - moveInput.y * s;
 		m_move.z = moveInput.x * s + moveInput.y * c;
 
-		m_move.x *= 3.0f;
-		m_move.z *= 3.0f;
+		m_move.x *= fPlayerSpeed;
+		m_move.z *= fPlayerSpeed;
 	}
 	else
 	{ // 入力されていない。
