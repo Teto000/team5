@@ -7,7 +7,7 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_	//二重インクルード防止
 
-#define MAX_BLOCK (1)
+#define MAX_BLOCK (1000)
 //--------------------------------
 // インクルード
 //--------------------------------
