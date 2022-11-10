@@ -30,8 +30,6 @@
 #include "debug_proc.h"
 #include "Map.h"
 #include "read.h"
-#include "num_block.h"
-#include "Score.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -115,7 +113,7 @@ HRESULT CGame::Init()
 									CMessage::MESSAGE_COUNT_THREE);
 
 	//サウンド生成
-	CSound::PlaySound(CSound::SOUND_LABEL_GAME1);
+	CSound::PlaySound(CSound::SOUND_LABEL_GAME);
 
 	CRead cRead;
 	m_nGroundNum = cRead.ReadMotion("data/MOTION/motionground.txt");
@@ -195,10 +193,6 @@ void CGame::Update()
 		//								CMessage::MESSAGE_FINISH);
 
 		FinishGame();
-
-		//一回だけ通るようにしたい…
-		const int ClearTime = CTime::GetTime();
-		CScore::SetCurrentScore(ClearTime);
 	}
 
 	CMotionParts::ALLUpdate();

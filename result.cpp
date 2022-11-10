@@ -17,7 +17,7 @@
 #include "sound.h"
 #include "fade.h"
 #include "camera_title.h"
-#include "Score.h"
+#include "Ranking.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -53,13 +53,11 @@ HRESULT CResult::Init()
 	m_pObject2D->SetTexture(CTexture::TEXTURE_RANKING);
 	m_pObject2D->SetSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	for (int i = 0; i < 5; i++)
-	{
-		apScore[i]->Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 190.0f + 150.0f*i, 0.0f));
-	}
+	//ランキング生成
+	m_pRanking = CRanking::Create();
 
 	//サウンド生成
-	CSound::PlaySound(CSound::SOUND_LABEL_RESULT2);
+	CSound::PlaySound(CSound::SOUND_LABEL_RESULT);
 
 	return S_OK;
 }
@@ -83,6 +81,20 @@ void CResult::Uninit()
 		delete m_pCameraTitle;
 		m_pCameraTitle = nullptr;
 	}
+
+	//---------------------
+	// ランキング終了
+	//---------------------
+	if (m_pRanking != nullptr)
+	{
+		//終了
+		m_pRanking->Uninit();
+
+		//消去
+		delete m_pRanking;
+		m_pRanking = nullptr;
+	}
+
 }
 
 //===========================

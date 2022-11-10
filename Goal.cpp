@@ -17,6 +17,8 @@
 #include"fade.h"
 #include"renderer.h"
 #include"game.h"
+#include"time.h"
+#include"Ranking.h"
 
 //Ã“Iƒƒ“ƒo•Ï”éŒ¾
  bool CGoal::m_bGoal=nullptr;
@@ -240,6 +242,11 @@ bool CGoal::Collision()
 				if (pPlayer->GetPosition().x < m_pos.x + m_vtxMax.x
 					&&pPlayer->GetPosition().x > m_pos.x + m_vtxMin.x)
 				{
+					if (m_bGoal==false)
+					{
+						CRanking::SetCurrentScore(CTime::GetTime());
+					}
+
 					m_bGoal = true;
 					m_nWinner = i;
 				}

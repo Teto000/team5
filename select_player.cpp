@@ -58,7 +58,7 @@ HRESULT CPSelect::Init()
 	UI_Create();
 
 	//ÉTÉEÉìÉhê∂ê¨
-	CSound::PlaySound(CSound::SOUND_LABEL_SELECT2);
+	CSound::PlaySound(CSound::SOUND_LABEL_SELECT);
 	return S_OK;
 }
 
