@@ -70,7 +70,6 @@ private:
 	int					m_nNumgim;						//現在のギミックの番号
 
 	LPCTSTR				m_nPlaFileName[MAX_PLANET];		//惑星のファイルの名前
-	char*				m_nGimmickName[MAX_GIMMICK];	//障害物のファイルの名前
 
 
 	//スタティック関数

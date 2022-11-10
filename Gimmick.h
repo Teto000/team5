@@ -23,6 +23,7 @@ class CRank;		//ランク
 // マクロ定義
 //--------------------------------
 #define MAX_SPEED	(3.0f)	//最大速度
+#define	MAX_GIMMICK	(4)		//ギミックの種類
 
 //================================
 // プレイヤークラスの定義
@@ -40,6 +41,7 @@ public:
 	void Uninit() override;
 	void Update() override;
 	void Draw() override;
+	void Load();
 
 	//----------------
 	// セッター
@@ -60,7 +62,7 @@ public:
 	//----------------
 	// 静的メンバ関数
 	//----------------
-	static CGimmick* Create(char* FileName,D3DXVECTOR3 pos);
+	static CGimmick* Create(int Type,D3DXVECTOR3 pos,D3DXVECTOR3 rot);
 
 private:
 	void Move();				//移動
@@ -80,7 +82,8 @@ private:
 	D3DXVECTOR3 m_move;						//移動量
 	D3DXVECTOR3 m_rot;						//向き
 	D3DXVECTOR3 m_rotDest;					//目的の向き
-	char*		m_modelName;				//モデルのパス
+	char*		m_nGimmickName[MAX_GIMMICK];	//障害物のファイルの名前
+
 
 	/* ↓ プレイヤー管理情報 */
 	int m_nPlayerNum;			//プレイヤーの操作番号
