@@ -15,20 +15,16 @@
 //------------------------
 CSound::SOUNDPARAM g_aParam[CSound::SOUND_LABEL_MAX] =
 {
-	{ "data/BGM/ツインUFO_game.wav", -1 },								// ゲーム1
-	{ "data/BGM/逃げ足だけは一人前_game.wav", -1 },						// ゲーム2
-	{ "data/BGM/大混乱！？_title.wav", -1 },							// タイトル1
-	{ "data/BGM/ドキドキあそび広場title.wav", -1 },						// タイトル2
-	{ "data/BGM/シンキングタイム_result.wav", -1 },						// リザルト1
-	{ "data/BGM/子猫の遊び場_result.wav", -1 },							// リザルト2
-	{ "data/BGM/ライク_ア_スパイス_select.wav", -1 },					// セレクト1
-	{ "data/BGM/踊る、宇宙の中で(Dancing,at_Universe)Select.wav", -1 },	// セレクト2
+	{ "data/BGM/Game.wav", -1 },								// ゲーム
+	{ "data/BGM/Title.wav", -1 },							// タイトル
+	{ "data/BGM/Result.wav", -1 },						// リザルト
+	{ "data/BGM/Select.wav", -1 },					// セレクト
 	{ "data/SE/block01.wav", 0 },										// ブロック設置音
-	{ "data/SE/jump1.wav", 0 },											// ジャンプ音１
-	{ "data/SE/jump_029.wav", 0 },										// ジャンプ音２
-	{ "data/SE/fall02.wav", 0 },										// 落下音１
-	{ "data/SE/fall03.wav", 0 },										// 落下音２
-	{ "data/SE/上昇していくような風の音_.wav", 0 },						// ジャンプオブジェクト用音
+	{ "data/SE/jump01.wav", 0 },											// ジャンプ音１
+	{ "data/SE/jump02.wav", 0 },										// ジャンプ音２
+	{ "data/SE/fall01.wav", 0 },										// 落下音１
+	{ "data/SE/fall02.wav", 0 },										// 落下音２
+	{ "data/SE/上昇していくような風の音.wav", 0 },						// ジャンプオブジェクト用音
 	{ "data/SE/Hit01-1.wav", 0 },										// 衝撃音軽１
 	{ "data/SE/Hit01-2.wav", 0 },										//衝撃音軽２
 	{ "data/SE/heavy_punch1.wav", 0 },									//  衝撃音重
