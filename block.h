@@ -25,15 +25,6 @@ class CShadow;	//影
 class CBlock
 {
 public:
-
-	//プレイヤーの状態
-	enum BLOCK
-	{
-		FIELD_BLOCK = 0,		// フィールドに設置されているブロック
-		PLAYER_BLOCK,			// プレイヤーの使用したブロック
-		BLOCK_MAX
-	};
-
 	explicit CBlock(int nPriority);	//コンストラクタ
 	~CBlock();	//デストラクタ
 
@@ -47,7 +38,7 @@ public:
 	bool Collision();
 
 	// クリエイト
-	static CBlock * Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot,BLOCK state);
+	static CBlock * Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
 	// ブロック数のカウント処理
 	static int *AddBlock(int *BlockHave) { return BlockHave++; }		
 	
@@ -55,10 +46,8 @@ public:
 	void SetAbove() { m_bAbove = true; }
 	void SetAboveFalse() { m_bAbove = false; }
 	void SetPosition(D3DXVECTOR3 pos);
-	void SetState(BLOCK state) { m_state = state; }
 
 	//ゲッター
-	BLOCK GetType() { return m_state; }
 	static bool GetBlockCollision() { return m_bAbove; }
 	static bool GetHaveBlock() { return m_bHaveBlock; }
 
@@ -75,7 +64,6 @@ private:
 	D3DXVECTOR3 m_rot;			//向き
 	D3DXVECTOR3 m_rotDest;		//目的の向き
 	LPCTSTR		m_modelName;	//モデルのパス
-	BLOCK		m_state;		//ステート
 
 	/* ↓ クラス情報 ↓ */
 	LPD3DXMESH	 m_pMesh;		//メッシュ情報へのポインタ
