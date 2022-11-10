@@ -213,8 +213,8 @@ void CRenderer::Draw()
 
 	if (nFirstNumber <= CRenderer::GetMaxCamera() - 1)
 	{//プレイヤー番号が最大数を超えていないなら
-		if (nFirstNumber >= 0 /* 1位がnullじゃないなら */)
-		{//Zが押されているなら
+		if (nFirstNumber >= 0)
+		{//1位がnullじゃないなら
 			//-----------------------------
 			// 描画順の配列を入れ替える
 			//-----------------------------

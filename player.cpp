@@ -85,7 +85,7 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos)
 		float Y = CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().Y +
 			(CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().Height - 50.0f);
 		D3DXVECTOR3 Pos(X, Y, 0.0f);
-		m_pRank = CRank::Create(Pos);
+		m_pRank = CRank::Create(Pos, m_nPlayerNum);
 	}
 	
 	CRead cRead;
