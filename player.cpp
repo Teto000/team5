@@ -24,6 +24,7 @@
 #include "num_block.h"
 #include "num_rank.h"
 #include "block.h"
+#include "sound.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -88,6 +89,12 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos)
 		m_pRank = CRank::Create(Pos, m_nPlayerNum);
 	}
 	
+	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
+	{
+		m_pModel[nCnt] = nullptr;
+		m_pSetModel[nCnt] = nullptr;
+	}
+
 	CRead cRead;
 
 	m_nMotionNum = cRead.ReadMotion("data/MOTION/motionplayer.txt");
@@ -106,8 +113,17 @@ void CPlayer::Uninit()
 		if (m_pModel[nCnt] != nullptr)
 		{
 			m_pModel[nCnt]->Uninit();
+			m_pModel[nCnt]->SetAboveFalse();
+			delete m_pModel[nCnt];
 			m_pModel[nCnt] = nullptr;
 		}
+	}
+
+	if (m_pSetModel[0] != nullptr)
+	{
+		m_pSetModel[0]->Uninit();
+		delete m_pSetModel[0];
+		m_pSetModel[0] = nullptr;
 	}
 
 	Release();
@@ -125,11 +141,15 @@ void CPlayer::Update()
 	Move();
 
 #ifdef _DEBUG
-	
 	//デバック用
 	if (CInputKeyboard::Press(DIK_K))
 	{
 		m_BlockHave++;
+	}
+
+	if (CInputKeyboard::Trigger(DIK_Z))
+	{
+		m_pSetModel[0] = CBlock::Create(D3DXVECTOR3(m_pos.x+ 130.0f, -1.0f, m_pos.z), m_rot, CBlock::FIELD_BLOCK);
 	}
 #endif // _DEBUG
 
@@ -143,6 +163,29 @@ void CPlayer::Update()
 	else if (CInputKeyboard::Press(DIK_DOWN) && m_nPlayerNum == 0)
 	{
 		m_nNumBlock = m_pNumBlock->AddNumber(-1);
+	}
+
+	//----------------------
+	// 所持ブロック数の加算
+	//----------------------
+	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
+	{
+		if (m_pSetModel[nCnt] != nullptr)
+		{
+			if (m_pSetModel[0]->GetHaveBlock())
+			{
+				if (m_pSetModel[0]->GetType() == CBlock::FIELD_BLOCK)
+				{
+					m_nNumBlock = m_pNumBlock->AddNumber(1);
+					m_BlockCnt++;
+					
+					// モデルの削除
+					m_pSetModel[0]->Uninit();
+					delete m_pSetModel[nCnt];
+					m_pSetModel[0] = nullptr;
+				}
+			}
+		}
 	}
 
 	//-------------------
@@ -161,8 +204,23 @@ void CPlayer::Update()
 	else if (m_pos == pos && pos.y < -8.0f)
 	{//コースアウト
 		SetBlock();
+		CSound::PlaySound(CSound::SOUND_LABEL_SE_FALL1);
 	}
 	
+
+	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
+	{
+		if (m_pModel[nCnt] != nullptr)
+		{
+			m_pModel[nCnt]->Update();
+		}
+	}
+
+	if (m_pSetModel[0] != nullptr)
+	{
+		m_pSetModel[0]->Update();
+	}
+
 	CMotionParts::MoveMotionModel(m_pos, GetRot(), m_nMotionNum, 1);
 
 	m_rot.y = atan2f(m_move.x, m_move.z) + D3DX_PI;
@@ -179,6 +237,11 @@ void CPlayer::Draw()
 		{
 			m_pModel[nCnt]->Draw();
 		}
+	}
+
+	if (m_pSetModel[0] != nullptr)
+	{
+		m_pSetModel[0]->Draw();
 	}
 }
 
@@ -321,6 +384,7 @@ void CPlayer::Jump()
 		//プレイヤーを待機状態にする
 		m_state = IDOL_STATE;
 	}
+	CSound::PlaySound(CSound::SOUND_LABEL_SE_JUMP1);
 }
 
 //===========================
@@ -473,10 +537,11 @@ void CPlayer::SetBlock()
 
 	if (m_pModel[m_BlockCnt] == nullptr)
 	{// モデルの設定
-		m_pModel[m_BlockCnt] = CBlock::Create(D3DXVECTOR3(m_pos.x, -1.0f, m_pos.z), m_rot);
+		m_pModel[m_BlockCnt] = CBlock::Create(D3DXVECTOR3(m_pos.x, -1.0f, m_pos.z), m_rot , CBlock::PLAYER_BLOCK);
 		m_pModel[m_BlockCnt]->SetAbove();
 		m_BlockCnt++;
 		m_nNumBlock = m_pNumBlock->AddNumber(-1);
+		CSound::PlaySound(CSound::SOUND_LABEL_SE_BLOCK);
 	}
 }
 
@@ -491,6 +556,7 @@ void CPlayer::Gravity()
 		if (m_pModel[nCnt]->GetBlockCollision())
 		{// trueだった時
 			m_pos.y = 0.0f;
+			m_move.y = 0.0f;
 			SetPosition(m_pos);
 			return;
 		}

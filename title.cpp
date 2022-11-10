@@ -21,6 +21,9 @@
 #include "camera_title.h"
 #include "player.h"
 #include "Titlelogo.h"
+#include "read.h"
+#include "3dobject.h"
+#include "motion_parts.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -52,7 +55,10 @@ CTitle::~CTitle()
 HRESULT CTitle::Init()
 {
 	//メッシュフィールドの生成
-	m_pMeshField = CMeshField::Create();
+	//m_pMeshField = CMeshField::Create();
+	CRead cRead;
+	int nNum = cRead.ReadMotion("data/MOTION/motionground.txt");
+	CMotionParts::MoveMotionModel(D3DXVECTOR3(0.0f, -500.0f, 5000.0f), D3DXVECTOR3(0.0f,0.0f,0.0f), nNum, 0);
 
 	//カメラの生成
 	m_pCameraTitle = CCameraTitle::Create(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -62,7 +68,7 @@ HRESULT CTitle::Init()
 	m_pTitlelogo = CTitlelogo::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f), CTexture::TEXTURE_TITLELOGO2);
 
 	//サウンド生成
-	CSound::PlaySound(CSound::SOUND_LABEL_TITLE2);
+	CSound::PlaySound(CSound::SOUND_LABEL_TITLE);
 
 	return S_OK;
 }
@@ -74,6 +80,10 @@ void CTitle::Uninit()
 {
 	//サウンド停止
 	CSound::StopSound();
+
+	C3DObject::UninitAllModel();
+
+	CMotionParts::ALLUninit();
 
 	//---------------------
 	// カメラの終了
@@ -96,6 +106,8 @@ void CTitle::Update()
 {
 	if (CInputKeyboard::Trigger(DIK_RETURN) == true && CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{
+		//サウンド生成
+		CSound::PlaySound(CSound::SOUND_LABEL_SE_GAME_START);
 		CApplication::GetFade()->SetFade(CApplication::MODE_PSELECT);
 	}
 

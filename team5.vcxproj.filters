@@ -127,6 +127,9 @@
     <ClCompile Include="block.cpp">
       <Filter>Main\Object\ObjectX</Filter>
     </ClCompile>
+    <ClCompile Include="Gimmick.cpp">
+      <Filter>Main\Object\ObjectX</Filter>
+    </ClCompile>
     <ClCompile Include="num_rank.cpp">
       <Filter>Main\Object\Object2D\Number</Filter>
     </ClCompile>
@@ -254,10 +257,6 @@
     </ClInclude>
     <ClInclude Include="Ranking.h">
       <Filter>Main\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="block.h" />
-    <ClInclude Include="num_rank.h">
-      <Filter>Main\Object\Object2D\Number</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

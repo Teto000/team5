@@ -13,6 +13,7 @@
 #include "input.h"
 #include "input_keybord.h"
 #include "Goal.h"
+#include "sound.h"
 
 //=======================
 // コンストラクタ
@@ -46,6 +47,7 @@ HRESULT CMessage::Init(D3DXVECTOR3 pos)
 	m_fWidth = 500.0f;
 	m_fHeight = 500.0f;
 	m_message = MESSAGE_COUNT_THREE;
+	CSound::PlaySound(CSound::SOUND_LABEL_SE_START_HEAVY);
 
 	CObject2D::Init(m_pos);
 
@@ -231,6 +233,7 @@ void CMessage::ChangeMessage()
 
 	case MESSAGE_COUNT_TWO:
 		m_message = MESSAGE_COUNT_ONE;
+		CSound::PlaySound(CSound::SOUND_LABEL_SE_START_VOICE);
 		break;
 
 	case MESSAGE_COUNT_THREE:
@@ -239,6 +242,7 @@ void CMessage::ChangeMessage()
 
 	case MESSAGE_START:
 		m_message = MESSAGE_FINISH;
+		CSound::PlaySound(CSound::SOUND_LABEL_SE_FINISH);
 		break;
 
 	case MESSAGE_FINISH:

@@ -113,7 +113,7 @@ HRESULT CGame::Init()
 									CMessage::MESSAGE_COUNT_THREE);
 
 	//ƒTƒEƒ“ƒh¶¬
-	CSound::PlaySound(CSound::SOUND_LABEL_GAME1);
+	CSound::PlaySound(CSound::SOUND_LABEL_GAME);
 
 	CRead cRead;
 	m_nGroundNum = cRead.ReadMotion("data/MOTION/motionground.txt");
@@ -281,6 +281,7 @@ void CGame::FinishGame()
 			//-----------------------
 		case CCameraPlayer::NUMPLAYER_ONE:
 			m_pCameraPlayer[nFirstNumber]->AddViewSize(0, 0, nSpeed_X, nSpeed_Y);
+			CSound::PlaySound(CSound::SOUND_LABEL_SE_1PWIN);
 			break;
 
 			//-----------------------
@@ -288,6 +289,7 @@ void CGame::FinishGame()
 			//-----------------------
 		case CCameraPlayer::NUMPLAYER_TWO:
 			m_pCameraPlayer[nFirstNumber]->AddViewSize(-nSpeed_X, 0, nSpeed_X, nSpeed_Y);
+			CSound::PlaySound(CSound::SOUND_LABEL_SE_2PWIN);
 			break;
 
 			//-----------------------
@@ -295,6 +297,7 @@ void CGame::FinishGame()
 			//-----------------------
 		case CCameraPlayer::NUMPLAYER_THREE:
 			m_pCameraPlayer[nFirstNumber]->AddViewSize(0, -nSpeed_Y, nSpeed_X, nSpeed_Y);
+			CSound::PlaySound(CSound::SOUND_LABEL_SE_3PWIN);
 			break;
 
 			//-----------------------
@@ -302,6 +305,7 @@ void CGame::FinishGame()
 			//-----------------------
 		case CCameraPlayer::NUMPLAYER_FOUR:
 			m_pCameraPlayer[nFirstNumber]->AddViewSize(-nSpeed_X, -nSpeed_Y, nSpeed_X, nSpeed_Y);
+			CSound::PlaySound(CSound::SOUND_LABEL_SE_4PWIN);
 			break;
 
 		default:
