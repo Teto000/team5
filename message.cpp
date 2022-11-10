@@ -243,6 +243,7 @@ void CMessage::ChangeMessage()
 	case MESSAGE_START:
 		m_message = MESSAGE_FINISH;
 		CSound::PlaySound(CSound::SOUND_LABEL_SE_FINISH);
+		CSound::PlaySound(CSound::SOUND_LABEL_SE_FINISH_VOICE);
 		break;
 
 	case MESSAGE_FINISH:
