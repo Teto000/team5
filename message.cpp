@@ -89,8 +89,10 @@ void CMessage::Update()
 	if (m_message == MESSAGE_WINNER_ONE || m_message == MESSAGE_WINNER_TWO
 		|| m_message == MESSAGE_WINNER_THREE || m_message == MESSAGE_WINNER_FOUR)
 	{//勝者を表示するとき
-		m_fWidth = 800.0f;
-		m_fHeight = 300.0f;
+		m_fWidth = 1000.0f;	//幅
+		m_fHeight = 200.0f;	//高さ
+
+		//サイズの設定
 		CObject2D::SetSize(m_fWidth, m_fHeight);
 	}
 
@@ -270,11 +272,6 @@ void CMessage::ChangeMessage()
 		//位置の変更
 		m_pos.y = 550.0f;
 		CObject2D::SetPosition(m_pos);
-
-		//サイズの変更
-		m_fWidth = 700.0f;
-		m_fHeight = 400.0f;
-		CObject2D::SetSize(m_fWidth, m_fHeight);
 		break;
 
 	default:

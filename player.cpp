@@ -78,16 +78,16 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos)
 	//-----------------------------
 	// 順位の生成
 	//-----------------------------
-	{
-		//ビューポートの座標を取得、設置場所の計算
-		float X = CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().X +
-			(CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().Width - 80.0f);
+	//{
+	//	//ビューポートの座標を取得、設置場所の計算
+	//	float X = CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().X +
+	//		(CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().Width - 80.0f);
 
-		float Y = CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().Y +
-			(CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().Height - 50.0f);
-		D3DXVECTOR3 Pos(X, Y, 0.0f);
-		m_pRank = CRank::Create(Pos);
-	}
+	//	float Y = CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().Y +
+	//		(CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().Height - 50.0f);
+	//	D3DXVECTOR3 Pos(X, Y, 0.0f);
+	//	m_pRank = CRank::Create(Pos, m_nPlayerNum);
+	//}
 	
 	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
 	{
