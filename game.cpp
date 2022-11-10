@@ -114,7 +114,6 @@ HRESULT CGame::Init()
 
 	//ÉTÉEÉìÉhê∂ê¨
 	CSound::PlaySound(CSound::SOUND_LABEL_GAME);
-	CSound::PlaySound(CSound::SOUND_LABEL_SE_START_HEAVY);
 
 	CRead cRead;
 	m_nGroundNum = cRead.ReadMotion("data/MOTION/motionground.txt");

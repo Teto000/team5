@@ -109,6 +109,7 @@ void CPSelect::Update()
 	if (CInputKeyboard::Trigger(DIK_RETURN) == true && CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{//Enterで次の画面に遷移する
 		CApplication::GetFade()->SetFade(CApplication::MODE_GAME);
+		CSound::PlaySound(CSound::SOUND_LABEL_SE_SELECT_DECISION);
 	}
 }
 
@@ -120,6 +121,7 @@ void CPSelect::SelectPlayerNum()
 	// 左
 	if (CInputKeyboard::Trigger(DIK_LEFT))
 	{// 例外処理
+		CSound::PlaySound(CSound::SOUND_LABEL_SE_SELECT);
 		if (m_PlayerSelectNum == 0)
 		{// プレイヤーの数が0だった時、減らしたら4になる処理
 			m_PlayerSelectNum = MAX_WINDOW;
@@ -137,6 +139,7 @@ void CPSelect::SelectPlayerNum()
 	// 右
 	else if (CInputKeyboard::Trigger(DIK_RIGHT))
 	{
+		CSound::PlaySound(CSound::SOUND_LABEL_SE_SELECT);
 		// 例外処理
 		if (m_PlayerSelectNum == MAX_WINDOW)
 		{
