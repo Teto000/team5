@@ -1,18 +1,68 @@
 Object
 Goal
-Pos 200.0 40.0 -600.0
+Pos -1931.5 -0.0 -13396.3
 Rot 0.0f 0.0f 0.0f
 End
+
 Object
 Gimmick
-Pos 365.2 0.0 -3730.8
-Rot 0.0f 0.0f 0.0f
+Pos -436.1 0.0 -1883.0
+Rot 0.0f 10.0f 0.0f
+Type 0
+End
+
+Object
+Gimmick
+Pos -1233.1 0.0 -1934.9
+Rot 0.0f 10.0f 0.0f
+Type 0
+End
+
+Object
+Gimmick
+Pos -2224.5 0.0 -1991.6
+Rot 0.0f 10.0f 0.0f
+Type 0
+End
+
+Object
+Gimmick
+Pos -4528.1 -0.0 -1963.8
+Rot 0.00 1.58 0.00
 Type 2
 End
 
 Object
 Gimmick
-Pos 151.3 0.0 -3875.7
-Rot 0.0f 0.0f 0.0f
+Pos -4528.1 -0.0 -2163.8
+Rot 0.00 1.58 0.00
 Type 2
+End
+
+Object
+Gimmick
+Pos -4528.1 -0.0 -2363.8
+Rot 0.00 1.58 0.00
+Type 2
+End
+
+Object
+Gimmick
+Pos -4884.7 -0.0 -4976.5
+Rot 0.00 4.78 0.00
+Type 1
+End
+
+Object
+Gimmick
+Pos -4987.6 0.0 -5266.6
+Rot 0.00 3.21 0.00
+Type 1
+End
+
+Object
+Gimmick
+Pos -1981.6 0.0 -7374.6
+Rot 0.00 1.71 0.00
+Type 3
 End
