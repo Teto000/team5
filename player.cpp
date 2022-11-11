@@ -134,6 +134,7 @@ void CPlayer::Update()
 	Move();
 
 #ifdef _DEBUG
+
 	//デバック用
 	if (CInputKeyboard::Press(DIK_K))
 	{
@@ -156,31 +157,8 @@ void CPlayer::Update()
 	{
 		m_nNumBlock = m_pNumBlock->AddNumber(-1);
 	}
+
 #endif // _DEBUG
-
-	//----------------------
-	// 所持ブロック数の加算
-	//----------------------
-	//for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
-	//{
-	//	if (m_pModel[nCnt] != nullptr)
-	//	{
-	//		if (m_pModel[0]->GetHaveBlock())
-	//		{
-	//			if (m_pModel[0]->GetType() == CBlock::FIELD_BLOCK)
-	//			{
-	//				m_nNumBlock = m_pNumBlock->AddNumber(1);
-	//				m_BlockCnt++;
-	//				
-	//				// モデルの削除
-	//				m_pModel[0]->Uninit();
-	//				delete m_pModel[nCnt];
-	//				m_pModel[0] = nullptr;
-	//			}
-	//		}
-	//	}
-	//}
-
 	//-------------------
 	//当たり判定
 	//-------------------
@@ -215,8 +193,6 @@ void CPlayer::Update()
 			m_pModel[nCnt]->Update();
 		}
 	}
-
-
 
 	CMotionParts::MoveMotionModel(m_pos, GetRot(), m_nMotionNum, 1);
 
@@ -255,7 +231,6 @@ CPlayer* CPlayer::Create(int PlayerNum)
 		//初期化
 		pPlayer->m_nPlayerNum = PlayerNum;
 		pPlayer->Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-		//pPlayer->SetObjType(OBJTYPE_ENEMY);
 	}
 
 	return pPlayer;
@@ -295,16 +270,7 @@ void CPlayer::Move()
 	m_move.x += (0.0f - m_move.x) * 0.1f;
 	m_move.z += (0.0f - m_move.z) * 0.1f;
 
-	////重力関連
-	//if (m_pos.y <= 1.0f)
-	//{
-	//	m_bJump = false;
-	//	m_move.y = 0.0f;
-	//	
-	//	////仮で地面で止まる処理
-	//	//m_pos.y = 1.0f;
-	//}
-	
+	//重力	
 	Gravity();
 
 	//-------------------------------
