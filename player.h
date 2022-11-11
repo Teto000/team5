@@ -81,7 +81,7 @@ private:
 
 	// 移動キー
 	// 引数 : 上のキー、左のキー、下のキー、右のキー
-	void MoveKey(int UPKey, int LEFTKey, int DOWNKey, int RIGHTKey, int JUMPKey);
+	void MoveKey(int UPKey, int LEFTKey, int DOWNKey, int RIGHTKey, int JUMPKey, int nPlayerNum);
 	CNumBlock*	m_pNumBlock;	//ブロック数の表示
 
 private:
