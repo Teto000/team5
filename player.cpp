@@ -178,7 +178,7 @@ void CPlayer::Update()
 		SetBlock();
 		CSound::PlaySound(CSound::SOUND_LABEL_SE_FALL1);
 
-		if (m_pos.y <= -150.0f)
+		if (m_pos.y <= -400.0f)
 		{//ある程度落ちたら
 			//保存していた位置にリスポーン
 			m_pos = m_respornPos;
@@ -444,7 +444,7 @@ void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey
 		if (CInputKeyboard::Trigger(JUMPKey) && !m_bJump)
 		{
 			// ジャンプ状態に移行
-			m_state = JUMP_STATE;
+			//m_state = JUMP_STATE;
 		}
 	}
 
