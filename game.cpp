@@ -118,6 +118,9 @@ HRESULT CGame::Init()
 	CRead cRead;
 	m_nGroundNum = cRead.ReadMotion("data/MOTION/motionground.txt");
 
+	//îwåiê∂ê¨
+//	cRead.ReadMotion("data/MOTION/BG.txt");
+
 	//CObjectX::Create("data\\MODEL\\X_File\\Neptune_000.x", D3DXVECTOR3(200.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 	return S_OK;
