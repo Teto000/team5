@@ -25,12 +25,11 @@
 #include "num_rank.h"
 #include "block.h"
 #include "sound.h"
-#include "Editor.h"
 
 //------------------------
 // 静的メンバ変数宣言
 //------------------------
-const float CPlayer::fPlayerSpeed = 10.0f;
+const float CPlayer::fPlayerSpeed = 15.0f;
 const float CPlayer::fGravity = 0.1f;
 
 //========================
@@ -135,7 +134,6 @@ void CPlayer::Update()
 	Move();
 
 #ifdef _DEBUG
-
 	//デバック用
 	if (CInputKeyboard::Press(DIK_K))
 	{
@@ -158,8 +156,31 @@ void CPlayer::Update()
 	{
 		m_nNumBlock = m_pNumBlock->AddNumber(-1);
 	}
-
 #endif // _DEBUG
+
+	//----------------------
+	// 所持ブロック数の加算
+	//----------------------
+	//for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
+	//{
+	//	if (m_pModel[nCnt] != nullptr)
+	//	{
+	//		if (m_pModel[0]->GetHaveBlock())
+	//		{
+	//			if (m_pModel[0]->GetType() == CBlock::FIELD_BLOCK)
+	//			{
+	//				m_nNumBlock = m_pNumBlock->AddNumber(1);
+	//				m_BlockCnt++;
+	//				
+	//				// モデルの削除
+	//				m_pModel[0]->Uninit();
+	//				delete m_pModel[nCnt];
+	//				m_pModel[0] = nullptr;
+	//			}
+	//		}
+	//	}
+	//}
+
 	//-------------------
 	//当たり判定
 	//-------------------
@@ -177,13 +198,11 @@ void CPlayer::Update()
 	else if (m_pos == pos && pos.y < -8.0f)
 	{//コースアウト
 		SetBlock();
-	
-		if (m_pos.y <= -400.0f)
-		{//ある程度落ちたら
-			//保存していた位置にリスポーン
-			m_pos = m_respornPos;
-			CSound::PlaySound(CSound::SOUND_LABEL_SE_FALL1);
+		CSound::PlaySound(CSound::SOUND_LABEL_SE_FALL1);
 
+		if (m_pos.y <= -150.0f)
+		{
+			m_pos = m_respornPos;
 		}
 	}
 	
@@ -196,13 +215,10 @@ void CPlayer::Update()
 		}
 	}
 
-	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
-	{
-		if (m_pModel[nCnt] != nullptr)
-		{
-			this->m_PlayerBlockCollision = m_pModel[nCnt]->Collision(this);
-		}
-	}
+	pos = m_pos;
+	//pos.y += 50.0f;
+
+	m_pos = CMotionParts::AllCollisionObstacle(m_nMotionNum, pos, m_posold);
 
 	CMotionParts::MoveMotionModel(m_pos, GetRot(), m_nMotionNum, 1);
 
@@ -241,6 +257,7 @@ CPlayer* CPlayer::Create(int PlayerNum)
 		//初期化
 		pPlayer->m_nPlayerNum = PlayerNum;
 		pPlayer->Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+		//pPlayer->SetObjType(OBJTYPE_ENEMY);
 	}
 
 	return pPlayer;
@@ -256,17 +273,17 @@ void CPlayer::Move()
 	{
 	case 0:
 		//プレイヤー1の操作
-		MoveKey(DIK_W, DIK_A, DIK_S, DIK_D,DIK_SPACE,0);
+		MoveKey(DIK_W, DIK_A, DIK_S, DIK_D,DIK_SPACE);
 		break;
 
 	case 1:
 		//プレイヤー2の操作
-		MoveKey(DIK_T, DIK_F, DIK_G, DIK_H, DIK_BACKSPACE,1);
+		MoveKey(DIK_T, DIK_F, DIK_G, DIK_H, DIK_BACKSPACE);
 		break;
 
 	case 2:
 		//プレイヤー3の操作
-		MoveKey(DIK_I, DIK_J, DIK_K, DIK_L, DIK_P,2);
+		MoveKey(DIK_I, DIK_J, DIK_K, DIK_L, DIK_P);
 		break;
 
 	default:
@@ -280,7 +297,16 @@ void CPlayer::Move()
 	m_move.x += (0.0f - m_move.x) * 0.1f;
 	m_move.z += (0.0f - m_move.z) * 0.1f;
 
-	//重力	
+	////重力関連
+	//if (m_pos.y <= 1.0f)
+	//{
+	//	m_bJump = false;
+	//	m_move.y = 0.0f;
+	//	
+	//	////仮で地面で止まる処理
+	//	//m_pos.y = 1.0f;
+	//}
+	
 	Gravity();
 
 	//-------------------------------
@@ -408,10 +434,10 @@ D3DXVECTOR3 CPlayer::GetPosOld()
 // 移動キーの設定
 // 引数 : 上キー、左キー、下キー、右キー、ジャンプキー
 //=====================================================
-void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey,int nPlayerNum)
+void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey)
 {
 	// カメラの角度情報取得
-	D3DXVECTOR3 CameraRot = CGame::GetCameraPlayer(nPlayerNum)->GetRot();;
+	D3DXVECTOR3 CameraRot = CGame::GetCameraPlayer(0)->GetRot();;
 
 	//-------------------------------
 	// プレイヤーの操作
@@ -448,15 +474,15 @@ void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey
 	/*moveInput.y += 1.0f;
 	moveLength = 1.0f;*/
 
-	//ジャンプ状態ではないときに
-	if (m_state == IDOL_STATE)
-	{
-		if (CInputKeyboard::Trigger(JUMPKey) && !m_bJump)
-		{
-			// ジャンプ状態に移行
-			//m_state = JUMP_STATE;
-		}
-	}
+	////ジャンプ状態ではないときに
+	//if (m_state == IDOL_STATE)
+	//{
+	//	if (CInputKeyboard::Trigger(JUMPKey) && !m_bJump)
+	//	{
+	//		// ジャンプ状態に移行
+	//		m_state = JUMP_STATE;
+	//	}
+	//}
 
 	if (moveLength > 0.0f)
 	{
@@ -496,9 +522,12 @@ void CPlayer::SetBlock()
 		return;
 	}
 
-	if (m_PlayerBlockCollision)
-	{// trueだった時
-		return;
+	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
+	{
+		if (m_pModel[nCnt]->GetBlockCollision())
+		{// trueだった時
+			return;
+		}
 	}
 
 	if (m_pModel[m_BlockCnt] == nullptr)
@@ -517,14 +546,16 @@ void CPlayer::SetBlock()
 void CPlayer::Gravity()
 {
 	//重力
-	if (m_PlayerBlockCollision)
-	{// trueだった時
-		m_pos.y = 0.0f;
-		m_move.y = 0.0f;
-		SetPosition(m_pos);
-		return;
+	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
+	{
+		if (m_pModel[nCnt]->GetBlockCollision())
+		{// trueだった時
+			m_pos.y = 0.0f;
+			m_move.y = 0.0f;
+			SetPosition(m_pos);
+			return;
+		}
 	}
-	
 
 	m_move.y -= fGravity;
 }
