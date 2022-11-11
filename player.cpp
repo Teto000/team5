@@ -215,7 +215,10 @@ void CPlayer::Update()
 		}
 	}
 
+	pos = m_pos;
+	//pos.y += 50.0f;
 
+	m_pos = CMotionParts::AllCollisionObstacle(m_nMotionNum, pos, m_posold);
 
 	CMotionParts::MoveMotionModel(m_pos, GetRot(), m_nMotionNum, 1);
 
