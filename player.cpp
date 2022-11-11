@@ -25,6 +25,7 @@
 #include "num_rank.h"
 #include "block.h"
 #include "sound.h"
+#include "Editor.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -176,12 +177,13 @@ void CPlayer::Update()
 	else if (m_pos == pos && pos.y < -8.0f)
 	{//コースアウト
 		SetBlock();
-		CSound::PlaySound(CSound::SOUND_LABEL_SE_FALL1);
-
+	
 		if (m_pos.y <= -400.0f)
 		{//ある程度落ちたら
 			//保存していた位置にリスポーン
 			m_pos = m_respornPos;
+			CSound::PlaySound(CSound::SOUND_LABEL_SE_FALL1);
+
 		}
 	}
 	
@@ -191,6 +193,14 @@ void CPlayer::Update()
 		if (m_pModel[nCnt] != nullptr)
 		{
 			m_pModel[nCnt]->Update();
+		}
+	}
+
+	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
+	{
+		if (m_pModel[nCnt] != nullptr)
+		{
+			this->m_PlayerBlockCollision = m_pModel[nCnt]->Collision(this);
 		}
 	}
 
@@ -486,12 +496,9 @@ void CPlayer::SetBlock()
 		return;
 	}
 
-	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
-	{
-		if (m_pModel[nCnt]->GetBlockCollision())
-		{// trueだった時
-			return;
-		}
+	if (m_PlayerBlockCollision)
+	{// trueだった時
+		return;
 	}
 
 	if (m_pModel[m_BlockCnt] == nullptr)
@@ -510,16 +517,14 @@ void CPlayer::SetBlock()
 void CPlayer::Gravity()
 {
 	//重力
-	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
-	{
-		if (m_pModel[nCnt]->GetBlockCollision())
-		{// trueだった時
-			m_pos.y = 0.0f;
-			m_move.y = 0.0f;
-			SetPosition(m_pos);
-			return;
-		}
+	if (m_PlayerBlockCollision)
+	{// trueだった時
+		m_pos.y = 0.0f;
+		m_move.y = 0.0f;
+		SetPosition(m_pos);
+		return;
 	}
+	
 
 	m_move.y -= fGravity;
 }

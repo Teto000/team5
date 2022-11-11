@@ -143,8 +143,8 @@ void CBlock::Uninit()
 //===========================
 void CBlock::Update()
 {
-	// 当たり判定
-	Collision();
+	//// 当たり判定
+	//Collision();
 }
 
 //========================
@@ -201,7 +201,7 @@ void CBlock::Draw()
 //===========================
 // 当たり判定
 //===========================
-bool CBlock::Collision()
+bool CBlock::Collision(CPlayer *pPlayer)
 {
 	//カメラの最大数を取得
 	int nMaxCamera = CRenderer::GetMaxCamera();
@@ -215,36 +215,23 @@ bool CBlock::Collision()
 		nMaxCamera = 3;
 	}
 
-	for (int i = 0; i < nMaxCamera; i++)
-	{//プレイヤーの最大人数分回す
-		CPlayer*pPlayer = CGame::GetPlayer(i);
-
-		//横からぶつかった時用
-		////Y軸
-		//if (pPlayer->GetPosition().y < m_pos.y + m_vtxMax.y
-		//	&&pPlayer->GetPosition().y  > m_pos.y - m_vtxMin.y)
-		//{
-		//}
-		if (pPlayer != nullptr)
-		{
-			//X軸
-			if (pPlayer->GetPosition().z - PLAYER_SIZE < m_pos.z + m_vtxMax.z && pPlayer->GetPosition().z + PLAYER_SIZE  > m_pos.z + m_vtxMin.z)
-			{
-				//Z軸
-				if (pPlayer->GetPosition().x - PLAYER_SIZE < m_pos.x + m_vtxMax.x
-					&& pPlayer->GetPosition().x + PLAYER_SIZE > m_pos.x + m_vtxMin.x)
-				{// 当たっている
-					m_bAbove = true;
-				}
-				else
-				{// Xで当たってない
-					m_bAbove = false;
-				}
+	if (pPlayer != nullptr)
+	{//X軸
+		if (pPlayer->GetPosition().z - PLAYER_SIZE < m_pos.z + m_vtxMax.z && pPlayer->GetPosition().z + PLAYER_SIZE  > m_pos.z + m_vtxMin.z)
+		{//Z軸
+			if (pPlayer->GetPosition().x - PLAYER_SIZE < m_pos.x + m_vtxMax.x
+				&& pPlayer->GetPosition().x + PLAYER_SIZE > m_pos.x + m_vtxMin.x)
+			{// 当たっている
+				m_bAbove = true;
 			}
 			else
-			{// Zで当たってない
+			{// Xで当たってない
 				m_bAbove = false;
 			}
+		}
+		else
+		{// Zで当たってない
+				m_bAbove = false;
 		}
 	}
 	return m_bAbove;
@@ -260,7 +247,6 @@ CBlock* CBlock::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot)
  // 生成と初期化
  //----------------------------------
 	CBlock *pCBlock = nullptr;
-	//pGoal = new CGoal(CObject::OBJTYPE_GOAL);	//生成
 	pCBlock = new CBlock(CObject::OBJTYPE_BLOCK);	//生成
 
 	if (pCBlock != nullptr)

@@ -22,6 +22,7 @@ class CShadow;	//影
 //================================
 // ゴールクラスの定義
 //================================
+class CPlayer;
 class CBlock
 {
 public:
@@ -35,7 +36,7 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
-	bool Collision();
+	bool Collision(CPlayer *pPlayer);
 
 	// クリエイト
 	static CBlock * Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot);
@@ -71,7 +72,6 @@ private:
 	DWORD		 m_nNumMat;		//マテリアル情報の数
 	D3DXVECTOR3  m_vtxMax;		//モデルの最大座標
 	D3DXVECTOR3  m_vtxMin;		//モデルの座標の最小値
-
 };
 
 #endif
