@@ -25,6 +25,7 @@
 #include "num_rank.h"
 #include "block.h"
 #include "sound.h"
+#include "Editor.h"
 
 //------------------------
 // Ã“Iƒƒ“ƒo•Ï”éŒ¾
@@ -191,6 +192,14 @@ void CPlayer::Update()
 		if (m_pModel[nCnt] != nullptr)
 		{
 			m_pModel[nCnt]->Update();
+		}
+	}
+
+	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
+	{
+		if (m_pModel[nCnt] != nullptr)
+		{
+			this->m_PlayerBlockCollision = m_pModel[nCnt]->Collision(this);
 		}
 	}
 
@@ -486,12 +495,9 @@ void CPlayer::SetBlock()
 		return;
 	}
 
-	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
-	{
-		if (m_pModel[nCnt]->GetBlockCollision())
-		{// true‚¾‚Á‚½
-			return;
-		}
+	if (m_PlayerBlockCollision)
+	{// true‚¾‚Á‚½
+		return;
 	}
 
 	if (m_pModel[m_BlockCnt] == nullptr)
@@ -510,16 +516,14 @@ void CPlayer::SetBlock()
 void CPlayer::Gravity()
 {
 	//d—Í
-	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
-	{
-		if (m_pModel[nCnt]->GetBlockCollision())
-		{// true‚¾‚Á‚½
-			m_pos.y = 0.0f;
-			m_move.y = 0.0f;
-			SetPosition(m_pos);
-			return;
-		}
+	if (m_PlayerBlockCollision)
+	{// true‚¾‚Á‚½
+		m_pos.y = 0.0f;
+		m_move.y = 0.0f;
+		SetPosition(m_pos);
+		return;
 	}
+	
 
 	m_move.y -= fGravity;
 }

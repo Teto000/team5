@@ -103,6 +103,7 @@ private:
 	STATE		m_state;					//プレイヤーの状態
 	int			m_nNumBlock;				//ブロック数
 	bool		m_bJump;					//ジャンプしたかしていないか
+	bool		m_PlayerBlockCollision;		//プレイヤーがブロックと当たっているかいないかを入れる箱
 
 	CBlock		*m_pModel[MAX_BLOCK];		//ブロック
 	int			m_BlockCnt;					//ブロックをカウントする処理

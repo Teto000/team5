@@ -137,10 +137,12 @@
     <ClCompile Include="num_rank.cpp">
       <Filter>Main\Object\Object2D\Number</Filter>
     </ClCompile>
-    <ClCompile Include="Titlelogo.cpp">
-      <Filter>Main\Object\Object2D</Filter>
+    <ClCompile Include="joypd.cpp">
+      <Filter>Main\Application\Input</Filter>
     </ClCompile>
-    <ClCompile Include="block.cpp" />
+    <ClCompile Include="block.cpp">
+      <Filter>Main\Object\ObjectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3dobject.h">
@@ -260,15 +262,20 @@
     <ClInclude Include="Score.h">
       <Filter>Main\Object\Object2D</Filter>
     </ClInclude>
+    <ClInclude Include="num_rank.h" />
     <ClInclude Include="Ranking.h">
       <Filter>Main\Application</Filter>
     </ClInclude>
-    <ClInclude Include="block.h" />
     <ClInclude Include="Editor.h" />
+    <ClInclude Include="num_rank.h" />
+    <ClInclude Include="Score.h" />
+    <ClInclude Include="block.h">
+      <Filter>Main\Object\ObjectX</Filter>
+    </ClInclude>
     <ClInclude Include="Gimmick.h" />
     <ClInclude Include="stack_block.h" />
-    <ClInclude Include="num_rank.h">
-      <Filter>Main\Object\Object2D\Number</Filter>
+    <ClInclude Include="joypad.h">
+      <Filter>Main\Application\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
