@@ -247,7 +247,6 @@ CPlayer* CPlayer::Create(int PlayerNum)
 		//初期化
 		pPlayer->m_nPlayerNum = PlayerNum;
 		pPlayer->Init(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-		//pPlayer->SetObjType(OBJTYPE_ENEMY);
 	}
 
 	return pPlayer;
@@ -287,16 +286,7 @@ void CPlayer::Move()
 	m_move.x += (0.0f - m_move.x) * 0.1f;
 	m_move.z += (0.0f - m_move.z) * 0.1f;
 
-	////重力関連
-	//if (m_pos.y <= 1.0f)
-	//{
-	//	m_bJump = false;
-	//	m_move.y = 0.0f;
-	//	
-	//	////仮で地面で止まる処理
-	//	//m_pos.y = 1.0f;
-	//}
-	
+	//重力	
 	Gravity();
 
 	//-------------------------------

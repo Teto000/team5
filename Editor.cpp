@@ -65,8 +65,6 @@ void CEditor::Init()
 	m_nNumber = 0;									//現在設定するブロックのタイプ
 	m_nNumpla = 0;
 
-	SelectPlanet();
-
 	for (int nCnt = 0; nCnt < MAX_STACK_BLOCK; nCnt++)
 	{
 		if (m_pStackBlock[nCnt] != nullptr)
@@ -74,7 +72,7 @@ void CEditor::Init()
 			m_pStackBlock[nCnt] = nullptr;
 		}
 	}
-}
+
 	Pass();
 }
 
@@ -140,8 +138,6 @@ void CEditor::Update()
 		break;
 
 	}
-
-//	D3DXVECTOR3 Selectpos = m_pSelectObj->GetPosition();
 
 	CDebugProc::Print("現在置くオブジェクト:%d 0(ゼロ)キーで種類を変更", m_nNumber);
 	CDebugProc::Print("O(オー)キーでオブジェクトの座標ファイルに出力する");
