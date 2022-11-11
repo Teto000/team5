@@ -199,6 +199,7 @@
     <ClCompile Include="time.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="Titlelogo.cpp" />
+    <ClCompile Include="tutorial.cpp" />
     <ClCompile Include="UI_PSelect.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -247,6 +248,7 @@
     <ClInclude Include="time.h" />
     <ClInclude Include="title.h" />
     <ClInclude Include="Titlelogo.h" />
+    <ClInclude Include="tutorial.h" />
     <ClInclude Include="UI_PSelect.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

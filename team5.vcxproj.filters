@@ -143,6 +143,9 @@
     <ClCompile Include="block.cpp">
       <Filter>Main\Object\ObjectX</Filter>
     </ClCompile>
+    <ClCompile Include="tutorial.cpp">
+      <Filter>Main\Application\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3dobject.h">
@@ -276,6 +279,9 @@
     <ClInclude Include="stack_block.h" />
     <ClInclude Include="joypad.h">
       <Filter>Main\Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="tutorial.h">
+      <Filter>Main\Application\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
