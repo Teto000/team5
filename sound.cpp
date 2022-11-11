@@ -28,12 +28,14 @@ CSound::SOUNDPARAM g_aParam[CSound::SOUND_LABEL_MAX] =
 	{ "data/SE/Hit01-1.wav", 0 },										//衝撃音軽１
 	{ "data/SE/Hit01-2.wav", 0 },										//衝撃音軽２
 	{ "data/SE/heavy_punch1.wav", 0 },									//衝撃音重
+	{ "data/SE/ゲーム開始.wav", 0 },									//カウントダウン高音
 	{ "data/SE/Start声.wav", 0 },										//スタート音声
 	{ "data/SE/Start音低.wav", 0 },										//カウントダウン低音
 	{ "data/SE/Start音高.wav", 0 },										//カウントダウン高音
 	{ "data/SE/人数選択.wav", 0 },										//選択音
 	{ "data/SE/人数決定.wav", 0 },										//選択決定音
-	{ "data/SE/Goal音.wav", 0 },										//ゴール音声
+	{ "data/SE/Goal音.wav", 0 },										//ゴール音
+	{ "data/SE/Goal音声.wav", 0 },										//ゴール音声
 	{ "data/SE/1PWIN.wav", 0 },											//１Ｐ勝利音声
 	{ "data/SE/2PWIN.wav", 0 },											//２Ｐ勝利音声
 	{ "data/SE/3PWIN.wav", 0 },											//３Ｐ勝利音声

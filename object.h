@@ -65,6 +65,7 @@ public:
 	void SetObjType(EObjType ObjType);	//種類の設定
 	EObjType GetObjType();				//種類の取得
 	void SetType(int Type);
+	void SetBaseRot(D3DXVECTOR3 rot);
 
 	//ゲッター
 	virtual D3DXVECTOR3 GetPosition() = 0;
@@ -72,7 +73,8 @@ public:
 	virtual float GetHeight() = 0;
 	static CObject* GetTop(int priority);
 	CObject* GetNext();
-	int GetType();
+	int GetType(); 
+	D3DXVECTOR3 GetBaseRot();
 
 private:
 	void Death(CObject* pObj);
@@ -86,12 +88,13 @@ private:
 	//----------------
 	// メンバ変数
 	//----------------
-	CObject* m_pPrev;	//1つ前のオブジェクト
-	CObject* m_pNext;	//1つ後のオブジェクト
-	EObjType m_ObjType;	//オブジェクトの種類
-	bool m_bDeath;		//死亡フラグ
-	bool m_bPause;		//ポーズのON,OFF
-	int	m_nType;						//オブジェクトの種類
+	CObject* m_pPrev;			//1つ前のオブジェクト
+	CObject* m_pNext;			//1つ後のオブジェクト
+	EObjType m_ObjType;			//オブジェクトの種類
+	bool m_bDeath;				//死亡フラグ
+	bool m_bPause;				//ポーズのON,OFF
+	int	m_nType;				//オブジェクトの種類
+	D3DXVECTOR3 m_Baserot;		//目的の向き
 
 	//----------------
 	// 静的メンバ変数

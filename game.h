@@ -101,7 +101,7 @@ private:
 	static int m_nEnumCamera;	//カメラの列挙型の値
 	int m_nMaxCamera;	//カメラの数
 	bool m_bStop;		//プログラムを停止する
-	GAMEMODE mode;
+	GAMEMODE mode;		//ゲームの状態
 	
 
 	//-------------------

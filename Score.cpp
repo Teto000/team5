@@ -156,6 +156,14 @@ void CScore::SetTime(int Time)
 	m_Time = Time;
 }
 
+void CScore::SetCor(D3DXCOLOR col)
+{
+	for (int i = 0; i < MAX_DIGITS; i++)
+	{
+		m_pNumber[i]->SetColor(col);
+	}
+}
+
 //=========================================
 // ŽžŠÔ‚ÌŽæ“¾
 //=========================================

@@ -8,12 +8,20 @@
 //----------------------
 // インクルード
 //----------------------
+#include <stdlib.h>
+#include <math.h>
 #include "num_rank.h"
 #include "number.h"
 #include "Editor.h"
 #include "player.h"
 #include "Goal.h"
 #include "game.h"
+
+//----------------------
+// 静的メンバ変数宣言
+//----------------------
+int CRank::m_nRank[MAX_PLAYER] = {};		//順位
+int CRank::m_nDistance[MAX_PLAYER] = {};	//距離
 
 //=======================
 // コンストラクタ
@@ -22,7 +30,7 @@ CRank::CRank() : CObject2D(0)
 {
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//位置
 	m_aPosTexU = 0;		//今の桁の数値
-	m_nRank = 0;		//順位
+	m_nNumPlayer = 0;	//対応するプレイヤー番号
 }
 
 //=======================
@@ -41,12 +49,17 @@ HRESULT CRank::Init(D3DXVECTOR3 pos)
 	//初期値の設定
 	m_pos = pos;	//位置
 
+	//順位の初期設定
+	for (int i = 0; i < MAX_PLAYER; i++)
+	{
+		m_nRank[i] = (i + 1);
+	}
+
 	CObject2D::Init(m_pos);
 	CObject2D::SetSize(100.0f, 100.0f);	//サイズの設定
 
-	m_nRank = 1;
 	//テクスチャの設定
-	SetTexture();
+	SetTexture(m_nNumPlayer);
 
 	return S_OK;
 }
@@ -71,29 +84,29 @@ void CRank::Update()
 	D3DXVECTOR3 goalPos(CEditor::GetGoal()->GetPosition());
 
 	//プレイヤーの位置を取得
-	D3DXVECTOR3 playrerPos[MAX_PLAYER];
-	for (int i = 0; i < MAX_PLAYER; i++)
+	D3DXVECTOR3 playrerPos(0.0f, 0.0f, 0.0f);
+	if (CGame::GetPlayer(m_nNumPlayer) != nullptr)
 	{
-		if (CGame::GetPlayer(i) != nullptr)
-		{
-			playrerPos[i] = CGame::GetPlayer(i)->GetPosition();
-		}
+		playrerPos = CGame::GetPlayer(m_nNumPlayer)->GetPosition();
 	}
 
 	//ベクトルを計算、配列に入れる
-	D3DXVECTOR3 vec[MAX_PLAYER];
-	for (int i = 0; i < MAX_PLAYER; i++)
-	{
-		vec[i] = D3DXVECTOR3((goalPos.x - playrerPos[i].x),0.0f,
-								(goalPos.z - playrerPos[i].z));
-	}
+	D3DXVECTOR3 vec = D3DXVECTOR3((goalPos.x - playrerPos.x),0.0f,
+								(goalPos.z - playrerPos.z));
 
-	//ベクトルの小さい順に対応するプレイヤーにランクを入れる
+	//ゴールまでの距離を求める
+	//XとZの絶対値を取得
+	int X = fabsf(vec.x);
+	int Z = fabsf(vec.z);
 
-	m_nRank = 1;
+	//加算
+	m_nDistance[m_nNumPlayer] = X + Z;
+
+	//距離が小さい順に順位を設定
+	
 
 	//テクスチャの設定
-	SetTexture();
+	SetTexture(m_nNumPlayer);
 
 	if (CGame::GetFinish())
 	{//終了フラグが立っているなら
@@ -112,7 +125,7 @@ void CRank::Draw()
 //=======================
 // 生成
 //=======================
-CRank *CRank::Create(D3DXVECTOR3 pos)
+CRank *CRank::Create(D3DXVECTOR3 pos, int nNumPlayer)
 {
 	CRank *pRank = nullptr;
 
@@ -123,6 +136,9 @@ CRank *CRank::Create(D3DXVECTOR3 pos)
 
 	if (pRank != nullptr)
 	{//NULLチェック
+		//引数の設定
+		pRank->m_nNumPlayer = nNumPlayer;
+
 		//初期化
 		pRank->Init(D3DXVECTOR3(pos));
 	}
@@ -133,9 +149,9 @@ CRank *CRank::Create(D3DXVECTOR3 pos)
 //=======================
 // テクスチャの設定
 //=======================
-void CRank::SetTexture()
+void CRank::SetTexture(int nNumPlayer)
 {
-	switch (m_nRank)
+	switch (m_nRank[nNumPlayer])
 	{
 	case 1:
 		CObject2D::SetTexture(CTexture::TEXTURE_FIRST);

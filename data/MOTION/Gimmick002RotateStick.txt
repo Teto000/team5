@@ -9,21 +9,20 @@ SCRIPT			# この行は絶対消さないこと！
 #------------------------------------------------------------------------------
 # モデル数
 #------------------------------------------------------------------------------
-NUM_MODEL = 3
+NUM_MODEL = 2
 
 #------------------------------------------------------------------------------
 # モデルファイル名
 #------------------------------------------------------------------------------
 MODEL_FILENAME = data/MODEL/X_File/Gimmick002_RotateStick000.x			# [0]ベース
 MODEL_FILENAME = data/MODEL/X_File/Gimmick002_RotateStick001.x			# [1]棒
-MODEL_FILENAME = data/MODEL/X_File/Gimmick002_RotateStick002.x			# [2]棒
 
 
 #------------------------------------------------------------------------------
 # キャラクター情報
 #------------------------------------------------------------------------------
 CHARACTERSET
-	NUM_PARTS = 3					# パーツ数
+	NUM_PARTS = 2					# パーツ数
 	MOVE = 3.0						# 移動量
 	JUMP = 10.25					# ジャンプ量
 	RADIUS = 40.0					# 半径
@@ -38,13 +37,6 @@ CHARACTERSET
 	PARTSSET
 		INDEX = 1					# 
 		PARENT = 0					# 
-		POS = 0.0 0.0 0.0
-		ROT = 0.0 0.0 0.0
-	END_PARTSSET
-	
-	PARTSSET
-		INDEX = 1					# 
-		PARENT = 0					# 棒
 		POS = 0.0 0.0 0.0
 		ROT = 0.0 0.0 0.0
 	END_PARTSSET
@@ -74,10 +66,6 @@ MOTIONSET
 			ROT = 0.00 0.00 0.00
 		END_KEY
 
-		KEY	# ----- [ 2 ] -----
-			POS = 0.00 0.00 0.00
-			ROT = 0.00 0.00 0.00
-		END_KEY
 	END_KEYSET
 
 	KEYSET			# --- << KEY : 1 / 4 >> ---
@@ -91,11 +79,7 @@ MOTIONSET
 			POS = 0.00 0.00 0.00
 			ROT = 0.00 -1.57 0.00
 		END_KEY
-
-		KEY	# ----- [ 2 ] -----
-			POS = 0.00 0.00 0.00
-			ROT = 0.00 1.57 0.00
-		END_KEY
+		
 	END_KEYSET
 
 	KEYSET			# --- << KEY : 2 / 4 >> ---
@@ -109,11 +93,6 @@ MOTIONSET
 			POS = 0.00 0.00 0.00
 			ROT = 0.00 3.14 0.00
 		END_KEY
-
-		KEY	# ----- [ 2 ] -----
-			POS = 0.00 0.00 0.00
-			ROT = 0.00 -3.14 0.00
-		END_KEY
 	END_KEYSET
 
 	KEYSET			# --- << KEY : 3 / 4 >> ---
@@ -126,11 +105,6 @@ MOTIONSET
 		KEY	# ----- [ 1 ] -----
 			POS = 0.00 0.00 0.00
 			ROT = -0.00 1.57 0.00
-		END_KEY
-
-		KEY	# ----- [ 2 ] -----
-			POS = 0.00 0.00 0.00
-			ROT = 0.00 -1.57 0.00
 		END_KEY
 	END_KEYSET
 END_MOTIONSET

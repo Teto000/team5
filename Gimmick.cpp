@@ -83,7 +83,7 @@ void CGimmick::Update()
 	D3DXVECTOR3 pos = CMotionParts::AllCollision(m_nMotionNum, CGame::GetGroundNum(), m_pos, m_posold);
 
 	//ƒ‚[ƒVƒ‡ƒ“Ä¶
-	CMotionParts::MoveMotionModel(m_pos, GetRot(), m_nMotionNum, 0);
+	CMotionParts::MoveMotionModel(m_pos, GetRot()+GetBaseRot()	, m_nMotionNum, 0);;
 
 	m_rot.y = atan2f(m_move.x, m_move.z) + D3DX_PI;
 }
@@ -122,7 +122,7 @@ CGimmick* CGimmick::Create(int Type, D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	 //‰Šú‰»
 		pGimmick->SetType(Type) ;
 		pGimmick->Init(D3DXVECTOR3(pos));
-		pGimmick->m_rot = rot;
+		pGimmick->SetBaseRot(rot) ;
 	}
 
 	return pGimmick;

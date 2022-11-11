@@ -19,11 +19,13 @@
 #include"Map.h"
 #include"objectX.h"
 #include"Gimmick.h"
+#include"stack_block.h"
 
 
 //静的メンバ変数
 //CPlayer*	CEditor::pPlayer = nullptr;
 CGoal*		CEditor::m_pGoal = nullptr;						//ゴール
+CSBlock*	CEditor::m_pStackBlock[MAX_STACK_BLOCK] = { nullptr };				//ブロックの山
 //CMap*		CEditor::m_pMap = nullptr;						//マップ
 //CObject*	CEditor::m_pSelectObj = nullptr;				//選択中のオブジェクト
 //CModel*		CEditor::m_pPlanet[MAX_PLANET] = { nullptr };	//設置するオブジェクト
@@ -63,6 +65,13 @@ void CEditor::Init()
 	m_nNumber = 0;									//現在設定するブロックのタイプ
 	m_nNumpla = 0;
 
+	for (int nCnt = 0; nCnt < MAX_STACK_BLOCK; nCnt++)
+	{
+		if (m_pStackBlock[nCnt] != nullptr)
+		{
+			m_pStackBlock[nCnt] = nullptr;
+		}
+	}
 	Pass();
 }
 
@@ -104,6 +113,7 @@ void CEditor::Uninit()
 //=============================================================================
 void CEditor::Update()
 {
+#ifdef _DEBUG
 	Input();
 
 	switch (m_nNumber)
@@ -146,6 +156,7 @@ void CEditor::Update()
 
 	//CDebugProc::Print("現在のオブジェクトの座標:x:%f y:%f z:%f", Selectpos.x, Selectpos.y, Selectpos.z);
 
+#endif // !_DEBUG_
 }
 
 //=============================================================================
@@ -184,6 +195,11 @@ void CEditor::Load()
 						m_bFlag = true;
 						m_type = OBJ_MAP;
 					}
+					else if (strncmp(strLine, "StackBlock", 10) == 0)
+					{
+						m_bFlag = true;
+						m_type = OBJ_STACK_BLOCK;
+					}
 					else if (strncmp(strLine, "Gimmick", 7) == 0)
 					{
 						m_bFlag = true;
@@ -193,6 +209,11 @@ void CEditor::Load()
 					{
 						m_bFlag = true;
 						m_type = OBJ_PLANET;
+					}
+					else if (strncmp(strLine, "StackBlock", 7) == 0)
+					{
+						m_bFlag = true;
+						m_type = OBJ_STACK_BLOCK;
 					}
 					else if (strncmp(strLine, "Pos", 3) == 0)
 					{
@@ -240,6 +261,17 @@ void CEditor::Load()
 								}
 								break;
 
+							case OBJ_STACK_BLOCK:
+								for (int nCnt = 0; nCnt < MAX_STACK_BLOCK; nCnt++)
+								{
+									if (m_pStackBlock[nCnt] == nullptr)
+									{
+										m_pStackBlock[nCnt] = CSBlock::Create(m_pos,m_rot);
+										break;
+									}
+								}
+								break;
+
 							default:
 								break;
 							}
@@ -278,7 +310,7 @@ void CEditor::SaveObject()
 	fprintf(fp, "Goal\n");
 	fprintf(fp, "Pos %.1f %.1f %.1f\n", m_pGoal->GetPosition().x, m_pGoal->GetPosition().y, m_pGoal->GetPosition().z);
 	fprintf(fp, "Rot 0.0f 0.0f 0.0f\n");
-	fprintf(fp, "End\n");
+	fprintf(fp, "End\n\n");
 
 	
 	CObject* pObj = CObject::GetTop(CObject::OBJTYPE_GIMMICK);
@@ -290,11 +322,12 @@ void CEditor::SaveObject()
 
 		//終了処理
 		D3DXVECTOR3 pos= pObj->GetPosition();
+		D3DXVECTOR3 rot = pObj->GetBaseRot();
 
 		fprintf(fp, "Object\n");
 		fprintf(fp, "Gimmick\n");
 		fprintf(fp, "Pos %.1f %.1f %.1f\n", pos.x, pos.y, pos.z);
-		fprintf(fp, "Rot 0.0f 0.0f 0.0f\n");
+		fprintf(fp, "Rot %.2f %.2f %.2f\n", rot.x, rot.y, rot.z);
 		fprintf(fp, "Type %d\n",pObj->GetType());
 
 		fprintf(fp, "End\n\n");
@@ -434,6 +467,16 @@ void CEditor::Input()
 				m_pPlanet[m_nNumpla]->SetPos(pos);
 			}
 			break;
+
+		case OBJ_STACK_BLOCK:
+			for (int nCnt = 0; nCnt < MAX_STACK_BLOCK; nCnt++)
+			{
+				if (m_pStackBlock[nCnt] == nullptr)
+				{
+					m_pStackBlock[nCnt] = CSBlock::Create(m_pos, m_rot);
+					break;
+				}
+			}
 
 		default:
 			break;

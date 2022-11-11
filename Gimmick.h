@@ -77,11 +77,11 @@ private:
 	//----------------
 	// メンバ変数
 	//----------------
-	D3DXVECTOR3 m_pos;						//位置
-	D3DXVECTOR3 m_posold;					//1F前の位置
-	D3DXVECTOR3 m_move;						//移動量
-	D3DXVECTOR3 m_rot;						//向き
-	D3DXVECTOR3 m_rotDest;					//目的の向き
+	D3DXVECTOR3 m_pos;							//位置
+	D3DXVECTOR3 m_posold;						//1F前の位置
+	D3DXVECTOR3 m_move;							//移動量
+	D3DXVECTOR3 m_rot;							//向き
+	D3DXVECTOR3 m_rotDest;						//目的の向き
 	char*		m_nGimmickName[MAX_GIMMICK];	//障害物のファイルの名前
 
 

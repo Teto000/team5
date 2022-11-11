@@ -318,3 +318,19 @@ void CObject::SetType(int Type)
 {
 	m_nType = Type;
 }
+
+//=============================
+// ‚à‚Æ‚à‚Æ‚ÌŒü‚«‚ğİ’è
+//=============================
+void CObject::SetBaseRot(D3DXVECTOR3 rot)
+{
+	m_Baserot = rot;
+}
+
+//=============================
+// ƒx[ƒX‚ÌŒü‚«‚ğæ“¾
+//=============================
+D3DXVECTOR3 CObject::GetBaseRot()
+{
+	return m_Baserot;
+}
