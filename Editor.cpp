@@ -166,8 +166,8 @@ void CEditor::Load()
 {
 	const int lenLine = 1024;	//1単語の最大数
 	char strLine[lenLine];		//読み込み用の文字列
-								//DEBUG_MAPDATA
-								//FILE_MAPDATA
+	m_gim = 0;
+								
 	FILE*fp = fopen(FILE_MAPDATA, "r");		//ファイル読み込み
 	if (fp != NULL)
 	{
@@ -226,6 +226,7 @@ void CEditor::Load()
 					else if (strncmp(strLine, "Type", 4) == 0)
 					{
 						fscanf(fp, "%d", &m_nNumgim);
+						m_nNumpla = m_nNumgim;
 					}
 					else if (strncmp(strLine, "End", 3) == 0)
 					{
@@ -243,7 +244,8 @@ void CEditor::Load()
 							case OBJ_GIMMICK:
 								if (m_nNumgim >= 0 && m_nNumgim < MAX_GIMMICK)
 								{
-									CGimmick::Create(m_nNumgim, m_pos, m_rot);
+									m_pGimmick[m_gim]=	CGimmick::Create(m_nNumgim, m_pos, m_rot);
+									m_gim++;
 								}
 								break;
 
@@ -284,6 +286,10 @@ void CEditor::Load()
 		}
 		fclose(fp);
 	}
+
+	//数値リセット
+	m_nNumgim = 0;
+	m_nNumpla = 0;
 }
 
 //=============================================================================
@@ -329,7 +335,28 @@ void CEditor::SaveObject()
 		fprintf(fp, "Pos %.1f %.1f %.1f\n", pos.x, pos.y, pos.z);
 		fprintf(fp, "Rot %.2f %.2f %.2f\n", rot.x, rot.y, rot.z);
 		fprintf(fp, "Type %d\n",pObj->GetType());
+		fprintf(fp, "End\n\n");
 
+		//次のオブジェクトのアドレスを代入
+		pObj = pObjNext;
+	}
+
+	pObj = CObject::GetTop(CObject::OBJTYPE_PLANET);
+
+	while (pObj)
+	{//pObjがnullじゃないなら
+	 //次のオブジェクトを保存
+		CObject* pObjNext = pObj->GetNext();
+
+		//終了処理
+		D3DXVECTOR3 pos = pObj->GetPosition();
+		D3DXVECTOR3 rot = pObj->GetBaseRot();
+
+		fprintf(fp, "Object\n");
+		fprintf(fp, "Planet\n");
+		fprintf(fp, "Pos %.1f %.1f %.1f\n", pos.x, pos.y, pos.z);
+		fprintf(fp, "Rot %.2f %.2f %.2f\n", rot.x, rot.y, rot.z);
+		fprintf(fp, "Type %d\n", pObj->GetType());
 		fprintf(fp, "End\n\n");
 
 		//次のオブジェクトのアドレスを代入
@@ -355,8 +382,8 @@ void CEditor::Pass()
 	m_nPlaFileName[7] = "data\\MODEL\\X_File\\Neptune_000.x";
 	m_nPlaFileName[8] = "data\\MODEL\\X_File\\Uranus_000.x";
 	m_nPlaFileName[9] = "data\\MODEL\\X_File\\Pluto_000.x";
+	m_nPlaFileName[10] = "data\\MODEL\\X_File\\BG_000.x";
 }
-
 
 //=============================================================================
 //入力処理
