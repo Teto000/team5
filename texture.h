@@ -52,6 +52,10 @@ public: /* 定義 */
 		TEXTURE_SELECT_COMENT,	//セレクト画面の解説
 		TEXTURE_SELECT_BG,		//セレクト画面の背景
 		TEXTURE_SELECT_SELECT,	//セレクト画面のセレクトの説明文
+
+		/* ↓ チュートリアル画面 ↓ */
+		TEXTURE_TUTORIAL,		//チュートリアルの背景
+
 		TEXTURE_MAX,
 		TEXTURE_NONE,			//使用しない
 	};

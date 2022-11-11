@@ -108,7 +108,7 @@ void CPSelect::Update()
 
 	if (CInputKeyboard::Trigger(DIK_RETURN) == true && CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{//Enter‚ÅŽŸ‚Ì‰æ–Ê‚É‘JˆÚ‚·‚é
-		CApplication::GetFade()->SetFade(CApplication::MODE_GAME);
+		CApplication::GetFade()->SetFade(CApplication::MODE_TUTORIAL);
 		CSound::PlaySound(CSound::SOUND_LABEL_SE_SELECT_DECISION);
 	}
 }
