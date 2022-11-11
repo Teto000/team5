@@ -23,7 +23,7 @@
 class C3DObject
 {
 public:
-	static const int MODEL_MAX_TEXTURE = 10;
+	static const int MODEL_MAX_TEXTURE = 20;
 	static const int MODEL_PATTERN_MAX = 240;
 
 	//モデルパターン構造体
