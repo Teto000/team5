@@ -30,6 +30,7 @@ public:
 	enum EObjType
 	{
 		OBJTYPE_MAP,
+		OBJTYPE_PLANET,
 		OBJTYPE_GOAL,
 		OBJTYPE_BLOCK,
 		OBJTYPE_MODEL,

@@ -177,12 +177,13 @@ void CPlayer::Update()
 	else if (m_pos == pos && pos.y < -8.0f)
 	{//コースアウト
 		SetBlock();
-		CSound::PlaySound(CSound::SOUND_LABEL_SE_FALL1);
-
+	
 		if (m_pos.y <= -400.0f)
 		{//ある程度落ちたら
 			//保存していた位置にリスポーン
 			m_pos = m_respornPos;
+			CSound::PlaySound(CSound::SOUND_LABEL_SE_FALL1);
+
 		}
 	}
 	
