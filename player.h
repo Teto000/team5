@@ -81,7 +81,7 @@ private:
 
 	// 移動キー
 	// 引数 : 上のキー、左のキー、下のキー、右のキー
-	void MoveKey(int UPKey, int LEFTKey, int DOWNKey, int RIGHTKey, int JUMPKey);
+	void MoveKey(int UPKey, int LEFTKey, int DOWNKey, int RIGHTKey, int JUMPKey, int nPlayerNum);
 	CNumBlock*	m_pNumBlock;	//ブロック数の表示
 
 private:
@@ -103,6 +103,7 @@ private:
 	STATE		m_state;					//プレイヤーの状態
 	int			m_nNumBlock;				//ブロック数
 	bool		m_bJump;					//ジャンプしたかしていないか
+	bool		m_PlayerBlockCollision;		//プレイヤーがブロックと当たっているかいないかを入れる箱
 
 	CBlock		*m_pModel[MAX_BLOCK];		//ブロック
 	int			m_BlockCnt;					//ブロックをカウントする処理

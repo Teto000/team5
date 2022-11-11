@@ -170,6 +170,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="input_joypad.cpp" />
     <ClCompile Include="input_keybord.cpp" />
+    <ClCompile Include="joypd.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -198,6 +199,7 @@
     <ClCompile Include="time.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="Titlelogo.cpp" />
+    <ClCompile Include="tutorial.cpp" />
     <ClCompile Include="UI_PSelect.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +219,7 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="input_joypad.h" />
     <ClInclude Include="input_keybord.h" />
+    <ClInclude Include="joypad.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Map.h" />
@@ -245,6 +248,7 @@
     <ClInclude Include="time.h" />
     <ClInclude Include="title.h" />
     <ClInclude Include="Titlelogo.h" />
+    <ClInclude Include="tutorial.h" />
     <ClInclude Include="UI_PSelect.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

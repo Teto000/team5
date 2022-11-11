@@ -56,6 +56,7 @@ CGame::CGame()
 {
 	m_nMaxCamera = 0;		//ƒJƒƒ‰‚ÌÅ‘å”
 	m_bStop = false;		//ƒvƒƒOƒ‰ƒ€‚ð’âŽ~‚·‚é
+	m_nCntTime = 0;			//ƒJƒEƒ“ƒg
 	mode = GAMEMODE_START;	//ƒQ[ƒ€‚Ìó‘Ô
 }
 
@@ -118,7 +119,8 @@ HRESULT CGame::Init()
 	CRead cRead;
 	m_nGroundNum = cRead.ReadMotion("data/MOTION/motionground.txt");
 
-	//CObjectX::Create("data\\MODEL\\X_File\\Neptune_000.x", D3DXVECTOR3(200.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	//”wŒi¶¬
+	//cRead.ReadMotion("data/MOTION/BG.txt");
 
 	return S_OK;
 }
@@ -185,7 +187,9 @@ void CGame::Update()
 		m_pCameraPlayer[i]->Update();
 	}
 
-	//ƒQ[ƒ€I—¹Žž‚Ìˆ—
+	//-------------------------------
+	// ƒQ[ƒ€I—¹Žž‚Ìˆ—
+	//-------------------------------
 	if (CGoal::GetGoalFrag())
 	{
 		//ƒƒbƒZ[ƒW‚Ì¶¬
@@ -193,14 +197,32 @@ void CGame::Update()
 		//								CMessage::MESSAGE_FINISH);
 
 		FinishGame();
+
+		//ŽžŠÔƒJƒEƒ“ƒg
+		m_nCntTime++;
+
+		if (m_nCntTime >= 180)
+		{//3•bŒo‰ß‚µ‚½
+			if (CInputKeyboard::Trigger(DIK_RETURN) == true && CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
+			{//Enter‚ÅŽŸ‚Ì‰æ–Ê‚É‘JˆÚ‚·‚é
+				CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
+			}
+		}
+		if (m_nCntTime >= 720)
+		{//10•bŒo‰ß
+			//Ž©“®“I‚É‰æ–Ê‘JˆÚ
+			CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
+		}
 	}
 
 	CMotionParts::ALLUpdate();
 
+#ifdef _DEBUG
 	if (CInputKeyboard::Trigger(DIK_RETURN) == true && CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{//Enter‚ÅŽŸ‚Ì‰æ–Ê‚É‘JˆÚ‚·‚é
 		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
 	}
+#endif
 }
 
 //===========================

@@ -8,7 +8,6 @@
 #include "renderer.h"
 #include <string>
 #include "Score.h"
-#include <iostream>
 #include <vector>
 #include <algorithm>
 
@@ -53,7 +52,8 @@ void CRanking::Update()
 {
 	if (m_nRankUpdate!=-1)
 	{
-		m_apScore[m_nRankUpdate]->SetColor(D3DXCOLOR(1.0f,0.0f,0.0f,1.0f));
+		//F‚ÌÝ’è
+		m_apScore[m_nRankUpdate]->SetCor(D3DXCOLOR(1.0f,0.0f,0.0f,1.0f));
 	}
 }
 
