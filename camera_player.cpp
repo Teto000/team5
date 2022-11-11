@@ -155,32 +155,32 @@ void CCameraPlayer::EachPlayer()
 		// プレイヤー1
 		//------------------
 	case NUMPLAYER_ONE:
-		//Turn(DIK_Q, DIK_E);	//旋回
-		Turn(DIK_E, DIK_Q);
+		Turn(DIK_E, DIK_Q);	//旋回
+		//Turn(DIK_Q, DIK_E);
 		break;
 
 		//------------------
 		// プレイヤー2
 		//------------------
 	case NUMPLAYER_TWO:
-		//Turn(DIK_Y, DIK_R);	//旋回
-		Turn(DIK_R, DIK_Y);
+		Turn(DIK_Y, DIK_R);	//旋回
+		//Turn(DIK_R, DIK_Y);
 		break;
 
 		//------------------
 		// プレイヤー3
 		//------------------
 	case NUMPLAYER_THREE:
-		//Turn(DIK_O, DIK_U);	//旋回
-		Turn(DIK_U, DIK_O);
+		Turn(DIK_O, DIK_U);	//旋回
+		//Turn(DIK_U, DIK_O);
 		break;
 
 		//------------------
 		// プレイヤー4
 		//------------------
 	case NUMPLAYER_FOUR:
-		//Turn(DIK_RIGHT, DIK_LEFT);	//旋回
-		Turn(DIK_LEFT, DIK_RIGHT);
+		Turn(DIK_RIGHT, DIK_LEFT);	//旋回
+		//Turn(DIK_LEFT, DIK_RIGHT);
 		break;
 
 	default:

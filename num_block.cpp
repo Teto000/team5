@@ -147,7 +147,14 @@ void CNumBlock::SetNumber()
 int CNumBlock::AddNumber(int nNumber)
 {
 	//‰ÁŽZ
-	m_nNumBlock += nNumber;
+	if (m_nNumBlock >= 0 && m_nNumBlock <= 98)
+	{
+		m_nNumBlock += nNumber;
+	}
+	else
+	{
+		m_nNumBlock = 98;
+	}
 
 	//”’l‚ÌÝ’è
 	SetNumber();

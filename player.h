@@ -81,7 +81,7 @@ private:
 
 	// 移動キー
 	// 引数 : 上のキー、左のキー、下のキー、右のキー
-	void MoveKey(int UPKey, int LEFTKey, int DOWNKey, int RIGHTKey, int JUMPKey);
+	void MoveKey(int UPKey, int LEFTKey, int DOWNKey, int RIGHTKey, int JUMPKey, int nPlayerNum);
 	CNumBlock*	m_pNumBlock;	//ブロック数の表示
 
 private:
@@ -96,6 +96,7 @@ private:
 	//----------------
 	D3DXVECTOR3 m_pos;						//位置
 	D3DXVECTOR3 m_posold;					//1F前の位置
+	D3DXVECTOR3 m_respornPos;				//リスポーン地点
 	D3DXVECTOR3 m_move;						//移動量
 	D3DXVECTOR3 m_rot;						//向き
 	D3DXVECTOR3 m_rotDest;					//目的の向き

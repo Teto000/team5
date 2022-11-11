@@ -140,6 +140,7 @@
     <ClCompile Include="Titlelogo.cpp">
       <Filter>Main\Object\Object2D</Filter>
     </ClCompile>
+    <ClCompile Include="block.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3dobject.h">
@@ -259,9 +260,15 @@
     <ClInclude Include="Score.h">
       <Filter>Main\Object\Object2D</Filter>
     </ClInclude>
-    <ClInclude Include="num_rank.h" />
     <ClInclude Include="Ranking.h">
       <Filter>Main\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="block.h" />
+    <ClInclude Include="Editor.h" />
+    <ClInclude Include="Gimmick.h" />
+    <ClInclude Include="stack_block.h" />
+    <ClInclude Include="num_rank.h">
+      <Filter>Main\Object\Object2D\Number</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
