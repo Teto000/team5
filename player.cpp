@@ -273,17 +273,17 @@ void CPlayer::Move()
 	{
 	case 0:
 		//プレイヤー1の操作
-		MoveKey(DIK_W, DIK_A, DIK_S, DIK_D,DIK_SPACE);
+		MoveKey(DIK_W, DIK_A, DIK_S, DIK_D, DIK_SPACE, m_nPlayerNum);
 		break;
 
 	case 1:
 		//プレイヤー2の操作
-		MoveKey(DIK_T, DIK_F, DIK_G, DIK_H, DIK_BACKSPACE);
+		MoveKey(DIK_T, DIK_F, DIK_G, DIK_H, DIK_BACKSPACE, m_nPlayerNum);
 		break;
 
 	case 2:
 		//プレイヤー3の操作
-		MoveKey(DIK_I, DIK_J, DIK_K, DIK_L, DIK_P);
+		MoveKey(DIK_I, DIK_J, DIK_K, DIK_L, DIK_P, m_nPlayerNum);
 		break;
 
 	default:
@@ -434,7 +434,7 @@ D3DXVECTOR3 CPlayer::GetPosOld()
 // 移動キーの設定
 // 引数 : 上キー、左キー、下キー、右キー、ジャンプキー
 //=====================================================
-void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey)
+void CPlayer::MoveKey(int UPKey, int LEFTKey, int DOWNKey, int RIGHTKey, int JUMPKey, int nPlayerNum)
 {
 	// カメラの角度情報取得
 	D3DXVECTOR3 CameraRot = CGame::GetCameraPlayer(0)->GetRot();;
