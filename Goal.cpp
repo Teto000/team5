@@ -54,7 +54,7 @@ HRESULT CGoal::Init(D3DXVECTOR3 pos)
 	//-----------------------
 	// XÉtÉ@ÉCÉãÇÃì«Ç›çûÇ›
 	//-----------------------
-	D3DXLoadMeshFromX("data\\MODEL\\X_File\\body.x",
+	D3DXLoadMeshFromX("data\\MODEL\\X_File\\Crown_000.x",
 		D3DXMESH_SYSTEMMEM,
 		pDevice,
 		NULL,

@@ -53,9 +53,9 @@ class CMotionParts : public C3DObject
 {
 private:
 	static const D3DXVECTOR3 INIT_POS;
-	static const int MAX_MOTION = 160;
-	static const int MAX_KEY = 120;
-	static const int MAX_MOTION_ALL = 80;
+	static const int MAX_MOTION = 320;
+	static const int MAX_KEY = 240;
+	static const int MAX_MOTION_ALL = 160;
 public:
 
 	// ç\ë¢ëÃ
