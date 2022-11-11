@@ -115,6 +115,15 @@ void CResult::Update()
 	 //更新
 		m_pCameraTitle->Update();
 	}
+
+	//---------------------
+	// ランキングの更新
+	//---------------------
+	if (m_pRanking != nullptr)
+	{//ランキングがnullじゃないなら 
+		//更新
+		m_pRanking->Update();
+	}
 }
 
 //===========================

@@ -201,7 +201,8 @@ void CPlayer::Update()
 		CSound::PlaySound(CSound::SOUND_LABEL_SE_FALL1);
 
 		if (m_pos.y <= -150.0f)
-		{
+		{//ある程度落ちたら
+			//保存していた位置にリスポーン
 			m_pos = m_respornPos;
 		}
 	}
