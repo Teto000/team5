@@ -38,11 +38,13 @@ public:
 	//クリエイト処理
 	static CRanking* Create();
 
-	//スコアの設定
-	static void SetCurrentScore(int Time);
 	void Save();
 	void Load();
 	void Ranking();
+
+	//セッター
+	static void SetCurrentScore(int Time);
+	void SetCor(D3DXCOLOR col);
 
 private:
 	D3DXVECTOR3 m_pos;					// 座標

@@ -56,6 +56,7 @@ CGame::CGame()
 {
 	m_nMaxCamera = 0;		//カメラの最大数
 	m_bStop = false;		//プログラムを停止する
+	m_nCntTime = 0;			//カウント
 	mode = GAMEMODE_START;	//ゲームの状態
 }
 
@@ -185,7 +186,9 @@ void CGame::Update()
 		m_pCameraPlayer[i]->Update();
 	}
 
-	//ゲーム終了時の処理
+	//-------------------------------
+	// ゲーム終了時の処理
+	//-------------------------------
 	if (CGoal::GetGoalFrag())
 	{
 		//メッセージの生成
@@ -193,14 +196,32 @@ void CGame::Update()
 		//								CMessage::MESSAGE_FINISH);
 
 		FinishGame();
+
+		//時間カウント
+		m_nCntTime++;
+
+		if (m_nCntTime >= 180)
+		{//3秒経過した
+			if (CInputKeyboard::Trigger(DIK_RETURN) == true && CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
+			{//Enterで次の画面に遷移する
+				CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
+			}
+		}
+		if (m_nCntTime >= 720)
+		{//10秒経過
+			//自動的に画面遷移
+			CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
+		}
 	}
 
 	CMotionParts::ALLUpdate();
 
+#ifdef _DEBUG
 	if (CInputKeyboard::Trigger(DIK_RETURN) == true && CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{//Enterで次の画面に遷移する
 		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
 	}
+#endif
 }
 
 //===========================

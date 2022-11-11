@@ -51,7 +51,11 @@ HRESULT CRanking::Init()
 //=========================================
 void CRanking::Update()
 {
-
+	if (m_nRankUpdate!=-1)
+	{
+		//F‚ÌÝ’è
+		m_apScore[m_nRankUpdate]->SetCor(D3DXCOLOR(1.0f,0.0f,0.0f,1.0f));
+	}
 }
 
 //=========================================
@@ -139,6 +143,7 @@ void CRanking::Load()
 //=========================================
 void CRanking::Ranking()
 {
+	m_nRankUpdate = -1;
 	if (m_Time <= m_apScore[MAX_RANK-1]->GetTime())
 	{//”äŠr
 		m_apScore[MAX_RANK - 1]->SetTime(m_Time);

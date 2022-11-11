@@ -72,7 +72,6 @@ void CEditor::Init()
 			m_pStackBlock[nCnt] = nullptr;
 		}
 	}
-
 	Pass();
 }
 
@@ -114,6 +113,7 @@ void CEditor::Uninit()
 //=============================================================================
 void CEditor::Update()
 {
+#ifdef _DEBUG
 	Input();
 
 	switch (m_nNumber)
@@ -139,6 +139,8 @@ void CEditor::Update()
 
 	}
 
+//	D3DXVECTOR3 Selectpos = m_pSelectObj->GetPosition();
+
 	CDebugProc::Print("現在置くオブジェクト:%d 0(ゼロ)キーで種類を変更", m_nNumber);
 	CDebugProc::Print("O(オー)キーでオブジェクトの座標ファイルに出力する");
 	CDebugProc::Print("Pキーでオブジェクトの生成/移動");
@@ -154,6 +156,7 @@ void CEditor::Update()
 
 	//CDebugProc::Print("現在のオブジェクトの座標:x:%f y:%f z:%f", Selectpos.x, Selectpos.y, Selectpos.z);
 
+#endif // !_DEBUG_
 }
 
 //=============================================================================
@@ -307,7 +310,7 @@ void CEditor::SaveObject()
 	fprintf(fp, "Goal\n");
 	fprintf(fp, "Pos %.1f %.1f %.1f\n", m_pGoal->GetPosition().x, m_pGoal->GetPosition().y, m_pGoal->GetPosition().z);
 	fprintf(fp, "Rot 0.0f 0.0f 0.0f\n");
-	fprintf(fp, "End\n");
+	fprintf(fp, "End\n\n");
 
 	
 	CObject* pObj = CObject::GetTop(CObject::OBJTYPE_GIMMICK);
@@ -319,11 +322,12 @@ void CEditor::SaveObject()
 
 		//終了処理
 		D3DXVECTOR3 pos= pObj->GetPosition();
+		D3DXVECTOR3 rot = pObj->GetBaseRot();
 
 		fprintf(fp, "Object\n");
 		fprintf(fp, "Gimmick\n");
 		fprintf(fp, "Pos %.1f %.1f %.1f\n", pos.x, pos.y, pos.z);
-		fprintf(fp, "Rot 0.0f 0.0f 0.0f\n");
+		fprintf(fp, "Rot %.2f %.2f %.2f\n", rot.x, rot.y, rot.z);
 		fprintf(fp, "Type %d\n",pObj->GetType());
 
 		fprintf(fp, "End\n\n");

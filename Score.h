@@ -40,6 +40,8 @@ public:
 	//ƒXƒRƒA‚Ìİ’è
 	void Set();
 	void SetTime(int Time);
+	void SetCor(D3DXCOLOR col);
+
 	int GetTime();
 	int GetSec();
 	int GetMin(); 

@@ -37,13 +37,14 @@ const float CPlayer::fGravity = 0.1f;
 //========================
 CPlayer::CPlayer() : CObject(OBJTYPE_MODEL)
 {
-	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//位置
-	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//移動量
-	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//向き
-	m_rotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//目的の向き
-	m_nNumBlock = 0;							//ブロック数
-	m_pNumBlock = nullptr;						//ブロック数の表示
-	m_pRank = nullptr;							//順位
+	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			//位置
+	m_respornPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//リスポーン地点
+	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			//移動量
+	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			//向き
+	m_rotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//目的の向き
+	m_nNumBlock = 0;								//ブロック数
+	m_pNumBlock = nullptr;							//ブロック数の表示
+	m_pRank = nullptr;								//順位
 }
 
 //========================
@@ -78,16 +79,16 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos)
 	//-----------------------------
 	// 順位の生成
 	//-----------------------------
-	//{
-	//	//ビューポートの座標を取得、設置場所の計算
-	//	float X = CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().X +
-	//		(CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().Width - 80.0f);
+	{
+		//ビューポートの座標を取得、設置場所の計算
+		float X = CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().X +
+			(CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().Width - 80.0f);
 
-	//	float Y = CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().Y +
-	//		(CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().Height - 50.0f);
-	//	D3DXVECTOR3 Pos(X, Y, 0.0f);
-	//	m_pRank = CRank::Create(Pos, m_nPlayerNum);
-	//}
+		float Y = CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().Y +
+			(CGame::GetCameraPlayer(m_nPlayerNum)->GetViewport().Height - 50.0f);
+		D3DXVECTOR3 Pos(X, Y, 0.0f);
+		m_pRank = CRank::Create(Pos, m_nPlayerNum);
+	}
 	
 	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
 	{
@@ -143,7 +144,6 @@ void CPlayer::Update()
 	{
 		m_pModel[0] = CBlock::Create(D3DXVECTOR3(m_pos.x+ 130.0f, -1.0f, m_pos.z), m_rot);
 	}
-#endif // _DEBUG
 
 	//----------------------
 	// ブロック数の増減
@@ -156,6 +156,7 @@ void CPlayer::Update()
 	{
 		m_nNumBlock = m_pNumBlock->AddNumber(-1);
 	}
+#endif // _DEBUG
 
 	//----------------------
 	// 所持ブロック数の加算
@@ -192,11 +193,18 @@ void CPlayer::Update()
 	{
 		m_pos = pos;
 		m_move.y = 0.0f;
+		m_respornPos = m_pos;
 	}
 	else if (m_pos == pos && pos.y < -8.0f)
 	{//コースアウト
 		SetBlock();
 		CSound::PlaySound(CSound::SOUND_LABEL_SE_FALL1);
+
+		if (m_pos.y <= -150.0f)
+		{//ある程度落ちたら
+			//保存していた位置にリスポーン
+			m_pos = m_respornPos;
+		}
 	}
 	
 

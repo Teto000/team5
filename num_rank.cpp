@@ -84,48 +84,26 @@ void CRank::Update()
 	D3DXVECTOR3 goalPos(CEditor::GetGoal()->GetPosition());
 
 	//プレイヤーの位置を取得
-	D3DXVECTOR3 playrerPos[MAX_PLAYER];
-	for (int i = 0; i < MAX_PLAYER; i++)
+	D3DXVECTOR3 playrerPos(0.0f, 0.0f, 0.0f);
+	if (CGame::GetPlayer(m_nNumPlayer) != nullptr)
 	{
-		if (CGame::GetPlayer(i) != nullptr)
-		{
-			playrerPos[i] = CGame::GetPlayer(i)->GetPosition();
-		}
+		playrerPos = CGame::GetPlayer(m_nNumPlayer)->GetPosition();
 	}
 
 	//ベクトルを計算、配列に入れる
-	D3DXVECTOR3 vec[MAX_PLAYER];
-	for (int i = 0; i < MAX_PLAYER; i++)
-	{
-		vec[i] = D3DXVECTOR3((goalPos.x - playrerPos[i].x),0.0f,
-								(goalPos.z - playrerPos[i].z));
-	}
+	D3DXVECTOR3 vec = D3DXVECTOR3((goalPos.x - playrerPos.x),0.0f,
+								(goalPos.z - playrerPos.z));
 
 	//ゴールまでの距離を求める
-	for (int i = 0; i < MAX_PLAYER; i++)
-	{
-		//XとZの絶対値を取得
-		int X = fabsf(vec[i].x);
-		int Z = fabsf(vec[i].z);
+	//XとZの絶対値を取得
+	int X = fabsf(vec.x);
+	int Z = fabsf(vec.z);
 
-		//加算
-		m_nDistance[i] = X + Z;
-	}
+	//加算
+	m_nDistance[m_nNumPlayer] = X + Z;
 
 	//距離が小さい順に順位を設定
-	for (int i = 0; i < MAX_PLAYER; i++)
-	{
-		for (int j = i + 1; j < MAX_PLAYER; j++)
-		{
-			if (m_nDistance[i] > m_nDistance[j])
-			{
-				//順位の入れ替え
-				int nData = m_nRank[i];
-				m_nRank[i] = m_nRank[j];
-				m_nRank[j] = nData;
-			}
-		}
-	}
+	
 
 	//テクスチャの設定
 	SetTexture(m_nNumPlayer);
