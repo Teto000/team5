@@ -452,7 +452,7 @@ void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey
 	moveInput.y = 0.0f;
 
 	// ƒ‚ƒfƒ‹‚ÌˆÚ“®
-	/*if (CInputKeyboard::Press(UPKey))
+	if (CInputKeyboard::Press(UPKey))
 	{
 		moveInput.y += 1.0f;
 		moveLength = 1.0f;
@@ -471,10 +471,10 @@ void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey
 	{
 		moveInput.x += 1.0f;
 		moveLength = 1.0f;
-	}*/
+	}
 
-	moveInput.y += 1.0f;
-	moveLength = 1.0f;
+	/*moveInput.y += 1.0f;
+	moveLength = 1.0f;*/
 
 	////ƒWƒƒƒ“ƒvó‘Ô‚Å‚Í‚È‚¢‚Æ‚«‚É
 	//if (m_state == IDOL_STATE)
