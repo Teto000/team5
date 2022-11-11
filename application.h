@@ -41,6 +41,7 @@ public:
 	{
 		MODE_TITLE = 0,		//タイトル
 		MODE_PSELECT,		//プレイヤーの人数選択画面
+		MODE_TUTORIAL,		//チュートリアル
 		MODE_GAME,			//ゲーム
 		MODE_RESULT,		//リザルト
 		MODE_FADE,			//フェード
