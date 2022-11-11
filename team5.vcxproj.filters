@@ -143,6 +143,9 @@
     <ClCompile Include="block.cpp">
       <Filter>Main\Object\ObjectX</Filter>
     </ClCompile>
+    <ClCompile Include="tutorial.cpp">
+      <Filter>Main\Application\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3dobject.h">
@@ -274,6 +277,9 @@
     <ClInclude Include="Gimmick.h" />
     <ClInclude Include="joypad.h">
       <Filter>Main\Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="tutorial.h">
+      <Filter>Main\Application\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="num_rank.h">
       <Filter>Main\Object\Object2D\Number</Filter>
