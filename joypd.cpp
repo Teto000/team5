@@ -267,9 +267,9 @@ bool CJoypad::Stick(JOYKEY Key, int nPlayer, float fDeadZone)
 		bStick = true;
 	}
 
-#ifdef _DEBUG
-	CDebugProc::Print("ŒX‚«‚Ì‘å‚«‚³ : %f\n", D3DXVec2Length(&stickVec));
-#endif // _DEBUG
+//#ifdef _DEBUG
+//	CDebugProc::Print("ŒX‚«‚Ì‘å‚«‚³ : %f\n", D3DXVec2Length(&stickVec));
+//#endif // _DEBUG
 
 
 	return bStick;
