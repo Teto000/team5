@@ -41,7 +41,8 @@ CNumBlock::~CNumBlock()
 HRESULT CNumBlock::Init(D3DXVECTOR3 pos)
 {
 	//初期値の設定
-	m_pos = pos;	//位置
+	m_pos = pos;		//位置
+	//m_nNumBlock = 30;
 
 	CObject2D::Init(m_pos);
 	CObject2D::SetSize(0.0f, 0.0f);	//サイズの設定
