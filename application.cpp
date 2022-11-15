@@ -91,7 +91,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 
 	//----------------------------
 	// サウンドの生成と初期化
-	----------------------------
+	//----------------------------
 	m_pSound = new CSound;
 	m_pSound->Init(hWnd);
 
@@ -118,7 +118,6 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	// デバッグ用文字の生成
 	//----------------------------
 	m_pDebugproc->Init();
-
 
 	return S_OK;
 }
@@ -304,7 +303,6 @@ void CApplication::Update()
 //===========================
 void CApplication::Draw()
 {
-
 	//レンダリングの描画
 	m_pRenderer->Draw();
 

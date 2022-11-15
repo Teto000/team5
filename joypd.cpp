@@ -77,6 +77,13 @@ HRESULT CJoypad::Init(HINSTANCE hInstance, HWND hWnd, const int nMax)
 //=============================================================================
 void CJoypad::Uninit(void)
 {
+	//ジョイパッドの情報を消去
+	if (m_pJoyPad != nullptr)
+	{
+		delete m_pJoyPad;
+		m_pJoyPad = nullptr;
+	}
+
 	//XInputのステートを設定（無効にする）
 	XInputEnable(false);
 }
@@ -129,6 +136,10 @@ void CJoypad::Update(void)
 
 	// 使用しているコントローラー数の更新
 	m_nUseJoyPad = nCntUse;
+
+	//ジョイパッド入力情報を消去
+	delete pJoyKeyState;
+	pJoyKeyState = nullptr;
 }
 
 //=============================================================================
