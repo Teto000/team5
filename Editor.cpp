@@ -28,8 +28,8 @@ CSBlock*	CEditor::m_pStackBlock[MAX_STACK_BLOCK] = { nullptr };			//ブロックの山
 //=============================================================================
 CEditor::CEditor()
 {
-	m_pGoal = nullptr;						//ゴール
-	ZeroMemory(&m_pPlanet[0],sizeof(m_pPlanet[0])*MAX_PLANET);
+	m_pGoal = nullptr;											//ゴール
+	ZeroMemory(&m_pPlanet[0],sizeof(m_pPlanet[0])*MAX_PLANET);	//惑星
 }
 
 //=============================================================================
@@ -313,7 +313,6 @@ void CEditor::SaveObject()
 		//次のオブジェクトのアドレスを代入
 		pObj = pObjNext;
 	}
-
 	fclose(fp);
 }
 
@@ -322,7 +321,7 @@ void CEditor::SaveObject()
 //=============================================================================
 void CEditor::Pass()
 {
-	//星のオブジェクト
+	//惑星のオブジェクト
 	m_nPlaFileName[0] = "data\\MODEL\\X_File\\Earth_000.x";
 	m_nPlaFileName[1] = "data\\MODEL\\X_File\\Sun_000.x";
 	m_nPlaFileName[2] = "data\\MODEL\\X_File\\Moon_000.x";

@@ -55,8 +55,6 @@ CTitle::~CTitle()
 //===========================
 HRESULT CTitle::Init()
 {
-	//メッシュフィールドの生成
-	//m_pMeshField = CMeshField::Create();
 	CRead cRead;
 	int nNum = cRead.ReadMotion("data/MOTION/motionground.txt");
 	CMotionParts::MoveMotionModel(D3DXVECTOR3(0.0f, -500.0f, 5000.0f), D3DXVECTOR3(0.0f,0.0f,0.0f), nNum, 0);

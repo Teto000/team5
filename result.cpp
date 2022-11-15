@@ -51,7 +51,7 @@ HRESULT CResult::Init()
 	m_pObject2D = new CObject2D;
 	m_pObject2D->Init(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
 	m_pObject2D->SetTexture(CTexture::TEXTURE_RANKING);
-	m_pObject2D->SetSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	m_pObject2D->SetSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
 
 	//ƒ‰ƒ“ƒLƒ“ƒO¶¬
 	m_pRanking = CRanking::Create();

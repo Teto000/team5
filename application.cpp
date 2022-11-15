@@ -117,8 +117,8 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//----------------------------
 	// デバッグ用文字の生成
 	//----------------------------
+	m_pDebugproc = new CDebugProc;
 	m_pDebugproc->Init();
-
 
 	return S_OK;
 }
