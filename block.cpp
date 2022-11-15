@@ -26,6 +26,7 @@ bool CBlock::m_bHaveBlock = false;
 //===========================
 CBlock::CBlock(int nPriority)
 {
+	m_bAbove = false;
 }
 
 //===========================
@@ -33,6 +34,7 @@ CBlock::CBlock(int nPriority)
 //===========================
 CBlock::~CBlock()
 {
+	m_bAbove = false;
 }
 
 //===========================
