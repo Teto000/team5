@@ -70,24 +70,24 @@ void CPSelect::Uninit()
 	for (int nCnt = 0; nCnt < MAX_PLAYER; nCnt++)
 	{
 		if (m_PUI[nCnt] != nullptr)
-		{
+		{// プレイヤーUIの終了処理
 			m_PUI[nCnt]->Uninit();
 			m_PUI[nCnt] = nullptr;
 		}
 	}
 
 	if (m_title != nullptr)
-	{
+	{// タイトルUIの終了処理
 		m_title->Uninit();
 		m_title = nullptr;
 	}
 	if (m_BG != nullptr)
-	{
+	{// 背景UIの終了処理
 		m_BG->Uninit();
 		m_BG = nullptr;
 	}
 	if (m_Select != nullptr)
-	{
+	{// セレクトUIの終了処理
 		m_Select->Uninit();
 		m_Select = nullptr;
 	}
@@ -108,7 +108,7 @@ void CPSelect::Update()
 
 	if (CInputKeyboard::Trigger(DIK_RETURN) == true && CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{//Enterで次の画面に遷移する
-		CApplication::GetFade()->SetFade(CApplication::MODE_GAME);
+		CApplication::GetFade()->SetFade(CApplication::MODE_TUTORIAL);
 		CSound::PlaySound(CSound::SOUND_LABEL_SE_SELECT_DECISION);
 	}
 }
@@ -169,6 +169,7 @@ void CPSelect::UI_Create()
 		UI_Uninit();
 	}
 
+	// プレイヤーの人数によって生成するUI数を変更する処理
 	switch (m_PlayerSelectNum)
 	{
 	case 0:

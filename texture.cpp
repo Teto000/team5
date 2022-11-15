@@ -50,7 +50,10 @@ const char* CTexture::s_FileName[] =
 	/* ↓ 人数選択画面 ↓ */
 	"data/TEXTURE/PlayerSelect/title.png",	//人数選択画面のタイトル
 	"data/TEXTURE/PlayerSelect/bg2.png",				//人数選択画面の背景
-	"data/TEXTURE/PlayerSelect/select.png"	//人数選択画面の背景
+	"data/TEXTURE/PlayerSelect/select.png",	//人数選択画面の背景
+
+	/* ↓チュートリアル画面 ↓ */
+	"data/TEXTURE/Tutorial01.png"			//チュートリアル背景
 };
 
 static_assert(sizeof(CTexture::s_FileName) / sizeof(CTexture::s_FileName[0]) == CTexture::TEXTURE_MAX, "aho");

@@ -17,6 +17,7 @@
 #include "input.h"
 #include "input_keybord.h"
 #include "input_joypad.h"
+#include "tutorial.h"
 #include "game.h"
 #include "title.h"
 #include "result.h"
@@ -27,6 +28,7 @@
 #include "Goal.h"
 #include "select_player.h"
 #include "debug_proc.h"
+#include "joypad.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -45,14 +47,13 @@ CTexture*			CApplication::m_pTexture = nullptr;		//テクスチャ
 CSound*				CApplication::m_pSound = nullptr;		//サウンド
 CLight*				CApplication::m_pLight = nullptr;		//ライト
 CDebugProc*			CApplication::m_pDebugproc = nullptr;	//デバッグ用文字
-
+CJoypad*			CApplication::m_pJoyPad = nullptr;		//ジョイパッド
 
 //===========================
 // コンストラクタ
 //===========================
 CApplication::CApplication()
 {
-
 }
 
 //===========================
@@ -99,6 +100,12 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//----------------------------
 	m_pLight = new CLight;
 	m_pLight->Init(GetRenderer()->GetDevice());
+
+	//----------------------------
+	// ジョイパッドの生成と初期化
+	//----------------------------
+	m_pJoyPad = new CJoypad;
+	m_pJoyPad->Init(hInstance,hWnd,MAX_PLAYER);
 
 	//----------------------------
 	// モードの設定
@@ -172,6 +179,14 @@ void CApplication::Uninit()
 		m_pTitle = nullptr;
 	}
 
+	//チュートリアルの終了
+	if (m_pTutorial != nullptr)
+	{
+		m_pTutorial->Uninit();
+		delete m_pTutorial;
+		m_pTutorial = nullptr;
+	}
+
 	//ゲームの終了
 	if (m_pGame != nullptr)
 	{
@@ -203,6 +218,14 @@ void CApplication::Uninit()
 		delete m_pDebugproc;
 		m_pDebugproc = nullptr;
 	}
+
+	//ジョイパッドの終了処理
+	if (m_pJoyPad != nullptr)
+	{
+		m_pJoyPad->Uninit();
+		delete m_pJoyPad;
+		m_pJoyPad = nullptr;
+	}
 }
 
 //===========================
@@ -212,6 +235,9 @@ void CApplication::Update()
 {
 	//インプットの更新
 	m_pInput->Update();	//最初にやる
+
+	//ジョイパッドの更新
+	m_pJoyPad->Update();
 
 	//レンダリングの更新
 	m_pRenderer->Update();
@@ -226,6 +252,10 @@ void CApplication::Update()
 	case MODE_PSELECT:
 		m_pPSelect->Update();
 		break;
+
+	case MODE_TUTORIAL:
+		m_pTutorial->Update();
+	break;
 
 	case MODE_GAME:
 		m_pGame->Update();
@@ -279,6 +309,12 @@ void CApplication::SetMode(MODE mode)
 		m_pPSelect = nullptr;
 		break;
 
+	case MODE_TUTORIAL:
+		m_pTutorial->Uninit();
+		delete m_pTutorial;
+		m_pTutorial = nullptr;
+		break;
+
 	case MODE_GAME:
 		m_pGame->Uninit();
 		delete m_pGame;
@@ -315,6 +351,12 @@ void CApplication::SetMode(MODE mode)
 		m_pPSelect = nullptr;
 		m_pPSelect = new CPSelect;
 		m_pPSelect->Init();
+		break;
+
+	case MODE_TUTORIAL:
+		m_pTutorial = nullptr;
+		m_pTutorial = new CTutorial;
+		m_pTutorial->Init();
 		break;
 
 	case MODE_GAME:

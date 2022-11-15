@@ -5,9 +5,9 @@
 //
 //==================================================
 
-//----------------------
+//------------------------------
 // インクルード
-//----------------------
+//------------------------------
 #include <stdlib.h>
 #include "camera.h"
 #include "input.h"
@@ -15,9 +15,9 @@
 #include "renderer.h"
 #include "game.h"
 
-//----------------------
+//------------------------------
 // 静的メンバ変数宣言
-//----------------------
+//------------------------------
 const float CCamera::fTurnSpeed = 0.02f;	//旋回速度
 const float CCamera::fMoveSpeed = 3.0f;		//移動速度
 
@@ -52,9 +52,9 @@ CCamera::~CCamera()
 //==================================================
 HRESULT CCamera::Init(void)
 {
-	//---------------------------------
+	//------------------------------
 	// 初期値の設定
-	//---------------------------------
+	//------------------------------
 	m_posV = D3DXVECTOR3(0.0f, 200.0f, -400.0f);	//視点
 	m_posR = D3DXVECTOR3(0.0f, 100.0f, 0.0f);		//注視点
 	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);			//上方向
@@ -62,22 +62,22 @@ HRESULT CCamera::Init(void)
 	m_viewport.MaxZ = 1.0f;
 
 	{
-		//----------------------------
+		//------------------------------
 		// 距離の設定(三平方の定理)
-		//----------------------------
+		//------------------------------
 		float X = m_posR.x - m_posV.x;
 		float Y = m_posR.y - m_posV.y;
 		float Z = m_posR.z - m_posV.z;
 		m_fDistance = sqrtf((X * X) + (Y * Y) + (Z * Z));
 
-		//----------------------------
+		//------------------------------
 		// 角度の設定
-		//----------------------------
+		//------------------------------
 		float angle = -atan2f(Y, Z) + D3DX_PI * 0.5f;
 
-		//----------------------------
+		//------------------------------
 		// 向きの初期化
-		//----------------------------
+		//------------------------------
 		m_rot = D3DXVECTOR3(angle, 0.0f, 0.0f);
 		m_rotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	}
@@ -98,16 +98,16 @@ void CCamera::Uninit(void)
 //==================================================
 void CCamera::Update(void)
 {
-	//------------------------
+	//------------------------------
 	// 極座標のXYZ
-	//------------------------
+	//------------------------------
 	POLOR_X = sinf(m_rot.x) * sinf(m_rot.y) * m_fDistance;
 	POLOR_Y = cosf(m_rot.x) * m_fDistance;
 	POLOR_Z = sinf(m_rot.x) * cosf(m_rot.y) * m_fDistance;
 
-	//------------------------
+	//------------------------------
 	// 角度の正規化
-	//------------------------
+	//------------------------------
 	//左右
 	if (m_rot.y > D3DX_PI)
 	{
@@ -157,8 +157,10 @@ void CCamera::SetCamera(LPDIRECT3DDEVICE9 pDevice)
 //==================================================
 void CCamera::SetPos(D3DXVECTOR3 pos)
 {
-	m_posR = pos;	//注視点
-	m_posV = m_posR + D3DXVECTOR3(0.0f, 200.0f, -400.0f);	//視点
+	m_posR = pos;	//取得した位置を注視点に設定
+
+	//注視点から一定の場所を視点に設定
+	m_posV = m_posR + D3DXVECTOR3(0.0f, 200.0f, -400.0f);
 }
 
 //==================================================
@@ -168,10 +170,10 @@ void CCamera::SetPos(D3DXVECTOR3 pos)
 void CCamera::SetViewSize(DWORD X, DWORD Y, int fWidth, int fHeight)
 {
 	//引数を代入
-	m_viewport.X = X;
-	m_viewport.Y = Y;
-	m_viewport.Width = fWidth;
-	m_viewport.Height = fHeight;
+	m_viewport.X = X;				//ビューポートの左上X座標
+	m_viewport.Y = Y;				//ビューポートの左上Y座標
+	m_viewport.Width = fWidth;		//ビューポートの幅
+	m_viewport.Height = fHeight;	//ビューポートの高さ
 }
 
 //==================================================
@@ -180,29 +182,31 @@ void CCamera::SetViewSize(DWORD X, DWORD Y, int fWidth, int fHeight)
 //==================================================
 void CCamera::AddViewSize(DWORD X, DWORD Y, int fWidth, int fHeight)
 {
-	//-------------------
+	//------------------------------
 	// 幅の加算
-	//-------------------
+	//------------------------------
 	if (m_viewport.Width < SCREEN_WIDTH - 1.0f)
 	{//幅がスクリーン内なら
+		//幅の加算
 		m_viewport.Width += fWidth;
 
 		if (m_viewport.X > 0)
-		{
-			m_viewport.X += X;
+		{//ビューポートの左上が画面の左上より大きいなら
+			m_viewport.X += X;	//ビューポートの左上座標を移動
 		}
 	}
 
-	//-------------------
+	//------------------------------
 	// 高さの加算
-	//-------------------
+	//------------------------------
 	if (m_viewport.Height < SCREEN_HEIGHT - 1.0f)
 	{//幅がスクリーン内なら
+		//高さの加算
 		m_viewport.Height += fHeight;
 
 		if (m_viewport.Y > 0)
-		{
-			m_viewport.Y += Y;
+		{//ビューポートの左上が画面の左上より大きいなら
+			m_viewport.Y += Y;	//ビューポートの左上座標を移動
 		}
 	}
 }
@@ -218,8 +222,8 @@ void CCamera::SetAspect(LPDIRECT3DDEVICE9 pDevice, float fov, float fWidth, floa
 
 	//プロジェクションマトリックスの作成
 	D3DXMatrixPerspectiveFovLH(&m_mtxProjection,
-								D3DXToRadian(fov),
-								fWidth / fHeight,
+								D3DXToRadian(fov),	//視野角
+								fWidth / fHeight,	//幅・高さ
 								10.0f,
 								10000.0f);
 
