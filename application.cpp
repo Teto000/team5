@@ -306,12 +306,6 @@ void CApplication::Draw()
 {
 	//レンダリングの描画
 	m_pRenderer->Draw();
-
-	//フェードの描画
-	//m_pFade->Draw();
-
-	//デバッグ用文字の描画
-	//m_pDebugproc->Draw();
 }
 
 //===========================
@@ -358,7 +352,6 @@ void CApplication::SetMode(MODE mode)
 
 	//オブジェクトの全解放
 	CObject::ReleaseAll(true);
-	//m_pFade->Create2DObject();
 
 	//モードの切り替え
 	m_mode = mode;
@@ -402,11 +395,6 @@ void CApplication::SetMode(MODE mode)
 	default:
 		break;
 	}
-
-	//フェードの生成
-	/*m_pFade = nullptr;
-	m_pFade = new CFade;
-	m_pFade->Init(m_mode);*/
 }
 
 //===========================
