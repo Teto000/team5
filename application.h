@@ -27,6 +27,7 @@ class CTexture;		//テクスチャ
 class CSound;		//サウンド
 class CLight;		//ライト
 class CDebugProc;	//デバッグ用文字
+class CJoypad;		//ジョイパッド
 
 //================================
 // アプリケーションクラスの定義
@@ -80,6 +81,9 @@ public:
 	static CFade	 *GetFade();			//フェードの取得
 	static CPSelect	 *GetPSelect();			//プレイヤーの人数の取得
 
+	//ジョイパッドの情報の取得
+	static CJoypad	 *GetJoyPad() { return m_pJoyPad; }
+
 private:
 	//------------------
 	// 静的メンバ変数
@@ -92,12 +96,12 @@ private:
 	static CFade*		m_pFade;				//フェードクラス
 	static MODE			m_mode;					//モード
 	static GAMEMODE		m_gameMode;				//ゲームモード
-
-	static CRenderer*	m_pRenderer;					//レンダラークラス
-	static CInput*		m_pInput;						//インプットクラス
-	static CTexture*	m_pTexture;						//テクスチャクラス
-	static CSound*		m_pSound;						//サウンドクラス
-	static CLight*		m_pLight;						//ライトクラス
+	static CJoypad*		m_pJoyPad;				//ジョイパッド
+	static CRenderer*	m_pRenderer;			//レンダラークラス
+	static CInput*		m_pInput;				//インプットクラス
+	static CTexture*	m_pTexture;				//テクスチャクラス
+	static CSound*		m_pSound;				//サウンドクラス
+	static CLight*		m_pLight;				//ライトクラス
 	static CDebugProc*	m_pDebugproc;			//デバッグ用文字
 };
 

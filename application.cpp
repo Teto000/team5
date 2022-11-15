@@ -27,6 +27,7 @@
 #include "Goal.h"
 #include "select_player.h"
 #include "debug_proc.h"
+#include "joypad.h"
 
 //------------------------
 // 静的メンバ変数宣言
@@ -45,14 +46,13 @@ CTexture*			CApplication::m_pTexture = nullptr;		//テクスチャ
 CSound*				CApplication::m_pSound = nullptr;		//サウンド
 CLight*				CApplication::m_pLight = nullptr;		//ライト
 CDebugProc*			CApplication::m_pDebugproc = nullptr;	//デバッグ用文字
-
+CJoypad*			CApplication::m_pJoyPad = nullptr;		//ジョイパッド
 
 //===========================
 // コンストラクタ
 //===========================
 CApplication::CApplication()
 {
-
 }
 
 //===========================
@@ -72,7 +72,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	// レンダリングの生成と初期化
 	//----------------------------
 	m_pRenderer = new CRenderer;
-	if (FAILED(m_pRenderer->Init(hWnd, TRUE)))
+	if (FAILED(m_pRenderer->Init(hWnd, FALSE)))
 	{//初期化処理が失敗した場合
 		return -1;
 	}
@@ -99,6 +99,12 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//----------------------------
 	m_pLight = new CLight;
 	m_pLight->Init(GetRenderer()->GetDevice());
+
+	//----------------------------
+	// ジョイパッドの生成と初期化
+	//----------------------------
+	m_pJoyPad = new CJoypad;
+	m_pJoyPad->Init(hInstance,hWnd,MAX_PLAYER);
 
 	//----------------------------
 	// モードの設定
@@ -203,6 +209,14 @@ void CApplication::Uninit()
 		delete m_pDebugproc;
 		m_pDebugproc = nullptr;
 	}
+
+	//ジョイパッドの終了処理
+	if (m_pJoyPad != nullptr)
+	{
+		m_pJoyPad->Uninit();
+		delete m_pJoyPad;
+		m_pJoyPad = nullptr;
+	}
 }
 
 //===========================
@@ -212,6 +226,9 @@ void CApplication::Update()
 {
 	//インプットの更新
 	m_pInput->Update();	//最初にやる
+
+	//ジョイパッドの更新
+	m_pJoyPad->Update();
 
 	//レンダリングの更新
 	m_pRenderer->Update();

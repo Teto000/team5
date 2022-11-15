@@ -103,6 +103,14 @@ void CEditor::Uninit()
 		}
 	}
 
+	for (int nCnt = 0; nCnt < MAX_STACK_BLOCK; nCnt++)
+	{
+		if (m_pStackBlock[nCnt] != nullptr)
+		{
+			m_pStackBlock[nCnt] = nullptr;
+		}
+	}
+
 	m_nNumber = NULL;
 	m_bEnd = NULL;			//終了フラグ
 	m_bFlag = NULL;			//生成フラグ

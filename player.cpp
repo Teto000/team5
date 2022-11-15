@@ -2,6 +2,7 @@
 //
 // プレイヤーの処理
 // Author:Teruto Sato
+// Author:Tomidokoro Tomoki
 //
 //===================================================
 
@@ -25,6 +26,7 @@
 #include "num_rank.h"
 #include "block.h"
 #include "sound.h"
+#include "joypad.h"
 #include "Editor.h"
 
 //------------------------
@@ -43,7 +45,7 @@ CPlayer::CPlayer() : CObject(OBJTYPE_MODEL)
 	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			//移動量
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			//向き
 	m_rotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//目的の向き
-	m_nNumBlock = 0;								//ブロック数
+	m_nNumBlock = 40;								//ブロック数
 	m_pNumBlock = nullptr;							//ブロック数の表示
 	m_pRank = nullptr;								//順位
 }
@@ -62,7 +64,9 @@ CPlayer::~CPlayer()
 //========================
 HRESULT CPlayer::Init(D3DXVECTOR3 pos)
 {
+	// プレイヤーの初期座標設定
 	m_pos = pos;
+	// ジャンプの初期状態
 	m_bJump = false;
 
 	//-----------------------------
@@ -93,11 +97,13 @@ HRESULT CPlayer::Init(D3DXVECTOR3 pos)
 	
 	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
 	{
+		// プレイヤーが生成した板の初期化
 		m_pModel[nCnt] = nullptr;
 	}
 
 	CRead cRead;
 
+	// モーションを読み込む処理
 	m_nMotionNum = cRead.ReadMotion("data/MOTION/motionplayer.txt");
 
 
@@ -113,7 +119,9 @@ void CPlayer::Uninit()
 	{
 		if (m_pModel[nCnt] != nullptr)
 		{
+			// 板の終了処理
 			m_pModel[nCnt]->Uninit();
+			// 板を当たっていない状態にする(初期化)
 			m_pModel[nCnt]->SetAboveFalse();
 			delete m_pModel[nCnt];
 			m_pModel[nCnt] = nullptr;
@@ -132,18 +140,20 @@ void CPlayer::Update()
 	// 移動
 	//---------------
 	m_posold = m_pos;	//位置の保存
+
+	// 移動処理
 	Move();
 
 #ifdef _DEBUG
 
 	//デバック用
 	if (CInputKeyboard::Press(DIK_K))
-	{
+	{// ブロック所持数を増やす
 		m_BlockHave++;
 	}
 
 	if (CInputKeyboard::Trigger(DIK_Z))
-	{
+	{// ブロック設置
 		m_pModel[0] = CBlock::Create(D3DXVECTOR3(m_pos.x+ 130.0f, -1.0f, m_pos.z), m_rot);
 	}
 
@@ -151,21 +161,17 @@ void CPlayer::Update()
 	// ブロック数の増減
 	//----------------------
 	if (CInputKeyboard::Press(DIK_UP) && m_nPlayerNum == 0)
-	{
+	{// 所持しているブロック数を増やす2
 		m_nNumBlock = m_pNumBlock->AddNumber(1);
 	}
 	else if (CInputKeyboard::Press(DIK_DOWN) && m_nPlayerNum == 0)
-	{
+	{// 所持しているブロック数を減らす
 		m_nNumBlock = m_pNumBlock->AddNumber(-1);
 	}
 
 #endif // _DEBUG
-	//-------------------
-	//当たり判定
-	//-------------------
-	/*CMeshField *m_pMesh = CGame::GetMesh();
-	m_pMesh->Collision(&m_pos);*/
 
+	// posにマップの座標を入れる
 	D3DXVECTOR3 pos = CMotionParts::AllCollision(m_nMotionNum,CGame::GetGroundNum(), m_pos, m_posold);
 	
 	if (m_pos != pos)
@@ -186,10 +192,9 @@ void CPlayer::Update()
 
 		}
 	}
-	
 
 	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
-	{
+	{// プレイヤーが設置した板のUpdate
 		if (m_pModel[nCnt] != nullptr)
 		{
 			m_pModel[nCnt]->Update();
@@ -197,13 +202,14 @@ void CPlayer::Update()
 	}
 
 	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
-	{
+	{// 現在処理を行っているプレイヤーと板の当たり判定
 		if (m_pModel[nCnt] != nullptr)
 		{
 			this->m_PlayerBlockCollision = m_pModel[nCnt]->Collision(this);
 		}
 	}
 
+	// モデルのモーションを動かす処理
 	CMotionParts::MoveMotionModel(m_pos, GetRot(), m_nMotionNum, 1);
 
 	m_rot.y = atan2f(m_move.x, m_move.z) + D3DX_PI;
@@ -215,7 +221,7 @@ void CPlayer::Update()
 void CPlayer::Draw()
 {
 	for (int nCnt = 0; nCnt < MAX_BLOCK; nCnt++)
-	{
+	{// プレイヤーが設置した板の描画処理
 		if (m_pModel[nCnt] != nullptr)
 		{
 			m_pModel[nCnt]->Draw();
@@ -272,7 +278,6 @@ void CPlayer::Move()
 	default:
 		break;
 	}
-
 	//位置を更新
 	m_pos += m_move;
 
@@ -291,14 +296,6 @@ void CPlayer::Move()
 		m_bJump = true;
 		Jump();
 	}
-
-	//-------------------------------
-	// 位置の設定
-	//-------------------------------
-	/*if (m_pModel[0])
-	{
-		m_pModel[0]->SetPos(m_pos);
-	}*/
 
 	//-------------------------------
 	// 目的の角度の正規化
@@ -328,14 +325,6 @@ void CPlayer::Move()
 	{//角度が-180以下なら
 		m_rot.y += D3DX_PI * 2;
 	}
-
-	//-------------------------------
-	// 向きの設定
-	//-------------------------------
-	/*if (m_pModel[0])
-	{
-		m_pModel[0]->SetRot(m_rot);
-	}*/
 }
 
 //===========================
@@ -343,7 +332,9 @@ void CPlayer::Move()
 //===========================
 void CPlayer::Jump()
 {
+	// プレイヤーのmove.yに5を代入
 	m_move.y = 5.0f;
+	// ジャンプをカウントする
 	m_nJumpCount++;
 
 	if (m_nJumpCount == 10)
@@ -353,6 +344,8 @@ void CPlayer::Jump()
 		//プレイヤーを待機状態にする
 		m_state = IDOL_STATE;
 	}
+
+	// ジャンプのSEを再生
 	CSound::PlaySound(CSound::SOUND_LABEL_SE_JUMP1);
 }
 
@@ -361,6 +354,7 @@ void CPlayer::Jump()
 //===========================
 void CPlayer::SetPosition(D3DXVECTOR3 pos)
 {
+	// 座標を代入
 	m_pos = pos;
 }
 
@@ -412,7 +406,7 @@ void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey
 {
 	// カメラの角度情報取得
 	D3DXVECTOR3 CameraRot = CGame::GetCameraPlayer(nPlayerNum)->GetRot();;
-
+	
 	//-------------------------------
 	// プレイヤーの操作
 	//-------------------------------
@@ -423,30 +417,38 @@ void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey
 	moveInput.x = 0.0f;
 	moveInput.y = 0.0f;
 
+	// ジョイパッドでの操作
+	CJoypad *pJoypad = CApplication::GetJoyPad();
+
+	if (pJoypad->Stick(CJoypad::JOYKEY_LEFT_STICK, nPlayerNum, 0.5f))
+	{// ジョイパッドの左スティックの入力値が0.5以上だった時
+		D3DXVECTOR3 stick = pJoypad->GetStick(CJoypad::JOYKEY_LEFT_STICK, 0);
+
+		// スティックを倒した方向へ移動する
+		moveInput = D3DXVECTOR2(stick.x, -stick.y);
+		moveLength = 1.0f;
+	}
 	// モデルの移動
 	if (CInputKeyboard::Press(UPKey))
-	{
+	{// 上方向へ移動
 		moveInput.y += 1.0f;
 		moveLength = 1.0f;
 	}
 	if (CInputKeyboard::Press(LEFTKey))
-	{
+	{// 左方向へ移動
 		moveInput.x -= 1.0f;
 		moveLength = 1.0f;
 	}
 	if (CInputKeyboard::Press(DOWNKey))
-	{
+	{// 下方向へ移動
 		moveInput.y -= 1.0f;
 		moveLength = 1.0f;
 	}
 	if (CInputKeyboard::Press(RIGHTKey))
-	{
+	{// 右方向へ移動
 		moveInput.x += 1.0f;
 		moveLength = 1.0f;
 	}
-
-	/*moveInput.y += 1.0f;
-	moveLength = 1.0f;*/
 
 	//ジャンプ状態ではないときに
 	if (m_state == IDOL_STATE)
@@ -460,7 +462,7 @@ void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey
 
 	if (moveLength > 0.0f)
 	{
-
+		// MOVEの入力値を
 		D3DXVec2Normalize(&moveInput, &moveInput);
 
 		float c = cosf(-CameraRot.y);
@@ -518,14 +520,14 @@ void CPlayer::Gravity()
 {
 	//重力
 	if (m_PlayerBlockCollision)
-	{// trueだった時
+	{// プレイヤーがブロックと衝突している時
 		m_pos.y = 0.0f;
 		m_move.y = 0.0f;
 		SetPosition(m_pos);
 		return;
 	}
-	
 
+	// プレイヤーのmove.yに重力を常にかける
 	m_move.y -= fGravity;
 }
 

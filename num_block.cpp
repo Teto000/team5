@@ -18,7 +18,7 @@
 CNumBlock::CNumBlock() : CObject2D(0)
 {
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//位置
-	m_nNumBlock = 0;				//ブロックの数
+	m_nNumBlock = 40;				//ブロックの数
 
 	for (int i = 0; i < nMaxDigits; i++)
 	{

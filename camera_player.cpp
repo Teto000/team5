@@ -16,6 +16,7 @@
 #include "game.h"
 #include "player.h"
 #include "Goal.h"
+#include "joypad.h"
 
 //==================================================
 // コンストラクタ
@@ -197,6 +198,17 @@ void CCameraPlayer::Turn(int nLeftKey, int nRightKey)
 	//-------------------
 	// 左回転
 	//-------------------
+	// ジョイパッドでの操作
+	CJoypad *pJoypad = CApplication::GetJoyPad();
+
+	if (pJoypad->Stick(CJoypad::JOYKEY_RIGHT_STICK, m_nNumPlayer, 0.5f))
+	{
+		m_rot.y += pJoypad->GetStickAngle(CJoypad::JOYKEY_RIGHT_STICK, m_nNumPlayer) / 180.0f;
+		m_posR.x = m_posV.x + POLOR_X;	//xの距離
+		m_posR.y = m_posV.y + POLOR_Y;	//yの距離
+		m_posR.z = m_posV.z + POLOR_Z;	//zの距離
+	}
+
 	if (CInputKeyboard::Press(nLeftKey))
 	{//キーが押された
 		m_rot.y += fTurnSpeed;			//回転量の増加

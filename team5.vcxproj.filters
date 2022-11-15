@@ -266,7 +266,6 @@
     <ClInclude Include="Ranking.h">
       <Filter>Main\Application</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.h" />
     <ClInclude Include="num_rank.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="block.h">
@@ -276,6 +275,9 @@
     <ClInclude Include="stack_block.h" />
     <ClInclude Include="joypad.h">
       <Filter>Main\Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 //===================================================
 //
 // ブロックの判定
+// Author : 冨所知生
 //
 //===================================================
 
@@ -135,7 +136,6 @@ void CBlock::Uninit()
 		m_pBuffMat->Release();
 		m_pBuffMat = nullptr;
 	}
-	//Release();
 }
 
 //===========================
@@ -143,8 +143,6 @@ void CBlock::Uninit()
 //===========================
 void CBlock::Update()
 {
-	//// 当たり判定
-	//Collision();
 }
 
 //========================
@@ -185,8 +183,6 @@ void CBlock::Draw()
 
 	for (int nCntMat = 0; nCntMat < (int)m_nNumMat; nCntMat++)
 	{
-		//D3DXCreateTextureFromFile(pDevice, pMat[nCntMat].pTextureFilename, &pTexture);
-
 		//マテリアルの設定
 		pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
 
@@ -269,11 +265,3 @@ void CBlock::SetPosition(D3DXVECTOR3 pos)
 {
 	m_pos = pos;
 }
-
-////===========================
-//// 位置の取得
-////===========================
-//D3DXVECTOR3 CBlock::GetPosition()
-//{
-//	return m_pos;
-//}
