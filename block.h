@@ -56,7 +56,7 @@ private:
 	//------------------
 	// メンバ変数
 	//------------------
-	static bool m_bAbove;
+	static bool m_bAbove;		//プレイヤーが板に当たっているかいないか
 	static bool m_bHaveBlock;
 	D3DXMATRIX m_mtxWorld;		//ワールドマトリックス
 	D3DXVECTOR3 m_pos;			//位置

@@ -24,6 +24,7 @@
 #include "read.h"
 #include "3dobject.h"
 #include "motion_parts.h"
+#include "joypad.h"
 
 //------------------------
 // Ã“Iƒƒ“ƒo•Ï”éŒ¾

@@ -99,7 +99,9 @@ CUI_PSelect* CUI_PSelect::Create(const D3DXVECTOR3 &pos,const UI &texture)
 
 	if (pUI_PSelect != nullptr)
 	{
+		// テクスチャの設定
 		pUI_PSelect->Set(texture);
+		// 初期化
 		pUI_PSelect->Init(pos);
 	}
 
