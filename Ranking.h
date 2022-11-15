@@ -1,6 +1,6 @@
 //=========================================
 //
-// スコア処理
+// ランキング処理
 // Auther：Arita Meigen
 //
 //=========================================
@@ -21,19 +21,12 @@ class CRanking
 {
 public:
 	CRanking();							//コンストラクタ
-	virtual ~CRanking() ;			//デストラクタ
+	virtual ~CRanking() ;				//デストラクタ
 
-	//初期化処理
-	HRESULT Init() ;
-
-	//更新処理
-	void Update(void) ;
-
-	//描画処理
-	void Draw(void) ;
-
-	//終了処理
-	void Uninit(void) ;
+	
+	HRESULT Init() ;	//初期化
+	void Update() ;		//更新
+	void Uninit() ;		//終了
 
 	//クリエイト処理
 	static CRanking* Create();
@@ -44,7 +37,6 @@ public:
 
 	//セッター
 	static void SetCurrentScore(int Time);
-	void SetCor(D3DXCOLOR col);
 
 private:
 	D3DXVECTOR3 m_pos;					// 座標

@@ -26,7 +26,7 @@ class CGoal : public CObject
 {
 public:
 	explicit CGoal(int nPriority);	//コンストラクタ
-	~CGoal();	//デストラクタ
+	~CGoal();						//デストラクタ
 
 	//------------------
 	// メンバ関数
@@ -61,7 +61,6 @@ private:
 	D3DXVECTOR3 m_rotDest;		//目的の向き
 	LPCTSTR		m_modelName;	//モデルのパス
 	static int	m_nWinner;		//優勝したやつの番号
-
 
 	/* ↓ クラス情報 ↓ */
 	LPD3DXMESH m_pMesh;			//メッシュ情報へのポインタ

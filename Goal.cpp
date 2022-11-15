@@ -20,7 +20,9 @@
 #include"time.h"
 #include"Ranking.h"
 
+//------------------------
 //静的メンバ変数宣言
+//------------------------
  bool CGoal::m_bGoal=nullptr;
  int CGoal::m_nWinner = -1;		//優勝したやつの番号
 //===========================
@@ -43,8 +45,8 @@ CGoal::~CGoal()
 //===========================
 HRESULT CGoal::Init(D3DXVECTOR3 pos)
 {
-	//フラグリセット
-	m_bGoal = false;
+	m_bGoal = false;	//ゴールフラグリセット
+	m_pos = pos;		//位置の設定
 
 	//-----------------------
 	// デバイスの取得
@@ -73,6 +75,7 @@ HRESULT CGoal::Init(D3DXVECTOR3 pos)
 
 	//頂点バッファのロック
 	m_pMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&pVtxBuff);
+
 	//頂点座標の代入
 	//すべての頂点のposを取得する
 	 m_vtxMax = D3DXVECTOR3(-1000.0f, -1000.0f, -1000.0f);	//最大値の保存用
@@ -148,10 +151,6 @@ void CGoal::Uninit()
 //===========================
 void CGoal::Update()
 {
-	/*if (m_bGoal == true)
-	{
-		CApplication::GetFade()->SetFade(CApplication::MODE_RESULT);
-	}*/
 	Collision();
 }
 
@@ -168,8 +167,7 @@ void CGoal::Draw()
 
 	D3DXMATERIAL *pMat;		//マテリアルデータへのポインタ
 
-							//モデルのワールドマトリックスの初期化
-	D3DXMatrixIdentity(&m_mtxWorld);
+	D3DXMatrixIdentity(&m_mtxWorld);	//モデルのワールドマトリックスの初期化
 
 	//モデルの向きを反映
 	D3DXMatrixRotationYawPitchRoll(&mtxRot, m_rot.y, m_rot.x, m_rot.z);
@@ -193,8 +191,6 @@ void CGoal::Draw()
 
 	for (int nCntMat = 0; nCntMat < (int)m_nNumMat; nCntMat++)
 	{
-		//D3DXCreateTextureFromFile(pDevice, pMat[nCntMat].pTextureFilename, &pTexture);
-
 		//マテリアルの設定
 		pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
 
@@ -227,12 +223,6 @@ bool CGoal::Collision()
 	{//プレイヤーの最大人数分回す
 		CPlayer*pPlayer = CGame::GetPlayer(i);
 
-		//横からぶつかった時用
-		////Y軸
-		//if (pPlayer->GetPosition().y < m_pos.y + m_vtxMax.y
-		//	&&pPlayer->GetPosition().y  > m_pos.y - m_vtxMin.y)
-		//{
-		//}
 		if (pPlayer != nullptr)
 		{
 			//X軸
@@ -243,12 +233,12 @@ bool CGoal::Collision()
 					&&pPlayer->GetPosition().x > m_pos.x + m_vtxMin.x)
 				{
 					if (m_bGoal==false)
-					{
+					{//ゴールした瞬間のタイムを記録
 						CRanking::SetCurrentScore(CTime::GetTime());
 					}
 
-					m_bGoal = true;
-					m_nWinner = i;
+					m_bGoal = true;	//ゴールフラグをtrue
+					m_nWinner = i;	//ゴールしたプレイヤーを代入
 				}
 			}
 		}
@@ -266,14 +256,12 @@ CGoal* CGoal::Create( D3DXVECTOR3 pos, D3DXVECTOR3 rot)
 	// 生成と初期化
 	//----------------------------------
 	CGoal *pGoal = nullptr;
-	//pGoal = new CGoal(CObject::OBJTYPE_GOAL);	//生成
-	pGoal = new CGoal(0);	//生成
+	pGoal = new CGoal(CObject::OBJTYPE_GOAL);	//生成
 
 
 	if (pGoal != nullptr)
 	{//NULLチェック
 	 //メンバ変数に代入
-		pGoal->m_pos = pos;
 		pGoal->m_rot = rot;
 
 		//初期化
@@ -308,11 +296,11 @@ D3DXVECTOR3 CGoal::GetPosition()
 }
 
 //===========================
-// 幅の取得
+// X軸の横幅の取得
 //===========================
 float CGoal::GetWidth()
 {
-	return 0.0f;
+	return m_vtxMax.x - m_vtxMin.x;
 }
 
 //===========================
@@ -320,7 +308,7 @@ float CGoal::GetWidth()
 //===========================
 float CGoal::GetHeight()
 {
-	return 0.0f;
+	return m_vtxMax.y-m_vtxMin.y;
 }
 
 //===========================
