@@ -45,7 +45,7 @@ CPlayer::CPlayer() : CObject(OBJTYPE_MODEL)
 	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			//移動量
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			//向き
 	m_rotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//目的の向き
-	m_nNumBlock = 40;								//ブロック数
+	m_nNumBlock = 20;								//ブロック数
 	m_pNumBlock = nullptr;							//ブロック数の表示
 	m_pRank = nullptr;								//順位
 }
