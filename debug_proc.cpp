@@ -2,6 +2,7 @@
 //
 // デバッグの処理
 // Author : Sato Teruto
+//			Arita Meigen
 //
 //===================================================
 
@@ -57,6 +58,7 @@ HRESULT CDebugProc::Init()
 //===========================
 void CDebugProc::Uninit()
 {
+	//文字列の解放
 	m_pFont = nullptr;
 	m_Str[0] = NULL;
 }

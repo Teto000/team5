@@ -437,7 +437,7 @@ D3DXVECTOR3 CPlayer::GetPosOld()
 // 移動キーの設定
 // 引数 : 上キー、左キー、下キー、右キー、ジャンプキー
 //=====================================================
-void CPlayer::MoveKey(int UPKey, int LEFTKey, int DOWNKey, int RIGHTKey, int JUMPKey, int nPlayerNum)
+void CPlayer::MoveKey(int UPKey,int LEFTKey,int DOWNKey,int RIGHTKey,int JUMPKey)
 {
 	// カメラの角度情報取得
 	D3DXVECTOR3 CameraRot = CGame::GetCameraPlayer(nPlayerNum)->GetRot();;
@@ -571,6 +571,7 @@ void CPlayer::Gravity()
 	// プレイヤーのmove.yに重力を常にかける
 	m_move.y -= fGravity;
 }
+
 
 //=========================================
 // 所持数の加算処理

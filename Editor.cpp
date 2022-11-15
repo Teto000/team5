@@ -16,28 +16,19 @@
 #include"debug_proc.h"
 #include"input_keybord.h"
 #include"input.h"
-#include"Map.h"
 #include"objectX.h"
 #include"Gimmick.h"
 #include"stack_block.h"
 
-
 //静的メンバ変数
-//CPlayer*	CEditor::pPlayer = nullptr;
-CGoal*		CEditor::m_pGoal = nullptr;						//ゴール
-CSBlock*	CEditor::m_pStackBlock[MAX_STACK_BLOCK] = { nullptr };				//ブロックの山
-//CMap*		CEditor::m_pMap = nullptr;						//マップ
-//CObject*	CEditor::m_pSelectObj = nullptr;				//選択中のオブジェクト
-//CModel*		CEditor::m_pPlanet[MAX_PLANET] = { nullptr };	//設置するオブジェクト
+CGoal*		CEditor::m_pGoal = nullptr;										//ゴール
+CSBlock*	CEditor::m_pStackBlock[MAX_STACK_BLOCK] = { nullptr };			//ブロックの山
 //=============================================================================
 // コンストラクタ
 //=============================================================================
 CEditor::CEditor()
 {
-	m_pPlayer = nullptr;
-	//m_pGoal = nullptr;						//ゴール
-	m_pMap = nullptr;						//マップ
-	m_pSelectObj = nullptr;					//選択中のオブジェクト
+	m_pGoal = nullptr;						//ゴール
 	ZeroMemory(&m_pPlanet[0],sizeof(m_pPlanet[0])*MAX_PLANET);
 }
 
@@ -46,8 +37,8 @@ CEditor::CEditor()
 //=============================================================================
 CEditor::~CEditor()
 {
-}
 
+}
 
 //=============================================================================
 //初期化
@@ -56,8 +47,6 @@ void CEditor::Init()
 {
 	//初期化
 	m_pGoal = nullptr;
-	m_pMap = nullptr;
-	m_pPlayer = nullptr;
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			//出現座標
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			//出現した際の角度
 	m_bEnd = false;									//終了フラグ
@@ -83,16 +72,6 @@ void CEditor::Uninit()
 	if (m_pGoal != nullptr)
 	{
 		m_pGoal = nullptr;
-	}
-
-	if (m_pMap != nullptr)
-	{
-		m_pMap = nullptr;
-	}
-
-	if (m_pPlayer != nullptr)
-	{
-		m_pPlayer = nullptr;
 	}
 
 	for (int i = 0; i < MAX_PLANET; i++)
@@ -124,34 +103,12 @@ void CEditor::Update()
 #ifdef _DEBUG
 	Input();
 
-	switch (m_nNumber)
-	{
-	case OBJ_GOAL:
-		m_pSelectObj = m_pGoal;
-		break;
-
-	case OBJ_MAP:
-		//m_pSelectObj = m_pMap;
-		break;
-
-	case OBJ_GIMMICK:
-		//m_pSelectObj = m_pMap;
-		break;
-
-	case OBJ_PLANET:
-		m_pSelectObj = m_pPlanet[m_nNumpla];
-		break;
-
-	default:
-		break;
-
-	}
-
-//	D3DXVECTOR3 Selectpos = m_pSelectObj->GetPosition();
-
+	//デバッグ用文字の表示
 	CDebugProc::Print("現在置くオブジェクト:%d 0(ゼロ)キーで種類を変更", m_nNumber);
 	CDebugProc::Print("O(オー)キーでオブジェクトの座標ファイルに出力する");
 	CDebugProc::Print("Pキーでオブジェクトの生成/移動");
+
+	//選択中のオブジェクトに応じて表示される文字を変更
 	if (m_nNumber == OBJ_PLANET)
 	{
 		CDebugProc::Print("現在設置する惑星の種類:%d 8/9で種類を変更", m_nNumpla);
@@ -160,10 +117,6 @@ void CEditor::Update()
 	{
 		CDebugProc::Print("現在設置するギミックの種類:%d 8/9で種類を変更", m_nNumgim);
 	}
-
-
-	//CDebugProc::Print("現在のオブジェクトの座標:x:%f y:%f z:%f", Selectpos.x, Selectpos.y, Selectpos.z);
-
 #endif // !_DEBUG_
 }
 
@@ -182,7 +135,7 @@ void CEditor::Load()
 		for (int i = 0; i < lenLine; i++)
 		{
 			fgets(strLine, lenLine, fp);
-			if (strncmp(strLine, "Object", 6) == 0)	//六文字比較して一致するかどうか調べる
+			if (strncmp(strLine, "Object", 6) == 0)	//Objectを読み込むまでループ
 			{
 				m_bEnd = false;
 				while (m_bEnd == false)
@@ -190,90 +143,73 @@ void CEditor::Load()
 					fscanf(fp, "%s", &strLine[0]);	//読み込んだ文字ごとに設定する
 
 					if (strncmp(strLine, "#", 1) == 0)
-					{
-						return;
+					{//コメントアウト
+						continue;
 					}
 					else if (strncmp(strLine, "Goal", 4) == 0)
-					{
+					{//生成するオブジェクトをゴールに指定
 						m_bFlag = true;
 						m_type = OBJ_GOAL;
 					}
-					else if (strncmp(strLine, "Map", 3) == 0)
-					{
-						m_bFlag = true;
-						m_type = OBJ_MAP;
-					}
 					else if (strncmp(strLine, "StackBlock", 10) == 0)
-					{
+					{//生成するオブジェクトをブロックに指定
 						m_bFlag = true;
 						m_type = OBJ_STACK_BLOCK;
 					}
 					else if (strncmp(strLine, "Gimmick", 7) == 0)
-					{
+					{//生成するオブジェクトを障害物に指定
 						m_bFlag = true;
 						m_type = OBJ_GIMMICK;
 					}
 					else if (strncmp(strLine, "Planet", 7) == 0)
-					{
+					{//生成するオブジェクトを惑星に指定
 						m_bFlag = true;
 						m_type = OBJ_PLANET;
 					}
-					else if (strncmp(strLine, "StackBlock", 7) == 0)
-					{
-						m_bFlag = true;
-						m_type = OBJ_STACK_BLOCK;
-					}
 					else if (strncmp(strLine, "Pos", 3) == 0)
-					{
+					{//生成するオブジェクトの位置を指定
 						fscanf(fp, "%f%f%f", &m_pos.x, &m_pos.y, &m_pos.z);
 					}
 					else if (strncmp(strLine, "Rot", 3) == 0)
-					{
+					{//生成するオブジェクトの向きを指定
 						fscanf(fp, "%f%f%f", &m_rot.x, &m_rot.y, &m_rot.z);
 					}
 					else if (strncmp(strLine, "Type", 4) == 0)
-					{
+					{//生成するオブジェクトの種類を指定
 						fscanf(fp, "%d", &m_nNumgim);
 						m_nNumpla = m_nNumgim;
 					}
 					else if (strncmp(strLine, "End", 3) == 0)
-					{
+					{//オブジェクトの生成
 						if (m_bFlag == true)
 						{
 							switch (m_type)
 							{//タイプによって分ける
 							case OBJ_GOAL:
 								if (m_pGoal == nullptr)
-								{
+								{//ゴールは一体のみ生成されるようにする
 									m_pGoal = CGoal::Create(D3DXVECTOR3(m_pos), D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 								}
 								break;
 
 							case OBJ_GIMMICK:
 								if (m_nNumgim >= 0 && m_nNumgim < MAX_GIMMICK)
-								{
+								{//障害物
 									m_pGimmick[m_gim]=	CGimmick::Create(m_nNumgim, m_pos, m_rot);
 									m_gim++;
 								}
 								break;
 
-							case OBJ_MAP:
-								if (m_pGoal == nullptr)
-								{
-									m_pMap = CMap::Create(m_pos);
-								}
-								break;
-
 							case OBJ_PLANET:
 								if (m_pPlanet[m_nNumpla] == nullptr)
-								{
+								{//惑星
 									m_pPlanet[m_nNumpla] = CObjectX::Create(m_nPlaFileName[m_nNumpla], m_pos, m_rot);
 								}
 								break;
 
 							case OBJ_STACK_BLOCK:
 								for (int nCnt = 0; nCnt < MAX_STACK_BLOCK; nCnt++)
-								{
+								{//ブロック
 									if (m_pStackBlock[nCnt] == nullptr)
 									{
 										m_pStackBlock[nCnt] = CSBlock::Create(m_pos,m_rot);
@@ -285,7 +221,7 @@ void CEditor::Load()
 							default:
 								break;
 							}
-							m_bEnd = true;
+							m_bEnd = true;	//オブジェクトを生成したのでループ終了
 							break;
 						}
 					}
@@ -307,8 +243,8 @@ CEditor * CEditor::Create()
 {
 	CEditor *pEditor = new CEditor;
 
-	pEditor->Init();
-	pEditor->Load();
+	pEditor->Init();	//初期化
+	pEditor->Load();	//読み込み
 
 	return pEditor;
 }
@@ -318,25 +254,31 @@ CEditor * CEditor::Create()
 //=============================================================================
 void CEditor::SaveObject()
 {
+	//オブジェクトの情報保存用
+	CObject* pObj;		//オブジェクトの情報
+	D3DXVECTOR3 pos;	//位置
+	D3DXVECTOR3 rot;	//向き
+
 	FILE*fp = fopen("data\\TXT\\ObjectPos.txt", "w");		//ファイル読み込み
 
+	//ゴールの情報を保存
 	fprintf(fp, "Object\n");
 	fprintf(fp, "Goal\n");
 	fprintf(fp, "Pos %.1f %.1f %.1f\n", m_pGoal->GetPosition().x, m_pGoal->GetPosition().y, m_pGoal->GetPosition().z);
-	fprintf(fp, "Rot 0.0f 0.0f 0.0f\n");
+	fprintf(fp, "Rot %.2f %.2f %.2f\n", m_pGoal->GetBaseRot().x, m_pGoal->GetBaseRot().y, m_pGoal->GetBaseRot().z);
 	fprintf(fp, "End\n\n");
 
-	
-	CObject* pObj = CObject::GetTop(CObject::OBJTYPE_GIMMICK);
+	//障害物の情報を保存
+	pObj = CObject::GetTop(CObject::OBJTYPE_GIMMICK);		//障害物のリスト構造の先頭を取得
 
 	while (pObj)
 	{//pObjがnullじゃないなら
 	 //次のオブジェクトを保存
 		CObject* pObjNext = pObj->GetNext();
 
-		//終了処理
-		D3DXVECTOR3 pos= pObj->GetPosition();
-		D3DXVECTOR3 rot = pObj->GetBaseRot();
+		//オブジェクトの位置と向きを取得
+		 pos= pObj->GetPosition();
+		 rot = pObj->GetBaseRot();
 
 		fprintf(fp, "Object\n");
 		fprintf(fp, "Gimmick\n");
@@ -349,7 +291,8 @@ void CEditor::SaveObject()
 		pObj = pObjNext;
 	}
 
-	pObj = CObject::GetTop(CObject::OBJTYPE_PLANET);
+	//惑星の情報を保存
+	pObj = CObject::GetTop(CObject::OBJTYPE_PLANET);		//惑星のリスト構造の先頭を取得
 
 	while (pObj)
 	{//pObjがnullじゃないなら
@@ -357,8 +300,8 @@ void CEditor::SaveObject()
 		CObject* pObjNext = pObj->GetNext();
 
 		//終了処理
-		D3DXVECTOR3 pos = pObj->GetPosition();
-		D3DXVECTOR3 rot = pObj->GetBaseRot();
+		pos = pObj->GetPosition();
+		rot = pObj->GetBaseRot();
 
 		fprintf(fp, "Object\n");
 		fprintf(fp, "Planet\n");
@@ -375,7 +318,7 @@ void CEditor::SaveObject()
 }
 
 //=============================================================================
-//オブジェクトの位置の保存
+//惑星のパスを読み込み
 //=============================================================================
 void CEditor::Pass()
 {
@@ -398,11 +341,13 @@ void CEditor::Pass()
 //=============================================================================
 void CEditor::Input()
 {
+	//オブジェクトの位置を保存
 	if (CInputKeyboard::Trigger(DIK_O) == true)
 	{//O(オー)キーを押したとき
 		SaveObject();
 	}
 
+	//ナンバーの切り替え
 	if (CInputKeyboard::Trigger(DIK_0) == true)
 	{//0(ゼロ)キーを押したとき
 		if (m_nNumber++ >= OBJ_MAX - 1)
@@ -410,17 +355,17 @@ void CEditor::Input()
 			m_nNumber = 0;
 		}
 	}
-	//9キーを押したとき
+	
+	//オブジェクトの種類の変更
 	if (CInputKeyboard::Trigger(DIK_9)) 
-	{
-	 //最大数を超えたとき0にリセット
+	{//9キーを押したとき
 		switch (m_nNumber)
 		{
 		case OBJ_PLANET:
 			m_nNumpla++;
 
 			if (m_nNumpla >= MAX_PLANET)
-			{
+			{//最大数を超えたとき0にリセット
 				m_nNumpla = 0;
 			}
 			break;
@@ -429,23 +374,22 @@ void CEditor::Input()
 			m_nNumgim++;
 
 			if (m_nNumgim>=MAX_GIMMICK)
-			{
+			{//最大数を超えたとき0にリセット
 				m_nNumgim = 0;
 			}
 		default:
 			break;
 		}
 	}
-	//8キーを押したとき
-	if (CInputKeyboard::Trigger(DIK_8))
-	{//下限超えたらMAXにする
+	else if (CInputKeyboard::Trigger(DIK_8))
+	{//8キーを押したとき
 		switch (m_nNumber)
 		{
 		case OBJ_PLANET:
 			m_nNumpla--;
 
 			if (m_nNumpla < 0)
-			{
+			{//下限を超えたら上限値にする
 				m_nNumpla = MAX_PLANET - 1;
 			}
 			break;
@@ -454,7 +398,7 @@ void CEditor::Input()
 			m_nNumgim--;
 
 			if (m_nNumgim < 0)
-			{
+			{//下限を超えたら上限値にする
 				m_nNumgim = MAX_GIMMICK - 1;
 			}
 		default:
@@ -462,11 +406,10 @@ void CEditor::Input()
 		}
 	}
 	
-
-	//生成/移動
+	//Pキーで生成/移動
 	if (CInputKeyboard::Trigger(DIK_P))
 	{
-		m_pPlayer = CGame::GetPlayer(0);
+		CPlayer* m_pPlayer = CGame::GetPlayer(0);
 		D3DXVECTOR3 pos = m_pPlayer->GetPosition();
 		D3DXVECTOR3 rot = m_pPlayer->GetRot();
 
@@ -474,45 +417,39 @@ void CEditor::Input()
 		{
 		case OBJ_GOAL:
 			if (m_pGoal == nullptr)
-			{//ゴールの位置を現在のプレイヤーの位置に移動
+			{//生成されていない場合のみ生成
 				m_pGoal = CGoal::Create(pos, rot);
 			}
 			else
-			{
+			{//中身がある場合現在のプレイヤーの位置に移動
 				m_pGoal->SetPosition(pos);
 			}
 			break;
 
-		case OBJ_MAP:
-			break;
-
 		case OBJ_GIMMICK:
-			//生成
-			CGimmick::Create(m_nNumgim, pos, rot);
-
+			CGimmick::Create(m_nNumgim, pos, rot);	//生成
 			break;
 
 		case OBJ_PLANET:
 			if (m_pPlanet[m_nNumpla] == nullptr)
-			{//生成されてない場合生成
+			{//生成されていない場合のみ生成
 				m_pPlanet[m_nNumpla] = CObjectX::Create(m_nPlaFileName[m_nNumpla], pos, rot);
 			}
 			else
-			{//中身がある場合移動
+			{//中身がある場合現在のプレイヤーの位置に移動
 				m_pPlanet[m_nNumpla]->SetPos(pos);
 			}
 			break;
 
 		case OBJ_STACK_BLOCK:
 			if (m_pStackBlock[0] == nullptr)
-			{
+			{//テスト用に一個だけ生成
 				m_pStackBlock[0] = CSBlock::Create(m_pos, m_rot);
 				break;
 			}
 
 		default:
 			break;
-
 		}
 	}
 }
