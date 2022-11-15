@@ -128,10 +128,14 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 //===========================
 void CApplication::Uninit()
 {
-	//オブジェクトの全解放
+	//----------------------------
+	// オブジェクトの全解放
+	//----------------------------
 	CObject::ReleaseAll(true);
 
+	//----------------------------
 	//テクスチャの終了
+	//----------------------------
 	if (m_pTexture != nullptr)
 	{
 		m_pTexture->ReleaseAll();
@@ -139,7 +143,9 @@ void CApplication::Uninit()
 		m_pTexture = nullptr;
 	}
 
-	//レンダリングの終了
+	//----------------------------
+	// レンダリングの終了
+	//----------------------------
 	if (m_pRenderer != nullptr)
 	{
 		m_pRenderer->Uninit();
@@ -147,7 +153,9 @@ void CApplication::Uninit()
 		m_pRenderer = nullptr;
 	}
 
-	//インプットの終了
+	//----------------------------
+	// インプットの終了
+	//----------------------------
 	if (m_pInput != nullptr)
 	{
 		m_pInput->Uninit();
@@ -155,7 +163,9 @@ void CApplication::Uninit()
 		m_pInput = nullptr;
 	}
 
-	//サウンドの終了
+	//----------------------------
+	// サウンドの終了
+	//----------------------------
 	if (m_pSound != nullptr)
 	{
 		m_pSound->Uninit();
@@ -163,7 +173,9 @@ void CApplication::Uninit()
 		m_pSound = nullptr;
 	}
 
-	//ライトの終了
+	//----------------------------
+	// ライトの終了
+	//----------------------------
 	if (m_pLight != nullptr)
 	{
 		m_pLight->Uninit();
@@ -171,7 +183,9 @@ void CApplication::Uninit()
 		m_pLight = nullptr;
 	}
 
-	//タイトルの終了
+	//----------------------------
+	// タイトルの終了
+	//----------------------------
 	if (m_pTitle != nullptr)
 	{
 		m_pTitle->Uninit();
@@ -179,7 +193,9 @@ void CApplication::Uninit()
 		m_pTitle = nullptr;
 	}
 
-	//チュートリアルの終了
+	//----------------------------
+	// チュートリアルの終了
+	//----------------------------
 	if (m_pTutorial != nullptr)
 	{
 		m_pTutorial->Uninit();
@@ -187,7 +203,9 @@ void CApplication::Uninit()
 		m_pTutorial = nullptr;
 	}
 
-	//ゲームの終了
+	//----------------------------
+	// ゲームの終了
+	//----------------------------
 	if (m_pGame != nullptr)
 	{
 		m_pGame->Uninit();
@@ -195,7 +213,9 @@ void CApplication::Uninit()
 		m_pGame = nullptr;
 	}
 
-	//リザルトの終了
+	//----------------------------
+	// リザルトの終了
+	//----------------------------
 	if (m_pResult != nullptr)
 	{
 		m_pResult->Uninit();
@@ -203,7 +223,9 @@ void CApplication::Uninit()
 		m_pResult = nullptr;
 	}
 
-	//フェードの終了
+	//----------------------------
+	// フェードの終了
+	//----------------------------
 	if (m_pFade != nullptr)
 	{
 		m_pFade->Uninit();
@@ -211,7 +233,9 @@ void CApplication::Uninit()
 		m_pFade = nullptr;
 	}
 
-	//デバッグ用文字の終了
+	//----------------------------
+	// デバッグ用文字の終了
+	//----------------------------
 	if (m_pDebugproc != nullptr)
 	{
 		m_pDebugproc->Uninit();
@@ -219,7 +243,9 @@ void CApplication::Uninit()
 		m_pDebugproc = nullptr;
 	}
 
-	//ジョイパッドの終了処理
+	//----------------------------
+	// ジョイパッドの終了処理
+	//----------------------------
 	if (m_pJoyPad != nullptr)
 	{
 		m_pJoyPad->Uninit();
