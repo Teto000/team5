@@ -5,9 +5,9 @@
 //
 //==================================================
 
-//----------------------
+//------------------------------
 // インクルード
-//----------------------
+//------------------------------
 #include "camera_title.h"
 #include "camera.h"
 #include "input.h"
@@ -58,9 +58,9 @@ void CCameraTitle::Update(void)
 	//カメラの更新
 	CCamera::Update();
 
-	//----------------------
+	//------------------------------
 	// カメラの回転
-	//----------------------
+	//------------------------------
 	m_rot.y -= fTurnSpeed / 16;
 	m_posR.x = m_posV.x + POLOR_X;
 	m_posR.y = m_posV.y + POLOR_Y;
@@ -85,14 +85,14 @@ CCameraTitle* CCameraTitle::Create(DWORD X, DWORD Y, DWORD Width, DWORD Height)
 {
 	CCameraTitle *pCameraTitle = nullptr;
 
-	//----------------------------------
+	//------------------------------
 	// ポリゴンの生成と初期化
-	//----------------------------------
+	//------------------------------
 	pCameraTitle = new CCameraTitle;	//生成
 
 	if (pCameraTitle != nullptr)
 	{//NULLチェック
-	 //ビューポート構成の保存
+		//ビューポート構成の保存
 		pCameraTitle->m_viewport.X = X;				//開始位置(X)
 		pCameraTitle->m_viewport.Y = Y;				//開始位置(Y)
 		pCameraTitle->m_viewport.Width = Width;		//幅
