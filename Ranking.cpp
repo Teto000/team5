@@ -8,7 +8,6 @@
 #include "renderer.h"
 #include <string>
 #include "Score.h"
-#include <iostream>
 #include <vector>
 #include <algorithm>
 

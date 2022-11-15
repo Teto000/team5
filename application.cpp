@@ -17,6 +17,7 @@
 #include "input.h"
 #include "input_keybord.h"
 #include "input_joypad.h"
+#include "tutorial.h"
 #include "game.h"
 #include "title.h"
 #include "result.h"
@@ -178,6 +179,14 @@ void CApplication::Uninit()
 		m_pTitle = nullptr;
 	}
 
+	//チュートリアルの終了
+	if (m_pTutorial != nullptr)
+	{
+		m_pTutorial->Uninit();
+		delete m_pTutorial;
+		m_pTutorial = nullptr;
+	}
+
 	//ゲームの終了
 	if (m_pGame != nullptr)
 	{
@@ -244,6 +253,10 @@ void CApplication::Update()
 		m_pPSelect->Update();
 		break;
 
+	case MODE_TUTORIAL:
+		m_pTutorial->Update();
+	break;
+
 	case MODE_GAME:
 		m_pGame->Update();
 		break;
@@ -296,6 +309,12 @@ void CApplication::SetMode(MODE mode)
 		m_pPSelect = nullptr;
 		break;
 
+	case MODE_TUTORIAL:
+		m_pTutorial->Uninit();
+		delete m_pTutorial;
+		m_pTutorial = nullptr;
+		break;
+
 	case MODE_GAME:
 		m_pGame->Uninit();
 		delete m_pGame;
@@ -332,6 +351,12 @@ void CApplication::SetMode(MODE mode)
 		m_pPSelect = nullptr;
 		m_pPSelect = new CPSelect;
 		m_pPSelect->Init();
+		break;
+
+	case MODE_TUTORIAL:
+		m_pTutorial = nullptr;
+		m_pTutorial = new CTutorial;
+		m_pTutorial->Init();
 		break;
 
 	case MODE_GAME:

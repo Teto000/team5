@@ -12,6 +12,7 @@
 #include <assert.h>
 #include "application.h"
 #include "renderer.h"
+#include "game.h"
 
 const D3DXVECTOR3 CMotionParts::INIT_POS = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 CMotionParts *CMotionParts::m_pMotionPartsTop = nullptr;
@@ -598,6 +599,33 @@ D3DXVECTOR3 CMotionParts::AllCollision(int nMyselfMotionNum, int nTargetMotionNu
 			if (Add != D3DXVECTOR3(0.0f, 0.0f, 0.0f))
 			{
 				return Add;
+			}
+
+		}
+		pMotionParts = pMotionParts->GetNextMotionParts();
+	}
+
+	return pos;
+}
+
+D3DXVECTOR3 CMotionParts::AllCollisionObstacle(int nMyselfMotionNum, D3DXVECTOR3 pos, D3DXVECTOR3 oldpos)
+{
+	CMotionParts* pMotionParts = m_pMotionPartsTop;
+
+	while (pMotionParts != nullptr)
+	{
+		if (!pMotionParts->GetMotionParts(nMyselfMotionNum) && !pMotionParts->GetMotionParts(CGame::GetGroundNum()))
+		{
+			D3DXVECTOR3 Add = pMotionParts->Collision(D3DXVECTOR3(pos.x, pos.y + 100.0f, pos.z), D3DXVECTOR3(oldpos.x, oldpos.y + 100.0f, oldpos.z));
+			if (Add != D3DXVECTOR3(0.0f, 0.0f, 0.0f))
+			{
+				D3DXVECTOR3 vec = oldpos - pos;
+
+				D3DXVec3Normalize(&vec,&vec);
+
+				vec *= 200.0f;
+
+				return pos + vec;
 			}
 
 		}

@@ -143,6 +143,9 @@
     <ClCompile Include="block.cpp">
       <Filter>Main\Object\ObjectX</Filter>
     </ClCompile>
+    <ClCompile Include="tutorial.cpp">
+      <Filter>Main\Application\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3dobject.h">
@@ -262,7 +265,6 @@
     <ClInclude Include="Score.h">
       <Filter>Main\Object\Object2D</Filter>
     </ClInclude>
-    <ClInclude Include="num_rank.h" />
     <ClInclude Include="Ranking.h">
       <Filter>Main\Application</Filter>
     </ClInclude>
@@ -272,12 +274,17 @@
       <Filter>Main\Object\ObjectX</Filter>
     </ClInclude>
     <ClInclude Include="Gimmick.h" />
-    <ClInclude Include="stack_block.h" />
     <ClInclude Include="joypad.h">
       <Filter>Main\Application\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.h">
-      <Filter>Main</Filter>
+    <ClInclude Include="tutorial.h">
+      <Filter>Main\Application\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="num_rank.h">
+      <Filter>Main\Object\Object2D\Number</Filter>
+    </ClInclude>
+    <ClInclude Include="stack_block.h">
+      <Filter>Main\Object\ObjectX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -104,6 +104,7 @@ void CRank::Update()
 
 	//距離が小さい順に順位を設定
 	
+	m_nRank[m_nNumPlayer] = 1;
 
 	//テクスチャの設定
 	SetTexture(m_nNumPlayer);

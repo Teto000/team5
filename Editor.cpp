@@ -504,13 +504,10 @@ void CEditor::Input()
 			break;
 
 		case OBJ_STACK_BLOCK:
-			for (int nCnt = 0; nCnt < MAX_STACK_BLOCK; nCnt++)
+			if (m_pStackBlock[0] == nullptr)
 			{
-				if (m_pStackBlock[nCnt] == nullptr)
-				{
-					m_pStackBlock[nCnt] = CSBlock::Create(m_pos, m_rot);
-					break;
-				}
+				m_pStackBlock[0] = CSBlock::Create(m_pos, m_rot);
+				break;
 			}
 
 		default:
