@@ -1,7 +1,7 @@
 //===================================================
 //
 // リザルトの処理
-// Author : Sato Teruto
+// Author : Goto Yuuki
 //
 //===================================================
 
@@ -43,7 +43,7 @@ HRESULT CTutorial::Init()
 	m_pObject2D = new CObject2D;
 	m_pObject2D->Init(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
 	m_pObject2D->SetTexture(CTexture::TEXTURE_TUTORIAL);
-	m_pObject2D->SetSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	m_pObject2D->SetSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
 
 	//サウンド生成
 	CSound::PlaySound(CSound::SOUND_LABEL_SELECT);
@@ -58,7 +58,6 @@ void CTutorial::Uninit()
 {
 	//サウンド停止
 	CSound::StopSound();
-
 }
 
 //===========================

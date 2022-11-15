@@ -41,7 +41,6 @@ void CRead::ReadAnchorPoint()
 	FILE *pFile = nullptr;			//ファイルポインター宣言
 	char cBff[LINE_MAX_READING_LENGTH];		//一行分読み取るための変数
 	char cBffHead[LINE_MAX_READING_LENGTH];	//頭の文字を読み取るための変数
-	int nDataNum = 0;
 
 	//ファイルを開く
 	pFile = fopen("data/TXT/SetAnchorPoint.txt", "r");

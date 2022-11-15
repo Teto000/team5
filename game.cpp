@@ -28,7 +28,6 @@
 #include "3dobject.h"
 #include "Editor.h"
 #include "debug_proc.h"
-#include "Map.h"
 #include "read.h"
 
 //------------------------
@@ -42,7 +41,6 @@ CCameraPlayer*	CGame::m_pCameraPlayer[nDefaultMaxCamera] = {};		//カメラ
 CMessage*	CGame::m_pMessage;	//メッセージ
 CEditor*	CGame::m_pEditor = nullptr;
 CDebugProc*	CGame::m_pProc = nullptr;
-CMap*		CGame::m_pMap = nullptr;
 
 int	 CGame::m_nEnumCamera = 0;	//カメラの列挙型の数
 int	 CGame::m_nGroundNum = 0;		//床
@@ -97,11 +95,8 @@ HRESULT CGame::Init()
 		GetCameraPlayer(nCnt)->SetNumPlayer(nCnt);
 	}
 
+	//プレイヤーの位置を設定
 	SetPlayerPosition(D3DXVECTOR3(300.0f, 50.0f, -100.0f));
-
-	//メッシュフィールドの生成
-	//pMeshField = CMeshField::Create();
-	//m_pMap = CMap::Create(D3DXVECTOR3(0.0f, 0.0f, 100.0f));
 
 	//タイマーの生成
 	CTime *pTime = CTime::Create(D3DXVECTOR3(20.0f, 20.0f, 0.0f));

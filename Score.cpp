@@ -198,7 +198,6 @@ void CScore::Load()
 
 	FILE*fp = fopen("data\\TXT\\Ranking.txt", "r");		//ファイル読み込み
 	const int lenLine = 1024;							//1単語の最大数
-	int nrScore = 0;									//読み込み用の文字列
 
 	for (int i = 0; i < MAX_RANK; i++)
 	{

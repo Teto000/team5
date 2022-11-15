@@ -46,9 +46,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Main\Object</Filter>
-    </ClCompile>
     <ClCompile Include="mesh.cpp">
       <Filter>Main\Object\Mesh</Filter>
     </ClCompile>
@@ -193,9 +190,6 @@
     <ClInclude Include="main.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Main\Object</Filter>
-    </ClInclude>
     <ClInclude Include="mesh.h">
       <Filter>Main\Object\Mesh</Filter>
     </ClInclude>
@@ -273,7 +267,6 @@
     <ClInclude Include="block.h">
       <Filter>Main\Object\ObjectX</Filter>
     </ClInclude>
-    <ClInclude Include="Gimmick.h" />
     <ClInclude Include="joypad.h">
       <Filter>Main\Application\Input</Filter>
     </ClInclude>
@@ -284,6 +277,12 @@
       <Filter>Main\Object\Object2D\Number</Filter>
     </ClInclude>
     <ClInclude Include="stack_block.h">
+      <Filter>Main\Object\ObjectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Gimmick.h">
       <Filter>Main\Object\ObjectX</Filter>
     </ClInclude>
   </ItemGroup>

@@ -43,7 +43,7 @@ HRESULT CUI_PSelect::Init(D3DXVECTOR3 pos)
 
 	case UI_BG:
 		//サイズの設定
-		CObject2D::SetSize(SCREEN_WIDTH,SCREEN_HEIGHT);
+		CObject2D::SetSize((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);
 		// テクスチャの設定
 		CObject2D::SetTexture(CTexture::TEXTURE_SELECT_BG);
 		break;

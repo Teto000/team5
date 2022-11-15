@@ -12,27 +12,22 @@
 #include"Application.h"
 
 //マクロ定義
-#define NUM_STAGE		(1)						//ステージ数
 #define FILE_MAPDATA	"data\\TXT\\Edit.txt"	//読み込むファイル名
 #define	MAX_PLANET		(11)					//配置する惑星の数
 #define	MAX_GIMMICK		(4)						//ギミックの種類
 #define MAX_STACK_BLOCK (100)					//重なっているブロックの設置数
 #define MAX_SETGIMMICK	(128)					//おけるギミックの最大数
 
-
-
+//=============================================================================
 //前方宣言
-class CEnemyManager;
-class CPlayer;
+//=============================================================================
 class CGoal;
-class CMeshField;
 class CObject;
 class CGimmick;
-class CMap;
 class CObjectX;
 class CGimmick;
-
 class CSBlock;
+
 //=============================================================================
 // 構造体定義
 //=============================================================================
@@ -42,7 +37,6 @@ public:
 	enum OBJ
 	{
 		OBJ_GOAL = 0,
-		OBJ_MAP,
 		OBJ_GIMMICK,
 		OBJ_PLANET,
 		OBJ_STACK_BLOCK,
@@ -79,17 +73,11 @@ private:
 
 
 	//スタティック関数
-	CPlayer*	m_pPlayer;
-	static CGoal*		m_pGoal;			//ゴール
-	CMap*		m_pMap;						//マップ
-	CObject*	m_pSelectObj;				//選択中のオブジェクト
-	CObjectX*	m_pPlanet[MAX_PLANET];		//背景の星
-	CGimmick*	m_pGimmick[MAX_SETGIMMICK];		//背景の星
+	static CGoal*	m_pGoal;							//ゴール
+	CObjectX*		m_pPlanet[MAX_PLANET];				//背景の星
+	CGimmick*		m_pGimmick[MAX_SETGIMMICK];			//背景の星
 
-	static CSBlock*	m_pStackBlock[MAX_STACK_BLOCK];	//重なっているブロックの処理
+	static CSBlock*	m_pStackBlock[MAX_STACK_BLOCK];		//重なっているブロックの処理
 };
+
 #endif
-
-
-
-#pragma once
